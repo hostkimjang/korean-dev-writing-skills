@@ -26,6 +26,16 @@ jobs:
           python-version: "3.12"
       - name: Validate repository structure
         run: python scripts/check.py
+      # https://github.com/actions/setup-node/releases/tag/v7.1.0
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Verify skills CLI installation in temporary projects
+        run: python scripts/check_install.py
+      - name: Verify installation from the published commit
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: python scripts/check_install.py --source "https://github.com/${{ github.repository }}/tree/${{ github.sha }}"
       - name: Build reproducible release package
         run: |
           python scripts/package.py --output-dir dist/first
