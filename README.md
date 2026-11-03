@@ -28,6 +28,7 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 - 스킬 본문: [SKILL.md](skills/korean-dev-writing/SKILL.md)
 - 문장 교정과 유지 예시: [before-after-guide.md](skills/korean-dev-writing/references/before-after-guide.md)
 - 문서 종류별 구성: [document-types.md](skills/korean-dev-writing/references/document-types.md)
+- 긴 문서 세 사례의 전문과 개선점: [한눈에 보는 비교](docs/comparisons/long-documents.md)
 - 미적용·기존본·개선본 비교: [비교 보고서](docs/evaluation.md)
 - 참고한 글쓰기 원칙과 출처: [sources.md](docs/sources.md)
 
@@ -38,6 +39,8 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 문서는 독자의 목적에 맞춰 구성합니다. 설명과 인과관계는 문단으로 연결하고, 실행 순서는 번호로, 병렬 항목은 목록으로 정리합니다. 모든 프로젝트에 같은 목차나 설치 명령을 적용하지 않습니다.
 
 ## 비교 자료
+
+**[긴 문서 비교에서 아키텍처·ADR·장애 대응 절차의 생성 결과를 한 번에 읽을 수 있습니다.](docs/comparisons/long-documents.md)** 각 사례에 달라진 구성, 유지된 기술 조건, 실제 문장 인용, 두 결과의 전체 본문을 실었습니다. [나란히 보는 HTML 파일](docs/comparisons/index.html)은 다운로드해 브라우저에서 열면 됩니다. 사례를 선택하고 미적용·적용 문서를 함께 읽거나 원문을 저장할 수 있습니다.
 
 `evaluations/`에는 공개 가능한 가상 프로젝트 6개 사례, 동일한 입력, 사전 평가 기준, 생성 결과와 평가 기록을 보관합니다. 세 조건을 비교합니다.
 
@@ -67,6 +70,8 @@ python scripts/package.py --version 0.2.0
 ```
 
 패키징 스크립트는 `dist/`에 스킬 폴더만 포함한 ZIP을 만듭니다. 비교 입력과 결과, 저장소용 안내문은 설치 패키지에 포함하지 않습니다. 검사기의 확인 범위와 한계는 [개발 안내](docs/development.md)에 설명합니다.
+
+CI에서는 고정한 `skills` CLI 버전으로 Claude Code·Codex용 기본 설치와 `--copy` 설치를 임시 프로젝트에서 검사합니다. 두 설치 위치의 파일 5개가 원본과 바이트 단위로 일치하는지 확인하고, `main`에 반영된 커밋을 GitHub에서 받아 설치하는 과정도 검사합니다. 실제 도구가 스킬을 호출하는지와 글쓰기 품질은 이 설치 검사의 범위에 포함되지 않습니다.
 
 ## 라이선스와 출처
 
