@@ -20,17 +20,18 @@ python scripts/check.py --skill-only
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.2.1
-python scripts/package.py --version 0.2.1 --output-dir dist/recheck
+python scripts/package.py --version 0.3.0
+python scripts/package.py --version 0.3.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.2.1.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 다섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.3.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
 - `agents/openai.yaml`
 - `references/before-after-guide.md`
 - `references/document-types.md`
+- `references/reading-flow.md`
 
 파일 순서, 시간과 권한 메타데이터를 고정하고 무압축 ZIP을 사용합니다. 같은 입력 바이트로 생성하면 같은 ZIP 바이트가 나옵니다. 저장소용 문서, 평가 자료, `.git`, 숨김 파일은 재귀 복사하지 않습니다. 배포 자료를 추가할 때는 `scripts/check.py`의 명시적 파일 목록도 갱신해야 합니다.
 
@@ -50,7 +51,7 @@ Node.js 22.20 이상, npm/npx, Git이 있는 환경에서 실행합니다. npm �
 python scripts/check_install.py
 ```
 
-이 검사는 `skills@1.7.5`로 현재 체크아웃을 임시 프로젝트에 설치합니다. 기본 설치와 `--copy` 설치를 각각 실행한 뒤, Claude Code와 Codex의 설치 경로에 배포 파일 다섯 개가 원본과 같은 바이트로 들어갔는지 확인합니다. 따라서 PR에서도 공개 저장소의 이전 버전이 아니라 검토 중인 파일을 검사합니다.
+이 검사는 `skills@1.7.5`로 현재 체크아웃을 임시 프로젝트에 설치합니다. 기본 설치와 `--copy` 설치를 각각 실행한 뒤, Claude Code와 Codex의 설치 경로에 배포 파일 여섯 개가 원본과 같은 바이트로 들어갔는지 확인합니다. 따라서 PR에서도 공개 저장소의 이전 버전이 아니라 검토 중인 파일을 검사합니다.
 
 설치 대상은 임시 프로젝트이며 `-g`를 사용하지 않습니다. 검증 중 CLI 사용 통계 전송을 끄고 npm 캐시도 임시 디렉터리에 둡니다. 검사가 끝나면 임시 디렉터리를 정리합니다. 에이전트의 스킬 자동 선택이나 실제 글쓰기 품질은 이 검사 범위에 포함하지 않습니다.
 

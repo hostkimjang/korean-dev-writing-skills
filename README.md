@@ -2,6 +2,8 @@
 
 한국어 README와 개발 문서를 사실과 의미를 보존하면서 자연스럽게 작성하는 Agent Skill입니다. 독자가 이해하고 실행할 순서로 내용을 구성하고, 문장과 문단을 다듬습니다.
 
+v0.3.0에서는 긴 글의 읽기 흐름을 보강했습니다. 새 개념과 앞 내용의 관계를 연결하고, 함께 봐야 하는 설명·예시·조건을 가까이 두며, 중요한 전환에서는 필요한 내용을 짧게 다시 짚습니다. [조사한 근거와 적용 범위](docs/reading-research.md), [미적용·기존 버전·새 지침의 긴 문서 비교](docs/comparisons/reading-flow.md)를 확인할 수 있습니다.
+
 대상 문서는 README, PR 설명, 버그 리포트, 아키텍처 문서, 운영 절차, ADR, API 안내, 기술 글입니다. 표현 교정과 새 문서 작성을 구분하며, 제공되지 않은 기능·수치·일정으로 빈칸을 채우지 않습니다.
 
 ## 간편 설치
@@ -28,6 +30,8 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 - 스킬 본문: [SKILL.md](skills/korean-dev-writing/SKILL.md)
 - 문장 교정과 유지 예시: [before-after-guide.md](skills/korean-dev-writing/references/before-after-guide.md)
 - 문서 종류별 구성: [document-types.md](skills/korean-dev-writing/references/document-types.md)
+- 긴 문서의 연결·재정리·정보 배치: [reading-flow.md](skills/korean-dev-writing/references/reading-flow.md)
+- 읽기 흐름 보강의 근거와 새 생성본 6개: [조사 기록](docs/reading-research.md) · [긴 온보딩·짧은 PR 비교](docs/comparisons/reading-flow.md)
 - 긴 문서 세 사례의 전문과 개선점: [한눈에 보는 비교](docs/comparisons/long-documents.md)
 - 미적용·기존본·개선본 비교: [비교 보고서](docs/evaluation.md)
 - 추가 리뷰의 검토와 다음 평가 초안: [리뷰 반영 기록](docs/review-2026-11-03.md)
@@ -41,9 +45,11 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 ## 비교 자료
 
+**[읽기 흐름 보강 비교](docs/comparisons/reading-flow.md)**에는 새 긴 온보딩 문서와 짧은 PR을 미적용·v0.2.1·v0.3.0 생성 시점 지침으로 각각 작성한 결과를 실었습니다. 긴 문서의 상태 설명·조건 배치가 어떻게 달라졌는지, 짧은 요청에도 불필요한 목차가 생기는지 확인합니다. 원문 6개와 익명 검토, 생성 후 지침 문구를 명료하게 고친 내역을 함께 공개하며, 실제 독자의 이해·기억·피로 개선율로 해석하지 않습니다.
+
 **[긴 문서 비교에서 아키텍처·ADR·장애 대응 절차의 생성 결과를 한 번에 읽을 수 있습니다.](docs/comparisons/long-documents.md)** 각 사례에 달라진 구성, 유지된 기술 조건, 실제 문장 인용, 두 결과의 전체 본문을 실었습니다. [나란히 보는 HTML 파일](docs/comparisons/index.html)은 다운로드해 브라우저에서 열면 됩니다. 사례를 선택하고 미적용·적용 문서를 함께 읽거나 원문을 저장할 수 있습니다.
 
-`evaluations/`에는 공개 가능한 가상 프로젝트 6개 사례, 동일한 입력, 사전 평가 기준, 생성 결과와 평가 기록을 보관합니다. 세 조건을 비교합니다.
+기존 v0.2.0 실험의 `evaluations/`에는 공개 가능한 가상 프로젝트 6개 사례, 동일한 입력, 사전 평가 기준, 생성 결과와 평가 기록을 보관합니다. 이 실험은 다음 세 조건을 비교합니다.
 
 1. 별도의 글쓰기 스킬 미적용
 2. 사용자가 제공한 기존 스킬 적용
@@ -53,7 +59,7 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 ### 2026-11-03 비교 결과(v0.2.0)
 
-아래 결과는 [평가에 사용한 v0.2.0 스킬](https://github.com/hostkimjang/korean-dev-writing-skills/tree/dc0c3f8db1c712c1ccc4ed68577f89f69809d666/skills/korean-dev-writing)의 결과입니다. 현재 v0.2.1은 문서별 소제목 흐름 예시를 보강했으며, 이 변경의 글쓰기 효과는 아직 별도로 평가하지 않았습니다.
+아래 결과는 [평가에 사용한 v0.2.0 스킬](https://github.com/hostkimjang/korean-dev-writing-skills/tree/dc0c3f8db1c712c1ccc4ed68577f89f69809d666/skills/korean-dev-writing)의 결과입니다. 이후 v0.2.1에서 문서별 소제목 흐름을, v0.3.0에서 긴 글의 연결과 정보 배치를 보강했습니다. 아래 점수를 현재 버전의 평가 결과로 해석하지 않습니다. 실제 독자의 이해·기억·피로에 대한 효과는 아직 측정하지 않았습니다.
 
 | 조건 | 평균 총점 / 20 | 치명적 사실왜곡이 표시된 문서 |
 | --- | ---: | ---: |
@@ -69,12 +75,12 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 ```bash
 python scripts/check.py
-python scripts/package.py --version 0.2.1
+python scripts/package.py --version 0.3.0
 ```
 
 패키징 스크립트는 `dist/`에 스킬 폴더만 포함한 ZIP을 만듭니다. 비교 입력과 결과, 저장소용 안내문은 설치 패키지에 포함하지 않습니다. 검사기의 확인 범위와 한계는 [개발 안내](docs/development.md)에 설명합니다.
 
-CI에서는 고정한 `skills` CLI 버전으로 Claude Code·Codex용 기본 설치와 `--copy` 설치를 임시 프로젝트에서 검사합니다. 두 설치 위치의 파일 5개가 원본과 바이트 단위로 일치하는지 확인하고, `main`에 반영된 커밋을 GitHub에서 받아 설치하는 과정도 검사합니다. 실제 도구가 스킬을 호출하는지와 글쓰기 품질은 이 설치 검사의 범위에 포함되지 않습니다.
+CI에서는 고정한 `skills` CLI 버전으로 Claude Code·Codex용 기본 설치와 `--copy` 설치를 임시 프로젝트에서 검사합니다. 두 설치 위치의 파일 6개가 원본과 바이트 단위로 일치하는지 확인하고, `main`에 반영된 커밋을 GitHub에서 받아 설치하는 과정도 검사합니다. 실제 도구가 스킬을 호출하는지와 글쓰기 품질은 이 설치 검사의 범위에 포함되지 않습니다.
 
 ## 라이선스와 출처
 

@@ -44,6 +44,7 @@ PACKAGE_FILES = (
     "agents/openai.yaml",
     "references/before-after-guide.md",
     "references/document-types.md",
+    "references/reading-flow.md",
 )
 CASE_FILES = (
     "01_cli_readme.json",

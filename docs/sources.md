@@ -24,6 +24,12 @@
 - [Claude Code: Extend Claude with skills](https://code.claude.com/docs/en/skills): 프로젝트·사용자 스킬 경로와 명시적 호출.
 - [CommonMark 0.31.2: Fenced code blocks](https://spec.commonmark.org/0.31.2/#fenced-code-blocks): Markdown 예시에 코드 블록이 들어갈 때 바깥 펜스를 더 길게 작성하는 근거.
 
+## 긴 문서의 이해와 읽기 부담
+
+v0.3.0에서는 독해·기억 연구, 한국어 독해와 공공언어 연구, 화면 사용성 연구, W3C·Google·Microsoft의 공식 지침과 Diátaxis를 추가로 검토했습니다. 원저 전문·공개 초록·실무 지침을 구분하고, 근거와 적용 한계를 [읽기 흐름 조사](reading-research.md)에 기록했습니다.
+
+핵심은 구조를 알아볼 단서, 문장 간 관계, 관련 정보의 근접 배치, 필요한 재정리입니다. 제목 길이·집중시간·문장 수를 고정하는 규칙이나 길이 감소를 품질 향상으로 환산하는 기준은 채택하지 않았습니다. 스킬에 적용하는 상세 내용은 [긴 문서의 읽기 흐름](../skills/korean-dev-writing/references/reading-flow.md)에 있습니다.
+
 ## 예시의 출처
 
 스킬의 전후 교정 예시와 평가용 프로젝트는 이 저장소를 위해 새로 작성한 가상 자료입니다. 실제 사용자 서비스의 운영 현황, 개인정보, 내부 문서를 포함하지 않습니다. 비교에 사용한 기존 스킬은 사용자가 제공한 첨부 파일이며, 출처와 바이트 해시는 평가 실행 기록에 별도로 남깁니다.

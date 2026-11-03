@@ -1,0 +1,39 @@
+{
+  "method": "SystemRandom shuffle independently for each case; conditions withheld from reviewers",
+  "mapping": {
+    "long-document": {
+      "L1": {
+        "condition": "no-skill",
+        "path": "outputs/no-skill/long-document.md",
+        "sha256": "000058233136cf97d9f43bd1de2dd40fd5ed72ea5b046ab0e188dda587fc1e51"
+      },
+      "L2": {
+        "condition": "v0.2.1",
+        "path": "outputs/v0.2.1/long-document.md",
+        "sha256": "5e3c593ef9d2fd20d7da264449b64a93d5011faa4ec585fd7ae54fb620ff5b51"
+      },
+      "L3": {
+        "condition": "v0.3.0",
+        "path": "outputs/v0.3.0/long-document.md",
+        "sha256": "adfa9628b0768c023536ede53bc2794d256dc483034b306fe222cf1e714e2ddb"
+      }
+    },
+    "short-pr": {
+      "S1": {
+        "condition": "v0.3.0",
+        "path": "outputs/v0.3.0/short-pr.md",
+        "sha256": "20e4263a8f1eaf156cf2d3aa9682ae5917b44ab128bac0f45b7b51d2d1820472"
+      },
+      "S2": {
+        "condition": "no-skill",
+        "path": "outputs/no-skill/short-pr.md",
+        "sha256": "9ef03563eff1f436f8e109729e737db5cf7ad295f66ef466a87673b6fcad0b7c"
+      },
+      "S3": {
+        "condition": "v0.2.1",
+        "path": "outputs/v0.2.1/short-pr.md",
+        "sha256": "23eaec32d6700e9bcac0c9846ce8e9900a3fa8c8d5fe822ba6a1b1e269cbe685"
+      }
+    }
+  }
+}

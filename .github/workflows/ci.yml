@@ -40,4 +40,4 @@ jobs:
         run: |
           python scripts/package.py --output-dir dist/first
           python scripts/package.py --output-dir dist/second
-          cmp dist/first/korean-dev-writing-v0.2.1.zip dist/second/korean-dev-writing-v0.2.1.zip
+          cmp dist/first/korean-dev-writing-v0.3.0.zip dist/second/korean-dev-writing-v0.3.0.zip
