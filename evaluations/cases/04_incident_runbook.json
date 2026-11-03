@@ -1,0 +1,237 @@
+{
+  "case_id": "incident_runbook",
+  "title": "배포 후 worker 적체의 운영 절차",
+  "document_type": "장애 운영 절차",
+  "audience": {
+    "primary": "배포 후 발생한 적체 알람에 대응하는 서비스 온콜 개발자",
+    "prior_knowledge": "터미널과 사내 opsctl을 사용할 수 있지만 river-worker 운영은 익숙하지 않다.",
+    "use_context": "알람을 받은 뒤 롤백 여부를 판단하고, 안전하게 작업을 중단·롤백·재개하거나 담당자에게 넘긴다."
+  },
+  "document_purpose": "관찰 결과에 따른 판단, 명령 실행의 선행조건, 성공 확인, 중단 및 이관 기준을 안내한다.",
+  "user_prompt": "아래 운영 메모를 온콜이 바로 사용할 수 있는 장애 대응 절차로 정리해 주세요. 상황을 확인하는 방법부터 복구 여부를 판단하는 과정까지 이어지게 작성해 주세요. 명령은 코드 블록으로 제시하고, 한국어 Markdown으로 부탁합니다.",
+  "source_facts": [
+    {
+      "id": "O1",
+      "text": "대상은 river-worker와 작업 큐 river-events다. WorkerQueueAgeHigh 알람이 울리면 이 절차를 시작한다. 알람만으로 배포가 원인이라고 확정할 수는 없다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O2",
+      "text": "opsctl queue inspect river-events는 pending, oldest_age_seconds, consumer_state를 보여 준다. opsctl worker status river-worker는 state와 inflight를 보여 준다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O3",
+      "text": "opsctl deploy show river-worker는 current, stable, changed_at을 보여 준다. stable은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O4",
+      "text": "현재 배포 직후부터 적체가 시작됐고 current와 stable이 다를 때만 이 절차에서 롤백을 진행한다. 이 조건을 확인할 수 없거나 current와 stable이 같으면 플랫폼 온콜에 관찰 결과를 전달한다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O5",
+      "text": "롤백 전 opsctl worker pause river-worker를 실행한다. 이 명령의 반환은 일시정지 요청을 접수했다는 뜻이다. 이미 처리 중인 작업은 계속 진행될 수 있다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O6",
+      "text": "opsctl worker status river-worker에서 state=paused와 inflight=0을 모두 확인한 다음에만 롤백한다. pause 요청 후 5분이 지나도 두 조건을 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관한다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O7",
+      "text": "롤백 명령은 opsctl deploy rollback river-worker --to stable이다. 명령이 성공한 경우에만 opsctl worker resume river-worker로 소비를 재개한다. 롤백 실패 시 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관한다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O8",
+      "text": "재개 후 opsctl queue inspect river-events에서 consumer_state=running인지 확인하고 oldest_age_seconds가 감소하는지 살핀다. 두 조건을 확인해야 복구로 판단한다. 재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관한다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O9",
+      "text": "이관할 때는 알람 발생 시각, 적체 시작 시각, current와 stable, 실행한 명령과 결과를 전달한다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "O10",
+      "text": "이 절차에서는 큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 하지 않는다. 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요하다.",
+      "certainty": "confirmed"
+    }
+  ],
+  "source_draft": null,
+  "verifiable_claims": [
+    {
+      "id": "OC1",
+      "source_refs": [
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "claim": "알람 이후 큐, worker 상태, 배포 정보를 확인한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC2",
+      "source_refs": [
+        "O4"
+      ],
+      "claim": "적체가 배포 직후 시작됐으며 current와 stable이 다른 경우에만 롤백한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC3",
+      "source_refs": [
+        "O5",
+        "O6"
+      ],
+      "claim": "pause 접수와 실제 정지 완료를 구분하고 paused 및 inflight=0을 확인한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC4",
+      "source_refs": [
+        "O6"
+      ],
+      "claim": "5분 내 정지 조건을 충족하지 못하면 롤백을 중단하고 이관한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC5",
+      "source_refs": [
+        "O7"
+      ],
+      "claim": "제공된 롤백 명령을 쓰고 성공 시에만 소비를 재개한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC6",
+      "source_refs": [
+        "O8"
+      ],
+      "claim": "consumer_state=running과 oldest_age_seconds 감소로 복구를 판단한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC7",
+      "source_refs": [
+        "O8",
+        "O9"
+      ],
+      "claim": "재개 후 10분 내 개선이 없으면 반복 롤백하지 않고 관찰·실행 정보를 이관한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "OC8",
+      "source_refs": [
+        "O10"
+      ],
+      "claim": "큐 삭제, offset 초기화, 처리 중 작업 강제 종료는 이 절차에 포함되지 않는다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    }
+  ],
+  "expected_checks": {
+    "must_include": [
+      "초기 상태와 배포 정보 확인",
+      "롤백을 선택하는 조건과 선택할 수 없는 경우",
+      "pause 후 실제 정지·처리 완료 확인",
+      "롤백 및 성공 후 재개",
+      "복구 판정과 실패·시간 초과 시 이관",
+      "이관할 정보와 금지된 파괴적 조치"
+    ],
+    "preserve_identifiers": [
+      {
+        "value": "river-worker",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "river-events",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "WorkerQueueAgeHigh",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl queue inspect river-events",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl worker status river-worker",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl deploy show river-worker",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl worker pause river-worker",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl deploy rollback river-worker --to stable",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "opsctl worker resume river-worker",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "state=paused",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "inflight=0",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "consumer_state=running",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "oldest_age_seconds",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "current",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "stable",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "changed_at",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      }
+    ],
+    "forbidden_inventions": [
+      "pause 명령이 반환되면 처리 중 작업이 모두 끝났다고 간주하지 않는다.",
+      "자료에 없는 강제 종료, 큐 비우기, offset 초기화, 자동 재시작 명령을 추가하지 않는다.",
+      "알람만으로 배포를 확정 원인으로 단정하지 않는다.",
+      "실패했거나 정지 조건이 충족되지 않은 롤백을 반복하도록 안내하지 않는다."
+    ],
+    "hard_fail_if": [
+      "state=paused와 inflight=0 중 하나라도 확인하지 않은 상태에서 롤백하도록 안내한다.",
+      "롤백 명령 실패 후 소비를 재개하도록 안내한다.",
+      "큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 이 절차의 복구 조치로 지시한다.",
+      "배포와 적체의 선후 관계를 확인하지 못했는데도 무조건 롤백하도록 지시한다."
+    ]
+  },
+  "length_guidance": {
+    "unit": "Korean characters including spaces",
+    "suggested_min": 600,
+    "suggested_max": 1000,
+    "scoring": false
+  }
+}

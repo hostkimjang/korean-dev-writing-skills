@@ -1,0 +1,306 @@
+{
+  "run_id": "2026-11-03",
+  "reviewers": [
+    {
+      "file": "judge-a.json",
+      "reviewer": "blind_judge_a",
+      "record_count": 18
+    },
+    {
+      "file": "judge-b.json",
+      "reviewer": "blind_judge_b",
+      "record_count": 18
+    }
+  ],
+  "scale": {
+    "dimension_max": 4,
+    "total_max": 20
+  },
+  "conditions": {
+    "baseline": {
+      "documents": 6,
+      "ratings": 12,
+      "mean_total": 19.666666666666668,
+      "mean_dimensions": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 3.8333333333333335,
+        "korean_naturalness": 3.8333333333333335,
+        "actionability_format": 4
+      },
+      "hard_fail_ratings": 0,
+      "documents_flagged_by_any_judge": 0
+    },
+    "original": {
+      "documents": 6,
+      "ratings": 12,
+      "mean_total": 19.583333333333332,
+      "mean_dimensions": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 3.8333333333333335,
+        "korean_naturalness": 3.75,
+        "actionability_format": 4
+      },
+      "hard_fail_ratings": 0,
+      "documents_flagged_by_any_judge": 0
+    },
+    "revised": {
+      "documents": 6,
+      "ratings": 12,
+      "mean_total": 20,
+      "mean_dimensions": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "hard_fail_ratings": 0,
+      "documents_flagged_by_any_judge": 0
+    }
+  },
+  "cases": [
+    {
+      "case_id": "cli_readme",
+      "conditions": {
+        "baseline": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 19.5,
+          "judge_totals": [
+            20,
+            19
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 0,
+      "revised_minus_original": 0.5
+    },
+    {
+      "case_id": "event_architecture",
+      "conditions": {
+        "baseline": {
+          "mean_total": 19,
+          "judge_totals": [
+            19,
+            19
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 19,
+          "judge_totals": [
+            19,
+            19
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 1,
+      "revised_minus_original": 1
+    },
+    {
+      "case_id": "investigation_pr",
+      "conditions": {
+        "baseline": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 0,
+      "revised_minus_original": 0
+    },
+    {
+      "case_id": "incident_runbook",
+      "conditions": {
+        "baseline": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 0,
+      "revised_minus_original": 0
+    },
+    {
+      "case_id": "storage_adr",
+      "conditions": {
+        "baseline": {
+          "mean_total": 19,
+          "judge_totals": [
+            19,
+            19
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 19,
+          "judge_totals": [
+            19,
+            19
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 1,
+      "revised_minus_original": 1
+    },
+    {
+      "case_id": "paragraph_edit",
+      "conditions": {
+        "baseline": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "original": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        },
+        "revised": {
+          "mean_total": 20,
+          "judge_totals": [
+            20,
+            20
+          ],
+          "hard_fail_flags": [
+            false,
+            false
+          ]
+        }
+      },
+      "revised_minus_baseline": 0,
+      "revised_minus_original": 0
+    }
+  ],
+  "interpretation_limit": "One run, six synthetic paired cases, two model judges sharing a model family. Descriptive ordinal scores; no statistical significance or cross-model efficacy claim."
+}

@@ -1,0 +1,287 @@
+{
+  "run_id": "2026-11-03",
+  "status": "completed",
+  "model": "session-inherited GPT-6 Astra Pro; exact API deployment id and sampling parameters not exposed",
+  "context": "fresh subagent for each case and condition; shared platform default instructions",
+  "conditions": [
+    "baseline",
+    "original",
+    "revised"
+  ],
+  "case_order": [
+    {
+      "file": "01_cli_readme.json",
+      "case_id": "cli_readme",
+      "input_sha256": "ce87a8e79942fee424f8deb8f7f1eb48c265b1ec63bbd9a2dd19d75ca6369306"
+    },
+    {
+      "file": "02_event_architecture.json",
+      "case_id": "event_architecture",
+      "input_sha256": "35ef7fb67317055bdb7a68831c0394fc3086dfa5f1daa379bdf464c74238dadd"
+    },
+    {
+      "file": "03_investigation_pr.json",
+      "case_id": "investigation_pr",
+      "input_sha256": "4b2615b5cf4b059f5be3a06420e7c53308c47c6f23cfc0620e28f1cf931ebe97"
+    },
+    {
+      "file": "04_incident_runbook.json",
+      "case_id": "incident_runbook",
+      "input_sha256": "73f05c3451375a99508d4f6084853dd03841e4f6db7dd6342bd34966eb07d56c"
+    },
+    {
+      "file": "05_storage_adr.json",
+      "case_id": "storage_adr",
+      "input_sha256": "c876e33384c40cc121a723eda4e4066db556df8e7cc4180c8b16a24a93ceb296"
+    },
+    {
+      "file": "06_paragraph_edit.json",
+      "case_id": "paragraph_edit",
+      "input_sha256": "64f91353647b30aa4f6302e9d4e1198b4aafef2ffaa788be6029c222b86e4f4f"
+    }
+  ],
+  "source_skill_zip_sha256": "37abaae8f0a1c2f560e6b139bdd1a13de4d811eea2b8bdefaef5cae1cdea638e",
+  "revised_skill_files": {
+    "LICENSE": "ccd92e023aa14cee3f0e6cbd02e185ca6ec6034edb447c7be83136480f4dabe1",
+    "SKILL.md": "4cf40267ef23fcf4205e083e0d40952173011abaa296cfc5bdb0bae4003c27a9",
+    "agents/openai.yaml": "dcb5282c473619702af3c5bcfed5f41d4bc2f1a46f27b0982689bb968b562e5d",
+    "references/before-after-guide.md": "cfa529ae036d42625ae30f31e991e27f7fa43c09335a12e6810c369cbf5de313",
+    "references/document-types.md": "049543fb35aeb4780944e1f6942f0c0b50e38edeb156729100b58123d8f219b5"
+  },
+  "frozen_evaluation_files": {
+    "evaluations/cases/01_cli_readme.json": "38cdec85d6c2f001c4d70c42704b9933247565ae7e680927f25c6352fa450199",
+    "evaluations/cases/02_event_architecture.json": "4d36ac07a1c180906ad8928f7450c3d31713e82dcfad7762f11320243b2d9f32",
+    "evaluations/cases/03_investigation_pr.json": "5b73a294a3db4cdac10a57f87ad07bc36c4fb84ae3a731b23724d5f8229e76bf",
+    "evaluations/cases/04_incident_runbook.json": "d4f4841a0047f0b7b7f6be4c6ad3c8b7081983c9f6e2a7758d4c78bf96ff5161",
+    "evaluations/cases/05_storage_adr.json": "1b87adb8faa5dea4407ab6f4c1e973c242ea0ca7f12c8911bbcadea4bc2a0f23",
+    "evaluations/cases/06_paragraph_edit.json": "2e08e7b80d4840c88c06c39a33f733c7cbdfbfae0810f23895c6e4b9ffcf91cd",
+    "evaluations/rubric.json": "22d51d4b8e28826f2106cf59a520802392c1c560d9320b93952a64b55db8df22",
+    "evaluations/protocol.md": "7159f11e38d0e09689243b814eb69e7b9d009e33846dc76f7b20e39c7ddbd413"
+  },
+  "skill_commit": "8b31640",
+  "generation_settings": {
+    "fork_turns": "none",
+    "explicit_model_override": false,
+    "temperature": null,
+    "sampling_seed": null,
+    "reasoning_effort": "inherited; value not exposed",
+    "external_tools": "input and assigned skill file reads; output file write only"
+  },
+  "frozen_skill_commit": "8b31640",
+  "public_original_skill_snapshot_included": false,
+  "original_condition_reproduction": "Requires the user-supplied archive matching the recorded SHA-256. The original archive is not part of the public repository.",
+  "generation_contract": "Same task-only input and common wrapper; skill conditions additionally read the specified full SKILL.md and both references. No other writing skills, browsing, execution validation, or evaluation fields supplied.",
+  "evaluation_target": "Explicit skill application, not automatic discovery or client installation.",
+  "generation_count": 18,
+  "generation_retries": [],
+  "generation_tasks": [
+    {
+      "agent": "gen_baseline_01",
+      "case_id": "cli_readme",
+      "condition": "baseline",
+      "input": "inputs/01_cli_readme.md",
+      "output": "outputs/baseline/01_cli_readme.md",
+      "output_sha256": "1ec9b483ab8d03d77de8bf95385c1345dffa8d7b8616f9633f19b60d1a6f7b10",
+      "characters": 1981,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_01",
+      "case_id": "cli_readme",
+      "condition": "original",
+      "input": "inputs/01_cli_readme.md",
+      "output": "outputs/original/01_cli_readme.md",
+      "output_sha256": "ad8121752213fbaf9cad35665ea2d704811d8da30d49b23fccfc3bceb4e5c216",
+      "characters": 2398,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_01",
+      "case_id": "cli_readme",
+      "condition": "revised",
+      "input": "inputs/01_cli_readme.md",
+      "output": "outputs/revised/01_cli_readme.md",
+      "output_sha256": "520d9440cd638015e359909c9fc7a7c1c20bb82b6db2f39fa218e361d53c21dc",
+      "characters": 1389,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_baseline_02",
+      "case_id": "event_architecture",
+      "condition": "baseline",
+      "input": "inputs/02_event_architecture.md",
+      "output": "outputs/baseline/02_event_architecture.md",
+      "output_sha256": "2ba540bd7598f3257626234998f17a46550299335bd9ad15f747de91225938b7",
+      "characters": 4233,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_02",
+      "case_id": "event_architecture",
+      "condition": "original",
+      "input": "inputs/02_event_architecture.md",
+      "output": "outputs/original/02_event_architecture.md",
+      "output_sha256": "64c9dce82772e933c02d4a6cbc67ea03757727e210ea78b6573836263f097395",
+      "characters": 3953,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_02",
+      "case_id": "event_architecture",
+      "condition": "revised",
+      "input": "inputs/02_event_architecture.md",
+      "output": "outputs/revised/02_event_architecture.md",
+      "output_sha256": "bc0292b20a5abf5b7022b45f1e799a3f8e106a017d1333b76bc4c61bed2bb6dc",
+      "characters": 2190,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_baseline_03",
+      "case_id": "investigation_pr",
+      "condition": "baseline",
+      "input": "inputs/03_investigation_pr.md",
+      "output": "outputs/baseline/03_investigation_pr.md",
+      "output_sha256": "7f31f5e2a7227a964bfefec778fcadd4df93ee381fa71651f2b610eeb8722ef6",
+      "characters": 1032,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_03",
+      "case_id": "investigation_pr",
+      "condition": "original",
+      "input": "inputs/03_investigation_pr.md",
+      "output": "outputs/original/03_investigation_pr.md",
+      "output_sha256": "42b5b1c60b17bf9996f738f0754a6395430911419171058172d76f32b95437d1",
+      "characters": 1118,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_03",
+      "case_id": "investigation_pr",
+      "condition": "revised",
+      "input": "inputs/03_investigation_pr.md",
+      "output": "outputs/revised/03_investigation_pr.md",
+      "output_sha256": "060f6349d2c69dec453b14b4aa614b03c3c699f89dc0653b8456f595b53f1d51",
+      "characters": 981,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_baseline_04",
+      "case_id": "incident_runbook",
+      "condition": "baseline",
+      "input": "inputs/04_incident_runbook.md",
+      "output": "outputs/baseline/04_incident_runbook.md",
+      "output_sha256": "55740781156ebb2cc6149121729b873cb00c7d3e8bb350c50c9054a1fcceb74b",
+      "characters": 3187,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_04",
+      "case_id": "incident_runbook",
+      "condition": "original",
+      "input": "inputs/04_incident_runbook.md",
+      "output": "outputs/original/04_incident_runbook.md",
+      "output_sha256": "2ce78e71d7309798640b0ee993000a468542114109356e71ca9d2fec46aa34cb",
+      "characters": 3113,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_04",
+      "case_id": "incident_runbook",
+      "condition": "revised",
+      "input": "inputs/04_incident_runbook.md",
+      "output": "outputs/revised/04_incident_runbook.md",
+      "output_sha256": "6a9da75c5e39d6cfe8f0abed6e47a342f8baa500d350b4976cb6e57ab0397745",
+      "characters": 2186,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_baseline_05",
+      "case_id": "storage_adr",
+      "condition": "baseline",
+      "input": "inputs/05_storage_adr.md",
+      "output": "outputs/baseline/05_storage_adr.md",
+      "output_sha256": "8de97875c8ad5a1ebc29670bc9992c171ef12ea9440410510f63f0c5bbb67a81",
+      "characters": 3481,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_05",
+      "case_id": "storage_adr",
+      "condition": "original",
+      "input": "inputs/05_storage_adr.md",
+      "output": "outputs/original/05_storage_adr.md",
+      "output_sha256": "4b68e1fc9e1c0bc70e3f93dbc3d84e40a8c1a52e40180faa8429bd70e4d8fde4",
+      "characters": 2733,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_05",
+      "case_id": "storage_adr",
+      "condition": "revised",
+      "input": "inputs/05_storage_adr.md",
+      "output": "outputs/revised/05_storage_adr.md",
+      "output_sha256": "b1c7328bb6b9df617ba92844220087507a073e9938ca99e9e3c4dbcbe3f4a587",
+      "characters": 1948,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_baseline_06",
+      "case_id": "paragraph_edit",
+      "condition": "baseline",
+      "input": "inputs/06_paragraph_edit.md",
+      "output": "outputs/baseline/06_paragraph_edit.md",
+      "output_sha256": "e927391c7b60353d26bd3bb785052899afccbbd4397b256764fe079b9bef1224",
+      "characters": 364,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_original_06",
+      "case_id": "paragraph_edit",
+      "condition": "original",
+      "input": "inputs/06_paragraph_edit.md",
+      "output": "outputs/original/06_paragraph_edit.md",
+      "output_sha256": "9e2174d75ffbe640f86459597eb20076c7b39cbbb5ede64a578d8b0ed4cf414b",
+      "characters": 359,
+      "post_edited": false
+    },
+    {
+      "agent": "gen_revised_06",
+      "case_id": "paragraph_edit",
+      "condition": "revised",
+      "input": "inputs/06_paragraph_edit.md",
+      "output": "outputs/revised/06_paragraph_edit.md",
+      "output_sha256": "446b51c9cffbcce2bdddb3c22f8d75136293508d44399170fdbeac6d76ddf38a",
+      "characters": 363,
+      "post_edited": false
+    }
+  ],
+  "review_packet_sha256": "752697d39705307c8f0db52048712edf49ac2e3e76dfd557a52c32213ac2e7e7",
+  "protocol_timing_note": "Cases, rubric, and protocol were prepared independently without seeing skills or generated outputs. Their hashes were recorded while early generation tasks had already started, before blind evaluation. The recorded files were not changed to fit results; this is not externally timestamped preregistration.",
+  "review_assignment": {
+    "reviewers": [
+      "blind_judge_a",
+      "blind_judge_b"
+    ],
+    "fresh_context": true,
+    "same_inherited_model": true,
+    "provided_file_only": "review-packet.json",
+    "condition_map_withheld": true,
+    "other_outputs_and_skills_withheld": true
+  },
+  "frozen_reviews": {
+    "reviews/judge-a.json": {
+      "sha256": "1ec8676ca777a43f26e1250dfd971c3a9a6dab626c54bb7d93d3e41e0989f3dd",
+      "frozen_before_condition_mapping": true
+    },
+    "reviews/judge-b.json": {
+      "sha256": "727b7917205127c06e669d12cf7ca9a98d89c026c19d76cb077dca5122c1b59d",
+      "frozen_before_condition_mapping": true
+    }
+  },
+  "summary_sha256": "8154e8cd7a9dee76104db0817dc0c687263950104e405de4e7ea6e6800cbd90d",
+  "score_adjustments_after_unblinding": [],
+  "results_post_edited": false,
+  "interpretation": "Small differences concentrated in repeated explanations in architecture and ADR. Baseline near ceiling. No demonstrated factual-accuracy gain or cross-model efficacy.",
+  "frozen_skill_commit_scope": "Local preparation history. File SHA-256 hashes identify the evaluated skill even if a hosting API creates different commit history."
+}

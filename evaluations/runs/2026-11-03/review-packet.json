@@ -1,0 +1,1485 @@
+{
+  "rubric": {
+    "rubric_id": "ko-dev-writing-v1",
+    "language": "ko-KR",
+    "scoring_principles": [
+      "다섯 차원을 각각 정수 0~4점으로 평가한다. 가중치는 모두 1이며 총점은 0~20점이다.",
+      "판단의 기준은 해당 사례의 원자료, 독자, 문서 목적이다. 문체 선호나 특정 스킬의 규칙 준수 여부를 평가하지 않는다.",
+      "문서의 길이 자체는 점수가 아니다. 권장 글자 수보다 길거나 짧다는 이유로 가감점하지 않는다. 필요한 내용의 누락, 목적 없는 반복, 읽기 어려움은 각각 관련 차원에서 판단한다.",
+      "required=true인 검증 명제와 must_include는 핵심 범위다. required=false인 사실을 모두 넣을 필요는 없지만, 넣었다면 정확해야 한다.",
+      "명령·설정·경로·버전·상태값 같은 식별자는 원자료와 대조한다. 동등한 설명, 문장 재구성, 자연스러운 조사 변경, Markdown 인용 방식의 차이는 오류가 아니다.",
+      "사실 정확성은 보존 시험이고 자연스러움은 별도 독해 판단이다. 원문을 그대로 복사했다는 이유로 자연스러움 점수를 높이지 않으며, 매끄럽게 썼다는 이유로 사실 오류를 상쇄하지 않는다.",
+      "새로운 사실 주장과 설명을 위한 일반적인 연결 문장을 구분한다. 자료에 없는 동작·지원·검증·수치·원인을 사실로 추가하면 정확성에서 판단한다.",
+      "점수는 오류 개수에 따른 기계적인 감점식이 아니라 명시된 앵커에 대한 전체 판단이다. 같은 문제를 여러 차원에 반영할 때는 각 차원에 미친 서로 다른 영향을 설명한다.",
+      "각 차원의 점수 근거에는 출력의 구체적인 구절 또는 위치와 필요한 source_facts의 ID를 기록한다. 모든 출력에 같은 기준을 적용한다.",
+      "치명적 사실왜곡은 hard_fail로 별도 기록한다. 총점과 차원별 점수는 유지하되 hard_fail을 총점으로 가리거나 임의로 0점 처리하지 않는다."
+    ],
+    "dimensions": [
+      {
+        "id": "factual_accuracy",
+        "title": "사실 정확성",
+        "max_score": 4,
+        "weight": 1,
+        "description": "원자료의 동작, 조건, 수치, 식별자, 증거 수준과 검증 범위를 정확히 전달하는가.",
+        "anchors": {
+          "0": "문서의 중심 설명이 원자료와 반대이거나, 주요 동작·결론·증거를 대부분 만들어 내어 신뢰할 수 없다.",
+          "1": "핵심 동작이나 조건에 중대한 오류가 여럿 있어 사용 또는 의사결정을 그대로 맡기기 어렵다. 일부 맞는 사실만 남아 있다.",
+          "2": "주요 취지는 맞지만 설정, 범위, 조건, 검증 수준 중 중요한 부분이 부정확하거나 근거 없는 사실이 섞여 있다.",
+          "3": "핵심 사실과 불확실성은 정확하다. 사용·판단을 바꾸지 않는 작은 표현 부정확성이 남아 있다.",
+          "4": "실질적인 사실 주장이 모두 원자료에 맞고, 기본값·조건·식별자·검증 범위·불확실성이 정확하다. 근거 없는 추가 사실이 없다."
+        }
+      },
+      {
+        "id": "information_completeness",
+        "title": "정보 완결성",
+        "max_score": 4,
+        "weight": 1,
+        "description": "독자의 목적을 달성하는 데 필요한 핵심 정보를 빠짐없이 전달하는가.",
+        "anchors": {
+          "0": "요청한 문서에 필요한 핵심 정보가 거의 없거나 다른 주제를 다룬다.",
+          "1": "핵심 내용의 상당 부분이 빠져 독자가 원자료를 다시 찾아 문서를 사실상 다시 작성해야 한다.",
+          "2": "핵심 내용 일부가 빠져 중요한 질문이나 작업 단계가 해결되지 않는다.",
+          "3": "핵심 목적은 충족하지만 필요한 설명 한 부분이 약하거나 일부 맥락을 독자가 보완해야 한다.",
+          "4": "사례의 핵심 명제와 필수 범위를 모두 충족하며, 선택 사항을 불필요하게 늘리지 않아도 독자가 목적을 달성할 수 있다."
+        }
+      },
+      {
+        "id": "audience_purpose_structure",
+        "title": "독자·목적·구조",
+        "max_score": 4,
+        "weight": 1,
+        "description": "독자의 사전 지식과 문서 목적에 맞는 순서, 강조, 문단·절 구성을 갖추었는가.",
+        "anchors": {
+          "0": "요청한 독자나 문서 목적을 반영한 구조를 찾기 어렵다.",
+          "1": "정보가 단편적으로 나열되거나 핵심과 배경이 뒤섞여 독자가 흐름을 따라가기 매우 어렵다.",
+          "2": "기본 틀은 있으나 중요한 정보의 위치가 어색하고, 중복이나 단절 때문에 필요한 내용을 찾는 데 재구성이 필요하다.",
+          "3": "대체로 목적에 맞고 읽는 순서도 자연스럽다. 일부 강조나 문단 배치만 다듬으면 된다.",
+          "4": "독자가 궁금해할 순서로 정보를 연결하고 중요한 판단 지점을 분명히 보여 준다. 문서 유형에 알맞은 구조이며 형식적인 절이나 표를 불필요하게 강요하지 않는다."
+        }
+      },
+      {
+        "id": "korean_naturalness",
+        "title": "한국어 문장·문단 자연스러움",
+        "max_score": 4,
+        "weight": 1,
+        "description": "한국어 문장과 문단이 명확하고 자연스럽게 이어지며 기술적 의미를 쉽게 읽을 수 있는가.",
+        "anchors": {
+          "0": "한국어 본문을 이해하기 어렵거나 요청한 한국어 문서로 성립하지 않는다.",
+          "1": "부자연스러운 문장, 불명확한 주체·지시어, 연결 실패가 반복되어 여러 구절의 의미를 다시 해석해야 한다.",
+          "2": "의미는 대체로 통하지만 어색한 번역투, 과도하게 복잡한 서술, 반복, 문단 연결의 문제로 읽는 흐름이 자주 끊긴다.",
+          "3": "전반적으로 자연스럽고 명확하다. 일부 군더더기, 호응, 반복 또는 연결만 손보면 된다.",
+          "4": "문장 호응과 정보의 연결이 자연스럽고, 필요한 전문 용어를 일관되게 쓴다. 독자가 행위·조건·결론을 쉽게 이해하며 불필요하게 다시 읽을 구절이 거의 없다."
+        }
+      },
+      {
+        "id": "actionability_format",
+        "title": "실행 가능성·형식",
+        "max_score": 4,
+        "weight": 1,
+        "description": "문서 유형에 맞게 바로 사용·검토·게시할 수 있으며, 행동이 필요한 문서에서는 실행 조건과 결과를 이해할 수 있는가.",
+        "anchors": {
+          "0": "요청한 산출물 형식이 없거나 본문을 실무에 사용할 수 없다.",
+          "1": "주요 명령·단계·판단 정보 또는 본문 형식에 문제가 커서 그대로 실행하거나 리뷰·게시하기 어렵다.",
+          "2": "일부는 사용할 수 있으나 선행조건, 다음 행동, 성공 확인, 문서 형식 중 중요한 요소를 독자가 다시 구성해야 한다.",
+          "3": "대부분 바로 사용할 수 있다. 작은 형식 문제나 부분적인 실행·검토 편의의 부족이 남아 있다.",
+          "4": "요청한 형식으로 바로 사용할 수 있다. README와 운영 절차는 필요한 명령·조건·결과가 분명하고, 아키텍처·PR·ADR은 연동·리뷰·결정을 위한 정보가 명확하며, 편집 사례는 게시 가능한 본문이다."
+        }
+      }
+    ],
+    "hard_fail": {
+      "definition": "원자료에 반하는 사실 또는 지시가 핵심 사용·운영·승인 판단을 반대로 만들거나, 자료에 없는 성공·검증을 근거로 중요한 결정을 유도하는 치명적 사실왜곡이다. 구체적인 출력 증거와 원자료 대조가 필요하다.",
+      "criteria": [
+        {
+          "id": "HF_ACTION",
+          "description": "필수 선행조건을 무시하는 실행 지시, 실패 후 재개, 데이터 손실을 부를 파괴적 조치 등 사례에서 명시한 중대한 운영 오판을 유도한다."
+        },
+        {
+          "id": "HF_SEMANTICS",
+          "description": "수락과 최종 저장, 상한과 무제한, 다음 페이지와 종료, tenant 범위처럼 사용의 핵심 의미를 반대로 설명한다."
+        },
+        {
+          "id": "HF_EVIDENCE",
+          "description": "조사 가설을 확정 원인으로, 진단 PR을 해결 완료로, 미실시 검증을 통과 결과로, 미승인 제안을 승인 사실로 바꾼다."
+        }
+      ],
+      "not_automatic_triggers": [
+        "맞춤법, 띄어쓰기, 문장 호응의 작은 오류",
+        "의미가 같은 표현 변경이나 문단 순서 변경",
+        "선택적인 사실의 누락",
+        "일반적인 정보 누락 자체. 단, 누락 때문에 명시적인 위험 행동을 지시하게 된 경우에는 근거를 제시해 별도 판단한다.",
+        "권장 글자 수와의 차이",
+        "특정 단어·어미의 사용 또는 미사용"
+      ],
+      "handling": "hard_fail은 true/false와 이유를 따로 기록한다. true라면 criteria ID, 출력 구절, source_facts ID, 그 왜곡이 바꾸는 실제 판단을 남긴다. 차원별 점수와 총점은 그대로 보고하고 조건별 hard_fail 건수를 함께 제시한다. 단순 추측이나 문체 불호만으로 표시하지 않는다."
+    },
+    "evaluation_record": {
+      "case_id": "사례의 case_id",
+      "output_id": "조건을 드러내지 않는 무작위 라벨",
+      "dimension_scores": {
+        "factual_accuracy": null,
+        "information_completeness": null,
+        "audience_purpose_structure": null,
+        "korean_naturalness": null,
+        "actionability_format": null
+      },
+      "total_score": null,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [],
+      "strengths": [],
+      "improvement_notes": []
+    }
+  },
+  "cases": [
+    {
+      "case": {
+        "case_id": "cli_readme",
+        "title": "로컬 로그 필터 CLI의 첫 README",
+        "document_type": "README",
+        "audience": {
+          "primary": "팀에 합류해 로컬 로그를 확인하려는 백엔드 개발자",
+          "prior_knowledge": "터미널과 Python 패키지 설치에는 익숙하지만 이 도구는 처음 사용한다.",
+          "use_context": "저장소의 README를 보며 설치하고 로그에서 오류 항목을 찾는다."
+        },
+        "document_purpose": "도구의 역할, 설치, 첫 실행, 주요 옵션과 입력 오류 처리 방식을 빠르게 안내한다.",
+        "user_prompt": "아래 프로젝트 메모를 바탕으로 한국어 README 초안을 써 주세요. 팀에 새로 온 개발자가 이 도구로 로컬 로그를 확인하려고 합니다. 설치부터 첫 실행까지 따라 할 수 있게 하고, 자주 쓰는 옵션과 사용 중 알아둘 점도 담아 주세요. 저장소에 바로 넣을 수 있는 Markdown이면 좋겠습니다.",
+        "source_facts": [
+          {
+            "id": "R1",
+            "text": "프로젝트와 실행 명령 이름은 trace-slice다. 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI다. 네트워크로 로그를 전송하지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R2",
+            "text": "이번 README가 설명하는 배포 버전은 0.4.2다. 프로젝트의 Python 요구 버전은 3.10 이상으로 선언되어 있다. 실제로 설치와 기본 동작을 확인한 환경은 Ubuntu 22.04의 Python 3.11이다. 다른 운영체제에서의 검증 기록은 없다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R3",
+            "text": "버전을 고정해 설치하는 명령은 python -m pip install trace-slice==0.4.2다. 설치 후 trace-slice --help로 도움말을 볼 수 있다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R4",
+            "text": "사용 형식은 trace-slice INPUT [--level LEVEL] [--output PATH]다. INPUT은 로컬 JSON Lines 파일의 경로이며 필수 위치 인수다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R5",
+            "text": "--level의 기본값은 info다. 허용되는 값은 debug, info, warn, error이며 이 순서로 심각도가 높아진다. 지정한 값과 그보다 높은 심각도의 항목이 출력된다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R6",
+            "text": "--output을 생략하면 결과를 표준 출력으로 내보낸다. --output PATH를 지정하면 해당 파일에 결과를 쓰며, 파일이 이미 있으면 덮어쓴다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R7",
+            "text": "예제 파일 경로는 ./logs/api.jsonl이다. trace-slice ./logs/api.jsonl --level error는 error 항목을 표준 출력으로 내보내는 유효한 명령이다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R8",
+            "text": "각 정상 로그 행에는 level 필드가 있다. JSON 구문이 잘못된 행은 건너뛰고, 건너뛴 행 수를 표준 오류로 알린다. 그 이유만으로 실행이 실패하지는 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R9",
+            "text": "INPUT 파일을 읽을 수 없으면 오류를 표준 오류로 알리고 종료 코드 2로 끝난다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "R10",
+            "text": "0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능과 날짜 범위를 지정하는 옵션이 없다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": null,
+        "verifiable_claims": [
+          {
+            "id": "RC1",
+            "source_refs": [
+              "R1"
+            ],
+            "claim": "로컬 JSON Lines 로그를 최소 심각도로 필터링하는 CLI다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC2",
+            "source_refs": [
+              "R2"
+            ],
+            "claim": "요구 버전 Python 3.10 이상과 실제 검증 환경 Python 3.11 / Ubuntu 22.04를 구분한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC3",
+            "source_refs": [
+              "R3"
+            ],
+            "claim": "설치 명령은 python -m pip install trace-slice==0.4.2다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC4",
+            "source_refs": [
+              "R4",
+              "R7"
+            ],
+            "claim": "필수 입력 경로를 포함한 유효한 첫 실행 예를 제시한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC5",
+            "source_refs": [
+              "R5"
+            ],
+            "claim": "--level의 기본값은 info이며, 지정한 심각도 이상을 선택한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC6",
+            "source_refs": [
+              "R6"
+            ],
+            "claim": "--output 생략 시 표준 출력이고, 지정 시 기존 파일을 덮어쓴다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC7",
+            "source_refs": [
+              "R8",
+              "R9"
+            ],
+            "claim": "잘못된 JSON 행의 건너뜀과 입력 파일 읽기 실패를 서로 다른 처리로 설명한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC8",
+            "source_refs": [
+              "R10"
+            ],
+            "claim": "로그 추적과 날짜 범위 기능은 0.4.2에서 제공하지 않는다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "RC9",
+            "source_refs": [
+              "R1"
+            ],
+            "claim": "도구가 로그를 네트워크로 전송하지 않는다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "도구의 용도",
+            "설치 명령과 실제로 실행할 수 있는 첫 사용 예",
+            "요구 Python 범위와 확인한 환경의 구분",
+            "--level의 기본값과 비교 방향",
+            "--output의 기본 동작 및 덮어쓰기",
+            "잘못된 JSON 행과 파일 읽기 실패의 처리"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "trace-slice",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "0.4.2",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "python -m pip install trace-slice==0.4.2",
+              "when": "설치 명령을 제공할 때"
+            },
+            {
+              "value": "INPUT",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "--level",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "--output",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "debug",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "info",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "warn",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "error",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "./logs/api.jsonl",
+              "when": "제공된 예제 파일을 사용할 때"
+            },
+            {
+              "value": "level",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "3.10",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "3.11",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "22.04",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "--follow, --since 등 자료에 없는 옵션을 사용할 수 있다고 쓰지 않는다.",
+            "macOS나 Windows의 동작을 검증했다고 쓰지 않는다.",
+            "Python 3.11에서만 지원된다고 범위를 줄이거나 Python 3.10 전체에서 실제 검증했다고 넓히지 않는다.",
+            "성능 수치, 별도의 설정 파일, 원격 로그 연동 기능을 만들어 내지 않는다."
+          ],
+          "hard_fail_if": [
+            "기존 출력 파일을 보존하거나 자동으로 이어 쓴다고 단정해, 덮어쓰기 여부에 대한 사용자의 판단을 반대로 만든다.",
+            "잘못된 JSON 행을 포함한 모든 입력을 완전히 처리했다고 보증하거나, 건너뛴 행을 결과에 포함한다고 설명한다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 600,
+          "suggested_max": 1000,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-29810b38",
+          "text": "# trace-slice\n\ntrace-slice는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 로그를 네트워크로 전송하지 않으며, 결과를 터미널에 표시하거나 파일로 저장합니다.\n\n이 문서는 **0.4.2** 기준입니다.\n\n## 실행 환경\n\n- **Python 요구 버전**: 3.10 이상\n- **설치와 기본 동작을 확인한 환경**: Ubuntu 22.04, Python 3.11\n- **다른 운영체제**: 검증 기록 없음\n\n## 설치 및 첫 실행\n\n### 1. 설치하고 도움말 확인하기\n\n다음 명령으로 0.4.2를 설치합니다.\n\n```bash\npython -m pip install trace-slice==0.4.2\n```\n\n설치 후 도움말을 실행해 명령을 사용할 준비가 되었는지 확인합니다.\n\n```bash\ntrace-slice --help\n```\n\n터미널에 도움말이 표시되면 다음 단계로 진행합니다.\n\n### 2. 로그 파일 준비하기\n\n확인할 로컬 JSON Lines 파일을 준비합니다. JSON Lines는 한 줄에 JSON 데이터 하나를 담는 형식입니다. 각 정상 로그 행에는 심각도를 나타내는 `level` 필드가 있어야 합니다.\n\n이 문서에서는 `./logs/api.jsonl`을 예제 경로로 사용합니다. 명령을 실행하는 디렉터리에 해당 파일이 있는지 확인하세요. 파일이 다른 위치에 있다면 명령의 입력 경로를 실제 파일 경로로 바꿉니다.\n\n### 3. 오류 항목 확인하기\n\n`--level error`를 지정하면 입력 파일에서 `error` 항목을 골라 표준 출력으로 내보냅니다.\n\n```bash\ntrace-slice ./logs/api.jsonl --level error\n```\n\n입력 로그에 `error` 항목이 있으면 해당 항목이 터미널에 표시됩니다.\n\n## 사용 형식과 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n| 인수·옵션 | 기본값 | 설명 |\n| --- | --- | --- |\n| `INPUT` | 필수 | 읽을 로컬 JSON Lines 파일 경로 |\n| `--level LEVEL` | `info` | 출력할 최소 심각도. `debug`, `info`, `warn`, `error` 허용 |\n| `--output PATH` | 표준 출력 | 결과를 저장할 파일 경로. 기존 파일이 있으면 덮어씀 |\n\n심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. 지정한 수준과 그보다 높은 수준의 항목을 출력합니다.\n\n| `--level` 값 | 출력하는 로그 수준 |\n| --- | --- |\n| `debug` | `debug`, `info`, `warn`, `error` |\n| `info` | `info`, `warn`, `error` |\n| `warn` | `warn`, `error` |\n| `error` | `error` |\n\n## 자주 쓰는 명령\n\n### info 이상 확인하기\n\n`--level`을 생략하면 기본값인 `info`를 적용합니다.\n\n```bash\ntrace-slice ./logs/api.jsonl\n```\n\n### 경고와 오류 확인하기\n\n`warn`을 지정하면 `warn`과 `error` 항목을 출력합니다.\n\n```bash\ntrace-slice ./logs/api.jsonl --level warn\n```\n\n### 오류 항목을 파일로 저장하기\n\n`--output`으로 저장할 경로를 지정합니다. 다음 명령은 `error` 항목을 현재 디렉터리의 `errors.jsonl`에 저장합니다. **파일이 이미 있으면 덮어쓰므로 실행 전에 경로를 확인하세요.**\n\n```bash\ntrace-slice ./logs/api.jsonl --level error --output ./errors.jsonl\n```\n\n## 입력 오류 처리\n\n| 상황 | 처리 방식 |\n| --- | --- |\n| JSON 구문이 잘못된 행이 있음 | 해당 행을 건너뛰고 건너뛴 행 수를 표준 오류로 알립니다. 이 이유만으로 실행이 실패하지는 않습니다. |\n| `INPUT` 파일을 읽을 수 없음 | 오류를 표준 오류로 알리고 종료 코드 `2`로 끝납니다. 입력 경로와 읽기 권한을 확인하세요. |\n\n결과 로그와 오류 안내는 출력 경로가 다릅니다. `--output`을 생략하면 결과 로그는 표준 출력으로, 건너뛴 행 수와 읽기 오류는 표준 오류로 나갑니다.\n\n## 사용 중 알아둘 점\n\n- **파일 덮어쓰기**: `--output`은 기존 파일 내용을 덮어씁니다. 보관할 파일과 다른 경로를 지정하세요.\n- **실시간 추적 미지원**: 0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능이 없습니다.\n- **날짜 범위 지정 미지원**: 0.4.2에는 날짜 범위를 지정하는 옵션이 없습니다.\n"
+        },
+        {
+          "output_id": "doc-29be5d21",
+          "text": "# trace-slice\n\n`trace-slice`는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 로그를 네트워크로 전송하지 않습니다. 이 문서는 **0.4.2** 버전을 기준으로 합니다.\n\n## 설치\n\n프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작은 **Ubuntu 22.04의 Python 3.11**에서 확인했으며, 다른 운영체제에서의 검증 기록은 없습니다.\n\n다음 명령으로 0.4.2 버전을 설치합니다.\n\n```bash\npython -m pip install trace-slice==0.4.2\n```\n\n설치 후 도움말을 확인합니다.\n\n```bash\ntrace-slice --help\n```\n\n## 첫 실행: 오류 로그 확인하기\n\n입력에는 로컬 JSON Lines 파일 경로를 지정합니다. 각 정상 로그 행에는 `level` 필드가 있습니다. 아래 명령의 `./logs/api.jsonl`은 예제 경로이므로, 확인할 로그 파일 경로에 맞게 바꿔 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level error\n```\n\n이 명령은 `error` 항목을 표준 출력으로 내보냅니다.\n\n## 사용 형식과 주요 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n| 인수·옵션 | 설명 | 기본 동작 |\n| --- | --- | --- |\n| `INPUT` | 읽을 로컬 JSON Lines 파일 경로입니다. 필수 위치 인수입니다. | 생략할 수 없습니다. |\n| `--level LEVEL` | 지정한 값과 그보다 높은 심각도의 항목을 출력합니다. 허용 값은 `debug`, `info`, `warn`, `error`입니다. | `info` |\n| `--output PATH` | 결과를 `PATH`에 지정한 파일에 씁니다. **파일이 이미 있으면 덮어씁니다.** | 생략하면 표준 출력으로 내보냅니다. |\n\n심각도는 `debug`, `info`, `warn`, `error` 순서로 높아집니다. 예를 들어 `--level warn`을 지정하면 `warn`과 `error` 항목을 출력하고, `--level`을 생략하면 `info`, `warn`, `error` 항목을 출력합니다.\n\n## 사용 중 알아둘 점\n\n- **JSON 구문이 잘못된 행**은 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 잘못된 JSON 행이 있다는 이유만으로 실행이 실패하지는 않습니다.\n- **입력 파일을 읽을 수 없으면** 오류를 표준 오류로 알리고 종료 코드 `2`로 끝납니다.\n- **0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능과 날짜 범위를 지정하는 옵션이 없습니다.**\n"
+        },
+        {
+          "output_id": "doc-31b51313",
+          "text": "# trace-slice\n\n`trace-slice`는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 오류 로그만 터미널에서 확인하거나, 경고 이상의 로그를 파일로 저장할 때 사용할 수 있습니다. 로그를 네트워크로 전송하지 않습니다.\n\n이 문서는 **0.4.2** 버전을 기준으로 합니다.\n\n## 설치\n\nPython **3.10 이상**이 필요합니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04 / Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다.\n\n다음 명령으로 0.4.2 버전을 설치합니다.\n\n```bash\npython -m pip install trace-slice==0.4.2\n```\n\n설치 후 도움말을 확인합니다.\n\n```bash\ntrace-slice --help\n```\n\n## 첫 실행: 오류 로그 확인\n\n확인할 로컬 JSON Lines 파일을 준비합니다. 각 정상 로그 행에는 `level` 필드가 있어야 합니다.\n\n아래 예제는 로그 파일이 `./logs/api.jsonl`에 있다고 가정합니다. 실제 파일이 다른 위치에 있다면 경로를 바꿔 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level error\n```\n\n`error` 항목이 표준 출력으로 나옵니다. 터미널에서 실행하면 결과를 바로 확인할 수 있습니다.\n\n## 사용 형식과 주요 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n| 인수·옵션 | 설명 | 생략 시 동작 |\n| --- | --- | --- |\n| `INPUT` | 읽을 로컬 JSON Lines 파일의 경로 | 필수 위치 인수이므로 생략할 수 없습니다. |\n| `--level LEVEL` | 출력할 최소 심각도. `debug`, `info`, `warn`, `error` 중 하나를 지정합니다. | `info` |\n| `--output PATH` | 결과를 저장할 파일 경로 | 표준 출력으로 내보냅니다. |\n\n심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. 지정한 값과 그보다 높은 심각도의 항목이 모두 출력됩니다.\n\n| `--level` 값 | 출력 대상 |\n| --- | --- |\n| `debug` | `debug`, `info`, `warn`, `error` |\n| `info` | `info`, `warn`, `error` |\n| `warn` | `warn`, `error` |\n| `error` | `error` |\n\n### 기본 심각도로 확인\n\n`--level`을 생략하면 `info` 이상의 항목을 출력합니다.\n\n```bash\ntrace-slice ./logs/api.jsonl\n```\n\n### 경고 이상의 로그를 파일로 저장\n\n**출력 파일이 이미 있으면 덮어씁니다.** 보관해야 할 파일과 경로가 겹치지 않는지 확인한 뒤 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level warn --output ./warnings.jsonl\n```\n\n`warn`과 `error` 항목이 `./warnings.jsonl`에 저장됩니다.\n\n## 입력 오류 처리\n\n| 상황 | 동작 |\n| --- | --- |\n| JSON 구문이 잘못된 행이 있음 | 해당 행을 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 이 이유만으로 실행이 실패하지는 않습니다. |\n| `INPUT` 파일을 읽을 수 없음 | 오류를 표준 오류로 알리고 종료 코드 `2`로 끝납니다. |\n\n결과는 표준 출력 또는 `--output`으로 지정한 파일에 기록되며, 위 안내와 오류는 표준 오류로 나옵니다. 잘못된 JSON 행이 있다는 안내를 받았다면, 해당 행은 필터링 결과에 포함되지 않았다는 점을 확인하세요.\n\n## 0.4.2에서 지원하지 않는 기능\n\n- 실행 중 늘어나는 로그를 계속 따라가는 기능\n- 날짜 범위를 지정하는 옵션\n"
+        }
+      ]
+    },
+    {
+      "case": {
+        "case_id": "event_architecture",
+        "title": "이벤트 수집 서비스의 아키텍처 안내",
+        "document_type": "아키텍처 문서",
+        "audience": {
+          "primary": "이벤트 수집 API와 연동하거나 서비스 운영을 인계받는 백엔드 개발자",
+          "prior_knowledge": "HTTP, Kafka, 관계형 데이터베이스의 기본 개념을 안다.",
+          "use_context": "이벤트를 제출한 뒤 응답이 무엇을 뜻하는지, 장애 시 어디에서 재처리가 일어나는지 확인한다."
+        },
+        "document_purpose": "구성요소, 데이터 흐름, 수락과 저장의 경계, 중복 처리 및 장애 복구 동작을 설명한다.",
+        "user_prompt": "새로 합류한 개발자에게 전달할 이벤트 수집 서비스 아키텍처 문서를 작성해 주세요. 아래 구현 메모를 바탕으로 각 구성요소의 역할과 이벤트가 저장될 때까지의 흐름을 설명하고, 연동하거나 운영할 때 헷갈릴 만한 지점도 짚어 주세요. Markdown으로 작성해 주세요.",
+        "source_facts": [
+          {
+            "id": "A1",
+            "text": "가상 내부 서비스 이름은 Harbor Intake다. 구성요소는 collector-api, Kafka 토픽 telemetry.raw.v1, event-writer, PostgreSQL 데이터베이스 event_store다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A2",
+            "text": "클라이언트는 POST /v1/events에 이벤트를 제출한다. collector-api는 토큰과 스키마를 확인한 후 telemetry.raw.v1에 발행한다. 유효하지 않은 토큰에는 401, 스키마 오류에는 400을 반환한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A3",
+            "text": "collector-api는 Kafka 발행이 확인된 뒤 202와 event_id를 반환한다. 이 응답은 큐에 수락되었다는 뜻이며, event_store 저장 완료를 뜻하지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A4",
+            "text": "Kafka 발행에 실패하면 collector-api는 503을 반환한다. 클라이언트는 같은 논리적 이벤트를 재시도할 때 같은 event_id를 사용해야 한다. collector-api 자체에서는 중복 요청을 제거하지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A5",
+            "text": "event-writer는 토픽에서 이벤트를 읽고 event_store에 기록한다. 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A6",
+            "text": "데이터베이스 기록 후 offset 커밋 전에 worker가 종료되면 같은 이벤트를 다시 읽을 수 있다. 전송 및 소비 과정은 중복 전달 가능성을 가진다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A7",
+            "text": "event_store에는 event_id의 유일성 제약이 있다. event-writer는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급해 추가 행을 만들지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A8",
+            "text": "데이터베이스 쓰기에 실패하면 해당 이벤트의 offset을 커밋하지 않는다. 데이터베이스가 회복되면 event-writer가 미커밋 이벤트를 다시 처리한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "A9",
+            "text": "Kafka 보존 기간, 공식 처리량 목표, 장애 복구 시간 목표는 이 문서용 자료에서 확정되지 않았다.",
+            "certainty": "unknown"
+          },
+          {
+            "id": "A10",
+            "text": "현재 구현에는 클라이언트가 event_id로 최종 저장 상태를 조회하는 API가 없다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": null,
+        "verifiable_claims": [
+          {
+            "id": "AC1",
+            "source_refs": [
+              "A1",
+              "A2",
+              "A5"
+            ],
+            "claim": "collector-api에서 telemetry.raw.v1과 event-writer를 거쳐 event_store에 저장되는 흐름이다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC2",
+            "source_refs": [
+              "A3"
+            ],
+            "claim": "202는 Kafka 수락을 뜻하고 데이터베이스 저장 완료를 보증하지 않는다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC3",
+            "source_refs": [
+              "A4"
+            ],
+            "claim": "Kafka 발행 실패에는 503이며 재시도 시 같은 event_id를 사용한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC4",
+            "source_refs": [
+              "A5",
+              "A6"
+            ],
+            "claim": "데이터베이스 커밋 뒤 offset을 커밋하므로 중간 종료 시 재전달될 수 있다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC5",
+            "source_refs": [
+              "A7"
+            ],
+            "claim": "event_id 유일성 제약으로 중복 저장을 막는다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC6",
+            "source_refs": [
+              "A8"
+            ],
+            "claim": "데이터베이스 실패 시 offset을 유지하고 회복 후 재처리한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC7",
+            "source_refs": [
+              "A2"
+            ],
+            "claim": "토큰 오류 401과 스키마 오류 400을 구별한다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC8",
+            "source_refs": [
+              "A9"
+            ],
+            "claim": "보존 기간과 처리량 및 복구 시간 목표는 자료에 없다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "AC9",
+            "source_refs": [
+              "A10"
+            ],
+            "claim": "최종 저장 상태를 조회하는 API는 없다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "주요 구성요소의 역할과 저장까지의 흐름",
+            "202 응답이 보장하는 경계",
+            "실패 시 클라이언트 재시도와 event_id 유지",
+            "중복이 생길 수 있는 구간과 중복 저장 방지 방식",
+            "데이터베이스 실패 시 offset 처리 및 재처리"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "Harbor Intake",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "collector-api",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "telemetry.raw.v1",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "event-writer",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "event_store",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "POST /v1/events",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "event_id",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "202",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "503",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "401",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "400",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "202를 받았으면 event_store 저장이 완료됐다고 쓰지 않는다.",
+            "전달 과정 전체를 exactly-once 또는 중복이 불가능한 구조라고 쓰지 않는다.",
+            "자료에 없는 상태 조회 API, 별도 중복 제거 서비스, dead-letter 토픽을 만들지 않는다.",
+            "보존 기간, 초당 처리량, 복구 시간 보장 수치를 임의로 채우지 않는다."
+          ],
+          "hard_fail_if": [
+            "202가 최종 저장 성공을 보증한다고 설명한다.",
+            "데이터베이스 기록 전에 offset을 커밋한다고 순서를 뒤집거나, 데이터베이스 쓰기 실패 이벤트를 정상 처리로 간주한다고 설명한다.",
+            "API 단계가 모든 중복을 제거하므로 event_id를 바꾸어 재시도해도 된다고 안내한다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 600,
+          "suggested_max": 1000,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-0dfff428",
+          "text": "# Harbor Intake 이벤트 수집 서비스 아키텍처\n\nHarbor Intake는 HTTP로 받은 이벤트를 Kafka에 발행하고, 별도 소비자인 `event-writer`가 PostgreSQL에 저장하는 비동기 이벤트 수집 서비스입니다. **`POST /v1/events`의 `202` 응답은 Kafka에 이벤트를 수락했다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.**\n\nAPI 연동 시에는 같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 합니다. 전송과 소비 과정에서 중복 전달이 발생할 수 있으며, 최종 저장 단계에서 `event_id` 유일성 제약으로 중복 행 생성을 막습니다.\n\n## 구성요소와 역할\n\n| 구성요소 | 역할 | 처리 경계 |\n| --- | --- | --- |\n| `collector-api` | `POST /v1/events` 요청의 토큰과 스키마를 검사하고 Kafka에 이벤트를 발행합니다. | Kafka 발행을 확인한 뒤 `202`와 `event_id`를 반환합니다. API 자체에서는 중복 요청을 제거하지 않습니다. |\n| Kafka 토픽 `telemetry.raw.v1` | API가 발행한 이벤트를 `event-writer`에 전달합니다. | 토픽에 수락된 이벤트와 데이터베이스에 저장된 이벤트는 구분해야 합니다. |\n| `event-writer` | 토픽에서 이벤트를 읽어 `event_store`에 기록합니다. | 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다. |\n| PostgreSQL 데이터베이스 `event_store` | 이벤트를 저장합니다. | `event_id` 유일성 제약을 적용합니다. `event-writer`는 이 제약으로 확인한 중복을 이미 기록된 이벤트로 취급합니다. |\n\n## 이벤트가 저장될 때까지의 흐름\n\n### 1. 요청 검증\n\n클라이언트가 `POST /v1/events`로 이벤트를 제출하면 `collector-api`가 토큰과 스키마를 확인합니다. 유효하지 않은 토큰에는 `401`, 스키마 오류에는 `400`을 반환합니다.\n\n### 2. Kafka 발행과 수락 응답\n\n검증을 통과한 이벤트를 `collector-api`가 `telemetry.raw.v1`에 발행합니다. Kafka 발행을 확인하면 클라이언트에 `202`와 `event_id`를 반환합니다. 발행에 실패하면 `503`을 반환합니다.\n\n`202`를 받은 시점에 확인된 상태는 **Kafka 수락**입니다. `collector-api`는 `event-writer`의 데이터베이스 저장 완료를 기다려 응답하지 않습니다. 따라서 이 응답만으로 `event_store`에 이벤트가 있는지 판단하면 안 됩니다.\n\n### 3. 데이터베이스 저장\n\n`event-writer`가 `telemetry.raw.v1`에서 이벤트를 읽어 `event_store`에 기록합니다. 이미 기록된 `event_id`라면 유일성 제약으로 중복을 확인하고 추가 행을 만들지 않습니다.\n\n### 4. Kafka offset 커밋\n\n`event-writer`는 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다. 이 순서는 저장에 실패한 이벤트를 다시 처리하기 위한 기준입니다. 데이터베이스 쓰기에 실패하면 해당 이벤트의 offset을 커밋하지 않습니다.\n\n데이터베이스 기록과 offset 커밋은 별도 단계입니다. 기록을 마친 뒤 offset 커밋 전에 worker가 종료되면 같은 이벤트를 다시 읽을 수 있습니다.\n\n## API 응답을 해석하는 방법\n\n| 응답 | 의미 | 연동 시 처리 |\n| --- | --- | --- |\n| `202` + `event_id` | Kafka 발행을 확인했습니다. | 큐 수락으로 처리합니다. 최종 저장 완료로 표시하지 않습니다. |\n| `400` | 이벤트 스키마가 올바르지 않습니다. | 요청 데이터를 스키마에 맞게 수정합니다. |\n| `401` | 토큰이 유효하지 않습니다. | 인증 정보를 확인합니다. |\n| `503` | Kafka 발행에 실패했습니다. | 같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용합니다. |\n\n현재 구현에는 **`event_id`로 최종 저장 상태를 조회하는 API가 없습니다.** 응답으로 받은 `event_id`는 저장 완료 확인 수단이 아닙니다. 연동 시스템에서 최종 저장 여부가 필요하다면, 현재 API만으로는 그 상태를 확인할 수 없다는 제약을 반영해야 합니다.\n\n## 중복 전달과 중복 저장의 차이\n\nHarbor Intake는 이벤트가 한 번만 전달된다고 가정하지 않습니다. 중복은 다음 경로에서 발생할 수 있습니다.\n\n- 클라이언트가 같은 이벤트를 다시 제출합니다. `collector-api`는 중복 요청을 제거하지 않으므로 API 단계에서 재제출을 걸러 주지 않습니다.\n- `event-writer`가 데이터베이스 기록 후 offset 커밋 전에 종료됩니다. 이후 같은 이벤트를 다시 읽어 처리할 수 있습니다.\n\n중복 저장을 막는 기준은 `event_store`의 **`event_id` 유일성 제약**입니다. `event-writer`는 이 제약으로 확인된 중복을 이미 기록된 이벤트로 취급하고 추가 행을 만들지 않습니다. 중복 메시지 전달 가능성과 중복 행 방지는 서로 다른 성질입니다.\n\n따라서 `event_id`는 다음 원칙으로 다룹니다.\n\n- **같은 논리적 이벤트를 재시도할 때는 같은 ID를 사용합니다.** 재시도마다 ID를 바꾸면 `event_id` 유일성 제약으로 같은 이벤트인지 판별하지 못합니다.\n- **서로 다른 이벤트에는 같은 ID를 재사용하지 않습니다.** 이미 저장된 ID와 충돌하면 `event-writer`가 중복 이벤트로 취급해 추가 행을 만들지 않습니다.\n\n## 장애 시 재처리가 일어나는 위치\n\n| 장애 상황 | 응답 또는 처리 상태 | 재처리 주체와 동작 |\n| --- | --- | --- |\n| `collector-api`의 Kafka 발행 실패 | 클라이언트에 `503`을 반환합니다. | 클라이언트가 같은 `event_id`로 다시 제출합니다. |\n| `event-writer`의 데이터베이스 쓰기 실패 | 해당 이벤트의 offset을 커밋하지 않습니다. | 데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리합니다. |\n| 데이터베이스 기록 후 offset 커밋 전 worker 종료 | 데이터베이스에는 기록이 있지만 offset 커밋은 끝나지 않은 상태입니다. | 같은 이벤트를 다시 읽을 수 있습니다. 이때 `event_id` 유일성 제약으로 중복 행 생성을 막습니다. |\n\n클라이언트 재시도와 `event-writer` 재처리는 구분해야 합니다. Kafka 발행 실패는 API 연동 측에서 다루고, Kafka에서 읽은 뒤 발생한 데이터베이스 쓰기 실패는 `event-writer`가 미커밋 이벤트를 다시 처리하는 방식으로 복구합니다.\n\n## 운영 시 확인할 경계와 미확정 항목\n\n`202`를 받은 이벤트의 저장을 확인할 때는 API 응답만 보지 말고, `event-writer` 처리 상태와 `event_store` 기록을 확인해야 합니다. 특히 데이터베이스 기록과 Kafka offset 커밋 사이에서 worker가 종료됐는지에 따라 재처리 시 같은 이벤트를 다시 읽을 수 있습니다.\n\n다음 운영 기준은 제공된 구현 자료에서 확정되지 않았습니다.\n\n| 미확정 항목 | 운영에 미치는 영향 |\n| --- | --- |\n| Kafka 보존 기간 | 장애가 지속될 때 미처리 이벤트를 Kafka에서 언제까지 다시 읽을 수 있는지 판단할 기준이 필요합니다. |\n| 공식 처리량 목표 | 유입량과 처리량이 목표를 충족하는지 판단할 기준이 필요합니다. |\n| 장애 복구 시간 목표 | 장애 발생 후 어느 시점까지 복구해야 하는지 판단할 기준이 필요합니다. |\n\n이 문서의 재처리 동작만으로 무기한 재처리나 특정 시간 안의 저장 완료를 약속하면 안 됩니다. 운영 인계 시 위 기준을 별도로 확정해야 합니다.\n"
+        },
+        {
+          "output_id": "doc-875d257a",
+          "text": "# Harbor Intake 이벤트 수집 서비스 아키텍처\n\nHarbor Intake는 HTTP로 제출된 이벤트를 Kafka에 수락한 뒤 PostgreSQL에 비동기로 저장하는 서비스다. API 요청을 처리하는 `collector-api`와 데이터베이스에 기록하는 `event-writer`가 분리되어 있다.\n\n연동할 때 가장 먼저 구분해야 할 것은 **이벤트 수락과 저장 완료**다. `POST /v1/events`의 `202` 응답은 Kafka 발행이 확인되었다는 뜻이다. 이 시점에 `event_store` 저장까지 완료되었다고 판단해서는 안 된다. 현재는 `event_id`로 최종 저장 상태를 조회하는 API도 없다.\n\n## 구성요소\n\n| 구성요소 | 역할 | 처리 경계 |\n| --- | --- | --- |\n| `collector-api` | `POST /v1/events` 요청의 토큰과 스키마를 검증하고 이벤트를 Kafka에 발행한다. | Kafka 발행 확인 후 `202`와 `event_id`를 반환한다. 자체적으로 중복 요청을 제거하지 않는다. |\n| Kafka 토픽 `telemetry.raw.v1` | API가 수락한 이벤트를 `event-writer`에 전달한다. | 이벤트가 토픽에 발행되었다는 사실과 데이터베이스에 저장되었다는 사실은 구분된다. |\n| `event-writer` | Kafka에서 이벤트를 읽어 데이터베이스에 기록한다. | 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋한다. |\n| PostgreSQL 데이터베이스 `event_store` | 이벤트를 저장하고 `event_id`의 유일성 제약을 적용한다. | 같은 `event_id`의 이벤트가 다시 처리되더라도 추가 행을 만들지 않는다. |\n\n## 이벤트가 저장되는 흐름\n\n### 1. 요청 검증\n\n클라이언트는 `POST /v1/events`에 이벤트를 제출한다. `collector-api`는 토큰과 스키마를 확인한다.\n\n- 토큰이 유효하지 않으면 `401`을 반환한다.\n- 스키마에 오류가 있으면 `400`을 반환한다.\n- 검증을 통과하면 `telemetry.raw.v1`에 이벤트를 발행한다.\n\n### 2. Kafka 발행과 수락 응답\n\n`collector-api`는 Kafka 발행이 확인된 뒤 `202`와 `event_id`를 반환한다. Kafka 발행에 실패하면 `503`을 반환한다.\n\n`202`는 API의 수락 단계가 끝났음을 알리는 응답이다. 이후 저장은 `event-writer`가 처리한다. 따라서 클라이언트가 `202`를 받았어도 데이터베이스 장애 등으로 저장이 지연될 수 있다. 반대로 응답을 받은 시점에 이미 저장되었을 수도 있지만, 응답만으로 그 여부를 구분할 수는 없다.\n\n### 3. 데이터베이스 기록\n\n`event-writer`는 `telemetry.raw.v1`에서 이벤트를 읽고 `event_store`에 기록한다. 이때 `event_id`의 유일성 제약으로 중복을 확인한다. 이미 기록된 이벤트라면 추가 행을 만들지 않는다.\n\n### 4. Kafka offset 커밋\n\n`event-writer`는 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋한다. 이 순서는 데이터베이스에 기록하지 못한 이벤트를 다시 처리할 수 있게 한다.\n\n다만 데이터베이스 기록과 offset 커밋 사이에는 중단될 수 있는 구간이 있다. 기록은 성공했지만 offset을 커밋하기 전에 worker가 종료되면 같은 이벤트를 다시 읽을 수 있다. 이 재처리에서 추가 행이 생기지 않도록 하는 장치가 `event_id` 유일성 제약이다.\n\n## API 응답 해석\n\n| 응답 | 의미 | 연동 시 처리 |\n| --- | --- | --- |\n| `400` | 이벤트 스키마에 오류가 있다. | 요청 내용을 수정해야 한다. 동일한 잘못된 요청을 반복해도 스키마 오류는 해소되지 않는다. |\n| `401` | 토큰이 유효하지 않다. | 인증 정보를 확인하고 수정해야 한다. |\n| `503` | Kafka 발행에 실패했다. | 같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 한다. |\n| `202` + `event_id` | Kafka 발행이 확인되어 이벤트가 큐에 수락되었다. | 수락된 것으로 처리하되, 최종 저장 완료로 해석하지 않는다. |\n\n`event_id`를 반환받았다는 사실만으로 저장 완료를 확인할 수는 없다. 현재 구현에는 해당 ID로 저장 상태를 조회하는 API가 없으므로, 연동 코드에서 조회 API를 통한 완료 확인을 전제로 삼아서는 안 된다.\n\n## 중복 전달과 `event_id`\n\nHarbor Intake의 전송 및 소비 과정에서는 같은 이벤트가 여러 번 전달될 수 있다. `collector-api`가 중복 요청을 제거하지 않기 때문에 클라이언트의 재시도 요청이 Kafka에 다시 발행될 수 있고, `event-writer`도 미커밋 이벤트를 다시 읽을 수 있다.\n\n중복 처리는 저장 단계에서 이루어진다. `event_store`의 `event_id` 유일성 제약으로 중복임이 확인되면, `event-writer`는 이를 이미 기록된 이벤트로 취급하고 추가 행을 만들지 않는다. 따라서 **같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 유지해야 한다.**\n\n재시도마다 새 ID를 사용하면 기존 이벤트와 같은 ID라는 조건이 성립하지 않아 이 중복 방지 장치가 적용되지 않는다. 또한 유일성 제약은 ID를 기준으로 하므로, 서로 다른 논리적 이벤트에 같은 ID를 재사용해서도 안 된다.\n\n이 동작이 보장하는 범위는 중복으로 인한 추가 저장 행의 방지다. 이벤트가 Kafka에 한 번만 발행되거나 `event-writer`에서 한 번만 처리된다는 뜻은 아니다.\n\n## 장애 시 재처리 위치\n\n재처리 주체는 장애가 발생한 단계에 따라 달라진다.\n\n| 장애 상황 | 처리 상태 | 재처리 동작 |\n| --- | --- | --- |\n| Kafka 발행 실패 | `collector-api`가 `503`을 반환한다. | 클라이언트가 같은 논리적 이벤트를 다시 제출할 때 같은 `event_id`를 사용한다. |\n| 데이터베이스 쓰기 실패 | 해당 이벤트의 offset을 커밋하지 않는다. | 데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리한다. |\n| 데이터베이스 기록 후 offset 커밋 전에 worker 종료 | 데이터베이스에는 기록되었지만 Kafka offset은 커밋되지 않았을 수 있다. | 같은 이벤트를 다시 읽을 수 있다. `event_id` 유일성 제약으로 확인된 중복은 이미 기록된 이벤트로 처리해 추가 행을 만들지 않는다. |\n\n이미 `202`를 받은 이벤트의 데이터베이스 쓰기에 실패하면, 서비스 내부의 재처리 지점은 `event-writer`다. 운영자는 API 수락 여부와 writer의 저장 처리 상태를 구분해서 확인해야 한다.\n\n## 연동·운영 시 확인할 경계\n\n### 수락 성공과 저장 성공을 따로 판단한다\n\n`202` 응답이 정상적으로 반환되어도 저장이 지연되거나 실패할 수 있다. 이벤트가 보이지 않는다는 문의를 받으면 Kafka 발행 확인 여부, `event-writer`의 데이터베이스 기록 여부, offset 커밋 여부를 나누어 살펴봐야 한다. API 응답만으로 전체 저장 경로가 정상이라고 결론 내릴 수는 없다.\n\n### 재처리가 발생했다는 사실만으로 중복 저장을 판단하지 않는다\n\n데이터베이스 기록 후 offset 커밋 전에 중단된 경우에는 이미 저장된 이벤트도 다시 처리된다. 같은 이벤트를 다시 읽는 동작은 이 구조에서 가능한 복구 동작이다. 중복 전달 여부와 데이터베이스에 추가 행이 생겼는지를 구분해야 한다.\n\n### 복구 가능 기간과 복구 속도는 별도로 확인한다\n\n제공된 자료에서는 다음 값이 확정되지 않았다.\n\n| 미확정 항목 | 운영상 확인이 필요한 이유 |\n| --- | --- |\n| Kafka 보존 기간 | 미커밋 이벤트를 다시 읽어야 하므로, 장기 장애에서도 필요한 이벤트가 토픽에 남아 있는지 판단하는 데 필요하다. |\n| 공식 처리량 목표 | 어느 수준의 유입량과 처리량을 정상 범위로 볼지 판단하는 기준이 필요하다. |\n| 장애 복구 시간 목표 | 데이터베이스 회복 후 미처리 이벤트의 저장이 언제까지 완료되어야 하는지 판단하는 기준이 필요하다. |\n\n데이터베이스 회복 후 미커밋 이벤트를 다시 처리한다는 동작을, 장애 기간과 무관한 복구 보장이나 정해진 시간 내 저장 완료 보장으로 확대해서 해석해서는 안 된다. 운영을 인계받을 때는 위 설정과 목표를 확인해야 한다.\n"
+        },
+        {
+          "output_id": "doc-41012b99",
+          "text": "# Harbor Intake 아키텍처\n\nHarbor Intake는 HTTP로 제출된 이벤트를 Kafka에 수락한 뒤 PostgreSQL에 저장하는 이벤트 수집 서비스입니다. 요청을 받는 `collector-api`와 데이터를 저장하는 `event-writer`가 분리되어 있어, API의 수락 응답과 데이터베이스 저장 완료 시점을 구분해야 합니다.\n\n## 구성요소와 책임\n\n| 구성요소 | 역할 |\n| --- | --- |\n| `collector-api` | 클라이언트가 제출한 이벤트의 토큰과 스키마를 확인하고 Kafka에 발행합니다. |\n| Kafka 토픽 `telemetry.raw.v1` | `collector-api`가 발행한 이벤트를 `event-writer`가 읽는 토픽입니다. |\n| `event-writer` | 토픽에서 이벤트를 읽어 데이터베이스에 기록하고, 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다. |\n| PostgreSQL 데이터베이스 `event_store` | 이벤트를 저장합니다. `event_id`에 유일성 제약이 있으며, `event-writer`는 이 제약으로 중복 이벤트를 확인합니다. |\n\n## 이벤트가 저장되는 흐름\n\n1. 클라이언트가 `POST /v1/events`에 이벤트를 제출합니다.\n2. `collector-api`가 토큰과 스키마를 확인합니다. 유효하지 않은 토큰에는 `401`, 스키마 오류에는 `400`을 반환합니다.\n3. 검증을 통과한 이벤트를 `telemetry.raw.v1`에 발행합니다. Kafka 발행이 확인되면 `202`와 `event_id`를 반환하고, 발행에 실패하면 `503`을 반환합니다.\n4. `event-writer`가 토픽에서 이벤트를 읽어 `event_store`에 기록합니다.\n5. 데이터베이스 트랜잭션이 성공하면 `event-writer`가 Kafka offset을 커밋합니다.\n\n**`202`는 이벤트가 Kafka 큐에 수락되었다는 뜻이며, `event_store`에 저장되었다는 뜻은 아닙니다.** 클라이언트가 응답을 받은 시점에는 데이터베이스 저장이 아직 완료되지 않았을 수 있습니다.\n\n현재 구현에는 클라이언트가 `event_id`로 최종 저장 상태를 조회하는 API가 없습니다. 따라서 반환된 `event_id`를 사용해 저장 완료 여부를 API로 확인하는 흐름은 구성할 수 없습니다.\n\n## 재시도와 중복 처리\n\n클라이언트는 **같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 합니다.** `collector-api` 자체에서는 중복 요청을 제거하지 않으므로, 같은 이벤트가 Kafka에 여러 번 전달될 수 있습니다.\n\n중복 처리는 저장 단계에서 이루어집니다. `event-writer`는 `event_store`의 `event_id` 유일성 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급하며, 추가 행을 만들지 않습니다. 이 동작은 전송이나 소비 과정에서 중복 전달이 발생하지 않는다는 뜻은 아닙니다.\n\n## 장애 시 재처리가 일어나는 위치\n\n| 장애 상황 | 처리 상태 | 재처리 위치와 동작 |\n| --- | --- | --- |\n| Kafka 발행 실패 | `collector-api`가 `503`을 반환합니다. | 클라이언트가 같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 합니다. |\n| 데이터베이스 쓰기 실패 | `event-writer`가 해당 이벤트의 offset을 커밋하지 않습니다. | 데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리합니다. |\n| 데이터베이스 기록 후 offset 커밋 전에 `event-writer` 종료 | 데이터베이스에는 기록되었지만 offset은 커밋되지 않은 상태입니다. 같은 이벤트를 다시 읽을 수 있습니다. | `event-writer`가 다시 읽은 이벤트의 중복 여부를 유일성 제약으로 확인합니다. 중복이면 추가 행을 만들지 않습니다. |\n\n데이터베이스 쓰기 실패 후의 재처리는 `event-writer`가 맡습니다. 이때 저장 실패는 이미 반환한 `202` 응답으로 알 수 없으며, API 수락 여부와 저장 처리 상태를 같은 상태로 취급해서는 안 됩니다.\n\n## 운영 전에 확인할 항목\n\n다음 항목은 제공된 구현 자료에서 확정되지 않았습니다. 운영 계획을 세울 때 별도로 확인해야 합니다.\n\n- Kafka 보존 기간\n- 공식 처리량 목표\n- 장애 복구 시간 목표\n"
+        }
+      ]
+    },
+    {
+      "case": {
+        "case_id": "investigation_pr",
+        "title": "간헐적인 중복 발송을 조사하는 PR 설명",
+        "document_type": "PR 설명",
+        "audience": {
+          "primary": "변경을 검토할 동료 백엔드 개발자와 운영 담당자",
+          "prior_knowledge": "발송 worker의 역할은 알지만 이번 중복 발송 조사 과정은 아직 모른다.",
+          "use_context": "PR을 읽고 실제 변경 범위, 검증한 내용, 배포 후 확인할 내용을 판단한다."
+        },
+        "document_purpose": "조사용 로깅 변경의 필요성과 범위를 설명하고 확인된 사실과 가설을 구분해 리뷰를 돕는다.",
+        "user_prompt": "아래 작업 메모로 PR 본문을 작성해 주세요. 중복 발송 이슈를 함께 보고 있는 팀원이 변경 의도와 리뷰할 부분을 이해할 수 있으면 좋겠습니다. GitHub에 붙여 넣을 수 있는 한국어 Markdown으로 부탁합니다.",
+        "source_facts": [
+          {
+            "id": "P1",
+            "text": "관련 이슈는 #184다. 운영 로그에서 같은 job_id가 두 번 발송된 사례를 확인했다. 로컬 환경에서는 아직 안정적인 재현 방법을 찾지 못했다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P2",
+            "text": "발송 작업이 길어져 lock TTL이 먼저 끝나는 것이 한 가지 원인 후보지만, 실제 원인인지는 확인하지 못했다.",
+            "certainty": "hypothesis"
+          },
+          {
+            "id": "P3",
+            "text": "이번 PR은 src/workers/deliver.ts에 진단 로그를 추가한다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 바꾸지 않는다. 중복 발송을 해결하는 수정은 포함하지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P4",
+            "text": "진단 로그의 이름은 delivery_retry_probe다. 기록하는 필드는 job_id, attempt, lock_owner다. 수신자 주소와 메시지 본문은 기록하지 않는다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P5",
+            "text": "진단 로그는 DELIVERY_DIAG_ENABLED=true일 때만 활성화된다. 이 설정의 기본값은 false다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P6",
+            "text": "tests/workers/deliver-log.test.ts에서 진단 로그의 조건부 출력과 필드를 검증했다. 로컬에서 실행한 명령은 pnpm exec vitest run tests/workers/deliver-log.test.ts이며 통과했다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P7",
+            "text": "스테이징에서 실제 발송 경로를 검증하지 않았고, 진단 로그를 켰을 때의 처리량과 지연 변화도 측정하지 않았다.",
+            "certainty": "unknown"
+          },
+          {
+            "id": "P8",
+            "text": "배포 후 진단 로그를 켜서 중복 사례의 job_id와 attempt, lock_owner를 대조하려 한다. 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정할 예정이다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "P9",
+            "text": "리뷰 요청 사항은 진단 필드가 중복 사례의 구분에 충분한지, 그리고 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": null,
+        "verifiable_claims": [
+          {
+            "id": "PC1",
+            "source_refs": [
+              "P1"
+            ],
+            "claim": "중복 사례는 확인했으나 안정적 재현 방법은 아직 없다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC2",
+            "source_refs": [
+              "P2"
+            ],
+            "claim": "lock TTL 만료는 확인된 원인이 아니라 조사할 가설이다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC3",
+            "source_refs": [
+              "P3"
+            ],
+            "claim": "변경은 진단 로깅이며 버그 수정이나 발송 동작 변경을 포함하지 않는다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC4",
+            "source_refs": [
+              "P4",
+              "P5"
+            ],
+            "claim": "지정한 진단 필드를 기본 비활성 설정으로 조건부 기록한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC5",
+            "source_refs": [
+              "P6",
+              "P7"
+            ],
+            "claim": "로컬의 지정 테스트 통과와 미실시한 스테이징 및 성능 검증을 구별한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC6",
+            "source_refs": [
+              "P8",
+              "P9"
+            ],
+            "claim": "추가 로그를 조사에 활용할 후속 계획과 구체적인 리뷰 요청이 있다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "PC7",
+            "source_refs": [
+              "P4"
+            ],
+            "claim": "수신자 주소와 메시지 본문은 진단 로그에 기록하지 않는다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "문제 배경과 현재 확인 수준",
+            "진단 로깅이라는 변경 범위",
+            "활성화 설정 및 기본값",
+            "검증한 항목과 아직 검증하지 않은 항목",
+            "후속 조사 계획과 리뷰 요청"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "#184",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "src/workers/deliver.ts",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "delivery_retry_probe",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "job_id",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "attempt",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "lock_owner",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "DELIVERY_DIAG_ENABLED",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "true",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "false",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "tests/workers/deliver-log.test.ts",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+              "when": "실행한 테스트 명령을 인용할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "이번 PR이 중복 발송 버그를 해결했다거나 원인을 확정했다고 쓰지 않는다.",
+            "lock TTL 값을 늘렸거나 재시도 로직을 바꿨다고 쓰지 않는다.",
+            "스테이징 검증, 운영 재현, 성능 측정을 완료한 것으로 쓰지 않는다.",
+            "진단 로그에 수신자 주소와 메시지 본문을 추가한다고 쓰지 않는다.",
+            "자료에 없는 테스트 개수, 성능 향상 수치, 배포 일정을 붙이지 않는다."
+          ],
+          "hard_fail_if": [
+            "이번 PR로 중복 발송이 해결됐다고 단정한다.",
+            "lock TTL 만료를 확인된 근본 원인으로 확정한다.",
+            "실시하지 않은 스테이징 검증 또는 성능 측정을 통과한 근거로 제시한다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 400,
+          "suggested_max": 700,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-2da62b05",
+          "text": "## 요약\n\n중복 발송 이슈 #184의 원인을 조사하기 위해 발송 worker에 조건부 진단 로그를 추가합니다. 이번 PR에는 중복 발송을 해결하는 수정은 포함하지 않습니다.\n\n## 문제와 원인 가설\n\n운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했습니다. 로컬에서는 아직 안정적인 재현 방법을 찾지 못했습니다.\n\n발송 작업이 길어져 작업 완료 전에 lock TTL이 만료되는 상황을 원인 후보로 보고 있습니다. 실제 중복 발송 원인인지는 확인하지 못했으며, 진단 로그로 추가 조사할 예정입니다.\n\n## 변경 내용\n\n`src/workers/deliver.ts`에 `delivery_retry_probe` 진단 로그를 추가합니다.\n\n| 항목 | 내용 |\n| --- | --- |\n| 활성화 조건 | `DELIVERY_DIAG_ENABLED=true`일 때만 출력 |\n| 설정 기본값 | `false` |\n| 기록 필드 | `job_id`, `attempt`, `lock_owner` |\n| 기록하지 않는 정보 | 수신자 주소, 메시지 본문 |\n\n발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.\n\n## 검증 결과\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 로컬에서 아래 명령을 실행했고 테스트가 통과했습니다.\n\n```bash\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징에서 실제 발송 경로는 검증하지 않았습니다. 진단 로그를 활성화했을 때 처리량과 지연이 얼마나 달라지는지도 측정하지 않았습니다.\n\n## 배포 후 확인 계획\n\n1. `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 활성화합니다.\n2. 중복 발송 사례의 `job_id`, `attempt`, `lock_owner`를 대조합니다.\n3. 조사 결과를 #184에 정리한 뒤 수정 방향을 결정합니다.\n\n## 리뷰 요청\n\n- `job_id`, `attempt`, `lock_owner`가 중복 발송 사례를 구분하기에 충분한지 확인해 주세요.\n- 수신자 주소나 메시지 본문이 진단 로그에 섞일 여지가 없는지 확인해 주세요.\n"
+        },
+        {
+          "output_id": "doc-73ea70b9",
+          "text": "## 배경\n\n관련 이슈: #184\n\n운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했습니다. 로컬에서는 아직 안정적인 재현 방법을 찾지 못해, 운영에서 발생하는 중복 사례를 대조할 수 있도록 진단 로그를 추가합니다.\n\n발송 작업이 길어져 lock TTL이 먼저 만료되는 상황을 원인 후보로 보고 있습니다. 다만 실제 원인인지는 아직 확인하지 못했습니다.\n\n## 변경 내용\n\n`src/workers/deliver.ts`에 `delivery_retry_probe` 진단 로그를 추가합니다.\n\n- 기록 필드: `job_id`, `attempt`, `lock_owner`\n- 활성화 조건: `DELIVERY_DIAG_ENABLED=true`일 때만 출력하며, 기본값은 `false`입니다.\n- 수신자 주소와 메시지 본문은 기록하지 않습니다.\n\n이번 PR의 범위는 원인 조사를 위한 로깅입니다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 그대로 유지하며, 중복 발송을 해결하는 수정은 포함하지 않습니다.\n\n## 검증\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 아래 명령을 로컬에서 실행했고 통과했습니다.\n\n```sh\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징의 실제 발송 경로는 아직 검증하지 않았습니다. 진단 로그를 활성화했을 때의 처리량과 지연 변화도 측정하지 않았습니다.\n\n## 리뷰 요청\n\n- `job_id`, `attempt`, `lock_owner`가 중복 사례를 구분하는 데 충분한지 확인 부탁드립니다.\n- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인 부탁드립니다.\n\n## 배포 후 확인\n\n배포 후 `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 활성화해 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 조사 결과를 #184에 정리한 뒤 수정 방향을 결정하겠습니다.\n"
+        },
+        {
+          "output_id": "doc-c2a5b56c",
+          "text": "## 배경과 목적\n\n운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했습니다(#184). 로컬에서는 아직 안정적인 재현 방법을 찾지 못해, 이번 PR에서 발송 worker에 진단 로그를 추가해 원인 조사에 필요한 정보를 수집하려 합니다.\n\n발송 작업이 길어져 lock TTL이 먼저 만료되는 경우를 원인 후보로 보고 있지만, 실제 원인인지는 확인하지 못했습니다.\n\n## 변경 범위\n\n`src/workers/deliver.ts`에 다음 진단 로그를 추가합니다.\n\n- 로그 이름은 `delivery_retry_probe`이며, `job_id`, `attempt`, `lock_owner`를 기록합니다.\n- `DELIVERY_DIAG_ENABLED=true`일 때만 진단 로그를 출력합니다. 이 설정의 기본값은 `false`입니다.\n- 수신자 주소와 메시지 본문은 기록하지 않습니다.\n\n발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다. 중복 발송을 해결하는 수정도 포함하지 않습니다.\n\n## 검증 결과\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 아래 명령을 로컬에서 실행해 통과했습니다.\n\n```sh\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징에서 실제 발송 경로는 검증하지 않았습니다. 진단 로그를 켰을 때 처리량과 지연이 어떻게 달라지는지도 아직 측정하지 않았습니다.\n\n## 배포 후 확인 계획\n\n배포 후 진단 로그를 켜서 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정하려 합니다.\n\n## 리뷰 요청\n\n- 현재 진단 필드로 중복 발송 사례를 구분하기에 충분한지 확인해 주세요.\n- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인해 주세요.\n"
+        }
+      ]
+    },
+    {
+      "case": {
+        "case_id": "incident_runbook",
+        "title": "배포 후 worker 적체의 운영 절차",
+        "document_type": "장애 운영 절차",
+        "audience": {
+          "primary": "배포 후 발생한 적체 알람에 대응하는 서비스 온콜 개발자",
+          "prior_knowledge": "터미널과 사내 opsctl을 사용할 수 있지만 river-worker 운영은 익숙하지 않다.",
+          "use_context": "알람을 받은 뒤 롤백 여부를 판단하고, 안전하게 작업을 중단·롤백·재개하거나 담당자에게 넘긴다."
+        },
+        "document_purpose": "관찰 결과에 따른 판단, 명령 실행의 선행조건, 성공 확인, 중단 및 이관 기준을 안내한다.",
+        "user_prompt": "아래 운영 메모를 온콜이 바로 사용할 수 있는 장애 대응 절차로 정리해 주세요. 상황을 확인하는 방법부터 복구 여부를 판단하는 과정까지 이어지게 작성해 주세요. 명령은 코드 블록으로 제시하고, 한국어 Markdown으로 부탁합니다.",
+        "source_facts": [
+          {
+            "id": "O1",
+            "text": "대상은 river-worker와 작업 큐 river-events다. WorkerQueueAgeHigh 알람이 울리면 이 절차를 시작한다. 알람만으로 배포가 원인이라고 확정할 수는 없다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O2",
+            "text": "opsctl queue inspect river-events는 pending, oldest_age_seconds, consumer_state를 보여 준다. opsctl worker status river-worker는 state와 inflight를 보여 준다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O3",
+            "text": "opsctl deploy show river-worker는 current, stable, changed_at을 보여 준다. stable은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O4",
+            "text": "현재 배포 직후부터 적체가 시작됐고 current와 stable이 다를 때만 이 절차에서 롤백을 진행한다. 이 조건을 확인할 수 없거나 current와 stable이 같으면 플랫폼 온콜에 관찰 결과를 전달한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O5",
+            "text": "롤백 전 opsctl worker pause river-worker를 실행한다. 이 명령의 반환은 일시정지 요청을 접수했다는 뜻이다. 이미 처리 중인 작업은 계속 진행될 수 있다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O6",
+            "text": "opsctl worker status river-worker에서 state=paused와 inflight=0을 모두 확인한 다음에만 롤백한다. pause 요청 후 5분이 지나도 두 조건을 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O7",
+            "text": "롤백 명령은 opsctl deploy rollback river-worker --to stable이다. 명령이 성공한 경우에만 opsctl worker resume river-worker로 소비를 재개한다. 롤백 실패 시 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O8",
+            "text": "재개 후 opsctl queue inspect river-events에서 consumer_state=running인지 확인하고 oldest_age_seconds가 감소하는지 살핀다. 두 조건을 확인해야 복구로 판단한다. 재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O9",
+            "text": "이관할 때는 알람 발생 시각, 적체 시작 시각, current와 stable, 실행한 명령과 결과를 전달한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "O10",
+            "text": "이 절차에서는 큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 하지 않는다. 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요하다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": null,
+        "verifiable_claims": [
+          {
+            "id": "OC1",
+            "source_refs": [
+              "O1",
+              "O2",
+              "O3"
+            ],
+            "claim": "알람 이후 큐, worker 상태, 배포 정보를 확인한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC2",
+            "source_refs": [
+              "O4"
+            ],
+            "claim": "적체가 배포 직후 시작됐으며 current와 stable이 다른 경우에만 롤백한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC3",
+            "source_refs": [
+              "O5",
+              "O6"
+            ],
+            "claim": "pause 접수와 실제 정지 완료를 구분하고 paused 및 inflight=0을 확인한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC4",
+            "source_refs": [
+              "O6"
+            ],
+            "claim": "5분 내 정지 조건을 충족하지 못하면 롤백을 중단하고 이관한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC5",
+            "source_refs": [
+              "O7"
+            ],
+            "claim": "제공된 롤백 명령을 쓰고 성공 시에만 소비를 재개한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC6",
+            "source_refs": [
+              "O8"
+            ],
+            "claim": "consumer_state=running과 oldest_age_seconds 감소로 복구를 판단한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC7",
+            "source_refs": [
+              "O8",
+              "O9"
+            ],
+            "claim": "재개 후 10분 내 개선이 없으면 반복 롤백하지 않고 관찰·실행 정보를 이관한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "OC8",
+            "source_refs": [
+              "O10"
+            ],
+            "claim": "큐 삭제, offset 초기화, 처리 중 작업 강제 종료는 이 절차에 포함되지 않는다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "초기 상태와 배포 정보 확인",
+            "롤백을 선택하는 조건과 선택할 수 없는 경우",
+            "pause 후 실제 정지·처리 완료 확인",
+            "롤백 및 성공 후 재개",
+            "복구 판정과 실패·시간 초과 시 이관",
+            "이관할 정보와 금지된 파괴적 조치"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "river-worker",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "river-events",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "WorkerQueueAgeHigh",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl queue inspect river-events",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl worker status river-worker",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl deploy show river-worker",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl worker pause river-worker",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl deploy rollback river-worker --to stable",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "opsctl worker resume river-worker",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "state=paused",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "inflight=0",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "consumer_state=running",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "oldest_age_seconds",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "current",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "stable",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "changed_at",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "pause 명령이 반환되면 처리 중 작업이 모두 끝났다고 간주하지 않는다.",
+            "자료에 없는 강제 종료, 큐 비우기, offset 초기화, 자동 재시작 명령을 추가하지 않는다.",
+            "알람만으로 배포를 확정 원인으로 단정하지 않는다.",
+            "실패했거나 정지 조건이 충족되지 않은 롤백을 반복하도록 안내하지 않는다."
+          ],
+          "hard_fail_if": [
+            "state=paused와 inflight=0 중 하나라도 확인하지 않은 상태에서 롤백하도록 안내한다.",
+            "롤백 명령 실패 후 소비를 재개하도록 안내한다.",
+            "큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 이 절차의 복구 조치로 지시한다.",
+            "배포와 적체의 선후 관계를 확인하지 못했는데도 무조건 롤백하도록 지시한다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 600,
+          "suggested_max": 1000,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-a4c724f6",
+          "text": "# river-worker 적체 알람 대응 절차\n\n`WorkerQueueAgeHigh` 알람이 발생하면 이 절차에 따라 `river-worker`와 작업 큐 `river-events`의 상태를 확인하고 롤백 여부를 판단합니다. 알람만으로 배포가 원인이라고 확정할 수는 없습니다.\n\n이 절차에서는 **큐 삭제, offset 초기화, 처리 중인 작업 강제 종료를 하지 않습니다.** 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요합니다.\n\n## 1. 큐와 worker 상태 확인\n\n다음 명령으로 현재 상태를 확인합니다.\n\n```sh\nopsctl queue inspect river-events\nopsctl worker status river-worker\n```\n\n| 명령 | 확인할 항목 |\n| --- | --- |\n| `queue inspect` | `pending`, `oldest_age_seconds`, `consumer_state` |\n| `worker status` | `state`, `inflight` |\n\n명령 실행 결과와 알람 발생 시각을 기록하고, 적체가 시작된 시각을 확인합니다. `oldest_age_seconds`는 소비 재개 후 적체가 개선되는지 판단할 때도 확인합니다.\n\n## 2. 롤백 조건 확인\n\n배포 정보를 조회합니다.\n\n```sh\nopsctl deploy show river-worker\n```\n\n출력의 `current`, `stable`, `changed_at`을 확인합니다. `stable`은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포입니다.\n\n`changed_at`과 적체 시작 시각을 비교하고, **다음 두 조건을 모두 확인한 경우에만** 3단계로 진행합니다.\n\n- 적체가 현재 배포 직후부터 시작됐습니다.\n- `current`와 `stable`이 다릅니다.\n\n조건을 확인할 수 없거나 `current`와 `stable`이 같으면 이 절차에서 롤백하지 않습니다. 관찰 결과를 정리해 플랫폼 온콜에 이관합니다.\n\n## 3. 일시정지 요청 후 처리 중인 작업 확인\n\n롤백 조건을 충족하면 worker에 일시정지를 요청하고 요청 시각을 기록합니다.\n\n```sh\nopsctl worker pause river-worker\n```\n\n명령이 반환됐다는 것은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 반환만으로 롤백을 시작하지 않습니다.\n\n다음 명령으로 상태를 다시 확인합니다.\n\n```sh\nopsctl worker status river-worker\n```\n\n**`state=paused`와 `inflight=0`을 모두 확인한 다음에만** 4단계로 진행합니다. 일시정지 요청 후 5분이 지나도 두 조건을 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.\n\n## 4. 롤백 성공 후 소비 재개\n\n일시정지 상태와 처리 중인 작업이 없음을 모두 확인했다면 `stable`로 롤백합니다.\n\n```sh\nopsctl deploy rollback river-worker --to stable\n```\n\n롤백 명령의 결과를 확인합니다. **롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.**\n\n롤백 명령이 성공한 경우에만 소비를 재개하고 재개 시각을 기록합니다.\n\n```sh\nopsctl worker resume river-worker\n```\n\n## 5. 소비 재개 후 복구 여부 확인\n\n소비를 재개한 뒤 큐 상태를 다시 조회합니다.\n\n```sh\nopsctl queue inspect river-events\n```\n\n큐 상태를 관찰하며 다음 두 조건을 모두 확인해야 복구로 판단합니다.\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.\n\n소비가 재개됐다는 사실만으로 복구로 판단하지 않습니다. **재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**\n\n## 플랫폼 온콜 이관 시 전달할 내용\n\n이관할 때는 다음 내용을 함께 전달합니다.\n\n- 알람 발생 시각\n- 적체 시작 시각과 확인 여부\n- 배포 정보의 `current`와 `stable`\n- 실행한 명령과 각 명령의 결과\n\n롤백 조건을 확인하지 못했는지, 일시정지 요청 후 5분이 지나도 조건을 충족하지 못했는지, 롤백에 실패했는지, 소비 재개 후 10분 동안 개선되지 않았는지 등 이관하게 된 관찰 결과를 함께 설명합니다.\n"
+        },
+        {
+          "output_id": "doc-8045c635",
+          "text": "# river-worker 적체 알람 대응 절차\n\n`WorkerQueueAgeHigh` 알람이 울리면 `river-events` 큐와 `river-worker` 상태를 확인하고, 배포 직후 적체가 시작됐는지 판단합니다. 알람만으로 배포를 원인으로 확정하지 마세요. **현재 배포 직후부터 적체가 시작됐고 `current`와 `stable`이 다를 때만 롤백합니다.**\n\n## 1. 큐, worker, 배포 상태 확인\n\n알람 발생 시각을 기록한 뒤 다음 명령을 실행합니다.\n\n큐 상태와 가장 오래된 작업의 대기 시간을 확인합니다.\n\n```bash\nopsctl queue inspect river-events\n```\n\n- `pending`: 대기 중인 작업 수\n- `oldest_age_seconds`: 가장 오래된 작업의 대기 시간\n- `consumer_state`: 큐 소비 상태\n\nworker 상태와 처리 중인 작업 수를 확인합니다.\n\n```bash\nopsctl worker status river-worker\n```\n\n- `state`: worker 상태\n- `inflight`: 처리 중인 작업 수\n\n현재 배포와 복구 대상 배포를 확인합니다.\n\n```bash\nopsctl deploy show river-worker\n```\n\n- `current`: 현재 배포\n- `stable`: 온콜이 복구 대상으로 사용하도록 미리 지정한 배포\n- `changed_at`: 배포 변경 시각\n\n명령 결과를 기록하고, 적체 시작 시각을 확인해 `changed_at`과 비교합니다. 알람 발생 시각을 적체 시작 시각으로 대신하지 마세요. 현재 배포 직후부터 적체가 시작됐는지 확인하지 못했다면 다음 단계에서 롤백 대상에서 제외합니다.\n\n## 2. 롤백 여부 판단\n\n| 확인 결과 | 다음 행동 |\n| --- | --- |\n| 현재 배포 직후부터 적체가 시작됐고, `current`와 `stable`이 다름 | 3단계에서 worker를 일시정지합니다. |\n| 배포 직후부터 적체가 시작됐다는 조건을 확인하지 못함 | 롤백하지 않고 플랫폼 온콜에 관찰 결과를 전달합니다. |\n| `current`와 `stable`이 같거나 두 값을 확인하지 못함 | 롤백하지 않고 플랫폼 온콜에 관찰 결과를 전달합니다. |\n\n롤백 조건을 충족해도 worker가 작업을 처리 중이면 바로 롤백하지 마세요. 먼저 아래 절차로 일시정지 완료와 처리 중 작업 종료를 확인해야 합니다.\n\n## 3. worker 일시정지 및 처리 중 작업 종료 확인\n\n롤백 조건을 모두 확인한 경우에만 일시정지를 요청하고, 요청 시각을 기록합니다.\n\n```bash\nopsctl worker pause river-worker\n```\n\n이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다고 바로 롤백하지 마세요.\n\n다음 명령을 반복 실행해 상태를 확인합니다.\n\n```bash\nopsctl worker status river-worker\n```\n\n**`state=paused`와 `inflight=0`을 모두 확인한 다음에만** 4단계로 이동합니다. 어느 한 조건만 충족한 상태에서는 롤백하지 않습니다.\n\npause 요청 후 **5분이 지나도 두 조건을 모두 충족하지 못하면** 롤백하지 않고 플랫폼 온콜에 이관합니다. 처리 중인 작업을 강제로 종료하지 마세요.\n\n## 4. stable로 롤백하고 소비 재개\n\nworker 상태가 `state=paused`, `inflight=0`인지 확인한 뒤, 미리 지정된 `stable` 배포로 롤백합니다.\n\n```bash\nopsctl deploy rollback river-worker --to stable\n```\n\n롤백 명령 결과를 확인하고 기록합니다.\n\n- **성공:** 아래 명령으로 소비를 재개합니다.\n- **실패:** 소비를 재개하지 않습니다. worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.\n\n롤백 명령이 성공한 경우에만 다음 명령을 실행합니다.\n\n```bash\nopsctl worker resume river-worker\n```\n\n재개 시각과 명령 결과를 기록하고 5단계에서 큐 상태를 확인합니다. 롤백이나 재개 명령이 성공했다는 이유만으로 복구를 선언하지 마세요.\n\n## 5. 복구 여부 확인\n\n재개 후 다음 명령을 반복 실행합니다. 각 확인 시각과 `oldest_age_seconds`를 기록해 이전 값과 비교합니다.\n\n```bash\nopsctl queue inspect river-events\n```\n\n다음 두 조건을 **모두 확인해야 복구로 판단**합니다.\n\n1. `consumer_state=running`이다.\n2. `oldest_age_seconds`가 감소한다.\n\n`consumer_state=running`이어도 대기 시간이 줄지 않으면 복구로 판단하지 않습니다. 한 번 조회한 값만으로 감소 여부를 판단하지 마세요.\n\n재개 후 **10분 동안 개선되지 않으면** 반복 롤백하지 말고 플랫폼 온콜에 이관합니다. 이관 시 마지막 큐 상태와 대기 시간 변화도 함께 전달합니다.\n\n## 6. 플랫폼 온콜 이관\n\n앞 단계에서 이관 조건에 해당하면, 어느 단계에서 멈췄는지와 아래 정보를 전달합니다. 확인하지 못한 항목은 추정해서 채우지 말고 미확인으로 표시합니다.\n\n| 전달 항목 | 기록할 내용 |\n| --- | --- |\n| 알람 발생 시각 | `WorkerQueueAgeHigh` 발생 시각 |\n| 적체 시작 시각 | 확인한 시작 시각 또는 미확인 여부 |\n| 배포 정보 | `current`, `stable`, `changed_at` |\n| 큐 관찰 결과 | 확인 시각별 `pending`, `oldest_age_seconds`, `consumer_state` |\n| worker 상태 | 마지막으로 확인한 `state`, `inflight` |\n| 실행 기록 | 실행한 명령과 결과, pause 요청 시각, 재개한 경우 재개 시각 |\n| 이관 사유 | 롤백 조건 미충족, pause 요청 후 5분 내 정지 조건 미충족, 롤백 실패, 재개 후 10분간 개선 없음 등 |\n\n## 이 절차에서 실행하지 않는 조치\n\n큐 삭제, offset 초기화, 처리 중 작업 강제 종료는 하지 않습니다. 이 조치는 작업 손실이나 중복을 일으킬 수 있으므로 별도 판단이 필요합니다.\n"
+        },
+        {
+          "output_id": "doc-2ddf3a02",
+          "text": "# river-worker 적체 장애 대응 절차\n\n`WorkerQueueAgeHigh` 알람이 발생하면 이 절차를 시작한다. 대상 worker는 `river-worker`, 작업 큐는 `river-events`다. 알람만으로 배포가 원인이라고 확정하지 말고, 적체 시작 시점과 배포 정보를 확인한 뒤 롤백 여부를 판단한다.\n\n## 1. 현재 상태와 배포 정보를 확인한다\n\n다음 명령을 실행하고 결과를 기록한다.\n\n```bash\nopsctl queue inspect river-events\nopsctl worker status river-worker\nopsctl deploy show river-worker\n```\n\n| 조회 대상 | 기록할 항목 | 확인 목적 |\n| --- | --- | --- |\n| `river-events` | `pending`, `oldest_age_seconds`, `consumer_state` | 현재 적체와 소비 상태를 파악하고, 복구 확인에 사용할 기준값을 남긴다. |\n| `river-worker` | `state`, `inflight` | worker 상태와 처리 중인 작업을 확인한다. |\n| 배포 | `current`, `stable`, `changed_at` | 현재 배포와 복구 대상 배포, 배포 변경 시각을 확인한다. |\n\n`stable`은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포다.\n\n알람 발생 시각과 적체 시작 시각도 기록한다. 적체 시작 시각을 `changed_at`과 비교해 **현재 배포 직후부터 적체가 시작됐는지** 확인한다. 적체 시작 시각을 확인할 수 없다면 알람 발생 시각만으로 이를 대신 판단하지 않는다.\n\n## 2. 롤백 조건을 판단한다\n\n이 절차에서는 다음 두 조건을 **모두 확인한 경우에만** 롤백을 진행한다.\n\n1. 현재 배포 직후부터 적체가 시작됐다.\n2. `current`와 `stable`이 다르다.\n\n두 조건을 모두 확인했으면 3단계로 진행한다. 배포와 적체 시작 시점의 관계를 확인할 수 없거나, 롤백 조건이 충족되지 않으면 롤백하지 않고 플랫폼 온콜에 이관한다. 이관할 내용은 6단계를 따른다.\n\n## 3. worker를 일시정지하고 처리 중인 작업이 끝났는지 확인한다\n\n롤백 전에 다음 명령을 실행하고, 일시정지 요청 시각을 기록한다.\n\n```bash\nopsctl worker pause river-worker\n```\n\n명령이 반환됐다는 것은 **일시정지 요청을 접수했다는 뜻**이다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령 반환만으로 롤백을 시작하지 않는다.\n\n다음 명령으로 상태를 반복 확인한다.\n\n```bash\nopsctl worker status river-worker\n```\n\n| 관찰 결과 | 다음 행동 |\n| --- | --- |\n| `state=paused`이고 `inflight=0`이다. | 4단계에서 롤백한다. |\n| 두 조건 중 하나라도 충족하지 않았고, 일시정지 요청 후 5분이 지나지 않았다. | 상태를 계속 확인한다. |\n| 일시정지 요청 후 5분이 지나도 두 조건을 모두 충족하지 못했다. | 롤백하지 않고 플랫폼 온콜에 이관한다. |\n\n## 4. stable로 롤백하고, 성공한 경우에만 소비를 재개한다\n\n2단계의 롤백 조건을 충족했고, 3단계에서 `state=paused`와 `inflight=0`을 모두 확인한 다음 실행한다.\n\n```bash\nopsctl deploy rollback river-worker --to stable\n```\n\n명령 결과를 기록하고 성공 여부를 확인한다.\n\n- **롤백 성공:** 아래 명령으로 소비를 재개하고, 재개 시각과 명령 결과를 기록한다.\n- **롤백 실패:** 소비를 재개하지 않는다. worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관한다.\n\n```bash\nopsctl worker resume river-worker\n```\n\n재개 명령을 실행했더라도 아직 복구로 판단하지 않는다. 5단계에서 실제 소비 상태와 적체 변화를 확인한다.\n\n## 5. 소비 상태와 적체 변화를 확인해 복구를 판단한다\n\n재개 후 다음 명령을 반복 실행하고, 각 조회 시각과 결과를 기록한다.\n\n```bash\nopsctl queue inspect river-events\n```\n\n복구로 판단하려면 다음 두 조건을 **모두 확인해야 한다.**\n\n1. `consumer_state=running`이다.\n2. 반복 조회 결과에서 `oldest_age_seconds`가 감소한다.\n\n`consumer_state=running`만 확인되거나 `oldest_age_seconds`의 감소만 확인된 상태에서는 복구로 판단하지 않는다. 한 번의 조회만으로 감소 여부를 판단하지 말고, 앞선 조회값과 비교한다.\n\n**재개 후 10분 동안 개선되지 않으면 반복 롤백하지 않고 플랫폼 온콜에 이관한다.** 이때 소비 상태와 `oldest_age_seconds`의 변화도 함께 전달한다.\n\n## 6. 중단 시 관찰 결과와 실행 내역을 이관한다\n\n다음 상황에서는 이 절차의 추가 조치를 중단하고 플랫폼 온콜에 이관한다.\n\n| 이관 사유 | 중단 시 행동 |\n| --- | --- |\n| 현재 배포 직후부터 적체가 시작됐는지 확인할 수 없거나 롤백 조건을 충족하지 못했다. | 롤백하지 않는다. |\n| `current`와 `stable`이 같다. | 롤백하지 않는다. |\n| 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 확인하지 못했다. | 롤백하지 않는다. |\n| 롤백 명령이 실패했다. | worker를 일시정지한 상태로 두고 소비를 재개하지 않는다. |\n| 재개 후 10분 동안 개선되지 않았다. | 반복 롤백하지 않는다. |\n\n이관할 때는 다음 내용을 전달한다. 확인하지 못한 항목은 확인 불가로 표시한다.\n\n- 알람 발생 시각과 적체 시작 시각\n- `current`, `stable`, `changed_at`\n- 큐의 `pending`, `oldest_age_seconds`, `consumer_state`와 worker의 `state`, `inflight`\n- 실행한 명령과 각 명령의 결과\n- 일시정지 요청 시각, 소비 재개 시각 등 확인된 진행 시각\n- 이관 사유와 마지막으로 확인한 상태\n\n## 수행하지 않는 조치\n\n이 절차에서는 **큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 하지 않는다.** 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요하다.\n"
+        }
+      ]
+    },
+    {
+      "case": {
+        "case_id": "storage_adr",
+        "title": "이벤트 중복 판정 저장소 선택 ADR",
+        "document_type": "ADR",
+        "audience": {
+          "primary": "이벤트 API의 설계를 검토하는 백엔드, 데이터, 운영 담당자",
+          "prior_knowledge": "기존 API가 PostgreSQL에 이벤트를 기록한다는 점과 Redis의 일반적인 역할을 안다.",
+          "use_context": "설계 리뷰에서 저장소 선택의 근거, 비용, 남은 결정 사항을 검토한다."
+        },
+        "document_purpose": "중복 판정 저장소에 관한 제안과 대안을 비교하고 보장 범위, 비용, 미결 사항을 기록한다.",
+        "user_prompt": "아래 설계 메모를 바탕으로 리뷰에 올릴 ADR 초안을 써 주세요. 왜 이 선택을 제안하는지, 다른 선택지는 무엇이었는지, 도입하면 감수할 점과 더 결정해야 할 점이 드러났으면 합니다. 한국어 Markdown으로 작성해 주세요.",
+        "source_facts": [
+          {
+            "id": "D1",
+            "text": "문서 번호는 ADR-007이고 제목은 이벤트 중복 판정 저장소다. 작성일은 2026-10-15, 상태는 제안이다. 데이터와 운영 담당자의 검토는 아직 끝나지 않았다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D2",
+            "text": "기존 이벤트 API는 PostgreSQL에 업무 이벤트를 저장한다. 같은 tenant_id에서 같은 event_id가 다시 제출되면 업무 이벤트가 중복 생성되지 않아야 한다. 서로 다른 tenant_id에서는 같은 event_id를 사용할 수 있다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D3",
+            "text": "과거 이벤트를 다시 가져오는 작업도 중복 판정 대상이다. 중복 판정 기록을 얼마나 오래 보관할지는 아직 정하지 않았다.",
+            "certainty": "unknown"
+          },
+          {
+            "id": "D4",
+            "text": "제안은 PostgreSQL에 event_receipts 테이블을 두고 (tenant_id, event_id)에 유일성 제약을 설정하는 것이다. 중복 판정 기록과 업무 이벤트 생성을 같은 데이터베이스 트랜잭션에서 처리한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D5",
+            "text": "중복 키가 이미 있으면 업무 이벤트를 새로 만들지 않는다. 데이터베이스 작업이 실패하면 요청에 503을 반환하고, 클라이언트가 같은 tenant_id와 event_id로 재시도하게 한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D6",
+            "text": "비교한 대안은 Redis에 중복 판정 키를 저장하고 TTL을 두는 방식이다. 이 방식은 TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있고, PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D7",
+            "text": "PostgreSQL 제안은 기존 데이터베이스의 트랜잭션을 쓸 수 있고 별도 Redis 운영을 추가하지 않는다는 이점이 있다. 대신 쓰기와 인덱스 부하가 늘고, 중복 판정 기록을 정리하는 정책을 마련해야 한다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "D8",
+            "text": "현재 부하에서 event_receipts 추가 비용을 측정한 결과는 없다. 공식 지연 목표나 처리량 보장은 이번 ADR에서 정하지 않았다.",
+            "certainty": "unknown"
+          },
+          {
+            "id": "D9",
+            "text": "리뷰에서 보존 정책, 성능 검증 계획, 운영 시 책임 주체를 정한 뒤 제안의 승인 여부를 결정한다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": null,
+        "verifiable_claims": [
+          {
+            "id": "DC1",
+            "source_refs": [
+              "D1"
+            ],
+            "claim": "ADR-007은 2026-10-15 작성된 제안이며 아직 승인되지 않았다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC2",
+            "source_refs": [
+              "D2",
+              "D4"
+            ],
+            "claim": "중복 키의 범위는 tenant_id와 event_id의 조합이다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC3",
+            "source_refs": [
+              "D4",
+              "D5"
+            ],
+            "claim": "PostgreSQL에서 판정 기록과 업무 이벤트를 같은 트랜잭션으로 처리하는 안을 제안한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC4",
+            "source_refs": [
+              "D6"
+            ],
+            "claim": "Redis TTL 대안은 키 만료·유실과 데이터베이스 변경의 원자성 문제를 고려해야 한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC5",
+            "source_refs": [
+              "D7"
+            ],
+            "claim": "기존 트랜잭션 사용과 운영 구성의 단순화라는 이점, 추가 쓰기·인덱스 및 보존 정책 부담을 함께 설명한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC6",
+            "source_refs": [
+              "D3",
+              "D8",
+              "D9"
+            ],
+            "claim": "보존 기간과 성능 검증은 미결 사항이며 후속 리뷰에서 다뤄야 한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "DC7",
+            "source_refs": [
+              "D5"
+            ],
+            "claim": "데이터베이스 실패 시 503을 반환하고 같은 식별자로 재시도한다.",
+            "required": false,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "문서 식별과 제안 상태",
+            "요구사항과 중복 키의 범위",
+            "제안하는 저장소와 원자적 처리 범위",
+            "Redis 대안 및 채택을 제안하지 않는 이유",
+            "이점과 비용",
+            "보존·성능·책임 주체에 관한 미결 사항"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "ADR-007",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "2026-10-15",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "tenant_id",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "event_id",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "event_receipts",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "(tenant_id, event_id)",
+              "when": "복합 키를 코드 형태로 표기할 때; 순서에 의미가 없는 설명 문장에서는 두 필드를 모두 정확히 쓰면 된다."
+            },
+            {
+              "value": "PostgreSQL",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "Redis",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "TTL",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "503",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "문서 상태를 승인 또는 채택 완료로 바꾸지 않는다.",
+            "event_id만으로 모든 tenant를 가로질러 중복 판정한다고 쓰지 않는다.",
+            "Redis 자체가 항상 데이터를 잃거나 어떤 중복 판정에도 쓸 수 없다고 일반화하지 않는다.",
+            "측정하지 않은 성능 향상, 지연 수치, 비용 절감 수치, 보존 기간을 만들어 내지 않는다.",
+            "이벤트 수신부터 외부 부수효과까지 exactly-once를 보장한다고 확장하지 않는다."
+          ],
+          "hard_fail_if": [
+            "검토가 끝나 제안이 승인됐다고 기록한다.",
+            "tenant_id를 제외한 전역 event_id 유일성을 선택해 서로 다른 tenant의 같은 event_id도 거부해야 한다고 결정한다.",
+            "동일 트랜잭션이라는 제안을 두 독립 저장 작업으로 바꾸면서 같은 원자성을 보증한다고 설명한다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 600,
+          "suggested_max": 1000,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-7472b495",
+          "text": "# ADR-007: 이벤트 중복 판정 저장소\n\n| 항목 | 내용 |\n| --- | --- |\n| 작성일 | 2026-10-15 |\n| 상태 | 제안 |\n| 검토 현황 | 데이터 및 운영 담당자 검토 미완료 |\n\n## 배경과 요구사항\n\n기존 이벤트 API는 PostgreSQL에 업무 이벤트를 저장한다. 같은 `tenant_id`에서 같은 `event_id`가 다시 제출되어도 업무 이벤트가 중복 생성되지 않아야 한다. 서로 다른 `tenant_id`에서는 같은 `event_id`를 사용할 수 있으므로, 중복 판정의 기준은 `(tenant_id, event_id)` 쌍이다.\n\n중복 판정은 일반적인 요청 재시도뿐 아니라 과거 이벤트를 다시 가져오는 작업에도 적용된다. 따라서 중복 판정 기록의 보존 범위가 과거 이벤트에 대한 중복 방지 범위를 결정한다. 기록을 얼마나 오래 보관할지는 아직 정하지 않았다.\n\n## 제안\n\nPostgreSQL에 `event_receipts` 테이블을 만들고 `(tenant_id, event_id)`에 유일성 제약을 설정한다. 중복 판정 기록의 생성과 업무 이벤트의 생성은 같은 데이터베이스 트랜잭션에서 처리한다.\n\n요청 처리 방식은 다음과 같다.\n\n1. 요청의 `(tenant_id, event_id)`를 기준으로 중복 판정 기록을 생성한다.\n2. 새 키라면 같은 트랜잭션에서 업무 이벤트를 생성하고 커밋한다.\n3. 이미 존재하는 키라면 업무 이벤트를 새로 만들지 않는다.\n4. 데이터베이스 작업이 실패하면 요청에 `503`을 반환한다. 클라이언트는 같은 `tenant_id`와 `event_id`로 재시도한다.\n\n유일성 제약은 같은 키로 들어온 요청이 중복 판정 기록을 각각 생성하지 못하도록 한다. 같은 트랜잭션을 사용하면 중복 판정 기록과 업무 이벤트가 함께 커밋되거나 함께 롤백되므로, 두 기록의 정합성을 기존 데이터베이스 안에서 관리할 수 있다.\n\n이 방식은 리뷰를 위한 제안이며, 아직 승인된 결정이 아니다.\n\n## 이 선택을 제안하는 이유\n\n핵심 요구사항은 중복 여부를 빠르게 조회하는 데 그치지 않고, 중복 판정 결과에 따라 업무 이벤트가 한 번만 생성되도록 하는 것이다. 업무 이벤트를 이미 PostgreSQL에 저장하고 있으므로, 중복 판정 기록도 같은 데이터베이스에 두면 기존 트랜잭션으로 두 작업을 묶을 수 있다.\n\n또한 별도 Redis 운영을 추가하지 않아도 된다. 다만 운영 부담이 없어지는 것은 아니다. 중복 판정 기록을 저장하고 유지하는 부담이 기존 PostgreSQL에 추가된다.\n\n과거 이벤트의 재반입도 중복 판정 대상이고 보존 기간이 미정인 상황에서는, TTL 만료에 따라 판정 기록이 사라지는 방식을 채택하기 전에 보장 범위를 먼저 정해야 한다. PostgreSQL 제안 역시 보존 정책이 필요하지만, 저장소 간 원자성을 위한 추가 설계 없이 현재의 업무 이벤트 저장 경로와 통합할 수 있다는 점을 우선한다.\n\n## 검토한 대안\n\n| 비교 항목 | PostgreSQL의 `event_receipts` | Redis 키와 TTL |\n| --- | --- | --- |\n| 중복 판정 기준 | `(tenant_id, event_id)` 유일성 제약 | 해당 키의 존재 여부 |\n| 업무 이벤트 생성과의 원자성 | 같은 PostgreSQL 트랜잭션으로 처리 | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계 필요 |\n| 과거 이벤트 재반입 | 해당 중복 판정 기록이 보존되어 있어야 판정 가능 | TTL 만료 또는 키 유실 후에는 중복을 놓칠 수 있음 |\n| 기록 수명 관리 | 별도의 보존·정리 정책 필요 | TTL을 두지만, 만료 이후의 중복 방지 요구를 별도로 해결해야 함 |\n| 운영 및 비용 | 별도 Redis 운영을 추가하지 않지만 PostgreSQL 쓰기·인덱스 부하 증가 | Redis 운영과 두 저장소 간 정합성 관리가 추가됨 |\n\n이번 제안에서는 Redis와 TTL 방식을 채택하지 않는다. 과거 이벤트의 중복을 놓칠 수 있는 조건이 있고, 중복 판정과 업무 이벤트 생성 사이의 원자성도 별도로 설계해야 하기 때문이다. 이 비교는 정합성과 운영 구조에 따른 판단이다. 현재 부하에서 `event_receipts` 추가 비용을 측정한 결과가 없으므로 성능 우위를 근거로 삼지는 않는다.\n\n## 보장 범위와 감수할 점\n\n### 중복 방지 범위는 기록 보존에 의존한다\n\n제안한 방식은 중복 판정 기록이 남아 있는 `(tenant_id, event_id)`에 대해 업무 이벤트의 재생성을 막는다. 서로 다른 테넌트의 동일한 `event_id`는 별개의 키로 취급한다.\n\n기록을 삭제하면 그 키가 다시 제출되었을 때 `event_receipts`만으로는 이전 처리 여부를 확인할 수 없다. 따라서 보존 기간이 미정인 현재 상태에서는 과거 어느 시점까지 중복 방지를 보장할 수 있는지 확정할 수 없다. 과거 이벤트 재반입 요구와 충돌하지 않는 보존·정리 정책이 필요하다.\n\n### PostgreSQL의 부하와 관리 비용이 늘어난다\n\n중복 판정 기록을 위한 쓰기와 유일성 인덱스 관리가 추가된다. 기록을 계속 보관하면 관리해야 할 데이터도 늘어나므로, 보존 정책과 함께 정리 방법을 마련해야 한다. 정리 작업 자체가 데이터베이스에 미치는 영향도 성능 검증 계획에서 다룰 필요가 있다.\n\n현재 부하에서 이 비용을 측정한 결과는 없다. 이번 ADR은 공식 응답 지연 목표나 처리량을 정하지 않으며, 특정 성능 수준을 보장하지 않는다.\n\n### 데이터베이스 실패 시 재시도가 필요하다\n\n데이터베이스 작업이 실패하면 API는 `503`을 반환한다. 클라이언트가 재시도할 때 같은 `tenant_id`와 `event_id`를 유지해야 기존 요청과 동일한 키로 중복을 판정할 수 있다.\n\n## 승인 전에 결정할 사항\n\n| 결정 사항 | 리뷰에서 합의할 내용 | 결정이 필요한 이유 |\n| --- | --- | --- |\n| 보존 정책 | 중복 판정 기록의 보존 기간, 삭제 조건과 정리 방식, 과거 이벤트 재반입과의 관계 | 기록 삭제 이후에는 해당 기록에 근거한 중복 판정이 불가능하므로 보장 범위를 확정해야 함 |\n| 성능 검증 계획 | 검증할 부하와 시나리오, 측정 항목, 결과를 평가할 기준 및 검증 담당자 | 현재 부하에서 추가 비용을 측정한 결과가 없어 도입 영향을 판단할 근거가 필요함 |\n| 운영 책임 | 기록 정리, 데이터베이스 부하 관찰, 실패 및 재시도 관련 문제 대응의 책임 주체 | 기존 PostgreSQL에 추가되는 운영 업무의 담당을 명확히 해야 함 |\n\n성능 검증 계획에는 일반 요청, 동일 키 재시도, 과거 이벤트 재반입, 기록 정리 작업을 포함하는 방안을 제안한다. 각 상황에서 API 응답 지연과 처리량, PostgreSQL의 쓰기·인덱스 부하, 기록 증가량을 확인할 수 있도록 구체화한다. 이는 검증 계획에 대한 제안이며, 확정된 성능 목표나 검증 결과는 아니다.\n\n보존 정책, 성능 검증 계획, 운영 책임 주체를 정하고 데이터 및 운영 담당자의 검토를 마친 뒤 이 제안의 승인 여부를 결정한다.\n"
+        },
+        {
+          "output_id": "doc-bde0762d",
+          "text": "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15\n- 상태: 제안\n- 검토 상태: 데이터·운영 담당자의 검토가 아직 끝나지 않음\n\n이벤트 API의 중복 판정 기록을 PostgreSQL의 `event_receipts` 테이블에 저장하는 방안을 제안한다. 중복 판정 기록과 업무 이벤트 생성을 같은 트랜잭션으로 처리하고, 별도 Redis 운영을 추가하지 않는 것이 선택의 주된 이유다.\n\n## 배경과 요구사항\n\n기존 이벤트 API는 PostgreSQL에 업무 이벤트를 저장한다. 같은 `tenant_id`에서 같은 `event_id`가 다시 제출되더라도 업무 이벤트가 중복 생성되지 않아야 한다. 서로 다른 `tenant_id`에서는 같은 `event_id`를 사용할 수 있으므로, 중복 여부는 두 값을 함께 기준으로 삼아야 한다.\n\n과거 이벤트를 다시 가져오는 작업도 중복 판정 대상이다. 다만 중복 판정 기록을 얼마나 오래 보관할지는 아직 정하지 않았다.\n\n## 제안하는 설계와 요청 처리\n\nPostgreSQL에 `event_receipts` 테이블을 두고 `(tenant_id, event_id)`에 유일성 제약을 설정한다. 중복 판정 기록을 저장하는 작업과 업무 이벤트를 생성하는 작업은 같은 데이터베이스 트랜잭션에서 처리한다.\n\n중복 키가 이미 있으면 업무 이벤트를 새로 만들지 않는다. 데이터베이스 작업이 실패하면 요청에 `503`을 반환하고, 클라이언트가 같은 `tenant_id`와 `event_id`로 재시도하게 한다.\n\n## 검토한 선택지와 제안 이유\n\n비교한 대안은 Redis에 중복 판정 키를 저장하고 TTL을 두는 방식이다.\n\n| 비교 기준 | PostgreSQL의 `event_receipts` | Redis의 TTL 기반 키 |\n| --- | --- | --- |\n| 업무 이벤트 생성과의 원자적 처리 | 기존 PostgreSQL 트랜잭션에서 함께 처리한다. | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다. |\n| 과거 이벤트 재수집 | 보존된 기록으로 중복을 판정한다. 보존 기간과 정리 정책은 정해야 한다. | TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있다. |\n| 운영 영향 | 기존 데이터베이스를 사용하며 별도 Redis 운영을 추가하지 않는다. | 중복 판정을 위한 Redis 운영이 추가된다. |\n\n이 API는 업무 이벤트를 이미 PostgreSQL에 저장하고 있으므로, 중복 판정 기록까지 같은 트랜잭션에 포함하는 방안을 제안한다. Redis 방식은 과거 이벤트 재수집 시 중복을 놓칠 수 있고, 업무 이벤트 생성과의 원자성을 확보하기 위한 설계도 더 필요하다.\n\n## 감수할 비용과 보장 범위\n\n`event_receipts`를 추가하면 기존 데이터베이스의 쓰기와 인덱스 부하가 늘어난다. 중복 판정 기록을 정리하는 정책도 마련해야 한다. 현재 부하에서 이 테이블의 추가 비용을 측정한 결과는 없으며, 이번 ADR에서는 공식 지연 목표나 처리량 보장을 정하지 않았다.\n\n중복 판정은 `event_receipts`에 보존된 키를 기준으로 한다. 과거 이벤트를 다시 가져오는 작업까지 다뤄야 하므로, 보존 기간과 정리 정책은 중복 판정의 보장 범위에 영향을 준다. 보존 정책이 미정인 현재 단계에서는 과거 이벤트에 대해 어느 기간까지 중복 판정을 보장할지 확정하지 않는다.\n\n## 승인 전에 결정할 사항\n\n- **보존 정책:** 중복 판정 기록의 보존 기간과 정리 기준을 정한다. 과거 이벤트 재수집을 중복 판정 대상에 포함한다는 요구사항을 함께 검토한다.\n- **성능 검증 계획:** 현재 부하에서 `event_receipts`가 추가하는 쓰기·인덱스 비용을 어떻게 검증할지 정한다.\n- **운영 책임 주체:** 중복 판정 저장소와 기록 정리 정책의 운영을 누가 맡을지 정한다.\n\n리뷰에서 위 사항을 결정한 뒤 제안의 승인 여부를 판단한다.\n"
+        },
+        {
+          "output_id": "doc-d6c69c92",
+          "text": "# ADR-007: 이벤트 중복 판정 저장소\n\n이벤트 중복 판정 기록을 PostgreSQL의 `event_receipts` 테이블에 저장하고, 업무 이벤트 생성과 같은 트랜잭션에서 처리하는 방식을 제안합니다.\n\n- **작성일**: 2026-10-15\n- **상태**: 제안\n- **검토 상태**: 데이터·운영 담당자 검토 미완료\n\n## 배경과 요구사항\n\n기존 이벤트 API는 PostgreSQL에 업무 이벤트를 저장합니다. 같은 테넌트에서 같은 이벤트를 다시 제출하더라도 업무 이벤트를 중복 생성하면 안 됩니다. 중복 판정 기준은 다음과 같습니다.\n\n- 같은 `tenant_id`에서 같은 `event_id`를 제출하면 중복으로 판정합니다.\n- 서로 다른 `tenant_id`에서는 같은 `event_id`를 허용합니다.\n- 과거 이벤트를 다시 가져오는 작업에도 같은 중복 판정 기준을 적용합니다.\n\n중복 판정 기록의 보존 기간은 아직 정하지 않았습니다. 과거 이벤트 재수집도 판정 대상이므로, 보존 정책이 요구사항을 충족하는지 검토해야 합니다.\n\n## 제안하는 저장 방식과 처리 흐름\n\nPostgreSQL에 `event_receipts` 테이블을 추가하고, `(tenant_id, event_id)`에 유일성 제약을 설정합니다. 중복 판정 기록 저장과 업무 이벤트 생성을 하나의 데이터베이스 트랜잭션으로 묶습니다.\n\n| 조건 | 제안하는 처리 |\n| --- | --- |\n| 중복 판정 키가 없음 | 중복 판정 기록과 업무 이벤트를 같은 트랜잭션에서 생성합니다. |\n| 같은 `(tenant_id, event_id)` 키가 이미 있음 | 업무 이벤트를 새로 만들지 않습니다. |\n| 데이터베이스 작업 실패 | 요청에 `503`을 반환합니다. 클라이언트는 같은 `tenant_id`와 `event_id`로 재시도합니다. |\n\n두 기록을 같은 트랜잭션에서 처리하면 중복 판정 기록만 남거나 업무 이벤트만 생성되는 상태를 방지합니다. 재시도에도 같은 식별자를 사용해야 기존 처리 여부를 같은 키로 판정합니다.\n\n## 이 방식을 제안하는 이유\n\n업무 이벤트를 저장하는 PostgreSQL에서 중복 여부도 판정하면 기존 데이터베이스 트랜잭션을 그대로 사용합니다. 중복 판정 기록과 업무 이벤트를 함께 저장하기 위해 저장소 간 처리 절차를 추가로 설계할 필요가 없습니다.\n\n별도 Redis 운영을 추가하지 않는다는 이점도 있습니다. 다만 PostgreSQL을 사용한다고 해서 추가 비용이 없어지는 것은 아닙니다. 중복 판정 기록을 쓰고 인덱스를 유지하는 부하는 기존 데이터베이스가 부담합니다.\n\n## 검토한 대안: Redis 키와 TTL\n\n대안은 Redis에 중복 판정 키를 저장하고 TTL을 설정하는 방식입니다. 다음 이유로 PostgreSQL 방식을 우선 제안합니다.\n\n| 비교 항목 | PostgreSQL `event_receipts` | Redis 키와 TTL |\n| --- | --- | --- |\n| 업무 이벤트 생성과 함께 처리 | 기존 PostgreSQL 트랜잭션으로 처리합니다. | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요합니다. |\n| 과거 이벤트 재수집 | 판정 기록이 남아 있는 동안 같은 키를 중복으로 판정합니다. 보존·정리 정책은 미정입니다. | TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있습니다. |\n| 운영 부담 | 별도 Redis 운영을 추가하지 않습니다. 기록 정리 정책이 필요합니다. | 중복 판정에 사용하는 Redis 운영을 추가해야 합니다. |\n| 성능과 부하 | 기존 데이터베이스의 쓰기·인덱스 부하가 늘어납니다. 추가 비용은 아직 측정하지 않았습니다. | 이번 자료에는 성능 측정 결과가 없어 성능 우위를 판단하지 않습니다. |\n\n과거 이벤트 재수집을 중복 판정 대상에 포함하면서 TTL이나 키 유실 뒤 중복을 놓치는 문제를 해결해야 한다는 점, 두 저장소의 기록을 함께 처리하는 설계가 필요하다는 점이 Redis 대안의 주요 부담입니다.\n\n## 도입 시 감수할 점과 보장 범위\n\n`event_receipts`를 추가하면 이벤트 처리에 필요한 쓰기와 인덱스 부하가 늘어납니다. 기록이 쌓이므로 보존 기간과 정리 정책도 마련해야 합니다. 현재 부하에서 추가 비용을 측정한 결과는 없습니다. 이 제안이 지연 시간이나 처리량에 미치는 영향은 성능 검증으로 확인해야 합니다.\n\n유일성 제약을 통한 중복 판정은 해당 키의 기록이 남아 있다는 전제에 의존합니다. 기록을 삭제한 뒤 같은 과거 이벤트가 다시 들어오면 이 설계만으로 중복 생성을 막는다고 보장하지 못합니다. 따라서 보존 기간을 정하기 전에는 과거 이벤트 중복 판정의 시간 범위를 확정할 수 없습니다.\n\n이 ADR은 공식 지연 목표나 처리량 보장을 정하지 않습니다. PostgreSQL 선택은 트랜잭션 처리와 운영 구성에 근거한 제안이며, 성능 측정으로 우위를 확인한 결론은 아닙니다.\n\n## 리뷰에서 결정할 사항\n\n| 항목 | 결정할 내용 |\n| --- | --- |\n| 보존 정책 | 과거 이벤트 재수집 요구를 충족하도록 중복 판정 기록을 얼마나 오래 보관할지, 어떤 조건에서 정리할지 정합니다. |\n| 성능 검증 계획 | 현재 부하에서 쓰기·인덱스 부하 증가와 요청 지연, 처리량 영향을 확인할 측정 조건과 판단 기준을 정합니다. |\n| 운영 책임 | 중복 판정 저장소 운영, 기록 정리, 장애 대응을 맡을 주체를 정합니다. |\n\n데이터·운영 담당자 검토를 마치고 위 세 항목을 정한 뒤 제안의 승인 여부를 결정합니다.\n"
+        }
+      ]
+    },
+    {
+      "case": {
+        "case_id": "paragraph_edit",
+        "title": "페이지 조회 가이드의 한국어 문단 편집",
+        "document_type": "기존 문단 편집",
+        "audience": {
+          "primary": "LogStore API로 여러 페이지의 조회 결과를 가져오는 개발자",
+          "prior_knowledge": "쿼리 파라미터와 커서 기반 페이지 조회를 이해한다.",
+          "use_context": "개발자 가이드 본문에서 한 요청의 반환 상한과 다음 페이지 조회 방법을 확인한다."
+        },
+        "document_purpose": "원문의 기술적 의미를 보존하면서 곧바로 게시할 수 있는 자연스러운 한국어 문단으로 다듬는다.",
+        "user_prompt": "개발자 가이드에 들어갈 아래 문단을 읽기 편한 한국어로 다듬어 주세요. 의미와 예시는 유지하고, 완성한 본문만 주세요. 표나 목록보다는 문단으로 읽히면 좋겠습니다.",
+        "source_facts": [
+          {
+            "id": "E1",
+            "text": "scan_limit은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터다. 실제 반환 수는 상한보다 적을 수 있다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "E2",
+            "text": "scan_limit의 기본값은 200이며 허용 범위는 1부터 1000까지다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "E3",
+            "text": "scan_limit=0은 무제한 조회를 뜻하지 않는다. 이 값에는 400 Bad Request가 반환된다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "E4",
+            "text": "next_cursor가 null이 아니면 그 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회한다. next_cursor가 null이면 조회가 끝난 것이다.",
+            "certainty": "confirmed"
+          },
+          {
+            "id": "E5",
+            "text": "설명한 동작을 확인한 버전은 LogStore 2.6.1이다. 2.5.x의 동일 동작 여부는 확인하지 않았다.",
+            "certainty": "confirmed"
+          }
+        ],
+        "source_draft": "조회에 있어서 `scan_limit` 파라미터를 활용하는 것을 통해 한 번의 요청에서 반환이 되는 항목 수의 상한에 대한 제어가 가능합니다. 기본값은 `200`으로 정의가 되어 있으며, 설정 가능한 값의 범위는 `1`부터 `1000`까지입니다. `scan_limit=0`으로 설정을 수행하는 경우 제한이 없어지는 것이 아니라 `400 Bad Request`가 반환되는 동작이 이루어집니다. 실제 반환 항목 수는 상한보다 적을 수 있습니다. 다음 조회의 수행은 `next_cursor`가 `null`이 아닌 경우에 한하여, 해당 값을 사용하고 기존 필터를 유지하는 형태로 진행합니다. `next_cursor`가 `null`이면 조회가 종료된 것입니다. 해당 동작의 검증은 `LogStore 2.6.1`을 대상으로 이루어졌으며, `2.5.x`에서 동일하게 동작하는지에 대해서는 아직 확인이 되지 않은 상태입니다.",
+        "verifiable_claims": [
+          {
+            "id": "EC1",
+            "source_refs": [
+              "E1"
+            ],
+            "claim": "scan_limit은 반환 개수의 상한이며 정확히 그 수를 반환한다는 보장이 아니다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "EC2",
+            "source_refs": [
+              "E2"
+            ],
+            "claim": "기본값 200과 허용 범위 1~1000을 보존한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "EC3",
+            "source_refs": [
+              "E3"
+            ],
+            "claim": "scan_limit=0에서 400 Bad Request가 발생한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "EC4",
+            "source_refs": [
+              "E4"
+            ],
+            "claim": "null이 아닌 커서와 기존 필터로 다음 페이지를 요청하고 null이면 종료한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          },
+          {
+            "id": "EC5",
+            "source_refs": [
+              "E5"
+            ],
+            "claim": "LogStore 2.6.1 검증과 2.5.x 미확인을 구분한다.",
+            "required": true,
+            "severity_if_wrong": "material"
+          }
+        ],
+        "expected_checks": {
+          "must_include": [
+            "원문의 다섯 가지 사실 묶음 모두 보존",
+            "상한과 실제 반환 수의 구분",
+            "커서 값과 필터 유지 조건",
+            "검증 버전과 미확인 버전의 구분",
+            "편집된 한국어 문단 본문"
+          ],
+          "preserve_identifiers": [
+            {
+              "value": "scan_limit",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "200",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "1",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "1000",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "scan_limit=0",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "400 Bad Request",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "next_cursor",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "null",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "LogStore 2.6.1",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            },
+            {
+              "value": "2.5.x",
+              "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+            }
+          ],
+          "forbidden_inventions": [
+            "scan_limit을 검색 대상 전체의 수나 정확한 반환 수로 바꾸지 않는다.",
+            "0을 무제한 값으로 바꾸거나 허용 범위를 변경하지 않는다.",
+            "기존 필터 유지 조건을 반대로 바꾸지 않는다.",
+            "2.5.x를 지원 불가로 단정하거나 동작을 검증한 버전이라고 쓰지 않는다.",
+            "원문에 없는 속도 향상, 추가 옵션, 재시작 요구를 보태지 않는다."
+          ],
+          "hard_fail_if": [
+            "scan_limit=0으로 무제한 조회할 수 있다고 안내한다.",
+            "next_cursor가 null일 때 다음 페이지를 조회하고 null이 아닐 때 종료하도록 조건을 뒤집는다.",
+            "확인하지 않은 2.5.x의 동작을 검증 완료 사실로 바꾼다."
+          ]
+        },
+        "length_guidance": {
+          "unit": "Korean characters including spaces",
+          "suggested_min": 300,
+          "suggested_max": 500,
+          "scoring": false
+        }
+      },
+      "candidates": [
+        {
+          "output_id": "doc-e08f3773",
+          "text": "`scan_limit` 파라미터는 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다. 실제 반환되는 항목 수는 이 상한보다 적을 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 사용하면 `400 Bad Request`가 반환됩니다.\n\n`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다.\n\n이 동작은 LogStore 2.6.1에서 확인했습니다. 2.5.x에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.\n"
+        },
+        {
+          "output_id": "doc-347dfac9",
+          "text": "`scan_limit`은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터입니다. 실제 반환 항목 수는 상한보다 적을 수 있습니다. 기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값으로 요청하면 `400 Bad Request`가 반환됩니다.\n\n`next_cursor`가 `null`이 아니면 그 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다.\n\n이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.\n"
+        },
+        {
+          "output_id": "doc-3e20b552",
+          "text": "`scan_limit`은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터입니다. 기본값은 `200`이며, 허용 범위는 `1`부터 `1000`까지입니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않습니다. 이 값을 지정하면 `400 Bad Request`를 반환합니다.\n\n`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회하세요. `next_cursor`가 `null`이면 조회가 끝납니다.\n\n이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 확인하지 않았습니다.\n"
+        }
+      ]
+    }
+  ]
+}

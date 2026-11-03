@@ -1,0 +1,33 @@
+name: Validate skill and package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Verified against the official release and its linked commit, 2026-11-03.
+      # https://github.com/actions/checkout/releases/tag/v7.0.1
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # https://github.com/actions/setup-python/releases/tag/v7.1.0
+      - name: Set up Python 3.12
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Validate repository structure
+        run: python scripts/check.py
+      - name: Build reproducible release package
+        run: |
+          python scripts/package.py --output-dir dist/first
+          python scripts/package.py --output-dir dist/second
+          cmp dist/first/korean-dev-writing-v0.2.0.zip dist/second/korean-dev-writing-v0.2.0.zip

@@ -1,0 +1,1657 @@
+{
+  "reviewer": "blind_judge_b",
+  "records": [
+    {
+      "case_id": "cli_readme",
+      "output_id": "doc-29810b38",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 3,
+        "actionability_format": 4
+      },
+      "total_score": 19,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "설치와 기본 동작을 확인한 환경**: Ubuntu 22.04, Python 3.11",
+          "location": "실행 환경 및 사용 형식과 옵션·입력 오류 처리",
+          "source_fact_ids": [
+            "R2",
+            "R3",
+            "R5",
+            "R6",
+            "R8",
+            "R9"
+          ],
+          "reason": "선언한 Python 3.10 이상과 실제 확인 환경을 구별한다. 설치 식별자, 최소 심각도의 비교 방향, 덮어쓰기, 두 입력 오류의 처리도 원자료와 일치한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "JSON 구문이 잘못된 행이 있음 | 해당 행을 건너뛰고 건너뛴 행 수를 표준 오류로 알립니다.",
+          "location": "설치 및 첫 실행부터 입력 오류 처리까지",
+          "source_fact_ids": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "용도부터 설치·첫 실행·옵션·실패 처리까지 필수 범위를 모두 설명하고, 읽기 실패의 종료 코드 2도 빠뜨리지 않았다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "### 2. 로그 파일 준비하기",
+          "location": "설치 및 첫 실행의 1~3단계와 뒤의 참조 절",
+          "source_fact_ids": [
+            "R4",
+            "R7"
+          ],
+          "reason": "설치, 입력 파일 준비, 첫 결과 확인, 옵션 참조 순으로 이어져 도구를 처음 쓰는 개발자가 필요한 판단을 순서대로 할 수 있다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "**파일 덮어쓰기**: `--output`은 기존 파일 내용을 덮어씁니다.",
+          "location": "사용 형식과 옵션 표, 오류 항목을 파일로 저장하기, 사용 중 알아둘 점",
+          "source_fact_ids": [
+            "R6"
+          ],
+          "reason": "개별 문장은 명료하고 용어도 일관된다. 다만 덮어쓰기 조건을 옵션 표와 저장 명령 직전에서 이미 설명한 뒤 마지막 항목에서 다시 설명해 일부 군더더기가 남는다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "trace-slice ./logs/api.jsonl --level error --output ./errors.jsonl",
+          "location": "설치 및 첫 실행·자주 쓰는 명령·입력 오류 처리",
+          "source_fact_ids": [
+            "R3",
+            "R4",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "복사해 사용할 수 있는 설치·실행 명령, 입력 경로를 바꾸는 방법, 실행 결과, 덮어쓰기 주의와 읽기 실패 확인 항목이 모두 제시되어 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "요구 환경과 실제 검증 환경을 정확히 구별한다.",
+        "입력 준비와 첫 실행 결과, 오류 처리까지 작업 흐름이 이어진다."
+      ],
+      "improvement_notes": [
+        "덮어쓰기 안내는 옵션 참조와 저장 명령 옆에서 충분히 전달되므로 마지막 동일 안내를 통합하면 반복이 줄어든다."
+      ]
+    },
+    {
+      "case_id": "cli_readme",
+      "output_id": "doc-29be5d21",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작은 **Ubuntu 22.04의 Python 3.11**에서 확인했으며",
+          "location": "설치·주요 옵션·사용 중 알아둘 점",
+          "source_fact_ids": [
+            "R2",
+            "R3",
+            "R5",
+            "R6",
+            "R8",
+            "R9"
+          ],
+          "reason": "지원 선언과 검증 범위를 구분하고, 고정 버전 설치·심각도 방향·덮어쓰기·종료 코드가 모두 원자료와 일치한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "생략하면 표준 출력으로 내보냅니다.",
+          "location": "전체 본문, 특히 사용 형식과 주요 옵션 표",
+          "source_fact_ids": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "도구의 용도, 설치와 유효한 첫 명령, 기본값 및 필수 인수, 출력 동작, 잘못된 행과 읽기 실패의 구별을 모두 포함한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 첫 실행: 오류 로그 확인하기",
+          "location": "설치 → 첫 실행 → 사용 형식과 주요 옵션 → 사용 중 알아둘 점",
+          "source_fact_ids": [
+            "R3",
+            "R4",
+            "R7"
+          ],
+          "reason": "환경·설치 다음에 실제 첫 실행을 놓고, 이후 옵션과 사용 시 주의사항을 제공해 신규 사용자의 질문 순서에 맞는다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "아래 명령의 `./logs/api.jsonl`은 예제 경로이므로, 확인할 로그 파일 경로에 맞게 바꿔 실행하세요.",
+          "location": "첫 실행과 옵션 설명 문단",
+          "source_fact_ids": [
+            "R4",
+            "R7"
+          ],
+          "reason": "행동과 이유가 한 문장 안에서 자연스럽게 연결되고, 옵션 설명과 오류 안내도 조건과 결과가 명확하다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "python -m pip install trace-slice==0.4.2",
+          "location": "설치·첫 실행 코드 블록 및 옵션 표",
+          "source_fact_ids": [
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "설치·도움말·첫 실행 명령이 코드 블록에 있고, 필수 경로와 결과의 위치 및 덮어쓰기 조건을 확인할 수 있어 README로 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "핵심 사용 정보를 빠짐없이 담고 오류의 성격을 구별한다.",
+        "명령과 설명을 적절히 배치해 설치부터 첫 사용까지 쉽게 따른다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "cli_readme",
+      "output_id": "doc-31b51313",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "**출력 파일이 이미 있으면 덮어씁니다.**",
+          "location": "설치·주요 옵션·경고 이상의 로그를 파일로 저장·입력 오류 처리",
+          "source_fact_ids": [
+            "R2",
+            "R3",
+            "R5",
+            "R6",
+            "R8",
+            "R9"
+          ],
+          "reason": "설치 버전과 환경, 심각도 집합, 파일 출력과 오류 처리의 의미가 정확하다. 기능 제한과 검증 기록도 확대하지 않았다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "`--level`을 생략하면 `info` 이상의 항목을 출력합니다.",
+          "location": "설치부터 입력 오류 처리까지",
+          "source_fact_ids": [
+            "R1",
+            "R2",
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "모든 핵심 명제를 포함하고 표준 출력과 파일 출력, 잘못된 JSON 행과 입력 파일 읽기 실패를 독립적으로 설명한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 첫 실행: 오류 로그 확인",
+          "location": "첫 실행 → 사용 형식과 주요 옵션 → 두 사용 예 → 입력 오류 처리",
+          "source_fact_ids": [
+            "R4",
+            "R5",
+            "R6",
+            "R7"
+          ],
+          "reason": "첫 실행 뒤에 옵션 참조와 기본값·파일 저장 예제를 두었다. 사용자는 우선 오류 로그를 확인하고 필요한 경우 파일 출력으로 확장할 수 있다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "실제 파일이 다른 위치에 있다면 경로를 바꿔 실행하세요.",
+          "location": "첫 실행 및 입력 오류 처리 뒤 설명",
+          "source_fact_ids": [
+            "R4",
+            "R7",
+            "R8"
+          ],
+          "reason": "입력 준비, 결과, 주의사항을 직접적인 문장으로 연결한다. 기술 용어와 문장 호응이 일관되고, 안내를 다시 해석할 필요가 거의 없다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "trace-slice ./logs/api.jsonl --level warn --output ./warnings.jsonl",
+          "location": "설치·첫 실행·경고 이상의 로그를 파일로 저장 코드 블록",
+          "source_fact_ids": [
+            "R3",
+            "R4",
+            "R5",
+            "R6",
+            "R7",
+            "R8",
+            "R9"
+          ],
+          "reason": "명령의 선행 입력, 출력 대상과 예상 결과가 분명하며 덮어쓰기 주의가 실행 예 바로 앞에 있어 실무에서 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "출력 파일 주의를 실행 지점에 배치한다.",
+        "정상 결과와 표준 오류 안내의 차이를 이해하기 쉽게 설명한다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "event_architecture",
+      "output_id": "doc-0dfff428",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 3,
+        "actionability_format": 4
+      },
+      "total_score": 19,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "**`POST /v1/events`의 `202` 응답은 Kafka에 이벤트를 수락했다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.**",
+          "location": "도입부·저장 흐름·장애 시 재처리·미확정 항목",
+          "source_fact_ids": [
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "수락 경계, 같은 ID 재시도, 트랜잭션 후 offset 커밋, 중복 저장 방지와 장애 후 재처리를 정확히 설명한다. 조회 API와 운영 목표를 만들어 내지 않았다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리합니다.",
+          "location": "구성요소, 이벤트 흐름, 중복 전달, 장애 시 재처리 표",
+          "source_fact_ids": [
+            "A1",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ],
+          "reason": "구성요소와 정상 흐름뿐 아니라 클라이언트 재시도와 writer 재처리의 구분, 중간 종료 시 중복 가능성, ID 유일성 제약까지 필수 범위를 모두 충족한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 장애 시 재처리가 일어나는 위치",
+          "location": "도입부와 전체 절 배치",
+          "source_fact_ids": [
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ],
+          "reason": "중요한 202의 의미를 먼저 밝히고 구성요소·정상 흐름·응답·장애 경계를 이어서 설명한다. 연동과 운영의 판단 지점이 제목과 표에서 드러난다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "중복 메시지 전달 가능성과 중복 행 방지는 서로 다른 성질입니다.",
+          "location": "도입부, 구성요소와 역할, 저장 흐름, 중복 전달과 중복 저장의 차이, 장애 표",
+          "source_fact_ids": [
+            "A3",
+            "A6",
+            "A7"
+          ],
+          "reason": "문장 자체와 전문 용어는 명확하다. 다만 수락과 저장의 차이, 중복 전달과 추가 행 방지를 도입·구성요소 표·흐름·별도 설명·장애 표에서 여러 차례 재설명해 일부 문단의 연결이 반복적으로 느껴진다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "`503` | Kafka 발행에 실패했습니다. | 같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용합니다.",
+          "location": "API 응답 표·장애 표·운영 시 확인할 경계와 미확정 항목",
+          "source_fact_ids": [
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "응답별 연동 행동과 장애별 재처리 주체가 명확하다. 상태 조회의 제약과 미확정 운영 기준도 제시해 구현·인계 시 판단 자료로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "202와 최종 저장의 경계 및 ID 유지 원칙을 정확히 전달한다.",
+        "장애 단계별 재처리 주체와 미확정 운영 기준이 분명하다."
+      ],
+      "improvement_notes": [
+        "수락·저장 구분과 중복 처리 원리를 한 곳에서 충분히 설명한 뒤 다른 절에서는 해당 단계에 필요한 결과만 남기면 반복이 줄어든다."
+      ]
+    },
+    {
+      "case_id": "event_architecture",
+      "output_id": "doc-875d257a",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 3,
+        "actionability_format": 4
+      },
+      "total_score": 19,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "반대로 응답을 받은 시점에 이미 저장되었을 수도 있지만, 응답만으로 그 여부를 구분할 수는 없다.",
+          "location": "수락 응답 설명·중복 전달과 event_id·복구 가능 기간과 복구 속도",
+          "source_fact_ids": [
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "202를 저장 시점의 확정 정보로 보지 않으며, DB와 offset의 순서 및 중복 가능성을 정확히 유지한다. 재시도 식별자와 검증되지 않은 운영 보장도 정확하다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "데이터베이스 쓰기 실패 | 해당 이벤트의 offset을 커밋하지 않는다.",
+          "location": "구성요소 및 흐름, API 응답 표, 장애 시 재처리 위치",
+          "source_fact_ids": [
+            "A1",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ],
+          "reason": "필수 구성요소, 요청부터 저장까지의 단계, 503과 동일 ID 재시도, 중복 발생 구간 및 저장 방지, DB 회복 후 재처리를 모두 포함한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "재처리 주체는 장애가 발생한 단계에 따라 달라진다.",
+          "location": "도입부 및 장애 시 재처리 위치",
+          "source_fact_ids": [
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A8"
+          ],
+          "reason": "수락과 저장이라는 핵심 판단을 먼저 제시하고 흐름과 장애 상황을 구분했다. 응답과 장애 표는 연동 개발자와 운영자가 원하는 지점을 찾는 데 도움이 된다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "### 재처리가 발생했다는 사실만으로 중복 저장을 판단하지 않는다",
+          "location": "중복 전달과 event_id, 장애 시 재처리 위치, 연동·운영 시 확인할 경계",
+          "source_fact_ids": [
+            "A3",
+            "A6",
+            "A7"
+          ],
+          "reason": "대체로 자연스럽고 세부 조건도 명료하다. 다만 이미 흐름·중복 전달 절·장애 표에서 설명한 재처리와 중복 저장의 차이를 마지막 절에서 다시 풀어 쓰고, 202의 한계도 거듭 서술해 일부 군더더기가 남는다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 한다.",
+          "location": "API 응답 해석·중복 전달과 event_id·연동 및 운영 경계",
+          "source_fact_ids": [
+            "A2",
+            "A3",
+            "A4",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "응답 코드별 조치, 중복 판정 키의 사용 원칙, 운영자가 나누어 확인할 처리 단계가 구체적이다. 구현되지 않은 상태 조회를 전제로 하지 않아 연동에 바로 참고할 수 있다."
+        }
+      ],
+      "strengths": [
+        "응답 시점에 저장되었을 가능성과 응답이 보증하는 범위를 섬세하게 구분한다.",
+        "중복 전달과 중복 행 생성의 차이를 정확히 설명한다."
+      ],
+      "improvement_notes": [
+        "마지막 운영 절에서 앞서 설명한 202와 재처리의 의미를 다시 풀어 쓰는 부분을 통합하고 운영자의 확인 행동에 집중하면 읽는 흐름이 더 매끄러워진다."
+      ]
+    },
+    {
+      "case_id": "event_architecture",
+      "output_id": "doc-41012b99",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "데이터베이스 트랜잭션이 성공하면 `event-writer`가 Kafka offset을 커밋합니다.",
+          "location": "저장 흐름 및 장애 시 재처리 표",
+          "source_fact_ids": [
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "구성요소 식별자와 저장 순서, 202의 수락 의미, 중복 저장 방지 및 장애 재처리의 조건을 모두 정확히 유지한다. 조회 API 부재와 미확정 목표도 사실에 맞다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "데이터베이스 기록 후 offset 커밋 전에 `event-writer` 종료",
+          "location": "이벤트가 저장되는 흐름·재시도와 중복 처리·장애 표",
+          "source_fact_ids": [
+            "A1",
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ],
+          "reason": "기본 흐름과 응답 경계에 이어 중복이 발생할 수 있는 구간, 같은 ID 재시도, DB 실패 시 offset 유지와 회복 후 재처리를 모두 전달한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 재시도와 중복 처리",
+          "location": "전체 절 구성",
+          "source_fact_ids": [
+            "A3",
+            "A4",
+            "A5",
+            "A6",
+            "A7",
+            "A8"
+          ],
+          "reason": "구성요소를 파악한 뒤 순차 흐름을 읽고 수락 의미와 재시도·장애로 넘어간다. 정상 경로와 장애 판단이 명확히 연결된다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "중복 처리는 저장 단계에서 이루어집니다.",
+          "location": "재시도와 중복 처리 및 장애 표 뒤 문단",
+          "source_fact_ids": [
+            "A4",
+            "A6",
+            "A7"
+          ],
+          "reason": "짧은 주제 문장 뒤에 실제 제약과 결과를 이어 설명해 논리가 자연스럽다. 행위 주체와 조건이 일관되게 명시되어 기술적 의미가 쉽게 읽힌다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "클라이언트는 **같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 합니다.**",
+          "location": "재시도와 중복 처리·장애 시 재처리·운영 전에 확인할 항목",
+          "source_fact_ids": [
+            "A3",
+            "A4",
+            "A7",
+            "A8",
+            "A9",
+            "A10"
+          ],
+          "reason": "클라이언트의 재시도 규칙, writer의 복구 책임, 조회 API의 한계와 추가 확인할 운영 항목이 분명해 연동 및 운영 인계에 바로 쓸 수 있다."
+        }
+      ],
+      "strengths": [
+        "필수 흐름과 장애 경계를 빠짐없이 연결한다.",
+        "장애 표에서 상태와 재처리 동작을 구별해 판단하기 쉽다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "investigation_pr",
+      "output_id": "doc-2da62b05",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "실제 중복 발송 원인인지는 확인하지 못했으며, 진단 로그로 추가 조사할 예정입니다.",
+          "location": "문제와 원인 가설·변경 내용·검증 결과",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "확인된 운영 사례와 TTL 가설을 구분한다. 변경 파일·필드·활성화 조건·테스트 명령이 정확하고 스테이징 및 성능 검증을 완료한 것으로 확대하지 않는다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.",
+          "location": "전체 본문",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "배경과 확인 수준, 로깅만의 범위, 설정과 필드, 제외할 정보, 실시·미실시 검증, 조사 계획과 두 리뷰 질문을 모두 담았다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 배포 후 확인 계획",
+          "location": "요약부터 리뷰 요청까지의 절 배치",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "요약에서 PR의 성격을 밝히고 문제·변경·검증·후속 계획·리뷰 요청 순서로 제시해 검토자의 판단 흐름에 맞는다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "진단 로그를 활성화했을 때 처리량과 지연이 얼마나 달라지는지도 측정하지 않았습니다.",
+          "location": "문제와 원인 가설 및 검증 결과 문단",
+          "source_fact_ids": [
+            "P7"
+          ],
+          "reason": "가설과 사실, 완료한 작업과 이후 계획을 명확한 한국어 문장으로 구분한다. 표와 문단의 연결도 자연스럽다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+          "location": "검증 코드 블록·배포 후 확인 계획·리뷰 요청",
+          "source_fact_ids": [
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "실행한 검증 명령을 정확히 제공하고, 배포 후 설정·대조 필드·기록할 이슈와 구체적인 리뷰 요청을 제시해 PR 본문으로 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "조사용 PR의 범위와 미검증 사항을 명확히 밝힌다.",
+        "검토 요청과 배포 후 조사 절차가 구체적이다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "investigation_pr",
+      "output_id": "doc-73ea70b9",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "다만 실제 원인인지는 아직 확인하지 못했습니다.",
+          "location": "배경·변경 내용·검증",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "TTL 가설을 확정하지 않고 안정적 로컬 재현 부재를 보존한다. 로깅 범위, 기본 비활성 설정, 로컬 검증과 미실시 검증의 구분도 정확하다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "스테이징의 실제 발송 경로는 아직 검증하지 않았습니다.",
+          "location": "변경 내용부터 배포 후 확인까지",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "진단 필드와 개인정보 제외, 테스트 범위와 성능 미측정, 후속 대조 및 이슈 정리, 리뷰할 두 사항까지 핵심 범위를 모두 충족한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 변경 내용",
+          "location": "배경 → 변경 내용 → 검증 → 리뷰 요청 → 배포 후 확인",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "발생한 문제와 원인 후보를 제시한 뒤 실제 변경을 분리하고 검증·리뷰·배포 후 조사를 순서대로 배치해 PR 검토 목적에 맞는다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "로컬에서는 아직 안정적인 재현 방법을 찾지 못해, 운영에서 발생하는 중복 사례를 대조할 수 있도록 진단 로그를 추가합니다.",
+          "location": "배경 및 변경 범위 문단",
+          "source_fact_ids": [
+            "P1",
+            "P3",
+            "P8"
+          ],
+          "reason": "현재 한계와 로그를 추가하는 목적이 자연스럽게 이어지고, 범위와 계획을 구체적인 동사로 표현한다. 문장 호응이나 지시어의 혼동이 없다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인 부탁드립니다.",
+          "location": "검증·리뷰 요청·배포 후 확인",
+          "source_fact_ids": [
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "리뷰 대상과 확인할 정보 유출 가능성이 구체적이고, 정확한 테스트 명령과 배포 후 활성화 값·비교 필드를 제시해 바로 검토에 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "원인 후보와 변경 범위를 분명히 구별한다.",
+        "리뷰 질문과 후속 조사 계획이 필요한 수준으로 구체적이다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "investigation_pr",
+      "output_id": "doc-c2a5b56c",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "`DELIVERY_DIAG_ENABLED=true`일 때만 진단 로그를 출력합니다. 이 설정의 기본값은 `false`입니다.",
+          "location": "변경 범위·배경과 목적·검증 결과",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "조건부 로깅과 기본값, 필드 및 제외할 데이터가 원자료와 같다. 원인 가설을 가설로 유지하고 실제 변경이나 검증의 범위를 확대하지 않았다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "중복 발송을 해결하는 수정도 포함하지 않습니다.",
+          "location": "전체 본문",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "확인 수준, 변경하지 않는 발송 동작, 진단 설정과 필드, 미실시 검증, 후속 조사 및 리뷰 요청을 모두 전달한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 배경과 목적",
+          "location": "전체 절 배치",
+          "source_fact_ids": [
+            "P1",
+            "P2",
+            "P3",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "문제와 조사 목적을 먼저 설명하고 범위·검증·후속 계획·리뷰 요청으로 이어져 동료가 검토 의도를 바로 이해할 수 있다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "결과를 이슈 #184에 정리한 뒤 수정 방향을 결정하려 합니다.",
+          "location": "검증 결과 및 배포 후 확인 계획",
+          "source_fact_ids": [
+            "P8"
+          ],
+          "reason": "확인된 일에는 완료형, 후속 조사에는 계획 표현을 사용해 시간 관계가 분명하다. 문장과 문단 사이의 연결도 자연스럽다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "현재 진단 필드로 중복 발송 사례를 구분하기에 충분한지 확인해 주세요.",
+          "location": "검증 결과·배포 후 확인 계획·리뷰 요청",
+          "source_fact_ids": [
+            "P4",
+            "P5",
+            "P6",
+            "P7",
+            "P8",
+            "P9"
+          ],
+          "reason": "진단 로그의 충분성과 민감한 데이터 혼입이라는 실제 리뷰 쟁점을 명시한다. 테스트 명령, 후속 비교 필드와 이슈가 있어 바로 게시·검토할 수 있다."
+        }
+      ],
+      "strengths": [
+        "조사와 수정의 경계를 정확히 유지한다.",
+        "미실시 검증과 구체적 리뷰 질문이 잘 드러난다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "incident_runbook",
+      "output_id": "doc-a4c724f6",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "**`state=paused`와 `inflight=0`을 모두 확인한 다음에만** 4단계로 진행합니다.",
+          "location": "도입부 및 2~5단계",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "알람의 증거 수준, 두 롤백 조건, 실제 정지 확인, 5분·10분 기준, 실패 후 정지 유지와 복구 조건을 정확히 보존한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "**재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**",
+          "location": "전체 절차 및 플랫폼 온콜 이관 시 전달할 내용",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "초기 조회부터 이관까지 모든 필수 단계가 있고, 파괴적 조치 금지와 이관할 정보도 빠짐없이 제공한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 4. 롤백 성공 후 소비 재개",
+          "location": "1~5단계 및 이관 절",
+          "source_fact_ids": [
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8"
+          ],
+          "reason": "관찰·롤백 판단·일시정지 완료·롤백·복구 확인이 실제 대응 순서로 배치된다. 실패 조건은 해당 단계에 있어 다음 행동을 찾기 쉽다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "명령이 반환됐다는 것은 **일시정지 요청을 접수했다는 뜻**입니다.",
+          "location": "3단계 일시정지 설명 및 단계별 조건 문장",
+          "source_fact_ids": [
+            "O5",
+            "O6"
+          ],
+          "reason": "요청 접수와 실제 정지 완료를 명료한 문장으로 구분한다. 조건과 단계 전환이 자연스럽고 주체가 분명하다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "opsctl deploy rollback river-worker --to stable",
+          "location": "전체 명령 블록·단계별 중단 조건·이관 목록",
+          "source_fact_ids": [
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "정확한 명령이 코드 블록에 있고 각각의 실행 전 확인 조건, 성공 후 행동, 시간 초과 시 중단·이관이 명시되어 현장에서 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "모든 위험한 단계의 선행조건과 중단 조건이 명확하다.",
+        "초기 관찰과 복구 판정 및 이관 기록이 하나의 절차로 이어진다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "incident_runbook",
+      "output_id": "doc-8045c635",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "**실패:** 소비를 재개하지 않습니다. worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.",
+          "location": "2~5단계",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "롤백 실패 뒤 재개하지 않는다는 핵심 조건을 보존한다. 두 정지 조건과 시간 기준, 롤백 선택 조건, 복구 판정도 원자료와 일치한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "확인하지 못한 항목은 추정해서 채우지 말고 미확인으로 표시합니다.",
+          "location": "1~6단계 및 실행하지 않는 조치",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "상태 조회, 배포 비교, 대기와 실패 처리, 복구 관찰, 이관 정보와 금지 조치를 모두 담아 원자료로 돌아갈 필요가 없다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 2. 롤백 여부 판단",
+          "location": "조회 명령별 설명·롤백 판단 표·3~5단계",
+          "source_fact_ids": [
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8"
+          ],
+          "reason": "초기 조회 결과를 바로 다음 판단 표와 연결하고, 각 단계의 조건과 후속 행동을 분리했다. 익숙하지 않은 온콜도 순서대로 읽으며 진행할 수 있다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "한 번 조회한 값만으로 감소 여부를 판단하지 마세요.",
+          "location": "5단계 복구 여부 확인 및 전체 단계 지시문",
+          "source_fact_ids": [
+            "O8"
+          ],
+          "reason": "관찰해야 할 조건을 실질적인 행위로 풀어 쓴 문장이 명확하다. 표와 본문에서 용어를 일관되게 사용하고 시간 조건도 쉽게 읽힌다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "각 확인 시각과 `oldest_age_seconds`를 기록해 이전 값과 비교합니다.",
+          "location": "명령 블록·5단계 관찰 방법·6단계 이관 표",
+          "source_fact_ids": [
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9"
+          ],
+          "reason": "복사 가능한 명령, 반복 확인할 상태, 시간 기록과 감소 비교 방법, 이관 기록표가 있어 실행과 성공 확인을 구체적으로 지원한다."
+        }
+      ],
+      "strengths": [
+        "알람 시각과 적체 시작 시각을 구분해 롤백 오판을 막는다.",
+        "복구 확인을 반복 관찰과 값 비교라는 실행 가능한 행동으로 설명한다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "incident_runbook",
+      "output_id": "doc-2ddf3a02",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "2단계의 롤백 조건을 충족했고, 3단계에서 `state=paused`와 `inflight=0`을 모두 확인한 다음 실행한다.",
+          "location": "2~5단계 및 수행하지 않는 조치",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "롤백 선택 조건과 정지 완료 조건을 함께 요구한다. 5분·10분 시간 기준, 실패 후 재개 금지, 두 복구 조건과 파괴적 조치 제외도 모두 정확하다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "이관할 때는 다음 내용을 전달한다. 확인하지 못한 항목은 확인 불가로 표시한다.",
+          "location": "1~6단계 및 수행하지 않는 조치",
+          "source_fact_ids": [
+            "O1",
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9",
+            "O10"
+          ],
+          "reason": "전체 관찰과 판단 흐름에 필요한 명령, 조건, 성공 및 실패 분기와 이관 항목을 모두 포함한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "| 관찰 결과 | 다음 행동 |",
+          "location": "3단계 상태 표 및 6단계 이관 사유 표",
+          "source_fact_ids": [
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9"
+          ],
+          "reason": "정지 대기의 결과를 다음 행동과 직접 연결하고, 마지막에 이관 사유를 한곳에 모았다. 절차를 진행하거나 중단할 지점이 뚜렷하다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "재개 명령을 실행했더라도 아직 복구로 판단하지 않는다.",
+          "location": "4단계 말미와 5단계 복구 판단",
+          "source_fact_ids": [
+            "O7",
+            "O8"
+          ],
+          "reason": "명령 실행과 실제 복구를 자연스럽게 구분하고 다음 확인 단계로 연결한다. 일관된 문체와 정확한 주어·조건 덕분에 지시가 쉽게 이해된다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "opsctl worker status river-worker",
+          "location": "초기 명령 블록·3단계 상태 표·4~6단계",
+          "source_fact_ids": [
+            "O2",
+            "O3",
+            "O4",
+            "O5",
+            "O6",
+            "O7",
+            "O8",
+            "O9"
+          ],
+          "reason": "모든 명령을 코드 블록으로 제공하고 대기·진행·중단의 조건을 표로 구분한다. 시각과 결과 기록, 재개 후 비교 관찰까지 있어 즉시 대응에 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "배포 조건과 작업 정지 조건을 함께 확인하게 한다.",
+        "단계별 행동 분기와 최종 이관 요약이 운영 중 확인하기 좋다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "storage_adr",
+      "output_id": "doc-7472b495",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 3,
+        "actionability_format": 4
+      },
+      "total_score": 19,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "이 방식은 리뷰를 위한 제안이며, 아직 승인된 결정이 아니다.",
+          "location": "문서 메타데이터·제안·검토한 대안·승인 전에 결정할 사항",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D5",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "제안 상태와 작성일, tenant 범위, 같은 트랜잭션, 503 재시도와 Redis 대안의 제한을 정확히 보존한다. 성능 검증 세부 내용도 확정 사실이 아닌 제안으로 표시한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "보존 정책, 성능 검증 계획, 운영 책임 주체를 정하고 데이터 및 운영 담당자의 검토를 마친 뒤 이 제안의 승인 여부를 결정한다.",
+          "location": "전체 본문",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "요구사항, 제안과 대안, 원자성의 범위, 이점과 비용, 보존 및 성능 미결 사항, 책임 주체와 승인 조건을 모두 포함한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 보장 범위와 감수할 점",
+          "location": "배경과 요구사항부터 승인 전에 결정할 사항까지",
+          "source_fact_ids": [
+            "D2",
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "요구사항에서 제안으로 이어지고 선택 근거와 대안, 보장 한계, 승인 전에 필요한 결정으로 정리되어 설계 리뷰의 주요 질문을 찾기 쉽다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "과거 이벤트 재반입 요구와 충돌하지 않는 보존·정리 정책이 필요하다.",
+          "location": "배경과 요구사항·제안 이유·대안 표·보장 범위·승인 전 결정 표",
+          "source_fact_ids": [
+            "D3",
+            "D7",
+            "D8"
+          ],
+          "reason": "문장 의미와 용어는 명료하다. 다만 기록 보존이 중복 방지 범위를 결정한다는 설명을 배경·선택 이유·대안 표·보장 범위·결정 표에서 거듭 풀어 쓰고 운영·성능 비용도 반복해 일부 문단이 늘어진다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "| 보존 정책 | 중복 판정 기록의 보존 기간, 삭제 조건과 정리 방식, 과거 이벤트 재반입과의 관계 |",
+          "location": "대안 비교 표 및 승인 전에 결정할 사항",
+          "source_fact_ids": [
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "비교 기준과 승인 전 결정 항목을 명시한다. 측정 계획을 제안으로 구분하고 책임 범위의 검토 질문까지 제공해 ADR 초안으로 바로 리뷰할 수 있다."
+        }
+      ],
+      "strengths": [
+        "tenant 범위와 동일 트랜잭션의 의미를 정확히 설명한다.",
+        "보존 정책이 실제 보장 범위에 미치는 영향을 리뷰 쟁점으로 연결한다."
+      ],
+      "improvement_notes": [
+        "보존 범위와 쓰기·운영 비용을 설명하는 문단을 각 주제의 중심 절로 모으면 같은 근거가 여러 절에서 반복되는 부분을 줄일 수 있다."
+      ]
+    },
+    {
+      "case_id": "storage_adr",
+      "output_id": "doc-bde0762d",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "서로 다른 `tenant_id`에서는 같은 `event_id`를 사용할 수 있으므로, 중복 여부는 두 값을 함께 기준으로 삼아야 한다.",
+          "location": "메타데이터·배경과 요구사항·제안하는 설계와 요청 처리·미결 사항",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D5",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "복합 키 범위, 동일 트랜잭션과 실패 시 재시도, 제안 상태를 모두 보존한다. 보존 기간·성능 결과와 승인 여부를 확정한 것으로 쓰지 않는다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "**운영 책임 주체:** 중복 판정 저장소와 기록 정리 정책의 운영을 누가 맡을지 정한다.",
+          "location": "전체 본문",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "문서 식별, 요구사항과 제안, 대안 비교, 추가 부하와 보존 한계, 성능 계획 및 책임 주체를 포함해 모든 필수 검토 범위를 충족한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 검토한 선택지와 제안 이유",
+          "location": "도입 및 전체 절 배치",
+          "source_fact_ids": [
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "도입에서 제안과 주된 이유를 제시하고, 요구사항·처리 방식·대안·감수할 비용·승인 조건 순으로 이어져 선택을 평가하기 쉽다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "다만 중복 판정 기록을 얼마나 오래 보관할지는 아직 정하지 않았다.",
+          "location": "배경과 요구사항·감수할 비용과 보장 범위",
+          "source_fact_ids": [
+            "D3",
+            "D8"
+          ],
+          "reason": "확정한 내용과 미결 사항이 간단하고 자연스러운 문장으로 연결된다. 표의 비교 기준과 이후 보장 범위 설명도 명확하다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "**성능 검증 계획:** 현재 부하에서 `event_receipts`가 추가하는 쓰기·인덱스 비용을 어떻게 검증할지 정한다.",
+          "location": "비교 표 및 승인 전에 결정할 사항",
+          "source_fact_ids": [
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "설계 대안의 차이와 승인을 위해 결정할 세 항목을 구체적으로 제시해 검토자가 다음 논의를 정할 수 있다. Markdown ADR로 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "제안의 근거와 비용을 균형 있게 제시한다.",
+        "보존·성능·운영 책임을 승인 전 결정 항목으로 명확히 정리한다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "storage_adr",
+      "output_id": "doc-d6c69c92",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 3,
+        "actionability_format": 4
+      },
+      "total_score": 19,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "중복 판정 기록 저장과 업무 이벤트 생성을 하나의 데이터베이스 트랜잭션으로 묶습니다.",
+          "location": "메타데이터·요구사항·제안하는 저장 방식·대안 및 보장 범위",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D5",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "문서 식별과 제안 상태, tenant별 키, 원자적 처리, 중복·실패 분기, Redis 대안의 한계가 정확하다. 성능 측정이나 보존 기간을 만들어 내지 않았다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "| 운영 책임 | 중복 판정 저장소 운영, 기록 정리, 장애 대응을 맡을 주체를 정합니다. |",
+          "location": "전체 본문 및 리뷰에서 결정할 사항",
+          "source_fact_ids": [
+            "D1",
+            "D2",
+            "D3",
+            "D4",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "요구사항부터 선택 근거, 대안, 쓰기와 인덱스 부담, 보존 범위와 검증 미실시, 책임 주체까지 모든 필수 항목을 제공한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "## 제안하는 저장 방식과 처리 흐름",
+          "location": "전체 절 구성과 조건별 처리 표",
+          "source_fact_ids": [
+            "D2",
+            "D4",
+            "D5",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "요구사항을 먼저 제시한 뒤 요청 조건별 처리와 선택 이유, 대안 비교, 비용과 승인 전 결정을 설명한다. 주요 판단이 표와 절로 드러난다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "`event_receipts`를 추가하면 이벤트 처리에 필요한 쓰기와 인덱스 부하가 늘어납니다.",
+          "location": "이 방식을 제안하는 이유·검토한 대안·도입 시 감수할 점과 보장 범위",
+          "source_fact_ids": [
+            "D3",
+            "D7",
+            "D8"
+          ],
+          "reason": "대부분의 문장은 자연스럽고 정확하다. 다만 추가 쓰기·인덱스 부담을 제안 이유, 대안 표, 감수할 점에서 반복하고 미측정 성능과 보존 한계도 재설명해 일부 군더더기가 남는다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "| 중복 판정 키가 없음 | 중복 판정 기록과 업무 이벤트를 같은 트랜잭션에서 생성합니다. |",
+          "location": "처리 흐름 표·대안 비교 표·리뷰에서 결정할 사항",
+          "source_fact_ids": [
+            "D3",
+            "D4",
+            "D5",
+            "D6",
+            "D7",
+            "D8",
+            "D9"
+          ],
+          "reason": "조건별 요청 처리와 대안의 비교 기준이 분명하다. 검증 조건·판단 기준 및 운영 책임을 정할 항목도 있어 설계 리뷰에 바로 사용할 수 있다."
+        }
+      ],
+      "strengths": [
+        "요청 조건별 처리를 표로 제시해 원자성과 재시도 규칙을 확인하기 쉽다.",
+        "미확정 성능과 보존 범위를 명확히 드러낸다."
+      ],
+      "improvement_notes": [
+        "추가 부하·성능 미측정·보존 한계의 상세 설명을 보장 범위 절에 모으고 다른 절의 동일 설명을 통합하면 반복이 줄어든다."
+      ]
+    },
+    {
+      "case_id": "paragraph_edit",
+      "output_id": "doc-e08f3773",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "`scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 사용하면 `400 Bad Request`가 반환됩니다.",
+          "location": "세 문단 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "상한과 실제 반환 수, 기본값과 범위, 0의 오류, 커서와 필터 조건, 검증 및 미확인 버전을 모두 정확히 보존했다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다.",
+          "location": "첫째~셋째 문단",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "원문의 다섯 사실 묶음이 모두 남아 있고, 필터 유지와 null 종료 조건도 누락하지 않았다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "이 동작은 LogStore 2.6.1에서 확인했습니다.",
+          "location": "세 문단의 순서",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "반환 상한과 값, 다음 페이지 조회, 검증 범위를 세 문단으로 나누어 개발자가 필요한 순서로 읽을 수 있다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "`scan_limit` 파라미터는 한 번의 요청에서 반환할 항목 수의 상한을 정합니다.",
+          "location": "첫째 문단 및 전체 문장",
+          "source_fact_ids": [
+            "E1"
+          ],
+          "reason": "원문의 복잡한 명사형 서술을 직접적인 문장으로 정리했고, 조건과 결과가 자연스럽게 이어져 쉽게 읽힌다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "`next_cursor`가 `null`이면 조회가 끝난 것입니다.",
+          "location": "응답 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "해설이나 목록을 덧붙이지 않고 완성된 문단 본문만 제공했다. API 호출 조건과 버전 한계가 명확해 그대로 게시할 수 있다."
+        }
+      ],
+      "strengths": [
+        "기술적 의미를 모두 보존하면서 문장을 간결하고 자연스럽게 다듬었다.",
+        "요청한 문단 본문 형식을 정확히 지켰다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "paragraph_edit",
+      "output_id": "doc-347dfac9",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "실제 반환 항목 수는 상한보다 적을 수 있습니다.",
+          "location": "세 문단 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "정확한 반환 수가 아닌 상한임을 유지하고 수치·오류·커서 조건·검증 범위 모두 원자료와 일치한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "`2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.",
+          "location": "첫째~셋째 문단",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "다섯 사실 묶음을 모두 유지했다. 기존 필터를 유지하는 조건과 구버전 미확인도 분명하게 포함한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "`scan_limit`은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터입니다. 실제 반환 항목 수는 상한보다 적을 수 있습니다.",
+          "location": "정의·값·커서·검증 버전의 배치",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "정의 바로 뒤에 반환 수의 한계를 배치하고, 다음 문단에서 페이지 이동을 설명한 뒤 검증 버전으로 마무리해 논리적 순서가 자연스럽다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "`next_cursor`가 `null`이 아니면 그 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다.",
+          "location": "둘째 문단 및 전체 문장",
+          "source_fact_ids": [
+            "E4"
+          ],
+          "reason": "주체와 지시 대상이 분명하고 조건·행동·결과가 자연스럽게 읽힌다. 불필요한 명사형이나 중복 서술도 없다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "`scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값으로 요청하면 `400 Bad Request`가 반환됩니다.",
+          "location": "응답 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "완성한 본문만 세 문단으로 제공했고 식별자를 쉽게 구별할 수 있게 표기했다. 개발자 가이드에 그대로 게시할 수 있다."
+        }
+      ],
+      "strengths": [
+        "상한의 정의와 실제 반환 수의 차이를 가까이 배치한다.",
+        "숫자·식별자·검증 범위를 빠짐없이 보존한다."
+      ],
+      "improvement_notes": []
+    },
+    {
+      "case_id": "paragraph_edit",
+      "output_id": "doc-3e20b552",
+      "dimension_scores": {
+        "factual_accuracy": 4,
+        "information_completeness": 4,
+        "audience_purpose_structure": 4,
+        "korean_naturalness": 4,
+        "actionability_format": 4
+      },
+      "total_score": 20,
+      "hard_fail": false,
+      "hard_fail_evidence": [],
+      "dimension_evidence": [
+        {
+          "dimension_id": "factual_accuracy",
+          "quote": "기본값은 `200`이며, 허용 범위는 `1`부터 `1000`까지입니다.",
+          "location": "세 문단 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "수치와 오류 의미, 상한보다 적을 수 있는 반환 수, 커서 분기와 필터 유지, 버전별 확인 수준을 정확히 유지한다."
+        },
+        {
+          "dimension_id": "information_completeness",
+          "quote": "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회하세요.",
+          "location": "첫째~셋째 문단",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "원문의 다섯 사실 묶음과 모든 필수 조건이 포함되어 있다. 다음 페이지를 요청할 값과 유지할 필터도 명시한다."
+        },
+        {
+          "dimension_id": "audience_purpose_structure",
+          "quote": "`next_cursor`가 `null`이면 조회가 끝납니다.",
+          "location": "문단 구성",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "한 요청의 반환 상한을 먼저 설명한 뒤 페이지 이동과 종료를 한 문단에서 대조하고, 마지막에 검증 범위를 제시해 가이드의 확인 순서에 맞는다."
+        },
+        {
+          "dimension_id": "korean_naturalness",
+          "quote": "`scan_limit=0`은 무제한 조회를 뜻하지 않습니다. 이 값을 지정하면 `400 Bad Request`를 반환합니다.",
+          "location": "첫째 문단 및 전체 문장",
+          "source_fact_ids": [
+            "E3"
+          ],
+          "reason": "짧은 두 문장으로 잘못 이해하기 쉬운 조건과 결과를 명확히 연결한다. 전문 식별자와 자연스러운 서술이 조화를 이루며 의미를 다시 해석할 구절이 거의 없다."
+        },
+        {
+          "dimension_id": "actionability_format",
+          "quote": "이 동작은 `LogStore 2.6.1`에서 확인했습니다.",
+          "location": "응답 전체",
+          "source_fact_ids": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "표나 목록, 편집 해설 없이 완성된 본문만 제공했다. 구체적인 페이지 조회 지시와 검증 한계가 있어 그대로 게시할 수 있다."
+        }
+      ],
+      "strengths": [
+        "원문의 조건과 예시를 모두 유지했다.",
+        "페이지 조회 행동과 종료 조건을 자연스러운 문단으로 전달한다."
+      ],
+      "improvement_notes": []
+    }
+  ]
+}

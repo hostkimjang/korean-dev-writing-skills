@@ -1,0 +1,201 @@
+{
+  "case_id": "investigation_pr",
+  "title": "간헐적인 중복 발송을 조사하는 PR 설명",
+  "document_type": "PR 설명",
+  "audience": {
+    "primary": "변경을 검토할 동료 백엔드 개발자와 운영 담당자",
+    "prior_knowledge": "발송 worker의 역할은 알지만 이번 중복 발송 조사 과정은 아직 모른다.",
+    "use_context": "PR을 읽고 실제 변경 범위, 검증한 내용, 배포 후 확인할 내용을 판단한다."
+  },
+  "document_purpose": "조사용 로깅 변경의 필요성과 범위를 설명하고 확인된 사실과 가설을 구분해 리뷰를 돕는다.",
+  "user_prompt": "아래 작업 메모로 PR 본문을 작성해 주세요. 중복 발송 이슈를 함께 보고 있는 팀원이 변경 의도와 리뷰할 부분을 이해할 수 있으면 좋겠습니다. GitHub에 붙여 넣을 수 있는 한국어 Markdown으로 부탁합니다.",
+  "source_facts": [
+    {
+      "id": "P1",
+      "text": "관련 이슈는 #184다. 운영 로그에서 같은 job_id가 두 번 발송된 사례를 확인했다. 로컬 환경에서는 아직 안정적인 재현 방법을 찾지 못했다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P2",
+      "text": "발송 작업이 길어져 lock TTL이 먼저 끝나는 것이 한 가지 원인 후보지만, 실제 원인인지는 확인하지 못했다.",
+      "certainty": "hypothesis"
+    },
+    {
+      "id": "P3",
+      "text": "이번 PR은 src/workers/deliver.ts에 진단 로그를 추가한다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 바꾸지 않는다. 중복 발송을 해결하는 수정은 포함하지 않는다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P4",
+      "text": "진단 로그의 이름은 delivery_retry_probe다. 기록하는 필드는 job_id, attempt, lock_owner다. 수신자 주소와 메시지 본문은 기록하지 않는다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P5",
+      "text": "진단 로그는 DELIVERY_DIAG_ENABLED=true일 때만 활성화된다. 이 설정의 기본값은 false다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P6",
+      "text": "tests/workers/deliver-log.test.ts에서 진단 로그의 조건부 출력과 필드를 검증했다. 로컬에서 실행한 명령은 pnpm exec vitest run tests/workers/deliver-log.test.ts이며 통과했다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P7",
+      "text": "스테이징에서 실제 발송 경로를 검증하지 않았고, 진단 로그를 켰을 때의 처리량과 지연 변화도 측정하지 않았다.",
+      "certainty": "unknown"
+    },
+    {
+      "id": "P8",
+      "text": "배포 후 진단 로그를 켜서 중복 사례의 job_id와 attempt, lock_owner를 대조하려 한다. 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정할 예정이다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "P9",
+      "text": "리뷰 요청 사항은 진단 필드가 중복 사례의 구분에 충분한지, 그리고 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지다.",
+      "certainty": "confirmed"
+    }
+  ],
+  "source_draft": null,
+  "verifiable_claims": [
+    {
+      "id": "PC1",
+      "source_refs": [
+        "P1"
+      ],
+      "claim": "중복 사례는 확인했으나 안정적 재현 방법은 아직 없다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC2",
+      "source_refs": [
+        "P2"
+      ],
+      "claim": "lock TTL 만료는 확인된 원인이 아니라 조사할 가설이다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC3",
+      "source_refs": [
+        "P3"
+      ],
+      "claim": "변경은 진단 로깅이며 버그 수정이나 발송 동작 변경을 포함하지 않는다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC4",
+      "source_refs": [
+        "P4",
+        "P5"
+      ],
+      "claim": "지정한 진단 필드를 기본 비활성 설정으로 조건부 기록한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC5",
+      "source_refs": [
+        "P6",
+        "P7"
+      ],
+      "claim": "로컬의 지정 테스트 통과와 미실시한 스테이징 및 성능 검증을 구별한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC6",
+      "source_refs": [
+        "P8",
+        "P9"
+      ],
+      "claim": "추가 로그를 조사에 활용할 후속 계획과 구체적인 리뷰 요청이 있다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "PC7",
+      "source_refs": [
+        "P4"
+      ],
+      "claim": "수신자 주소와 메시지 본문은 진단 로그에 기록하지 않는다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    }
+  ],
+  "expected_checks": {
+    "must_include": [
+      "문제 배경과 현재 확인 수준",
+      "진단 로깅이라는 변경 범위",
+      "활성화 설정 및 기본값",
+      "검증한 항목과 아직 검증하지 않은 항목",
+      "후속 조사 계획과 리뷰 요청"
+    ],
+    "preserve_identifiers": [
+      {
+        "value": "#184",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "src/workers/deliver.ts",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "delivery_retry_probe",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "job_id",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "attempt",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "lock_owner",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "DELIVERY_DIAG_ENABLED",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "true",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "false",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "tests/workers/deliver-log.test.ts",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+        "when": "실행한 테스트 명령을 인용할 때"
+      }
+    ],
+    "forbidden_inventions": [
+      "이번 PR이 중복 발송 버그를 해결했다거나 원인을 확정했다고 쓰지 않는다.",
+      "lock TTL 값을 늘렸거나 재시도 로직을 바꿨다고 쓰지 않는다.",
+      "스테이징 검증, 운영 재현, 성능 측정을 완료한 것으로 쓰지 않는다.",
+      "진단 로그에 수신자 주소와 메시지 본문을 추가한다고 쓰지 않는다.",
+      "자료에 없는 테스트 개수, 성능 향상 수치, 배포 일정을 붙이지 않는다."
+    ],
+    "hard_fail_if": [
+      "이번 PR로 중복 발송이 해결됐다고 단정한다.",
+      "lock TTL 만료를 확인된 근본 원인으로 확정한다.",
+      "실시하지 않은 스테이징 검증 또는 성능 측정을 통과한 근거로 제시한다."
+    ]
+  },
+  "length_guidance": {
+    "unit": "Korean characters including spaces",
+    "suggested_min": 400,
+    "suggested_max": 700,
+    "scoring": false
+  }
+}

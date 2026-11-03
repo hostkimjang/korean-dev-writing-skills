@@ -1,0 +1,238 @@
+{
+  "case_id": "cli_readme",
+  "title": "로컬 로그 필터 CLI의 첫 README",
+  "document_type": "README",
+  "audience": {
+    "primary": "팀에 합류해 로컬 로그를 확인하려는 백엔드 개발자",
+    "prior_knowledge": "터미널과 Python 패키지 설치에는 익숙하지만 이 도구는 처음 사용한다.",
+    "use_context": "저장소의 README를 보며 설치하고 로그에서 오류 항목을 찾는다."
+  },
+  "document_purpose": "도구의 역할, 설치, 첫 실행, 주요 옵션과 입력 오류 처리 방식을 빠르게 안내한다.",
+  "user_prompt": "아래 프로젝트 메모를 바탕으로 한국어 README 초안을 써 주세요. 팀에 새로 온 개발자가 이 도구로 로컬 로그를 확인하려고 합니다. 설치부터 첫 실행까지 따라 할 수 있게 하고, 자주 쓰는 옵션과 사용 중 알아둘 점도 담아 주세요. 저장소에 바로 넣을 수 있는 Markdown이면 좋겠습니다.",
+  "source_facts": [
+    {
+      "id": "R1",
+      "text": "프로젝트와 실행 명령 이름은 trace-slice다. 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI다. 네트워크로 로그를 전송하지 않는다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R2",
+      "text": "이번 README가 설명하는 배포 버전은 0.4.2다. 프로젝트의 Python 요구 버전은 3.10 이상으로 선언되어 있다. 실제로 설치와 기본 동작을 확인한 환경은 Ubuntu 22.04의 Python 3.11이다. 다른 운영체제에서의 검증 기록은 없다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R3",
+      "text": "버전을 고정해 설치하는 명령은 python -m pip install trace-slice==0.4.2다. 설치 후 trace-slice --help로 도움말을 볼 수 있다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R4",
+      "text": "사용 형식은 trace-slice INPUT [--level LEVEL] [--output PATH]다. INPUT은 로컬 JSON Lines 파일의 경로이며 필수 위치 인수다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R5",
+      "text": "--level의 기본값은 info다. 허용되는 값은 debug, info, warn, error이며 이 순서로 심각도가 높아진다. 지정한 값과 그보다 높은 심각도의 항목이 출력된다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R6",
+      "text": "--output을 생략하면 결과를 표준 출력으로 내보낸다. --output PATH를 지정하면 해당 파일에 결과를 쓰며, 파일이 이미 있으면 덮어쓴다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R7",
+      "text": "예제 파일 경로는 ./logs/api.jsonl이다. trace-slice ./logs/api.jsonl --level error는 error 항목을 표준 출력으로 내보내는 유효한 명령이다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R8",
+      "text": "각 정상 로그 행에는 level 필드가 있다. JSON 구문이 잘못된 행은 건너뛰고, 건너뛴 행 수를 표준 오류로 알린다. 그 이유만으로 실행이 실패하지는 않는다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R9",
+      "text": "INPUT 파일을 읽을 수 없으면 오류를 표준 오류로 알리고 종료 코드 2로 끝난다.",
+      "certainty": "confirmed"
+    },
+    {
+      "id": "R10",
+      "text": "0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능과 날짜 범위를 지정하는 옵션이 없다.",
+      "certainty": "confirmed"
+    }
+  ],
+  "source_draft": null,
+  "verifiable_claims": [
+    {
+      "id": "RC1",
+      "source_refs": [
+        "R1"
+      ],
+      "claim": "로컬 JSON Lines 로그를 최소 심각도로 필터링하는 CLI다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC2",
+      "source_refs": [
+        "R2"
+      ],
+      "claim": "요구 버전 Python 3.10 이상과 실제 검증 환경 Python 3.11 / Ubuntu 22.04를 구분한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC3",
+      "source_refs": [
+        "R3"
+      ],
+      "claim": "설치 명령은 python -m pip install trace-slice==0.4.2다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC4",
+      "source_refs": [
+        "R4",
+        "R7"
+      ],
+      "claim": "필수 입력 경로를 포함한 유효한 첫 실행 예를 제시한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC5",
+      "source_refs": [
+        "R5"
+      ],
+      "claim": "--level의 기본값은 info이며, 지정한 심각도 이상을 선택한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC6",
+      "source_refs": [
+        "R6"
+      ],
+      "claim": "--output 생략 시 표준 출력이고, 지정 시 기존 파일을 덮어쓴다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC7",
+      "source_refs": [
+        "R8",
+        "R9"
+      ],
+      "claim": "잘못된 JSON 행의 건너뜀과 입력 파일 읽기 실패를 서로 다른 처리로 설명한다.",
+      "required": true,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC8",
+      "source_refs": [
+        "R10"
+      ],
+      "claim": "로그 추적과 날짜 범위 기능은 0.4.2에서 제공하지 않는다.",
+      "required": false,
+      "severity_if_wrong": "material"
+    },
+    {
+      "id": "RC9",
+      "source_refs": [
+        "R1"
+      ],
+      "claim": "도구가 로그를 네트워크로 전송하지 않는다.",
+      "required": false,
+      "severity_if_wrong": "material"
+    }
+  ],
+  "expected_checks": {
+    "must_include": [
+      "도구의 용도",
+      "설치 명령과 실제로 실행할 수 있는 첫 사용 예",
+      "요구 Python 범위와 확인한 환경의 구분",
+      "--level의 기본값과 비교 방향",
+      "--output의 기본 동작 및 덮어쓰기",
+      "잘못된 JSON 행과 파일 읽기 실패의 처리"
+    ],
+    "preserve_identifiers": [
+      {
+        "value": "trace-slice",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "0.4.2",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "python -m pip install trace-slice==0.4.2",
+        "when": "설치 명령을 제공할 때"
+      },
+      {
+        "value": "INPUT",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "--level",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "--output",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "debug",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "info",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "warn",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "error",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "./logs/api.jsonl",
+        "when": "제공된 예제 파일을 사용할 때"
+      },
+      {
+        "value": "level",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "3.10",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "3.11",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      },
+      {
+        "value": "22.04",
+        "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+      }
+    ],
+    "forbidden_inventions": [
+      "--follow, --since 등 자료에 없는 옵션을 사용할 수 있다고 쓰지 않는다.",
+      "macOS나 Windows의 동작을 검증했다고 쓰지 않는다.",
+      "Python 3.11에서만 지원된다고 범위를 줄이거나 Python 3.10 전체에서 실제 검증했다고 넓히지 않는다.",
+      "성능 수치, 별도의 설정 파일, 원격 로그 연동 기능을 만들어 내지 않는다."
+    ],
+    "hard_fail_if": [
+      "기존 출력 파일을 보존하거나 자동으로 이어 쓴다고 단정해, 덮어쓰기 여부에 대한 사용자의 판단을 반대로 만든다.",
+      "잘못된 JSON 행을 포함한 모든 입력을 완전히 처리했다고 보증하거나, 건너뛴 행을 결과에 포함한다고 설명한다."
+    ]
+  },
+  "length_guidance": {
+    "unit": "Korean characters including spaces",
+    "suggested_min": 600,
+    "suggested_max": 1000,
+    "scoring": false
+  }
+}
