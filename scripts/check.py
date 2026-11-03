@@ -15,7 +15,8 @@ Its outer fence must be longer than any same-character fence inside it (for
 example, four backticks around a template containing three-backtick blocks).
 ATX headings must be followed by a blank line. Ordinary single-line inline
 links and reference definitions are checked for local path existence; external
-URLs are not fetched. Use angle brackets around link paths containing spaces.
+URLs are not fetched. Footnote definitions are not link destinations; footnote
+reference resolution itself is outside the scope. Use angle brackets around link paths containing spaces.
 Nested bracket labels, escaped delimiters, and bare destinations containing
 parentheses are not parsed. This is not a substitute for rendered review.
 
@@ -63,7 +64,7 @@ INLINE_LINK = re.compile(
     r"!?\[[^\]\n]*\]\(\s*(<[^>\n]+>|[^\s()]+)"
     r"(?:[ \t]+(?:\"[^\"\n]*\"|'[^'\n]*'))?[ \t]*\)"
 )
-LINK_DEFINITION = re.compile(r"^ {0,3}\[([^\]]+)\]:\s*(<[^>\n]+>|\S+)")
+LINK_DEFINITION = re.compile(r"^ {0,3}\[(?!\^)([^\]]+)\]:\s*(<[^>\n]+>|\S+)")
 REFERENCE_LINK = re.compile(r"!?\[([^\]\n]*)\]\[([^\]\n]*)\]")
 
 

@@ -1,0 +1,715 @@
+{
+  "group": "core",
+  "cases": [
+    {
+      "case_id": "cli_readme",
+      "title": "로컬 로그 필터 CLI의 첫 README",
+      "document_type": "README",
+      "audience": {
+        "primary": "팀에 합류해 로컬 로그를 확인하려는 백엔드 개발자",
+        "prior_knowledge": "터미널과 Python 패키지 설치에는 익숙하지만 이 도구는 처음 사용한다.",
+        "use_context": "저장소의 README를 보며 설치하고 로그에서 오류 항목을 찾는다."
+      },
+      "document_purpose": "도구의 역할, 설치, 첫 실행, 주요 옵션과 입력 오류 처리 방식을 빠르게 안내한다.",
+      "user_prompt": "아래 프로젝트 메모를 바탕으로 한국어 README 초안을 써 주세요. 팀에 새로 온 개발자가 이 도구로 로컬 로그를 확인하려고 합니다. 설치부터 첫 실행까지 따라 할 수 있게 하고, 자주 쓰는 옵션과 사용 중 알아둘 점도 담아 주세요. 저장소에 바로 넣을 수 있는 Markdown이면 좋겠습니다.",
+      "source_facts": [
+        {
+          "id": "R1",
+          "text": "프로젝트와 실행 명령 이름은 trace-slice다. 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI다. 네트워크로 로그를 전송하지 않는다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R2",
+          "text": "이번 README가 설명하는 배포 버전은 0.4.2다. 프로젝트의 Python 요구 버전은 3.10 이상으로 선언되어 있다. 실제로 설치와 기본 동작을 확인한 환경은 Ubuntu 22.04의 Python 3.11이다. 다른 운영체제에서의 검증 기록은 없다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R3",
+          "text": "버전을 고정해 설치하는 명령은 python -m pip install trace-slice==0.4.2다. 설치 후 trace-slice --help로 도움말을 볼 수 있다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R4",
+          "text": "사용 형식은 trace-slice INPUT [--level LEVEL] [--output PATH]다. INPUT은 로컬 JSON Lines 파일의 경로이며 필수 위치 인수다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R5",
+          "text": "--level의 기본값은 info다. 허용되는 값은 debug, info, warn, error이며 이 순서로 심각도가 높아진다. 지정한 값과 그보다 높은 심각도의 항목이 출력된다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R6",
+          "text": "--output을 생략하면 결과를 표준 출력으로 내보낸다. --output PATH를 지정하면 해당 파일에 결과를 쓰며, 파일이 이미 있으면 덮어쓴다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R7",
+          "text": "예제 파일 경로는 ./logs/api.jsonl이다. trace-slice ./logs/api.jsonl --level error는 error 항목을 표준 출력으로 내보내는 유효한 명령이다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R8",
+          "text": "각 정상 로그 행에는 level 필드가 있다. JSON 구문이 잘못된 행은 건너뛰고, 건너뛴 행 수를 표준 오류로 알린다. 그 이유만으로 실행이 실패하지는 않는다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R9",
+          "text": "INPUT 파일을 읽을 수 없으면 오류를 표준 오류로 알리고 종료 코드 2로 끝난다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "R10",
+          "text": "0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능과 날짜 범위를 지정하는 옵션이 없다.",
+          "certainty": "confirmed"
+        }
+      ],
+      "source_draft": null,
+      "verifiable_claims": [
+        {
+          "id": "RC1",
+          "source_refs": [
+            "R1"
+          ],
+          "claim": "로컬 JSON Lines 로그를 최소 심각도로 필터링하는 CLI다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC2",
+          "source_refs": [
+            "R2"
+          ],
+          "claim": "요구 버전 Python 3.10 이상과 실제 검증 환경 Python 3.11 / Ubuntu 22.04를 구분한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC3",
+          "source_refs": [
+            "R3"
+          ],
+          "claim": "설치 명령은 python -m pip install trace-slice==0.4.2다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC4",
+          "source_refs": [
+            "R4",
+            "R7"
+          ],
+          "claim": "필수 입력 경로를 포함한 유효한 첫 실행 예를 제시한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC5",
+          "source_refs": [
+            "R5"
+          ],
+          "claim": "--level의 기본값은 info이며, 지정한 심각도 이상을 선택한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC6",
+          "source_refs": [
+            "R6"
+          ],
+          "claim": "--output 생략 시 표준 출력이고, 지정 시 기존 파일을 덮어쓴다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC7",
+          "source_refs": [
+            "R8",
+            "R9"
+          ],
+          "claim": "잘못된 JSON 행의 건너뜀과 입력 파일 읽기 실패를 서로 다른 처리로 설명한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC8",
+          "source_refs": [
+            "R10"
+          ],
+          "claim": "로그 추적과 날짜 범위 기능은 0.4.2에서 제공하지 않는다.",
+          "required": false,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "RC9",
+          "source_refs": [
+            "R1"
+          ],
+          "claim": "도구가 로그를 네트워크로 전송하지 않는다.",
+          "required": false,
+          "severity_if_wrong": "material"
+        }
+      ],
+      "expected_checks": {
+        "must_include": [
+          "도구의 용도",
+          "설치 명령과 실제로 실행할 수 있는 첫 사용 예",
+          "요구 Python 범위와 확인한 환경의 구분",
+          "--level의 기본값과 비교 방향",
+          "--output의 기본 동작 및 덮어쓰기",
+          "잘못된 JSON 행과 파일 읽기 실패의 처리"
+        ],
+        "preserve_identifiers": [
+          {
+            "value": "trace-slice",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "0.4.2",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "python -m pip install trace-slice==0.4.2",
+            "when": "설치 명령을 제공할 때"
+          },
+          {
+            "value": "INPUT",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "--level",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "--output",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "debug",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "info",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "warn",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "error",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "./logs/api.jsonl",
+            "when": "제공된 예제 파일을 사용할 때"
+          },
+          {
+            "value": "level",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "3.10",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "3.11",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "22.04",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          }
+        ],
+        "forbidden_inventions": [
+          "--follow, --since 등 자료에 없는 옵션을 사용할 수 있다고 쓰지 않는다.",
+          "macOS나 Windows의 동작을 검증했다고 쓰지 않는다.",
+          "Python 3.11에서만 지원된다고 범위를 줄이거나 Python 3.10 전체에서 실제 검증했다고 넓히지 않는다.",
+          "성능 수치, 별도의 설정 파일, 원격 로그 연동 기능을 만들어 내지 않는다."
+        ],
+        "hard_fail_if": [
+          "기존 출력 파일을 보존하거나 자동으로 이어 쓴다고 단정해, 덮어쓰기 여부에 대한 사용자의 판단을 반대로 만든다.",
+          "잘못된 JSON 행을 포함한 모든 입력을 완전히 처리했다고 보증하거나, 건너뛴 행을 결과에 포함한다고 설명한다."
+        ]
+      },
+      "documents": [
+        {
+          "label": "doc-7a306093",
+          "content": "# trace-slice\n\n`trace-slice`는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 로그를 네트워크로 전송하지 않습니다. 이 문서는 **0.4.2** 버전을 기준으로 합니다.\n\n## 설치\n\n프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작은 **Ubuntu 22.04의 Python 3.11**에서 확인했으며, 다른 운영체제에서의 검증 기록은 없습니다.\n\n다음 명령으로 0.4.2 버전을 설치합니다.\n\n```bash\npython -m pip install trace-slice==0.4.2\n```\n\n설치 후 도움말을 확인합니다.\n\n```bash\ntrace-slice --help\n```\n\n## 첫 실행: 오류 로그 확인하기\n\n입력에는 로컬 JSON Lines 파일 경로를 지정합니다. 각 정상 로그 행에는 `level` 필드가 있습니다. 아래 명령의 `./logs/api.jsonl`은 예제 경로이므로, 확인할 로그 파일 경로에 맞게 바꿔 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level error\n```\n\n이 명령은 `error` 항목을 표준 출력으로 내보냅니다.\n\n## 사용 형식과 주요 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n| 인수·옵션 | 설명 | 기본 동작 |\n| --- | --- | --- |\n| `INPUT` | 읽을 로컬 JSON Lines 파일 경로입니다. 필수 위치 인수입니다. | 생략할 수 없습니다. |\n| `--level LEVEL` | 지정한 값과 그보다 높은 심각도의 항목을 출력합니다. 허용 값은 `debug`, `info`, `warn`, `error`입니다. | `info` |\n| `--output PATH` | 결과를 `PATH`에 지정한 파일에 씁니다. **파일이 이미 있으면 덮어씁니다.** | 생략하면 표준 출력으로 내보냅니다. |\n\n심각도는 `debug`, `info`, `warn`, `error` 순서로 높아집니다. 예를 들어 `--level warn`을 지정하면 `warn`과 `error` 항목을 출력하고, `--level`을 생략하면 `info`, `warn`, `error` 항목을 출력합니다.\n\n## 사용 중 알아둘 점\n\n- **JSON 구문이 잘못된 행**은 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 잘못된 JSON 행이 있다는 이유만으로 실행이 실패하지는 않습니다.\n- **입력 파일을 읽을 수 없으면** 오류를 표준 오류로 알리고 종료 코드 `2`로 끝납니다.\n- **0.4.2에는 실행 중 늘어나는 로그를 계속 따라가는 기능과 날짜 범위를 지정하는 옵션이 없습니다.**\n"
+        },
+        {
+          "label": "doc-2867ca34",
+          "content": "# trace-slice\n\ntrace-slice는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 로그에서 오류 항목을 찾을 때 사용할 수 있으며, 로그를 네트워크로 전송하지 않습니다.\n\n이 README는 **0.4.2** 버전을 설명합니다.\n\n## 설치와 첫 실행\n\n프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04의 Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다.\n\n1. 버전을 고정해 설치합니다.\n\n   ```bash\n   python -m pip install trace-slice==0.4.2\n   ```\n\n2. 도움말이 표시되는지 확인합니다.\n\n   ```bash\n   trace-slice --help\n   ```\n\n3. 로컬 로그 파일에서 오류 항목을 확인합니다. 아래의 `./logs/api.jsonl`은 예시 경로이므로, 읽을 수 있는 실제 로그 파일 경로로 바꿔 실행하세요. 입력은 JSON Lines 형식이며, 각 정상 로그 행에는 `level` 필드가 있습니다.\n\n   ```bash\n   trace-slice ./logs/api.jsonl --level error\n   ```\n\n   이 명령은 `error` 항목을 표준 출력으로 내보냅니다.\n\n## 사용 방법과 주요 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n`INPUT`은 필수 위치 인수입니다. `INPUT`, `LEVEL`, `PATH`는 각각 사용할 파일 경로, 심각도, 저장 경로로 바꾸세요.\n\n| 인수·옵션 | 설명 | 생략했을 때 |\n| --- | --- | --- |\n| `INPUT` | 읽을 로컬 JSON Lines 파일의 경로 | 생략할 수 없음 |\n| `--level LEVEL` | 출력할 항목의 최소 심각도. `debug`, `info`, `warn`, `error` 중 하나를 지정 | `info` |\n| `--output PATH` | 결과를 저장할 파일 경로. **파일이 이미 있으면 덮어씀** | 표준 출력으로 내보냄 |\n\n심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. `--level`로 지정한 값과 그보다 높은 심각도의 항목이 출력됩니다. 예를 들어 `--level warn`은 `warn`과 `error` 항목을 출력하며, 옵션을 생략하면 기본값인 `info`에 따라 `info`, `warn`, `error` 항목을 출력합니다.\n\n결과를 파일에 저장하려면 `--output PATH`를 추가하세요. 기존 파일을 덮어쓰므로 실행 전에 저장 경로를 확인하세요.\n\n## 입력 오류 처리\n\nJSON 구문이 잘못된 행은 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 잘못된 JSON 행이 있다는 이유만으로 실행이 실패하지는 않습니다.\n\n`INPUT` 파일을 읽을 수 없으면 오류를 표준 오류로 알리고 **종료 코드 2**로 끝납니다.\n\n## 0.4.2의 제약\n\n- 실행 중 늘어나는 로그를 계속 따라가는 기능은 없습니다.\n- 날짜 범위를 지정하는 옵션은 없습니다.\n"
+        },
+        {
+          "label": "doc-41fb9dd4",
+          "content": "# trace-slice\n\n`trace-slice`는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다. 오류 로그만 터미널에서 확인하거나, 경고 이상의 로그를 파일로 저장할 때 사용할 수 있습니다. 로그를 네트워크로 전송하지 않습니다.\n\n이 문서는 **0.4.2** 버전을 기준으로 합니다.\n\n## 설치\n\nPython **3.10 이상**이 필요합니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04 / Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다.\n\n다음 명령으로 0.4.2 버전을 설치합니다.\n\n```bash\npython -m pip install trace-slice==0.4.2\n```\n\n설치 후 도움말을 확인합니다.\n\n```bash\ntrace-slice --help\n```\n\n## 첫 실행: 오류 로그 확인\n\n확인할 로컬 JSON Lines 파일을 준비합니다. 각 정상 로그 행에는 `level` 필드가 있어야 합니다.\n\n아래 예제는 로그 파일이 `./logs/api.jsonl`에 있다고 가정합니다. 실제 파일이 다른 위치에 있다면 경로를 바꿔 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level error\n```\n\n`error` 항목이 표준 출력으로 나옵니다. 터미널에서 실행하면 결과를 바로 확인할 수 있습니다.\n\n## 사용 형식과 주요 옵션\n\n```text\ntrace-slice INPUT [--level LEVEL] [--output PATH]\n```\n\n| 인수·옵션 | 설명 | 생략 시 동작 |\n| --- | --- | --- |\n| `INPUT` | 읽을 로컬 JSON Lines 파일의 경로 | 필수 위치 인수이므로 생략할 수 없습니다. |\n| `--level LEVEL` | 출력할 최소 심각도. `debug`, `info`, `warn`, `error` 중 하나를 지정합니다. | `info` |\n| `--output PATH` | 결과를 저장할 파일 경로 | 표준 출력으로 내보냅니다. |\n\n심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. 지정한 값과 그보다 높은 심각도의 항목이 모두 출력됩니다.\n\n| `--level` 값 | 출력 대상 |\n| --- | --- |\n| `debug` | `debug`, `info`, `warn`, `error` |\n| `info` | `info`, `warn`, `error` |\n| `warn` | `warn`, `error` |\n| `error` | `error` |\n\n### 기본 심각도로 확인\n\n`--level`을 생략하면 `info` 이상의 항목을 출력합니다.\n\n```bash\ntrace-slice ./logs/api.jsonl\n```\n\n### 경고 이상의 로그를 파일로 저장\n\n**출력 파일이 이미 있으면 덮어씁니다.** 보관해야 할 파일과 경로가 겹치지 않는지 확인한 뒤 실행하세요.\n\n```bash\ntrace-slice ./logs/api.jsonl --level warn --output ./warnings.jsonl\n```\n\n`warn`과 `error` 항목이 `./warnings.jsonl`에 저장됩니다.\n\n## 입력 오류 처리\n\n| 상황 | 동작 |\n| --- | --- |\n| JSON 구문이 잘못된 행이 있음 | 해당 행을 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 이 이유만으로 실행이 실패하지는 않습니다. |\n| `INPUT` 파일을 읽을 수 없음 | 오류를 표준 오류로 알리고 종료 코드 `2`로 끝납니다. |\n\n결과는 표준 출력 또는 `--output`으로 지정한 파일에 기록되며, 위 안내와 오류는 표준 오류로 나옵니다. 잘못된 JSON 행이 있다는 안내를 받았다면, 해당 행은 필터링 결과에 포함되지 않았다는 점을 확인하세요.\n\n## 0.4.2에서 지원하지 않는 기능\n\n- 실행 중 늘어나는 로그를 계속 따라가는 기능\n- 날짜 범위를 지정하는 옵션\n"
+        }
+      ]
+    },
+    {
+      "case_id": "investigation_pr",
+      "title": "간헐적인 중복 발송을 조사하는 PR 설명",
+      "document_type": "PR 설명",
+      "audience": {
+        "primary": "변경을 검토할 동료 백엔드 개발자와 운영 담당자",
+        "prior_knowledge": "발송 worker의 역할은 알지만 이번 중복 발송 조사 과정은 아직 모른다.",
+        "use_context": "PR을 읽고 실제 변경 범위, 검증한 내용, 배포 후 확인할 내용을 판단한다."
+      },
+      "document_purpose": "조사용 로깅 변경의 필요성과 범위를 설명하고 확인된 사실과 가설을 구분해 리뷰를 돕는다.",
+      "user_prompt": "아래 작업 메모로 PR 본문을 작성해 주세요. 중복 발송 이슈를 함께 보고 있는 팀원이 변경 의도와 리뷰할 부분을 이해할 수 있으면 좋겠습니다. GitHub에 붙여 넣을 수 있는 한국어 Markdown으로 부탁합니다.",
+      "source_facts": [
+        {
+          "id": "P1",
+          "text": "관련 이슈는 #184다. 운영 로그에서 같은 job_id가 두 번 발송된 사례를 확인했다. 로컬 환경에서는 아직 안정적인 재현 방법을 찾지 못했다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P2",
+          "text": "발송 작업이 길어져 lock TTL이 먼저 끝나는 것이 한 가지 원인 후보지만, 실제 원인인지는 확인하지 못했다.",
+          "certainty": "hypothesis"
+        },
+        {
+          "id": "P3",
+          "text": "이번 PR은 src/workers/deliver.ts에 진단 로그를 추가한다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 바꾸지 않는다. 중복 발송을 해결하는 수정은 포함하지 않는다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P4",
+          "text": "진단 로그의 이름은 delivery_retry_probe다. 기록하는 필드는 job_id, attempt, lock_owner다. 수신자 주소와 메시지 본문은 기록하지 않는다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P5",
+          "text": "진단 로그는 DELIVERY_DIAG_ENABLED=true일 때만 활성화된다. 이 설정의 기본값은 false다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P6",
+          "text": "tests/workers/deliver-log.test.ts에서 진단 로그의 조건부 출력과 필드를 검증했다. 로컬에서 실행한 명령은 pnpm exec vitest run tests/workers/deliver-log.test.ts이며 통과했다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P7",
+          "text": "스테이징에서 실제 발송 경로를 검증하지 않았고, 진단 로그를 켰을 때의 처리량과 지연 변화도 측정하지 않았다.",
+          "certainty": "unknown"
+        },
+        {
+          "id": "P8",
+          "text": "배포 후 진단 로그를 켜서 중복 사례의 job_id와 attempt, lock_owner를 대조하려 한다. 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정할 예정이다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "P9",
+          "text": "리뷰 요청 사항은 진단 필드가 중복 사례의 구분에 충분한지, 그리고 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지다.",
+          "certainty": "confirmed"
+        }
+      ],
+      "source_draft": null,
+      "verifiable_claims": [
+        {
+          "id": "PC1",
+          "source_refs": [
+            "P1"
+          ],
+          "claim": "중복 사례는 확인했으나 안정적 재현 방법은 아직 없다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC2",
+          "source_refs": [
+            "P2"
+          ],
+          "claim": "lock TTL 만료는 확인된 원인이 아니라 조사할 가설이다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC3",
+          "source_refs": [
+            "P3"
+          ],
+          "claim": "변경은 진단 로깅이며 버그 수정이나 발송 동작 변경을 포함하지 않는다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC4",
+          "source_refs": [
+            "P4",
+            "P5"
+          ],
+          "claim": "지정한 진단 필드를 기본 비활성 설정으로 조건부 기록한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC5",
+          "source_refs": [
+            "P6",
+            "P7"
+          ],
+          "claim": "로컬의 지정 테스트 통과와 미실시한 스테이징 및 성능 검증을 구별한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC6",
+          "source_refs": [
+            "P8",
+            "P9"
+          ],
+          "claim": "추가 로그를 조사에 활용할 후속 계획과 구체적인 리뷰 요청이 있다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "PC7",
+          "source_refs": [
+            "P4"
+          ],
+          "claim": "수신자 주소와 메시지 본문은 진단 로그에 기록하지 않는다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        }
+      ],
+      "expected_checks": {
+        "must_include": [
+          "문제 배경과 현재 확인 수준",
+          "진단 로깅이라는 변경 범위",
+          "활성화 설정 및 기본값",
+          "검증한 항목과 아직 검증하지 않은 항목",
+          "후속 조사 계획과 리뷰 요청"
+        ],
+        "preserve_identifiers": [
+          {
+            "value": "#184",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "src/workers/deliver.ts",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "delivery_retry_probe",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "job_id",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "attempt",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "lock_owner",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "DELIVERY_DIAG_ENABLED",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "true",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "false",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "tests/workers/deliver-log.test.ts",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+            "when": "실행한 테스트 명령을 인용할 때"
+          }
+        ],
+        "forbidden_inventions": [
+          "이번 PR이 중복 발송 버그를 해결했다거나 원인을 확정했다고 쓰지 않는다.",
+          "lock TTL 값을 늘렸거나 재시도 로직을 바꿨다고 쓰지 않는다.",
+          "스테이징 검증, 운영 재현, 성능 측정을 완료한 것으로 쓰지 않는다.",
+          "진단 로그에 수신자 주소와 메시지 본문을 추가한다고 쓰지 않는다.",
+          "자료에 없는 테스트 개수, 성능 향상 수치, 배포 일정을 붙이지 않는다."
+        ],
+        "hard_fail_if": [
+          "이번 PR로 중복 발송이 해결됐다고 단정한다.",
+          "lock TTL 만료를 확인된 근본 원인으로 확정한다.",
+          "실시하지 않은 스테이징 검증 또는 성능 측정을 통과한 근거로 제시한다."
+        ]
+      },
+      "documents": [
+        {
+          "label": "doc-da4d5743",
+          "content": "## 배경과 목적\n\n운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했습니다(#184). 로컬에서는 아직 안정적인 재현 방법을 찾지 못해, 이번 PR에서 발송 worker에 진단 로그를 추가해 원인 조사에 필요한 정보를 수집하려 합니다.\n\n발송 작업이 길어져 lock TTL이 먼저 만료되는 경우를 원인 후보로 보고 있지만, 실제 원인인지는 확인하지 못했습니다.\n\n## 변경 범위\n\n`src/workers/deliver.ts`에 다음 진단 로그를 추가합니다.\n\n- 로그 이름은 `delivery_retry_probe`이며, `job_id`, `attempt`, `lock_owner`를 기록합니다.\n- `DELIVERY_DIAG_ENABLED=true`일 때만 진단 로그를 출력합니다. 이 설정의 기본값은 `false`입니다.\n- 수신자 주소와 메시지 본문은 기록하지 않습니다.\n\n발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다. 중복 발송을 해결하는 수정도 포함하지 않습니다.\n\n## 검증 결과\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 아래 명령을 로컬에서 실행해 통과했습니다.\n\n```sh\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징에서 실제 발송 경로는 검증하지 않았습니다. 진단 로그를 켰을 때 처리량과 지연이 어떻게 달라지는지도 아직 측정하지 않았습니다.\n\n## 배포 후 확인 계획\n\n배포 후 진단 로그를 켜서 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정하려 합니다.\n\n## 리뷰 요청\n\n- 현재 진단 필드로 중복 발송 사례를 구분하기에 충분한지 확인해 주세요.\n- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인해 주세요.\n"
+        },
+        {
+          "label": "doc-1fabebf2",
+          "content": "## 배경\n\n관련 이슈: #184\n\n운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했습니다. 로컬에서는 아직 안정적인 재현 방법을 찾지 못해, 운영에서 발생하는 중복 사례를 대조할 수 있도록 진단 로그를 추가합니다.\n\n발송 작업이 길어져 lock TTL이 먼저 만료되는 상황을 원인 후보로 보고 있습니다. 다만 실제 원인인지는 아직 확인하지 못했습니다.\n\n## 변경 내용\n\n`src/workers/deliver.ts`에 `delivery_retry_probe` 진단 로그를 추가합니다.\n\n- 기록 필드: `job_id`, `attempt`, `lock_owner`\n- 활성화 조건: `DELIVERY_DIAG_ENABLED=true`일 때만 출력하며, 기본값은 `false`입니다.\n- 수신자 주소와 메시지 본문은 기록하지 않습니다.\n\n이번 PR의 범위는 원인 조사를 위한 로깅입니다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 그대로 유지하며, 중복 발송을 해결하는 수정은 포함하지 않습니다.\n\n## 검증\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 아래 명령을 로컬에서 실행했고 통과했습니다.\n\n```sh\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징의 실제 발송 경로는 아직 검증하지 않았습니다. 진단 로그를 활성화했을 때의 처리량과 지연 변화도 측정하지 않았습니다.\n\n## 리뷰 요청\n\n- `job_id`, `attempt`, `lock_owner`가 중복 사례를 구분하는 데 충분한지 확인 부탁드립니다.\n- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인 부탁드립니다.\n\n## 배포 후 확인\n\n배포 후 `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 활성화해 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 조사 결과를 #184에 정리한 뒤 수정 방향을 결정하겠습니다.\n"
+        },
+        {
+          "label": "doc-270bef58",
+          "content": "## 변경 이유\n\n중복 발송 이슈 #184의 원인을 조사하기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다. 운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했지만, 로컬에서는 아직 안정적인 재현 방법을 찾지 못했습니다.\n\n발송 작업이 길어져 lock TTL이 먼저 만료되는 상황이 원인 후보 중 하나입니다. 다만 실제 원인인지는 확인하지 못했으며, 이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다.\n\n## 변경 내용과 범위\n\n진단 로그 `delivery_retry_probe`에 `job_id`, `attempt`, `lock_owner`를 기록합니다. 수신자 주소와 메시지 본문은 기록하지 않습니다.\n\n진단 로그는 `DELIVERY_DIAG_ENABLED=true`일 때만 활성화됩니다. 이 설정의 기본값은 `false`입니다. 발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.\n\n## 검증 결과와 남은 확인 사항\n\n`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 로컬에서 다음 명령을 실행했으며 통과했습니다.\n\n```bash\npnpm exec vitest run tests/workers/deliver-log.test.ts\n```\n\n스테이징에서 실제 발송 경로는 검증하지 않았습니다. 진단 로그를 켰을 때의 처리량과 지연 변화도 아직 측정하지 않았습니다.\n\n## 배포 후 확인 계획\n\n배포 후 `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 켜고, 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 조사 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정하려 합니다.\n\n## 리뷰 요청\n\n- `job_id`, `attempt`, `lock_owner`가 중복 사례를 구분하기에 충분한지 확인해 주세요.\n- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인해 주세요.\n"
+        }
+      ]
+    },
+    {
+      "case_id": "paragraph_edit",
+      "title": "페이지 조회 가이드의 한국어 문단 편집",
+      "document_type": "기존 문단 편집",
+      "audience": {
+        "primary": "LogStore API로 여러 페이지의 조회 결과를 가져오는 개발자",
+        "prior_knowledge": "쿼리 파라미터와 커서 기반 페이지 조회를 이해한다.",
+        "use_context": "개발자 가이드 본문에서 한 요청의 반환 상한과 다음 페이지 조회 방법을 확인한다."
+      },
+      "document_purpose": "원문의 기술적 의미를 보존하면서 곧바로 게시할 수 있는 자연스러운 한국어 문단으로 다듬는다.",
+      "user_prompt": "개발자 가이드에 들어갈 아래 문단을 읽기 편한 한국어로 다듬어 주세요. 의미와 예시는 유지하고, 완성한 본문만 주세요. 표나 목록보다는 문단으로 읽히면 좋겠습니다.",
+      "source_facts": [
+        {
+          "id": "E1",
+          "text": "scan_limit은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터다. 실제 반환 수는 상한보다 적을 수 있다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "E2",
+          "text": "scan_limit의 기본값은 200이며 허용 범위는 1부터 1000까지다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "E3",
+          "text": "scan_limit=0은 무제한 조회를 뜻하지 않는다. 이 값에는 400 Bad Request가 반환된다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "E4",
+          "text": "next_cursor가 null이 아니면 그 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회한다. next_cursor가 null이면 조회가 끝난 것이다.",
+          "certainty": "confirmed"
+        },
+        {
+          "id": "E5",
+          "text": "설명한 동작을 확인한 버전은 LogStore 2.6.1이다. 2.5.x의 동일 동작 여부는 확인하지 않았다.",
+          "certainty": "confirmed"
+        }
+      ],
+      "source_draft": "조회에 있어서 `scan_limit` 파라미터를 활용하는 것을 통해 한 번의 요청에서 반환이 되는 항목 수의 상한에 대한 제어가 가능합니다. 기본값은 `200`으로 정의가 되어 있으며, 설정 가능한 값의 범위는 `1`부터 `1000`까지입니다. `scan_limit=0`으로 설정을 수행하는 경우 제한이 없어지는 것이 아니라 `400 Bad Request`가 반환되는 동작이 이루어집니다. 실제 반환 항목 수는 상한보다 적을 수 있습니다. 다음 조회의 수행은 `next_cursor`가 `null`이 아닌 경우에 한하여, 해당 값을 사용하고 기존 필터를 유지하는 형태로 진행합니다. `next_cursor`가 `null`이면 조회가 종료된 것입니다. 해당 동작의 검증은 `LogStore 2.6.1`을 대상으로 이루어졌으며, `2.5.x`에서 동일하게 동작하는지에 대해서는 아직 확인이 되지 않은 상태입니다.",
+      "verifiable_claims": [
+        {
+          "id": "EC1",
+          "source_refs": [
+            "E1"
+          ],
+          "claim": "scan_limit은 반환 개수의 상한이며 정확히 그 수를 반환한다는 보장이 아니다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "EC2",
+          "source_refs": [
+            "E2"
+          ],
+          "claim": "기본값 200과 허용 범위 1~1000을 보존한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "EC3",
+          "source_refs": [
+            "E3"
+          ],
+          "claim": "scan_limit=0에서 400 Bad Request가 발생한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "EC4",
+          "source_refs": [
+            "E4"
+          ],
+          "claim": "null이 아닌 커서와 기존 필터로 다음 페이지를 요청하고 null이면 종료한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        },
+        {
+          "id": "EC5",
+          "source_refs": [
+            "E5"
+          ],
+          "claim": "LogStore 2.6.1 검증과 2.5.x 미확인을 구분한다.",
+          "required": true,
+          "severity_if_wrong": "material"
+        }
+      ],
+      "expected_checks": {
+        "must_include": [
+          "원문의 다섯 가지 사실 묶음 모두 보존",
+          "상한과 실제 반환 수의 구분",
+          "커서 값과 필터 유지 조건",
+          "검증 버전과 미확인 버전의 구분",
+          "편집된 한국어 문단 본문"
+        ],
+        "preserve_identifiers": [
+          {
+            "value": "scan_limit",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "200",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "1",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "1000",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "scan_limit=0",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "400 Bad Request",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "next_cursor",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "null",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "LogStore 2.6.1",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          },
+          {
+            "value": "2.5.x",
+            "when": "본문에서 해당 항목을 언급하거나 예시를 제공할 때"
+          }
+        ],
+        "forbidden_inventions": [
+          "scan_limit을 검색 대상 전체의 수나 정확한 반환 수로 바꾸지 않는다.",
+          "0을 무제한 값으로 바꾸거나 허용 범위를 변경하지 않는다.",
+          "기존 필터 유지 조건을 반대로 바꾸지 않는다.",
+          "2.5.x를 지원 불가로 단정하거나 동작을 검증한 버전이라고 쓰지 않는다.",
+          "원문에 없는 속도 향상, 추가 옵션, 재시작 요구를 보태지 않는다."
+        ],
+        "hard_fail_if": [
+          "scan_limit=0으로 무제한 조회할 수 있다고 안내한다.",
+          "next_cursor가 null일 때 다음 페이지를 조회하고 null이 아닐 때 종료하도록 조건을 뒤집는다.",
+          "확인하지 않은 2.5.x의 동작을 검증 완료 사실로 바꾼다."
+        ]
+      },
+      "documents": [
+        {
+          "label": "doc-e89a814d",
+          "content": "`scan_limit`은 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다. 기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 설정하면 `400 Bad Request`가 반환됩니다.\n\n`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다.\n\n이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.\n"
+        },
+        {
+          "label": "doc-cbdb3358",
+          "content": "`scan_limit`은 한 요청에서 반환할 항목 수의 상한을 정하는 파라미터입니다. 실제 반환 항목 수는 상한보다 적을 수 있습니다. 기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값으로 요청하면 `400 Bad Request`가 반환됩니다.\n\n`next_cursor`가 `null`이 아니면 그 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다.\n\n이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.\n"
+        },
+        {
+          "label": "doc-f5d4154b",
+          "content": "`scan_limit` 파라미터는 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다. 실제 반환되는 항목 수는 이 상한보다 적을 수 있습니다. `scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 사용하면 `400 Bad Request`가 반환됩니다.\n\n`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다.\n\n이 동작은 LogStore 2.6.1에서 확인했습니다. 2.5.x에서도 동일하게 동작하는지는 아직 확인하지 않았습니다.\n"
+        }
+      ]
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "audience": "동료 백엔드 개발자와 코드 리뷰어.",
+      "document_purpose": "관측을 보강하는 PR의 범위와 확인하지 못한 사항을 짧게 전달한다.",
+      "user_prompt": "다음 번호 메모만 바탕으로 250~400자 정도의 짧은 PR 설명을 작성해 주세요. 무엇을 관측했고 무엇을 추가했는지, 원인과 검증에서 아직 모르는 점이 무엇인지 리뷰어가 바로 알 수 있게 써 주세요. 아래 서비스와 경로는 모두 공개 가능한 가상의 설정입니다.",
+      "source_facts": [
+        {
+          "id": "S01",
+          "text": "1. 가상 서비스 '잔물결 작업 접수기'의 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남은 사례를 발견했다. 관측 자료는 기존 로그이며, 변경 후 수집한 로그는 아니다."
+        },
+        {
+          "id": "S02",
+          "text": "2. 원인은 미확정이다. 대기 항목 정리와 만료 콜백의 실행 순서가 관련됐을 가능성을 조사 중이지만, 이를 원인으로 입증하거나 안정적으로 재현한 조건은 없다."
+        },
+        {
+          "id": "S03",
+          "text": "3. 이번 변경은 worker/pending_slots.py에서 대기 항목 생성·제거·만료 콜백 진입 시점에 진단 로그를 추가한다. 목적은 다음 관측에서 항목이 언제 남고 사라졌는지 비교할 정보를 얻는 것이다."
+        },
+        {
+          "id": "S04",
+          "text": "4. 추가 로그는 기존 diag_waits 옵션이 켜져 있을 때만 기록한다. 항목은 ticket_ref, 경과 시간 elapsed_ms, 남은 대기 항목 수이며 요청 본문은 기록하지 않는다."
+        },
+        {
+          "id": "S05",
+          "text": "5. 대기 항목을 정리하는 조건, 제한 시간, 재시도 처리, 응답 형식은 변경하지 않는다. 이 PR은 관측만 보강하며 문제를 해결했다고 확인된 수정은 포함하지 않는다."
+        },
+        {
+          "id": "S06",
+          "text": "6. response_sent라는 로그 이름과 출력 순서만으로 실제 응답 유실이나 중복 처리가 있었는지는 확인할 수 없다. 영향 빈도도 집계하지 않았다."
+        },
+        {
+          "id": "S07",
+          "text": "7. 테스트는 실행하지 않았다. 로컬 합성 요청 실행 환경이 아직 준비되지 않았고, 변경을 적용한 뒤 새 진단 로그도 수집하지 못했다. 따라서 추가 로그로 가설을 확인했다거나 변경 동작을 검증했다고 보고할 근거는 없다."
+        }
+      ],
+      "must_preserve": [
+        "S01",
+        "S02",
+        "S03",
+        "S05",
+        "S06",
+        "S07"
+      ],
+      "reader_questions": [
+        {
+          "id": "SQ1",
+          "question": "이 PR의 계기가 된 관측은 무엇이며, 그 관측으로 실제 응답 유실이나 중복 처리를 결론낼 수 있는가?",
+          "source_refs": [
+            "S01",
+            "S06"
+          ]
+        },
+        {
+          "id": "SQ2",
+          "question": "대기 항목 정리와 만료 콜백의 순서는 확인된 원인인가, 조사 중인 가설인가?",
+          "source_refs": [
+            "S02"
+          ]
+        },
+        {
+          "id": "SQ3",
+          "question": "이번 PR이 추가한 것은 무엇이며, 문제를 해결하기 위해 처리 조건이나 제한 시간을 바꿨는가?",
+          "source_refs": [
+            "S03",
+            "S05"
+          ]
+        },
+        {
+          "id": "SQ4",
+          "question": "변경 후 어떤 검증이 끝났으며, 테스트와 새 로그 수집 상태는 어떠한가?",
+          "source_refs": [
+            "S01",
+            "S07"
+          ]
+        }
+      ],
+      "documents": [
+        {
+          "label": "doc-a37f9b44",
+          "content": "잔물결 작업 접수기의 기존 개발용 합성 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 기록됐습니다. 정리와 만료 콜백의 실행 순서를 조사 중이나 원인과 안정적 재현 조건은 미확정입니다.\n\nworker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가합니다. diag_waits가 켜지면 ticket_ref, elapsed_ms, 남은 항목 수를 기록하고 요청 본문은 제외합니다. 정리 조건·제한 시간·재시도·응답 형식 변경 없이 관측만 보강합니다.\n\n응답 유실·중복 처리 여부는 로그 이름과 순서만으로 판단할 수 없고 영향 빈도도 미집계입니다. 로컬 환경 미비로 테스트와 변경 후 로그 수집을 못 해 가설과 변경 동작은 검증하지 못했습니다.\n"
+        },
+        {
+          "label": "doc-8c36f968",
+          "content": "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다. 정리와 만료 콜백의 실행 순서를 조사 중이나 원인과 안정적인 재현 조건은 미확정입니다. 실제 응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다.\n\n`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다. `diag_waits`가 켜졌을 때만 `ticket_ref`, `elapsed_ms`, 남은 항목 수만 기록합니다. 처리 동작은 바꾸지 않는 관측 보강입니다.\n\n로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다.\n"
+        },
+        {
+          "label": "doc-d1aaaeec",
+          "content": "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 발견했습니다. 대기 항목 정리와 만료 콜백의 순서를 조사 중이나 원인과 안정적 재현 조건은 미확정입니다.\n\n다음 관측을 위해 `worker/pending_slots.py`에 항목 생성·제거와 만료 콜백 진입 시 로그를 추가합니다. `diag_waits`가 켜지면 `ticket_ref`, `elapsed_ms`, 남은 항목 수만 기록하며 처리 동작은 유지합니다.\n\n응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다. 로컬 환경 미비로 테스트를 실행하지 않았고 변경 후 로그도 수집하지 못해, 가설이나 변경 동작은 검증하지 못했습니다.\n"
+        }
+      ]
+    }
+  ]
+}

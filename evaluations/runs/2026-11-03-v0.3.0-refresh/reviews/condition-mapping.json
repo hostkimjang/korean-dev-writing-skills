@@ -1,0 +1,141 @@
+{
+  "method": "Independent SystemRandom shuffle and random labels for each case; condition mapping withheld until all reviews frozen",
+  "cases": {
+    "cli_readme": {
+      "doc-7a306093": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/01_cli_readme.md",
+        "sha256": "520d9440cd638015e359909c9fc7a7c1c20bb82b6db2f39fa218e361d53c21dc"
+      },
+      "doc-2867ca34": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md",
+        "sha256": "e4dc441a7fd1c2b8fedcc782fe4c7ccc9f1afac0bea1b01ce4994a9cf2b6dc5b"
+      },
+      "doc-41fb9dd4": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md",
+        "sha256": "1ec9b483ab8d03d77de8bf95385c1345dffa8d7b8616f9633f19b60d1a6f7b10"
+      }
+    },
+    "investigation_pr": {
+      "doc-da4d5743": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/03_investigation_pr.md",
+        "sha256": "060f6349d2c69dec453b14b4aa614b03c3c699f89dc0653b8456f595b53f1d51"
+      },
+      "doc-1fabebf2": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md",
+        "sha256": "7f31f5e2a7227a964bfefec778fcadd4df93ee381fa71651f2b610eeb8722ef6"
+      },
+      "doc-270bef58": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md",
+        "sha256": "7fad7275e4ae30a24409d3842da6ace4ec8bb8db127494fd11b9638d03219b59"
+      }
+    },
+    "paragraph_edit": {
+      "doc-e89a814d": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md",
+        "sha256": "6b3a80054be41330cb8da703afdef85e65c2ec327cb24838e85ae853bc97fb68"
+      },
+      "doc-cbdb3358": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/06_paragraph_edit.md",
+        "sha256": "446b51c9cffbcce2bdddb3c22f8d75136293508d44399170fdbeac6d76ddf38a"
+      },
+      "doc-f5d4154b": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md",
+        "sha256": "e927391c7b60353d26bd3bb785052899afccbbd4397b256764fe079b9bef1224"
+      }
+    },
+    "short_investigation_wait_log": {
+      "doc-a37f9b44": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md",
+        "sha256": "9ef03563eff1f436f8e109729e737db5cf7ad295f66ef466a87673b6fcad0b7c"
+      },
+      "doc-8c36f968": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md",
+        "sha256": "dd8ef1b809390a9fb72a39c30f7dfc68357926a9b430cb42ba8696ce4f2e4e6b"
+      },
+      "doc-d1aaaeec": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/short-pr.md",
+        "sha256": "23eaec32d6700e9bcac0c9846ce8e9900a3fa8c8d5fe822ba6a1b1e269cbe685"
+      }
+    },
+    "event_architecture": {
+      "doc-6158b084": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/02_event_architecture.md",
+        "sha256": "bc0292b20a5abf5b7022b45f1e799a3f8e106a017d1333b76bc4c61bed2bb6dc"
+      },
+      "doc-1b3a8d72": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md",
+        "sha256": "2ba540bd7598f3257626234998f17a46550299335bd9ad15f747de91225938b7"
+      },
+      "doc-b5214855": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md",
+        "sha256": "ff3978dc3f505b2f3b016979d5feb75d24ff2f11d0bb00e13a65acd65fb47c39"
+      }
+    },
+    "incident_runbook": {
+      "doc-adee7cc9": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md",
+        "sha256": "b50c9610f3644f80aca2410d4a66d3e385928592b8ec27387e366b57df6b2049"
+      },
+      "doc-23696af5": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md",
+        "sha256": "55740781156ebb2cc6149121729b873cb00c7d3e8bb350c50c9054a1fcceb74b"
+      },
+      "doc-3b424e2a": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/04_incident_runbook.md",
+        "sha256": "6a9da75c5e39d6cfe8f0abed6e47a342f8baa500d350b4976cb6e57ab0397745"
+      }
+    },
+    "storage_adr": {
+      "doc-81666cd9": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md",
+        "sha256": "8de97875c8ad5a1ebc29670bc9992c171ef12ea9440410510f63f0c5bbb67a81"
+      },
+      "doc-2cdba188": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md",
+        "sha256": "bd9932d97e4e9b29fe9adc2617643c79bcb02958654af12c4d6530fc1674720a"
+      },
+      "doc-17330007": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03/outputs/revised/05_storage_adr.md",
+        "sha256": "b1c7328bb6b9df617ba92844220087507a073e9938ca99e9e3c4dbcbe3f4a587"
+      }
+    },
+    "long_onboarding_index_refresh": {
+      "doc-f62f80b6": {
+        "condition": "previous",
+        "path": "evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/long-document.md",
+        "sha256": "5e3c593ef9d2fd20d7da264449b64a93d5011faa4ec585fd7ae54fb620ff5b51"
+      },
+      "doc-425a8368": {
+        "condition": "latest",
+        "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md",
+        "sha256": "bad85102e94d4d42d2d187543ab40ab96bfba53af49d05aa5302d405a0dde4c5"
+      },
+      "doc-04bdf1c4": {
+        "condition": "baseline",
+        "path": "evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md",
+        "sha256": "000058233136cf97d9f43bd1de2dd40fd5ed72ea5b046ab0e188dda587fc1e51"
+      }
+    }
+  }
+}
