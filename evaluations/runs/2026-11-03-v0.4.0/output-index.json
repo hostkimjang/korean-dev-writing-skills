@@ -1,0 +1,125 @@
+{
+  "contract": "evaluations/contracts/preservation-v1.json",
+  "documents": [
+    {
+      "case_id": "cli_readme",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+      "sha256": "deb61dc932ef4c1c41dcee7914f41662428096dad035018a4ac038bfb9b38c4a"
+    },
+    {
+      "case_id": "cli_readme",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md",
+      "sha256": "e4dc441a7fd1c2b8fedcc782fe4c7ccc9f1afac0bea1b01ce4994a9cf2b6dc5b"
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md",
+      "sha256": "8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d"
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md",
+      "sha256": "ff3978dc3f505b2f3b016979d5feb75d24ff2f11d0bb00e13a65acd65fb47c39"
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md",
+      "sha256": "7fad7275e4ae30a24409d3842da6ace4ec8bb8db127494fd11b9638d03219b59"
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md",
+      "sha256": "f917f97afe5ac47f0e4526b5717744973714cb3f0fb533e4ff247f36ed47e0aa"
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+      "sha256": "d1fd05a16e96a4612db3c3b6662effc1b58213bf3805be594eec214a2bee07d8"
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md",
+      "sha256": "b50c9610f3644f80aca2410d4a66d3e385928592b8ec27387e366b57df6b2049"
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md",
+      "sha256": "bd9932d97e4e9b29fe9adc2617643c79bcb02958654af12c4d6530fc1674720a"
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+      "sha256": "63318b86596aaa32b7d48db33a5d031096b86864c58670e3df2865eeb6618dbb"
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md",
+      "sha256": "6b3a80054be41330cb8da703afdef85e65c2ec327cb24838e85ae853bc97fb68"
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md",
+      "sha256": "fe7f3ef660c6cb4369959ae15d19f1cbd40190f9904e166dd794b2c3424726fe"
+    },
+    {
+      "case_id": "long_onboarding_index_refresh",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md",
+      "sha256": "bad85102e94d4d42d2d187543ab40ab96bfba53af49d05aa5302d405a0dde4c5"
+    },
+    {
+      "case_id": "long_onboarding_index_refresh",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+      "sha256": "9e612f0297c6bbaf0b2e1e1323d17935d2e6f1932d04a41870b6611d0feda09a"
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+      "sha256": "18a4bcabebb40bdc14ffbc55d58bc02baddde90b2e2394628bd2ecaf0b125311"
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md",
+      "sha256": "dd8ef1b809390a9fb72a39c30f7dfc68357926a9b430cb42ba8696ce4f2e4e6b"
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+      "sha256": "0a39da3353de79230e640277c24faddf65cbbbfa4e8cd3e8332391c42316db6e"
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/09_config_rollout.md",
+      "sha256": "fd52acbd239745bd17e9490e3a39c61f605100af3b98262395d1565fd1c6ba25"
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/10_thumbnail_report.md",
+      "sha256": "e69d191d031073794c6e00a1fbd14c1fb2e34973e147a7d9ab6a18d47d51c1e1"
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/10_thumbnail_report.md",
+      "sha256": "8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89"
+    }
+  ]
+}

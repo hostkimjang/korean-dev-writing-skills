@@ -19,14 +19,39 @@ python scripts/check.py --skill-only
 
 각주 정의의 본문을 파일 경로로 검사하지 않습니다. 각주 안에 명시한 일반 Markdown 링크는 검사하지만, 각주 번호와 참조의 대응 관계 자체는 이 검사기의 범위 밖입니다.
 
+## 의미 보존 검토의 무결성 검사
+
+v0.4.0부터 필수 의미와 탐색 질문을 [별도 계약](evaluation-contract.md)에 고정합니다. 문자열 존재 여부는 자동 신호로 기록하고, 의미 판정은 원자료와 문맥을 대조한 검토 기록으로 남깁니다.
+
+```bash
+python scripts/check_claims.py
+python scripts/check_claims.py \
+  --output-index evaluations/runs/2026-11-03-v0.4.0/output-index.json \
+  --reviews \
+  evaluations/runs/2026-11-03-v0.4.0/reviews/core.json \
+  evaluations/runs/2026-11-03-v0.4.0/reviews/long.json \
+  evaluations/runs/2026-11-03-v0.4.0/reviews/onboarding.json \
+  evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json
+```
+
+첫 명령은 계약의 ID·참조와 원자료·입력 해시를 검사합니다. 두 번째 명령은 지정한 문서 20개의 출력 해시, 필수 항목과 질문의 판정행, 인용이 실제 원문에 있는지까지 확인합니다. 검사 범위는 `output-index.json`에 선언한 문서입니다. 일부 문서만 넣은 별도 인덱스도 검사할 수 있으므로, 전체 실행을 검증할 때는 실행 기록의 문서 수와 인덱스 범위를 함께 확인합니다.
+
+검사 통과는 글의 품질이나 사실 보존의 합격을 뜻하지 않습니다. 누락·충돌을 정확히 기록한 리뷰도 무결성 검사를 통과합니다. `--write-signals PATH`를 추가하면 문자 수와 정확 문자열의 존재 신호를 별도 JSON에 저장합니다. 이 값으로 의미 보존이나 치명적 오류를 자동 판정하지 않습니다.
+
+검사기 자체의 회귀 검사는 다음 명령으로 실행합니다. 임시 검토 자료를 만들어 필수 항목·문서의 누락과 중복, 잘못된 인용·해시·참조, 기존 선택 명제의 필수 승격, 저장소 밖 경로, 입력 덮어쓰기를 탐지하는지 확인합니다. 정상적인 부분보존·누락 판정은 통과해야 합니다. 이 검사용 판정은 실제 문서 평가 결과에 포함하지 않습니다.
+
+```bash
+python scripts/test_check_claims.py
+```
+
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.3.0
-python scripts/package.py --version 0.3.0 --output-dir dist/recheck
+python scripts/package.py --version 0.4.0
+python scripts/package.py --version 0.4.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.3.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.4.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
@@ -65,7 +90,7 @@ python scripts/check_install.py --source hostkimjang/korean-dev-writing-skills
 
 ## CI
 
-GitHub Actions는 Python 3.12에서 구조 검사와 패키지 생성 두 번을 실행한 뒤 바이트를 비교합니다. Node.js 24에서는 위 설치 검증을 실행합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
+GitHub Actions는 Python 3.12에서 구조 검사, 현재 평가 계약과 검토 인용의 무결성 검사, 패키지 생성 두 번을 실행한 뒤 패키지 바이트를 비교합니다. Node.js 24에서는 위 설치 검증을 실행합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
 
 `main`에 게시한 경우에는 해당 커밋의 GitHub 주소로도 설치합니다. 이동하는 브랜치의 최신 파일 대신 실행 대상 커밋을 지정해, 로컬 체크아웃 검사와 공개 다운로드 검사에서 같은 내용을 비교합니다.
 

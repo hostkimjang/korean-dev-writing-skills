@@ -1,212 +1,226 @@
-# 현재 v0.3.0으로 갱신한 개발 문서 비교
+# v0.4.0 개발 문서 비교: 의미 보존과 찾아보기
 
-갱신일: 2026-11-03 · 현재 적용본: **v0.3.0 배포본** · [사용한 스킬 고정본](https://github.com/hostkimjang/korean-dev-writing-skills/tree/372622959b7561427b111b4d1f528ec80239b3df/skills/korean-dev-writing)
+갱신일: 2026-11-03 (Asia/Seoul) · 현재 적용본: **v0.4.0** · [사용한 스킬 고정본](../evaluations/runs/2026-11-03-v0.4.0/snapshots/v0.4.0)
 
-**같은 기존 입력으로 현재 스킬 적용 문서를 새로 생성했습니다.** 미적용과 이전 적용 문서는 과거 원문을 그대로 사용했습니다. 모든 조건을 같은 시점에 다시 생성한 실험이 아니며, 생성 시점과 단회 생성의 변동을 스킬 효과에서 분리할 수 없습니다.
+**기존 사례는 같은 입력으로 v0.4.0 적용 문서를 새로 생성했다.** 미적용과 v0.3.0 문서는 과거 원문을 그대로 사용했다. 기존 사례의 모든 조건을 같은 시점에 다시 생성한 실험은 아니며, 생성 시점과 단회 생성의 변동을 스킬 효과에서 분리할 수 없다.
 
-생성에 사용한 스킬의 여섯 파일은 마지막 문구 보완까지 완료된 배포본과 바이트 단위로 일치합니다. 작성 중 스킬을 바꾸거나 생성 결과를 후편집하지 않았습니다. 입력·버전·원문·검토 기록은 [실행 프로토콜](../evaluations/runs/2026-11-03-v0.3.0-refresh/protocol.md)과 [해시 기록](../evaluations/runs/2026-11-03-v0.3.0-refresh/manifest.json)에 연결했습니다.
+생성에 사용한 스킬의 여섯 파일은 공개한 v0.4.0 스냅샷 및 배포 파일과 바이트 단위로 일치한다. 작성 중 스킬을 바꾸거나 생성 결과를 후편집하지 않았다. 입력·버전·원문·검토 기록은 [실행 프로토콜](../evaluations/runs/2026-11-03-v0.4.0/protocol.md)과 [해시 기록](../evaluations/runs/2026-11-03-v0.4.0/manifest.json)에 연결했다.
 
-기존 6개 사례와 읽기 흐름 점검 2개 사례의 **현재 적용본 8개**를 새로 작성했습니다. 미적용·이전 적용·현재 적용의 전문은 [HTML 비교 화면](comparisons/index.html)에 들어 있습니다. 다운로드해 브라우저에서 열면 사례와 비교할 이전 조건을 선택할 수 있습니다.
+기존 6개 사례와 읽기 흐름 점검 2개 사례의 **현재 적용본 8개**를 새로 작성했다. 미적용·v0.3.0·v0.4.0의 전문 24개는 [HTML 비교 화면](comparisons/index.html)에 들어 있습니다. 다운로드해 브라우저에서 열면 사례와 비교 조건을 선택할 수 있다. 새 두 사례의 조건별 전문 4개는 [새 사례 비교](comparisons/transfer-checks.md)에 별도로 실었다.
+
+이번에는 [사용자 전달 리뷰를 대조한 뒤](review-v0.4.0.md) 지침을 보완하고, [필수 의미와 탐색 질문을 고정한 계약](evaluation-contract.md)으로 두 조건을 다시 검토했습니다. 문자열 신호와 의미 판정은 구분합니다.
 
 ## 한눈에 보는 결과
 
-| 사례 | 미적용 원문 | 이전 적용 원문 | 현재 v0.3.0 |
+| 사례 | 미적용 원문 | 이전 v0.3.0 | 현재 v0.4.0 |
 | --- | ---: | ---: | ---: |
-| [CLI README](#cli_readme) | [1,981자](../evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md) | [1,389자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/01_cli_readme.md) | [1,600자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md) |
-| [이벤트 수집 아키텍처](#event_architecture) | [4,233자](../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) | [2,190자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/02_event_architecture.md) | [3,335자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md) |
-| [진단 PR](#investigation_pr) | [1,032자](../evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md) | [981자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/03_investigation_pr.md) | [1,013자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md) |
-| [장애 대응 절차](#incident_runbook) | [3,187자](../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) | [2,186자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/04_incident_runbook.md) | [2,337자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md) |
-| [중복 판정 저장소 ADR](#storage_adr) | [3,481자](../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) | [1,948자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/05_storage_adr.md) | [2,199자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md) |
-| [문단 교정](#paragraph_edit) | [364자](../evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md) | [363자 · v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/06_paragraph_edit.md) | [361자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md) |
-| [색인 갱신 온보딩](#long_onboarding_index_refresh) | [7,687자](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) | [4,994자 · v0.2.1](../evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/long-document.md) | [4,798자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md) |
-| [짧은 관측 PR](#short_investigation_wait_log) | [396자](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) | [398자 · v0.2.1](../evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/short-pr.md) | [397자](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md) |
+| [CLI README](#cli_readme) | [1,981자](../evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md) | [1,600자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md) | [1,718자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md) |
+| [이벤트 수집 아키텍처](#event_architecture) | [4,233자](../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) | [3,335자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md) | [2,553자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md) |
+| [진단 PR](#investigation_pr) | [1,032자](../evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md) | [1,013자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md) | [973자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md) |
+| [장애 대응 절차](#incident_runbook) | [3,187자](../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) | [2,337자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md) | [2,741자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md) |
+| [중복 판정 저장소 ADR](#storage_adr) | [3,481자](../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) | [2,199자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md) | [2,240자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md) |
+| [문단 교정](#paragraph_edit) | [364자](../evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md) | [361자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md) | [379자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md) |
+| [색인 갱신 온보딩](#long_onboarding_index_refresh) | [7,687자](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) | [4,798자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md) | [4,620자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md) |
+| [짧은 관측 PR](#short_investigation_wait_log) | [396자](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) | [397자 · v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md) | [398자](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md) |
 
-글자 수는 공백·개행·Markdown 문법·마지막 개행을 포함한 Unicode 문자 수입니다. 길이 감소 자체를 개선 점수로 환산하지 않습니다. 현재 출력에 이전의 20점 점수를 붙이지 않았습니다.
+글자 수는 공백·개행·Markdown 문법·마지막 개행을 포함한 Unicode 문자 수입니다. 길이 감소 자체를 개선 점수로 환산하지 않는다. 현재 출력에 이전의 20점 점수를 붙이지 않았다.
 
-정확한 설명도 더 길어질 수 있고, 짧아져도 탐색이 불편해질 수 있습니다. 아래에서는 각 사례의 유지된 조건과 실제 배치·표현 차이를 함께 기록합니다.
+### 새 계약으로 다시 검토한 결과
+
+| 조건 | 검토 문서 | 필수 의미: 보존 / 부분 / 누락 / 충돌 | 질문: 충분 / 부분 | 치명적 오류 문서 |
+| --- | ---: | --- | --- | ---: |
+| v0.3.0 | 10 | 147 / 1 / 2 / 0 | 34 / 3 | 0 |
+| v0.4.0 | 10 | 150 / 0 / 0 / 0 | 36 / 1 | 0 |
+
+조건마다 같은 필수 의미 150개와 질문 37개를 검토했다. 이 수치는 10개 사례를 세분화한 판정행의 합계이며 품질 총점이나 독자 효과가 아니다. 필수 의미의 판정 차이는 기존 짧은 관측 PR 한 사례에서 발생했다. 새 두 사례에서는 두 버전 모두 필수 의미를 보존했다.
+
+현재 문서에서도 장애 대응 절차의 롤백 명령 절만 보면 5분 대기 한계를 앞 단계에서 더 찾아야 한다. 이 질문은 두 버전 모두 부분 충족으로 남겼다. 모든 필수 의미가 문서 전체에 있다는 판정이 모든 절의 탐색이나 문장 구성이 완전하다는 뜻은 아니다.
+
+근거: [조건별 판정 집계](../evaluations/runs/2026-11-03-v0.4.0/review-summary.json) · [판정 기준과 인용 검사](evaluation-contract.md)
+
+정확한 설명도 더 길어질 수 있고, 짧아져도 탐색이 불편해질 수 있다. 아래에서는 각 사례의 유지된 조건과 실제 배치·표현 차이를 함께 기록한다.
 
 <a id="cli_readme"></a>
 
 ## CLI README
 
-현재본은 설치·도움말·첫 실행을 한 흐름으로 묶고, 입력 오류와 버전 제약을 별도 제목으로 나눴습니다. v0.2.0보다 설명이 늘었으며, 미적용본에 있던 완성된 파일 저장 명령 예시는 줄었습니다.
+필수 기술 사실은 두 버전에서 같다. v0.4.0은 설치와 첫 실행을 나누고 오류 처리 절로 가는 내부 링크를 붙였으며, 원문은 1,600자에서 1,718자로 늘었다.
 
 **확인한 구성과 표현**
 
-- 현재본의 「설치와 첫 실행」은 세 단계로 이어집니다. 입력 파일의 전제와 첫 명령의 결과를 해당 단계에서 확인할 수 있습니다.
-- 미적용·이전·현재본 모두 요구 Python 버전과 실제 검증 환경을 구분합니다. 현재본은 오류 처리와 0.4.2의 기능 제약을 다른 제목에서 찾게 합니다.
+- Python 요구 범위와 실제 확인 환경을 설치 절에서 구분한다. 첫 실행에는 입력 경로를 실제 파일 위치로 바꾸라는 안내가 있다.
+- 입력 오류를 별도 제목과 표로 찾을 수 있으며, 파일 덮어쓰기와 기본 출력 위치는 같은 옵션 행에 있다.
 
 **함께 볼 한계**
 
-- 미적용본에는 --output을 포함한 완성된 저장 명령이 있습니다. 현재본은 사용 형식과 설명으로 저장 방법을 전달하므로, 그대로 복사할 예제를 찾는 독자에게는 미적용본의 장점도 있습니다.
-- 현재본은 INPUT의 필수 여부와 덮어쓰기 동작을 표와 본문에서 반복합니다. v0.2.0의 1,389자에서 1,600자로 늘어난 만큼 모두 새로운 정보를 제공하는 것은 아닙니다.
+- 파일 저장의 덮어쓰기 조건을 찾으려면 두 버전 모두 첫 실행 예에서 옵션 절로 이동해야 한다. v0.4.0에도 별도 파일 저장 명령 예시는 없다.
+- 심각도 목록과 기본값이 표와 아래 문단에 반복된다. 문장형 표와 구절형 표의 차이를 자연스러움의 자동 우열로 평가하지 않았다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 설치 버전, 필수 입력 경로, 기본 심각도, 출력 파일 덮어쓰기, 잘못된 JSON 행과 파일 읽기 실패의 구분에 치명적 오류가 없습니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-core.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 11개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/01_cli_readme.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/01_cli_readme.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/01_cli_readme.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md)
 
 <a id="event_architecture"></a>
 
 ## 이벤트 수집 아키텍처
 
-현재본은 역할·정상 흐름·응답·장애·중복 처리 순으로 설명합니다. 장애 표 바로 뒤에서 재소비와 저장 상태의 관계를 다시 풀어 주지만, 202의 의미와 중복 처리 설명에는 반복과 떨어진 참조가 남아 있습니다.
+v0.4.0은 저장 장애와 중복 처리를 한 절로 묶었고, 필수 조건을 유지하면서 3,335자에서 2,553자로 줄었다. 이전 문서의 역할·처리 순서 재진술 일부가 줄었다.
 
 **확인한 구성과 표현**
 
-- 현재본의 장애 표 뒤에는 「offset이 커밋되지 않았다는 사실만으로 데이터베이스에도 이벤트가 없다고 판단할 수는 없습니다」라는 해석이 붙습니다. 표의 마지막 장애와 운영상 판단을 연결합니다.
-- 데이터베이스 기록 뒤 offset을 커밋하는 순서를 한 단계 안에서 명시하고, API 수락과 최종 저장 완료를 구분합니다. 미적용·v0.2.0에도 있던 기술적 경계는 유지됩니다.
+- DB 기록 후 offset 커밋 전 종료와 event_id 유일성 제약을 같은 저장 장애 절에서 확인할 수 있다.
+- 202 수락과 최종 저장을 구분하고 DB 성공 뒤 offset을 커밋하는 순서를 유지한다. API 응답과 writer 처리를 별개 단계로 연결한다.
 
 **함께 볼 한계**
 
-- 현재본은 v0.2.0의 2,190자에서 3,335자로 늘었습니다. 설명 연결이 추가됐지만 202의 의미는 도입·처리 흐름·응답 표에서 겹칩니다.
-- 클라이언트 재시도 절의 「뒤에서 설명하는」 중복 처리까지 읽으려면 장애 설명을 지나야 합니다. 필요한 정보가 모두 한곳에 모인 결과는 아닙니다.
-- 미적용본도 기록과 offset 사이의 중단 구간, 추가 저장 행 방지의 범위, 운영 판단을 설명합니다. 이 원리가 현재본에서 처음 생긴 것처럼 평가하지 않습니다.
+- v0.3.0의 표에는 202를 포함한 전체 응답이 있고, v0.4.0은 수락 설명과 오류 코드 표를 나눈다. 전체 응답을 표 하나로 훑는 구성은 이전 문서의 특징이다.
+- 같은 event_id 조건과 202의 경계는 여러 진입점에서 반복된다. 필요한 재확인으로 검토했으며, 분량 감소를 실제 읽기 피로 개선으로 해석하지 않는다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 202를 저장 완료로 바꾸지 않았고, API의 중복 제거·exactly-once·미확정 복구 시간을 보장하지 않습니다. 동일 논리 이벤트의 event_id 유지와 DB 쓰기 후 offset 커밋 순서도 유지합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-long.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 11개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/02_event_architecture.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/02_event_architecture.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/02_event_architecture.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md)
 
 <a id="investigation_pr"></a>
 
 ## 진단 PR
 
-현재본은 변경 목적을 먼저 제시하고, 검증 완료 항목과 미실시 항목을 한 제목 아래 구분합니다. 원인 미확정과 진단 전용 범위는 세 조건에 모두 있어, 큰 품질 차이를 주장할 근거는 작습니다.
+원인 가설·관측 변경·실행한 검증의 경계는 두 버전에서 유지된다. v0.4.0은 동작 유지와 해결 수정 제외를 변경 범위 문단에 모았고, 1,013자에서 973자가 됐다.
 
 **확인한 구성과 표현**
 
-- 현재본은 첫 문장에서 원인 조사를 위한 진단 로그 추가라는 목적과 대상 경로를 제시합니다.
-- 「검증 결과와 남은 확인 사항」에서 로컬 테스트 통과와 스테이징·성능 미검증을 구분합니다. 배포 후 조사 계획과 리뷰 요청도 별도 제목으로 찾을 수 있습니다.
+- 기존 발송 순서·재시도 횟수·lock TTL·중복 방지 동작을 유지한다는 설명과 해결 수정이 아니라는 범위를 한곳에서 확인한다.
+- 완료한 로컬 테스트와 미실시 스테이징·성능 검증을 같은 검증 절에서 구분한다.
 
 **함께 볼 한계**
 
-- 관측과 TTL 가설의 구분, 진단 필드와 설정, 테스트의 한계는 미적용·v0.2.0에도 있습니다. 현재본이 처음 확보한 사실 정확성으로 보지 않습니다.
-- 해결 수정이 없다는 설명은 배경에, 네 가지 불변 동작은 다음 절에 있습니다. 변경 범위를 확인하려면 두 위치를 함께 읽습니다.
+- v0.3.0은 가설을 읽는 문단에서 해결 수정 제외까지 확인할 수 있고, v0.4.0은 다음 변경 범위 절에서 확인한다. 정보가 모이는 위치가 달라졌다.
+- 현재 리뷰 요청은 구체 필드 목록 대신 진단 필드라고 가리킨다. 반복은 줄지만 이 항목만 떼어 읽으면 앞의 필드 목록이 필요하다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 운영 관측을 안정적 재현으로, TTL 가설을 확정 원인으로, 진단 로그를 문제 해결로 바꾸지 않았습니다. 테스트 결과와 계획, 민감 내용 미기록 조건도 유지합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-core.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 13개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/03_investigation_pr.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/03_investigation_pr.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/03_investigation_pr.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md)
 
 <a id="incident_runbook"></a>
 
 ## 장애 대응 절차
 
-현재본은 금지 조치를 시작 부분에 두고, 각 명령 앞에서 진행 조건을 확인하게 합니다. v0.2.0에서도 주요 조건은 가까이 배치돼 있었으며, 이번에는 복구 판단을 위한 반복 조회를 더 직접 설명합니다.
+v0.4.0은 초기 조회와 배포 판단을 나누고 마지막 이관 절에 중단 조건을 모았다. 필수 조건은 두 버전 모두 보존하지만 분량은 2,337자에서 2,741자로 늘었다.
 
 **확인한 구성과 표현**
 
-- 미적용본 마지막에 있던 큐 삭제·offset 초기화·강제 종료 금지를 현재본은 첫 점검 전에 알립니다. 이 배치는 이전 v0.2.0에도 있던 장점입니다.
-- 현재본은 롤백 실패 시 이관을 설명한 다음, 성공한 경우에만 재개한다는 조건과 resume 명령을 바로 이어 둡니다.
-- 복구 확인 절은 queue inspect를 다시 실행해 oldest_age_seconds의 변화를 비교하라고 명시합니다. 단일 관측과 감소 추세를 혼동하지 않게 하는 설명입니다.
+- 알람 발생 시각과 적체 시작 시각을 구분하고, 배포 관련 두 조건이 충족돼야 일시정지 단계로 넘어가게 한다.
+- 명령 직전의 state=paused·inflight=0 복합 조건, 롤백 성공 뒤에만 재개하는 조건, 복구 확인과 이관 기준을 유지한다.
 
 **함께 볼 한계**
 
-- 미적용본에는 모든 이관 사유와 중단 행동을 모은 표가 있습니다. 현재본은 각 단계에 조건을 배치하므로 절차를 따라가기와 이관 사유만 재탐색하기 사이에 차이가 있습니다.
-- v0.2.0보다 151자 늘었습니다. state=paused와 inflight=0을 다음 단계 입구에서 반복하는 것은 실행 전 확인 기능이 있으므로 일괄 삭제 대상으로 보지 않습니다.
+- 두 버전 모두 롤백 명령 절에서 바로 시작하면 pause 반환의 의미와 요청 후 5분 한계를 앞 단계에서 더 읽어야 한다. 이 탐색 질문은 양쪽 모두 부분 충족이며 문서 전체의 사실 누락과 구분했다.
+- 현재 마지막 이관 절은 여러 중단 조건을 긴 한 문장에 묶는다. 독립 조회에 필요한 요약이지만 조건을 분리해 읽어야 하는 부담이 남는다. 길이가 늘어난 사례를 그대로 공개했다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 배포 시점·current/stable 조건, 두 일시정지 조건, 5분 이관, 롤백 성공 후에만 재개, 두 복구 조건, 10분 이관과 반복 롤백 금지를 유지합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-long.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 14개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/04_incident_runbook.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/04_incident_runbook.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/04_incident_runbook.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md)
 
 <a id="storage_adr"></a>
 
 ## 중복 판정 저장소 ADR
 
-현재본은 제안과 근거를 도입에 제시하고 새 키·중복 키·DB 실패를 병렬 규칙으로 나눕니다. 보존 정책과 성능 미검증은 유지했지만, 보존 조건을 여러 절에서 다시 설명하는 부담도 남습니다.
+v0.4.0은 신규 키·기존 키·DB 실패의 처리를 조건별 표로 제시한다. 제안 상태와 보장 범위는 두 버전에서 같고, 길이도 2,199자와 2,240자로 비슷하다.
 
 **확인한 구성과 표현**
 
-- 미적용본의 번호 목록은 기록 생성 뒤 새 키·중복 키를 차례로 처리하는 것처럼 잠깐 읽힐 수 있습니다. 현재본은 세 경우를 병렬 항목으로 제시해 분기를 구별합니다.
-- 현재본의 비교 표 바로 뒤에는 과거 이벤트 재수집과 원자적 처리를 근거로 PostgreSQL을 제안한 이유가 이어집니다. 표와 선택 이유를 연결합니다.
+- tenant_id와 event_id의 복합 키, 같은 트랜잭션, 503 뒤 같은 식별자로 재시도하는 조건을 유지한다.
+- 미완료 검토와 승인 전 미결 사항을 분리하고, Redis 대안의 TTL·키 유실·저장소 간 원자성 제약을 원자료 범위 안에서 설명한다.
 
 **함께 볼 한계**
 
-- 보존 정책은 배경·대안 표·제안 이유·감수할 점·승인 항목에 등장합니다. 일부는 의사결정에 필요한 재확인이지만 반복이 모두 제거된 것은 아닙니다.
-- v0.2.0은 비용과 보장 범위를 같은 절에서 찾을 수 있습니다. 현재본에서는 보존 조건이 여러 위치에 흩어져 있고 분량도 1,948자에서 2,199자로 늘었습니다.
+- 두 버전 모두 대안 표 다음에 트랜잭션과 운영 이점을 다시 설명한다. 선택 이유를 연결하는 기능이 있으나 표와 겹치는 문장의 편집 여지도 남는다.
+- 마지막 승인 조건 표에서 시작하면 실제 비용이 미측정이고 공식 성능 보장이 없다는 직접 설명은 앞 절을 더 읽어야 한다. 현재 문서만의 개선으로 보지 않았다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 아직 제안 상태이며 복합 키, 같은 DB 트랜잭션, 중복 키의 미생성, 503과 동일 키 재시도, Redis TTL·키 유실의 한계, 미정 보존 정책과 성능 미검증을 유지합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-long.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 13개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/05_storage_adr.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/05_storage_adr.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/05_storage_adr.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md)
 
 <a id="paragraph_edit"></a>
 
 ## 문단 교정
 
-세 조건의 의미와 문단 구성이 거의 같습니다. 현재본의 작은 표현 차이를 독해 품질의 뚜렷한 향상으로 확대하지 않습니다.
+문단 교정은 두 버전의 차이가 작다. v0.4.0은 첫 문장에 API 맥락을 붙이고 확인·미확인 버전을 한 문장으로 연결했으며, 361자에서 379자가 됐다.
 
 **확인한 구성과 표현**
 
-- 현재본은 상한의 정의 바로 뒤에 실제 반환 수가 더 적을 수 있다는 한계를 둡니다. 이전 v0.2.0도 같은 배치를 사용합니다.
-- 세 조건 모두 설정 범위·커서와 종료·검증 버전을 세 본문 문단으로 정리하고, 요청하지 않은 제목이나 편집 해설을 덧붙이지 않습니다.
+- 상한과 실제 반환 수, 허용 범위와 0의 오류, 커서 종료 조건을 유지하며 표나 목록 없이 세 문단으로 작성했다.
+- 확인한 버전과 미확인 버전을 구분한다. 다음 페이지 조건과 필터 유지가 담긴 둘째 문단은 두 버전이 같다.
 
 **함께 볼 한계**
 
-- 「한 요청」과 「한 번의 요청」, 지시어의 차이 정도로 v0.2.0 대비 개선을 판정할 근거는 작습니다.
-- 현재본의 「이 값을 설정하면」보다 v0.2.0의 「이 값으로 요청하면」이 요청과 오류 응답의 관계를 더 직접 드러냅니다. 현재본의 표현을 치명적인 기술 오류로 보지는 않습니다.
+- 실질적인 차이는 첫 문장의 맥락 표시와 마지막 문장의 연결 방식이다. 의미 보존과 질문 답변에서 차이를 찾지 못했으며 큰 개선 사례로 소개하지 않는다.
 
-**사실·조건 대조:** 세 조건 모두 필수 명제를 보존합니다. 상한과 실제 반환 수, 기본값과 허용 범위, 0의 오류 처리, 커서 조건과 기존 필터 유지, 확인·미확인 버전을 유지합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-core.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 9개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/06_paragraph_edit.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md) · [v0.2.0](../evaluations/runs/2026-11-03/outputs/revised/06_paragraph_edit.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/06_paragraph_edit.md) · [미적용](../evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md)
 
 <a id="long_onboarding_index_refresh"></a>
 
 ## 색인 갱신 온보딩
 
-현재본은 접수·검증·활성 판 전환을 먼저 구분하고, 단계별 설명 뒤에 검색 결과·중단·재시도 판단을 연결합니다. 이전 v0.2.1보다 짧아졌지만, 특정 예외와 접수 거절 응답을 찾는 위치에는 아쉬움이 남습니다.
+v0.4.0은 첫 갱신 예외를 제목에 드러내고 시스템의 판 선택과 확인 절차의 목적을 구분해 설명한다. 4,798자에서 4,620자가 됐으며 두 버전 모두 필수 의미 29개를 보존했다.
 
 **확인한 구성과 표현**
 
-- 현재본은 대기/구축, 검증, 반영/완료를 소제목으로 나누고 각 단계에서 무엇이 확인되는지 설명합니다. 상태 이름만 나열하지 않고 후보와 활성 판의 관계를 이어 줍니다.
-- 현재본은 기존 판을 계속 사용한다는 설명의 전제가 이미 활성 판이 있는 자료집임을 다시 밝힙니다. 첫 갱신에는 「색인 준비 안 됨」이 반환되며 빈 목록과 다르다는 조건을 유지합니다.
-- 「다음 작업은 종료 상태를 확인한 뒤 요청한다」에서 중단 요청 수락, 실제 중단, 새 접수 가능 시점을 연결합니다. 미적용·v0.2.1에도 이 관계가 있었으며 현재본에서는 실패·중단 절 안의 독립 소제목으로 찾습니다.
+- 실패와 첫 갱신의 검색 동작이라는 제목에서 기존 활성 판이 있는 경우와 없는 경우를 함께 찾을 수 있다. 접수 조건과 거절 응답도 한 절에 있다.
+- 재시도 절 첫 문장에 실패·중단 대상 조건과 진행 중 작업이 없어야 한다는 조건을 함께 둔다.
+- 전환 확정과 검색 시작의 실제 규칙 뒤에 완료 조회의 목적을 설명한다. 이전 문서도 실제 규칙을 보존하므로 시스템 의미의 뒤집힘을 수정했다고 표현하지 않는다.
 
 **함께 볼 한계**
 
-- 첫 갱신 예외는 「완료 상태와 실제 검색 결과를 함께 읽기」 안에 있습니다. v0.2.1의 「실패하거나 첫 갱신이 끝나지 않았을 때」처럼 제목에서 해당 예외가 바로 보이지는 않습니다.
-- 접수 절에는 진행 중 작업이 있으면 새 작업을 받지 않는다고 적지만, 「진행 중 작업 있음」·현재 접수 번호·새 번호 미생성이라는 응답 세부는 중단 절에 있습니다. 일반 접수의 거절 응답을 찾으려면 뒤를 읽어야 합니다.
-- 현재본의 반영 대기 설명에도 기존 활성 판을 사용하는 문장이 있고, 기존 판이 있는 자료집이라는 일반 전제는 다음 절에서 다시 밝힙니다. 모든 조건을 각 문장에 붙인 결과는 아닙니다.
-- 「완료를 확인한 뒤 검색 요청을 시작」하라는 안내는 새 판을 확인하는 절차입니다. 사람이 완료를 조회하는 행위가 판 선택의 필수조건인 것은 아니며, 실제 기준은 전환 확정과 검색 시작의 선후입니다.
+- 식별자·원본 고정·상태 조회 번호는 두 버전 모두 여러 절을 연결해 읽는 부분이 있다. 탐색 시간 자체를 측정하지 않았다.
+- 현재 재시도 절의 중단 작업에도 같은 조건이라는 문장은 새 조건을 추가하지 않는 재강조다. 전환점의 반복을 모두 없앤 결과는 아니다.
 
-**사실·조건 대조:** 익명 검토에서 세 조건 모두 문서 전체 기준으로 원자료 L01~L20을 보존했습니다. 고정된 원본, 전환 확정과 요청 시작 시점, 첫 갱신의 예외, 중단 표시 후 활성화 금지, 같은 원본으로 처음부터 재시도, 미확정 운영 정책을 유지합니다. 부분 조회의 전제 위치와 작은 모호함은 별도로 기록했습니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-onboarding.md))
+**사실·조건 대조:** 두 버전 모두 필수 의미 29개를 보존한 것으로 검토했다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-onboarding.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/07_index_onboarding.md) · [미적용](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) · [v0.2.1](../evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/long-document.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/07_index_onboarding.md) · [미적용](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md)
 
 <a id="short_investigation_wait_log"></a>
 
 ## 짧은 관측 PR
 
-현재본은 관측과 실제 영향의 미확정을 첫 문단에 모으고 세 문단 안에서 변경과 미검증 상태를 설명합니다. 분량은 거의 같으며, 짧게 쓰는 과정에서 서비스명과 추론 한계의 이유가 압축됐습니다.
+짧은 PR은 397자에서 398자로 분량을 거의 유지하면서 대상 서비스명과 로그 이름·순서만으로 판단할 수 없는 이유를 명시했다. 이번 계약의 필수 의미는 v0.3.0에서 보존 14·부분보존 1·누락 2, v0.4.0에서 보존 17로 검토됐다.
 
 **확인한 구성과 표현**
 
-- 현재본은 기존 로그의 순서 관측과 원인·실제 영향·빈도의 미확정을 같은 첫 문단에 둡니다. 추가 로그는 두 번째, 수행하지 못한 검증은 세 번째 문단입니다.
-- 진단 설정이 켜졌을 때만 기록한다는 조건과 기록 필드의 범위를 명시합니다. 250~400자 정도라는 요청 안에서 불필요한 목차를 만들지 않습니다.
+- 관측한 로그 순서와 실제 응답 유실·중복 처리 여부를 첫 문단에서 구분하고, 어느 서비스의 기록인지 밝힌다.
+- 환경 미준비, 테스트 미실시, 변경 후 로그 미수집, 가설·변경 동작 미검증은 그대로 남긴다. 두 버전 모두 해결이나 검증 완료를 주장하지 않는다.
+- 다음 관측을 위해라는 목적과 생성·제거·만료 진입 기록의 연결을 의미가 같은 축약으로 허용했다. 특정 동사나 개별 처리 조건의 반복을 강제하지 않았다.
 
 **함께 볼 한계**
 
-- 현재본은 서비스명을 생략했습니다. 실제 영향이 불명확하다는 결론은 유지하지만, 「로그 이름과 순서만으로 판단할 수 없다」는 구체적인 근거의 한계는 직접 적지 않습니다.
-- 세 조건 모두 항목이 언제 남고 사라졌는지 비교하려는 세부 목적을 압축합니다. 처리 동작 불변의 포괄 요약은 유지되지만, 모든 맥락을 완전하게 옮겼다는 평가는 피합니다.
-- 마지막 개행을 포함하면 397자, 제외하면 396자입니다. 미적용 396자·이전 398자와 거의 같아 분량으로 개선을 설명할 수 없습니다.
+- v0.3.0에 있던 상세 로그 필드 목록은 현재 본문에서 생략됐다. 이번 계약에서는 선택 정보이지만 필드 자체를 검토할 때는 이전 설명이 더 직접적이다.
+- 현재 마지막 문장은 환경·테스트·로그·판단 한계를 길게 연결한다. 조건의 인과는 유지하지만 모든 문장이 짧아진 결과는 아니다. 한 쌍의 결과로 다른 짧은 글에서도 재현될 것이라고 보장하지 않는다.
 
-**사실·조건 대조:** 원인 확정·해결 완료·수행하지 않은 검증의 성공 보고는 없습니다. 익명 검토는 현재본의 서비스명, 세부 비교 목적, 로그 이름·순서라는 추론 한계 설명을 부분보존으로 구분했습니다. 이를 치명적 왜곡 없음과 별도로 기록합니다. ([익명 검토](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/review-core.md))
+**사실·조건 대조:** v0.3.0은 필수 의미 17개 중 보존 14·부분보존 1·누락 2; v0.4.0은 필수 의미 17개 중 보존 17로 검토했다. 작은 누락을 사용·운영·검증 판단을 뒤집는 치명적 오류로 확대하지 않았다. ([익명 검토](../evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md))
 
-원자료: [같은 입력](../evaluations/runs/2026-11-03-v0.3.0-refresh/inputs/08_short_log_pr.md) · [미적용](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) · [v0.2.1](../evaluations/runs/2026-11-03-reading-flow/outputs/v0.2.1/short-pr.md) · [현재 v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md)
+입력과 원문: [같은 입력](../evaluations/runs/2026-11-03-v0.4.0/inputs/08_short_log_pr.md) · [미적용](../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) · [v0.3.0](../evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md) · [현재 v0.4.0](../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md)
 
 ## 긴 본문을 한 페이지에서 비교하기
 
 - [아키텍처·ADR·장애 대응 절차 전문](comparisons/long-documents.md)
 - [색인 갱신 온보딩·짧은 관측 PR 전문](comparisons/reading-flow.md)
+- [새 설정배포 안내·썸네일 작업 보고의 두 조건 전문](comparisons/transfer-checks.md)
 - [8개 사례를 나란히 보는 HTML 파일](comparisons/index.html)
 
 ## 검토 방법과 한계
 
-각 현재 문서는 별도의 새 컨텍스트에서 입력과 스킬만 읽고 한 번 작성했습니다. 생성자는 이전 출력·기대 답·평가 기준을 받지 않았습니다. 작성과 검토에는 같은 세션 계열 모델을 사용했으며 정확한 배포 식별자와 샘플링 설정은 노출되지 않았습니다.
+각 현재 문서는 별도의 새 컨텍스트에서 입력과 스킬만 읽고 한 번 작성했다. 생성자는 이전 출력·기대 답·평가 기준을 받지 않았다. 작성과 검토에는 같은 세션 계열 모델을 사용했으며 정확한 배포 식별자와 샘플링 설정은 노출되지 않았다.
 
-검토자는 무작위 라벨과 순서의 세 문서를 원자료와 대조했습니다. 스킬이나 조건 대응표는 검토가 끝나기 전에 공개하지 않았습니다. 문서별 필수 사실과 구체적인 장단점을 기록했으며, 이전 점수를 재사용하거나 새 20점 합계를 만들지 않았습니다. 검토자가 원자료를 함께 보았으므로 실제 독자의 독해·기억 시험이 아닙니다.
+검토자는 무작위 라벨과 순서의 v0.3.0·v0.4.0 두 문서를 원자료 및 사전에 고정한 보존 계약과 대조했습니다. 스킬이나 조건 대응표는 검토가 끝나기 전에 공개하지 않았다. 미적용 원문은 앞선 검토가 있는 참고 자료이며 이번 의미 재검토에는 포함하지 않았다. 필수 의미마다 보존·부분보존·누락·충돌과 근거를 적고, 탐색 질문에는 답의 위치와 국소 조건의 부족을 기록했습니다. 이전 점수를 재사용하거나 새 20점 합계를 만들지 않았다. 검토자가 원자료를 함께 보았으므로 실제 독자의 독해·기억 시험이 아닙니다.
 
-실제 독자의 이해도·지연 회상·읽는 시간·피로, Claude·Gemini별 효과, 여러 번 생성했을 때의 변동은 측정하지 않았습니다. 모든 사례는 공개 가능한 가상 자료이며, 본문의 설치·운영 명령을 실제 서비스에서 실행한 결과가 아닙니다.
+새 설정배포·작업 보고 두 사례에서는 두 조건 모두 이번에 생성했다. 이 사례도 문제 유형을 고려해 설계했고 요청에 일부 구분을 명시했습니다. 실제 독자의 이해도·지연 회상·읽는 시간·피로, Claude·Gemini별 효과, 여러 번 생성했을 때의 변동은 측정하지 않았다. 모든 사례는 공개 가능한 가상 자료이며, 본문의 설치·운영 명령을 실제 서비스에서 실행한 결과가 아닙니다.
 
-- [실행 프로토콜](../evaluations/runs/2026-11-03-v0.3.0-refresh/protocol.md)
-- [파일 해시와 생성·검토 기록](../evaluations/runs/2026-11-03-v0.3.0-refresh/manifest.json)
-- [익명 조건 대응표](../evaluations/runs/2026-11-03-v0.3.0-refresh/reviews/condition-mapping.json)
+- [실행 프로토콜](../evaluations/runs/2026-11-03-v0.4.0/protocol.md)
+- [파일 해시와 생성·검토 기록](../evaluations/runs/2026-11-03-v0.4.0/manifest.json)
+- [익명 조건 대응표](../evaluations/runs/2026-11-03-v0.4.0/reviews/condition-mapping.json)
+- [새 평가 계약 안내](evaluation-contract.md)
+- [제안 대조와 v0.4.0 반영](review-v0.4.0.md)
+- [v0.3.0 당시 비교 보고서](evaluation-v0.3.0.md)
 - [v0.2.0 당시 점수와 보고서](evaluation-v0.2.0.md)
 - [리서치와 채택한 원칙](reading-research.md)

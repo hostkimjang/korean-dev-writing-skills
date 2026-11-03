@@ -1,0 +1,973 @@
+{
+  "documents": [
+    {
+      "case_id": "event_architecture",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "AC1.intake",
+          "status": "preserved",
+          "evidence": [
+            "클라이언트는 `POST /v1/events`에 이벤트를 제출합니다. `collector-api`는 토큰과 스키마를 확인한 뒤 `telemetry.raw.v1`에 이벤트를 발행합니다."
+          ],
+          "reason": "수신 주체, 제출 경로, 발행 토픽을 같은 흐름으로 연결한다."
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "status": "preserved",
+          "evidence": [
+            "`event-writer`는 이벤트를 `event_store`에 기록하고, **데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다.**",
+            "| PostgreSQL 데이터베이스 `event_store` | 이벤트를 저장합니다. `event_id`의 유일성 제약으로 중복 이벤트를 식별하는 기준을 제공합니다. |"
+          ],
+          "reason": "event-writer의 기록 대상이 event_store이고 그 저장소가 PostgreSQL임을 보존한다."
+        },
+        {
+          "requirement_id": "AC2.accepted",
+          "status": "preserved",
+          "evidence": [
+            "Kafka 발행이 확인되면 클라이언트에 `202`와 `event_id`를 반환합니다.",
+            "`202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다."
+          ],
+          "reason": "Kafka 발행 확인 뒤 202를 반환하며 그 의미를 Kafka 수락으로 한정한다."
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "status": "preserved",
+          "evidence": [
+            "`202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다."
+          ],
+          "reason": "202만으로 최종 DB 저장 완료를 판단할 수 없다고 명시한다."
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "status": "preserved",
+          "evidence": [
+            "`collector-api`의 오류 응답은 다음과 같습니다.",
+            "| `503` | Kafka 발행에 실패했습니다. |"
+          ],
+          "reason": "collector-api 오류 표에서 Kafka 발행 실패와 503을 대응시킨다."
+        },
+        {
+          "requirement_id": "AC3.identity",
+          "status": "preserved",
+          "evidence": [
+            "클라이언트는 `503` 이후 재시도하는 경우를 포함해, **같은 논리적 이벤트를 다시 제출할 때 같은 `event_id`를 사용해야 합니다.**"
+          ],
+          "reason": "503 이후를 포함한 같은 논리 이벤트의 모든 재제출에서 같은 식별자를 유지한다."
+        },
+        {
+          "requirement_id": "AC4.order",
+          "status": "preserved",
+          "evidence": [
+            "`event-writer`는 이벤트를 `event_store`에 기록하고, **데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다.**"
+          ],
+          "reason": "DB 트랜잭션 성공이 offset 커밋에 선행한다는 순서를 명시한다."
+        },
+        {
+          "requirement_id": "AC4.redelivery",
+          "status": "preserved",
+          "evidence": [
+            "데이터베이스 기록과 offset 커밋은 구분되는 단계입니다. 기록이 성공했더라도 offset을 커밋하기 전에 작업자가 종료되면 같은 이벤트를 다시 읽을 수 있습니다."
+          ],
+          "reason": "기록 성공 뒤 커밋 전 작업자 종료라는 구체적인 재전달 구간을 보존한다."
+        },
+        {
+          "requirement_id": "AC5",
+          "status": "preserved",
+          "evidence": [
+            "`event_store`에는 `event_id`의 유일성 제약이 있으며, `event-writer`는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급해 추가 행을 만들지 않습니다."
+          ],
+          "reason": "event_id 유일성 제약으로 확인한 중복에는 추가 행을 만들지 않는다고 설명한다."
+        },
+        {
+          "requirement_id": "AC6.not_commit",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 쓰기 실패 | 해당 이벤트의 offset을 커밋하지 않습니다. | 데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리합니다. |"
+          ],
+          "reason": "DB 쓰기에 실패한 이벤트의 offset을 커밋하지 않는다고 직접 명시한다."
+        },
+        {
+          "requirement_id": "AC6.recovery",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 쓰기 실패 | 해당 이벤트의 offset을 커밋하지 않습니다. | 데이터베이스가 회복되면 `event-writer`가 미커밋 이벤트를 다시 처리합니다. |"
+          ],
+          "reason": "DB 회복을 조건으로 event-writer가 미커밋 이벤트를 다시 처리한다."
+        },
+        {
+          "requirement_id": "AC7",
+          "status": "preserved",
+          "evidence": [
+            "| `401` | 유효하지 않은 토큰으로 요청했습니다. |\n| `400` | 요청에 스키마 오류가 있습니다. |"
+          ],
+          "reason": "선택 정보인 토큰 오류와 스키마 오류의 상태 코드를 정확히 구별한다."
+        },
+        {
+          "requirement_id": "AC8",
+          "status": "preserved",
+          "evidence": [
+            "다음 항목은 제공된 구현 메모에서 확정되지 않았습니다.\n\n- Kafka 보존 기간\n- 공식 처리량 목표\n- 장애 복구 시간 목표"
+          ],
+          "reason": "세 운영 수치를 모두 미확정 정보로 두며 임의 보장 수치를 넣지 않는다."
+        },
+        {
+          "requirement_id": "AC9",
+          "status": "preserved",
+          "evidence": [
+            "현재 구현에는 `event_id`로 최종 저장 상태를 조회하는 API도 없습니다."
+          ],
+          "reason": "현재 구현에 event_id 기반 최종 저장 상태 조회 API가 없음을 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "이벤트 제출부터 저장까지 > 요청 검증과 큐 수락",
+          "additional_locations": [
+            "이벤트 제출부터 저장까지 > 데이터베이스 기록과 offset 커밋"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "Kafka 발행이 확인되면 클라이언트에 `202`와 `event_id`를 반환합니다.\n\n이 응답만으로는 `event_store` 저장 완료 여부를 판단할 수 없습니다.",
+            "Kafka에 발행된 이벤트는 API 응답과 별개로 `event-writer`가 소비합니다. `event-writer`는 이벤트를 `event_store`에 기록하고, **데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다.**",
+            "기록이 성공했더라도 offset을 커밋하기 전에 작업자가 종료되면 같은 이벤트를 다시 읽을 수 있습니다."
+          ],
+          "reason": "큐 수락 절에서 발행 확인과 202의 한계를 읽고 바로 다음 소제목에서 실제 DB 기록 주체·성공 순서·재전달 구간을 찾는다. API 응답과 별개로 writer가 소비한다고 설명하므로 응답을 읽는 행위를 완료 조건에 더하지 않는다. 별도의 부정문이 없어도 의미가 충분하다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "저장 장애와 중복 처리 — 절 첫 문단과 장애 상황 표",
+          "additional_locations": [
+            "API 오류 응답과 클라이언트 재시도 — 503 행과 재시도 문단"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "중복 여부를 판단하는 기준이 `event_id`이므로, 클라이언트 재시도에서도 같은 식별자를 유지해야 합니다.",
+            "`event_store`에는 `event_id`의 유일성 제약이 있으며, `event-writer`는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급해 추가 행을 만들지 않습니다.",
+            "| 데이터베이스 기록 후, offset 커밋 전에 작업자 종료 | 기록은 완료되었지만 offset은 커밋되지 않은 상태입니다. | `event-writer`가 같은 이벤트를 다시 읽을 수 있습니다. 이미 저장된 `event_id`는 중복으로 처리해 추가 행을 만들지 않습니다. |",
+            "| `503` | Kafka 발행에 실패했습니다. |",
+            "클라이언트는 `503` 이후 재시도하는 경우를 포함해, **같은 논리적 이벤트를 다시 제출할 때 같은 `event_id`를 사용해야 합니다.**"
+          ],
+          "reason": "저장 장애 절은 유일성 제약·같은 식별자 유지·기록 후 커밋 전 종료를 함께 제시한다. API 발행 실패의 503 코드는 별도의 API 오류 절에서 찾는다. API 오류 절부터 진입한 독자는 DB 기록 후 재전달 조건을 위해 저장 장애 절로 이동해야 하지만, 해당 사실은 명시되어 있고 저장 처리의 담당자도 안내되어 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "202의 수락 경계, DB 성공 후 offset 커밋, 동일 event_id 재시도와 DB 단계의 중복 저장 방지를 모두 유지한다. 사용·운영 판단을 뒤집는 안내가 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "AC1.intake",
+          "status": "preserved",
+          "evidence": [
+            "1. **클라이언트가 이벤트를 제출합니다.** `POST /v1/events` 요청을 받은 `collector-api`는 토큰과 스키마를 확인합니다. 유효하지 않은 토큰에는 `401`, 스키마 오류에는 `400`을 반환합니다.",
+            "2. **`collector-api`가 이벤트를 Kafka에 발행합니다.** `telemetry.raw.v1` 발행이 확인되면 `202`와 `event_id`를 반환합니다."
+          ],
+          "reason": "collector-api의 요청 수신과 telemetry.raw.v1 발행을 단계로 연결한다."
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "status": "preserved",
+          "evidence": [
+            "3. **`event-writer`가 이벤트를 저장합니다.** 토픽에서 이벤트를 읽어 `event_store`에 기록하고, 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다.",
+            "| PostgreSQL 데이터베이스 `event_store` | 이벤트를 저장합니다. `event_id`에 유일성 제약을 두어 저장 중복을 판별합니다. |"
+          ],
+          "reason": "토픽을 읽는 event-writer가 PostgreSQL의 event_store에 기록한다는 구성과 흐름을 보존한다."
+        },
+        {
+          "requirement_id": "AC2.accepted",
+          "status": "preserved",
+          "evidence": [
+            "2. **`collector-api`가 이벤트를 Kafka에 발행합니다.** `telemetry.raw.v1` 발행이 확인되면 `202`와 `event_id`를 반환합니다. 이 시점에 확인된 것은 큐의 수락입니다."
+          ],
+          "reason": "발행 확인 후 202 반환과 큐 수락이라는 응답 의미를 연속해서 명시한다."
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "status": "preserved",
+          "evidence": [
+            "API의 `202` 응답은 Kafka 발행이 확인되었다는 뜻이며, 최종 저장 완료를 뜻하지 않습니다."
+          ],
+          "reason": "202가 최종 저장 완료를 뜻하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "status": "preserved",
+          "evidence": [
+            "| Kafka 발행 실패 | `collector-api`가 `503`을 반환합니다. 클라이언트가 같은 논리적 이벤트를 재시도할 때는 같은 `event_id`를 사용해야 합니다. |"
+          ],
+          "reason": "Kafka 발행 실패 시 collector-api가 503을 반환한다."
+        },
+        {
+          "requirement_id": "AC3.identity",
+          "status": "preserved",
+          "evidence": [
+            "클라이언트는 **같은 논리적 이벤트를 재시도할 때 같은 `event_id`를 사용해야 합니다.** 이 규칙은 `503`을 받은 뒤 재시도하는 경우에도 적용됩니다."
+          ],
+          "reason": "동일 논리 이벤트의 재시도에서 같은 식별자를 유지하고 503에도 적용됨을 명시한다."
+        },
+        {
+          "requirement_id": "AC4.order",
+          "status": "preserved",
+          "evidence": [
+            "| `event-writer` | 토픽에서 이벤트를 읽어 데이터베이스에 기록합니다. 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다. |"
+          ],
+          "reason": "DB 트랜잭션 성공 뒤 offset을 커밋하는 순서를 명시한다."
+        },
+        {
+          "requirement_id": "AC4.redelivery",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 기록 후, offset 커밋 전에 `event-writer` 종료 | 데이터베이스에는 이벤트가 기록되어 있어도 같은 이벤트를 다시 읽을 수 있습니다. 재처리 중 확인된 중복은 이미 기록된 이벤트로 취급합니다. |"
+          ],
+          "reason": "DB 기록 뒤 offset 커밋 전 writer 종료 시 이미 기록된 이벤트도 다시 읽을 수 있다고 설명한다."
+        },
+        {
+          "requirement_id": "AC5",
+          "status": "preserved",
+          "evidence": [
+            "`event_store`에는 `event_id`의 유일성 제약이 있습니다. `event-writer`는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급하며, 추가 행을 만들지 않습니다."
+          ],
+          "reason": "유일성 제약의 키와 writer의 추가 행 방지 처리를 명확히 한다."
+        },
+        {
+          "requirement_id": "AC6.not_commit",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 쓰기 실패 | `event-writer`가 해당 이벤트의 offset을 커밋하지 않습니다. 데이터베이스가 회복되면 미커밋 이벤트를 다시 처리합니다. |"
+          ],
+          "reason": "DB 쓰기 실패 시 해당 이벤트의 offset을 커밋하지 않는다."
+        },
+        {
+          "requirement_id": "AC6.recovery",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 쓰기 실패 | `event-writer`가 해당 이벤트의 offset을 커밋하지 않습니다. 데이터베이스가 회복되면 미커밋 이벤트를 다시 처리합니다. |"
+          ],
+          "reason": "DB 회복 뒤 writer가 미커밋 이벤트를 재처리한다는 조건과 주체를 같은 행에 둔다."
+        },
+        {
+          "requirement_id": "AC7",
+          "status": "preserved",
+          "evidence": [
+            "유효하지 않은 토큰에는 `401`, 스키마 오류에는 `400`을 반환합니다."
+          ],
+          "reason": "토큰 오류 401과 스키마 오류 400을 구별한다."
+        },
+        {
+          "requirement_id": "AC8",
+          "status": "preserved",
+          "evidence": [
+            "제공된 구현 자료에서 다음 운영 기준은 확정되지 않았습니다.\n\n- Kafka 보존 기간\n- 공식 처리량 목표\n- 장애 복구 시간 목표"
+          ],
+          "reason": "보존 기간·처리량·복구 시간 목표를 모두 미확정으로 표시한다."
+        },
+        {
+          "requirement_id": "AC9",
+          "status": "preserved",
+          "evidence": [
+            "**현재 구현에는 `event_id`로 최종 저장 상태를 조회하는 API도 없습니다.**"
+          ],
+          "reason": "event_id로 최종 저장 상태를 조회하는 API가 현재 없다고 명시한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "API 응답과 클라이언트 재시도 — 202 응답 행",
+          "additional_locations": [
+            "이벤트가 저장될 때까지의 흐름 — 2·3단계와 뒤 문단",
+            "장애가 발생했을 때의 재처리 — DB 기록 후 종료 행"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "| `202` | Kafka 발행 확인 | 이벤트가 큐에 수락되었습니다. 응답에 `event_id`가 포함되며, 데이터베이스 저장 완료를 나타내지는 않습니다. |",
+            "3. **`event-writer`가 이벤트를 저장합니다.** 토픽에서 이벤트를 읽어 `event_store`에 기록하고, 데이터베이스 트랜잭션이 성공한 뒤 Kafka offset을 커밋합니다.",
+            "| 데이터베이스 기록 후, offset 커밋 전에 `event-writer` 종료 | 데이터베이스에는 이벤트가 기록되어 있어도 같은 이벤트를 다시 읽을 수 있습니다. 재처리 중 확인된 중복은 이미 기록된 이벤트로 취급합니다. |"
+          ],
+          "reason": "응답 표에서 수락과 저장 완료의 경계를 바로 확인할 수 있다. 저장 흐름과 장애 표에서 writer의 트랜잭션 성공 및 커밋 전 재전달을 찾는다. 시스템이 기록을 수행하는 조건을 설명하며 독자의 응답 확인을 저장의 필요조건으로 추가하지 않는다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "장애가 발생했을 때의 재처리 — 상황별 표",
+          "additional_locations": [
+            "중복 전달과 저장 중복 처리 — 유일성 제약 설명"
+          ],
+          "local_condition_gap": "실패 표에는 중복을 이미 기록된 이벤트로 취급한다는 설명이 있지만, event_id 유일성 제약과 추가 행을 만들지 않는 저장 단계의 범위는 바로 다음 절을 더 읽어야 한다.",
+          "answer_evidence": [
+            "| Kafka 발행 실패 | `collector-api`가 `503`을 반환합니다. 클라이언트가 같은 논리적 이벤트를 재시도할 때는 같은 `event_id`를 사용해야 합니다. |",
+            "| 데이터베이스 기록 후, offset 커밋 전에 `event-writer` 종료 | 데이터베이스에는 이벤트가 기록되어 있어도 같은 이벤트를 다시 읽을 수 있습니다. 재처리 중 확인된 중복은 이미 기록된 이벤트로 취급합니다. |",
+            "`event_store`에는 `event_id`의 유일성 제약이 있습니다. `event-writer`는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급하며, 추가 행을 만들지 않습니다."
+          ],
+          "reason": "실패 표 한곳에서 503 이후 같은 event_id 사용과 DB 기록 후 커밋 전 재전달을 함께 찾을 수 있다. 바로 다음 중복 처리 절이 저장 중복 방지의 구체적 범위를 완성하므로 문서의 답은 충분하다. 기제의 분산을 국소 탐색 사항으로 기록하며 전역 누락으로 보지 않는다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "202를 최종 저장 보장으로 바꾸지 않고, DB 성공 후 커밋·쓰기 실패 시 미커밋·동일 event_id 재시도를 모두 유지한다. API가 모든 중복을 제거한다고 안내하지 않는다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "OC1.target",
+          "status": "preserved",
+          "evidence": [
+            "`WorkerQueueAgeHigh` 알람이 발생하면 이 절차를 시작합니다. 대상은 `river-worker`와 작업 큐 `river-events`입니다. 알람만으로 배포가 원인이라고 확정할 수는 없으므로, 현재 상태와 배포 시점을 확인한 뒤 롤백 여부를 판단합니다."
+          ],
+          "reason": "알람, worker, 큐를 정확히 식별하고 알람만으로 배포 원인을 확정하지 않는다."
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl queue inspect river-events\nopsctl worker status river-worker\n```",
+            "```bash\nopsctl deploy show river-worker\n```"
+          ],
+          "reason": "큐·worker·배포 조회 명령을 정확한 대상으로 제시한다."
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "status": "preserved",
+          "evidence": [
+            "**다음 두 조건을 모두 확인한 경우에만 3단계로 진행합니다.**\n\n- 현재 배포 직후부터 적체가 시작됐습니다.\n- `current`와 `stable`이 다릅니다."
+          ],
+          "reason": "배포 직후 적체와 current/stable 차이를 모두 확인해야 후속 조치를 시작하도록 한다."
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "status": "preserved",
+          "evidence": [
+            "조건을 충족하지 않거나 확인할 수 없으면 롤백하지 않습니다. `current`와 `stable`이 같은 경우에도 롤백하지 않고, 관찰 결과를 플랫폼 온콜에 전달합니다."
+          ],
+          "reason": "조건 미충족·미확인과 current/stable 동일 시 롤백하지 않고 플랫폼 온콜로 넘긴다."
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl worker pause river-worker\n```",
+            "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다."
+          ],
+          "reason": "pause 반환은 요청 접수이고 진행 중인 작업 완료가 아니라는 의미를 보존한다."
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl worker status river-worker\n```",
+            "**`state=paused`와 `inflight=0`을 모두 확인한 다음에만 4단계로 진행합니다.**"
+          ],
+          "reason": "worker status로 두 정지 조건을 모두 확인한 뒤에만 롤백 단계로 진행한다."
+        },
+        {
+          "requirement_id": "OC4",
+          "status": "preserved",
+          "evidence": [
+            "일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "5분은 일시정지 요청부터 계산하며 두 조건 미충족 시 롤백 없이 이관한다."
+        },
+        {
+          "requirement_id": "OC5.command",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```"
+          ],
+          "reason": "지정된 stable 대상 롤백 명령을 정확히 제시한다."
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "status": "preserved",
+          "evidence": [
+            "롤백 명령이 성공한 경우에만 다음 명령으로 소비를 재개합니다. 재개 시각도 기록합니다.",
+            "```bash\nopsctl worker resume river-worker\n```"
+          ],
+          "reason": "롤백 성공 때만 지정된 resume 명령을 실행하도록 한다."
+        },
+        {
+          "requirement_id": "OC5.failure",
+          "status": "preserved",
+          "evidence": [
+            "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 이 경우 소비를 재개하지 않습니다."
+          ],
+          "reason": "롤백 실패 시 일시정지를 유지하고 재개하지 않으며 플랫폼 온콜로 이관한다."
+        },
+        {
+          "requirement_id": "OC6",
+          "status": "preserved",
+          "evidence": [
+            "**다음 두 조건을 모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다."
+          ],
+          "reason": "running 상태와 oldest_age_seconds 감소를 모두 복구의 판단 기준으로 둔다."
+        },
+        {
+          "requirement_id": "OC7.deadline",
+          "status": "preserved",
+          "evidence": [
+            "재개 후 **10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "10분은 소비 재개부터 계산하며 개선이 없으면 반복 롤백 대신 이관한다."
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "status": "preserved",
+          "evidence": [
+            "- 알람 발생 시각과 적체 시작 시각\n- `current`, `stable`, `changed_at`",
+            "- 실행한 명령과 각 명령의 결과"
+          ],
+          "reason": "이관 시 요구된 두 시각·두 배포 값·실행 명령과 결과가 모두 포함된다."
+        },
+        {
+          "requirement_id": "OC8",
+          "status": "preserved",
+          "evidence": [
+            "이 절차에서는 **큐 삭제, offset 초기화, 처리 중인 작업 강제 종료를 하지 않습니다.** 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요합니다."
+          ],
+          "reason": "큐 삭제·offset 초기화·진행 중 작업 강제 종료를 이 절차의 조치에서 제외한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "partial",
+          "entry_location": "4. stable로 롤백한 뒤 소비 재개 — 롤백 명령 직전",
+          "additional_locations": [
+            "3. 작업을 일시정지하고 처리 중인 작업 확인 — pause 의미와 5분 이관 기준"
+          ],
+          "local_condition_gap": "롤백 명령 직전에는 state=paused와 inflight=0의 동시 확인을 다시 제시하지만, pause 반환이 접수라는 설명과 요청 후 5분 한계는 바로 앞 3단계에만 있다.",
+          "answer_evidence": [
+            "`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.",
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+            "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.",
+            "일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "명령이 있는 4단계의 단독 조회에서는 실행 상태 조건은 얻고 대기 한계는 얻지 못하므로 국소 답을 partial로 판정한다. 전체 절차에서는 3단계가 시간 초과 시 이관하도록 분기하고 4단계 진입을 제한하므로 OC3·OC4는 보존이며, 잘못된 상태에서 실행하라는 지시도 아니다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "4. stable로 롤백한 뒤 소비 재개 — 명령 결과와 재개 분기",
+          "additional_locations": [
+            "5. 소비 상태와 큐 대기 시간으로 복구 확인",
+            "중단 및 플랫폼 온콜 이관 — 전달 정보"
+          ],
+          "local_condition_gap": "복구 확인인 5단계로만 바로 들어오면 롤백 성공 후에만 재개한다는 전제와 실패 시 일시정지 유지는 바로 앞 4단계를 확인해야 한다.",
+          "answer_evidence": [
+            "롤백 명령이 성공한 경우에만 다음 명령으로 소비를 재개합니다. 재개 시각도 기록합니다.",
+            "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 이 경우 소비를 재개하지 않습니다.",
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+            "```bash\nopsctl worker resume river-worker\n```",
+            "**다음 두 조건을 모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.",
+            "재개 후 **10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**",
+            "- 알람 발생 시각과 적체 시작 시각\n- `current`, `stable`, `changed_at`",
+            "- 실행한 명령과 각 명령의 결과"
+          ],
+          "reason": "재개 절에서 성공·실패 분기를 찾고 다음 복구 절에서 두 복구 조건과 재개 후 10분 이관을 찾는다. 마지막 이관 절에 시각·배포 값·명령 결과가 모여 있다. 단계 제목과 순서가 연결되며 필요한 사실은 모두 명시되어 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "배포 관련 복합 조건과 정지 상태의 두 조건을 모두 요구하며, 롤백 실패 시 재개를 금지하고 파괴적 조치를 제외한다. 명령 절에서 5분 기준을 앞 절로 찾아가야 하는 문제는 전역 조건 누락이나 실행 판단의 역전이 아니다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "OC1.target",
+          "status": "preserved",
+          "evidence": [
+            "`WorkerQueueAgeHigh` 알람이 울리면 이 절차로 `river-worker`와 작업 큐 `river-events`를 점검합니다. 알람만으로 배포가 원인이라고 확정할 수는 없습니다."
+          ],
+          "reason": "정확한 알람·worker·큐를 대상으로 하며 배포 원인을 단정하지 않는다."
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl queue inspect river-events\nopsctl worker status river-worker\nopsctl deploy show river-worker\n```"
+          ],
+          "reason": "큐·worker·배포의 세 조회 명령을 코드 블록에 정확히 제시한다."
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "status": "preserved",
+          "evidence": [
+            "**다음 두 조건을 모두 확인한 경우에만 2단계로 진행합니다.**\n\n- 현재 배포 직후부터 적체가 시작됐습니다.\n- `current`와 `stable`이 다릅니다."
+          ],
+          "reason": "현재 배포 직후 적체와 current/stable 차이를 모두 확인해야 일시정지 단계로 진행한다."
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "status": "preserved",
+          "evidence": [
+            "조건을 확인할 수 없거나 `current`와 `stable`이 같으면 이 절차에서 롤백하지 않습니다. 관찰 결과를 플랫폼 온콜에 전달합니다."
+          ],
+          "reason": "조건을 확인할 수 없거나 current/stable이 같으면 롤백하지 않고 플랫폼 온콜로 이관한다."
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl worker pause river-worker\n```",
+            "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다."
+          ],
+          "reason": "pause 반환을 접수로 한정하고 처리 중 작업이 계속될 수 있음을 명시한다."
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl worker status river-worker\n```",
+            "**`state=paused`와 `inflight=0`을 모두 확인한 다음에만** 3단계로 진행합니다."
+          ],
+          "reason": "worker status에서 paused와 inflight=0을 모두 확인한 뒤 롤백 단계로 진행한다."
+        },
+        {
+          "requirement_id": "OC4",
+          "status": "preserved",
+          "evidence": [
+            "일시정지 요청 후 **5분이 지나도 두 조건을 충족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "일시정지 요청 후 5분에도 정지 조건이 미충족이면 롤백하지 않고 이관한다."
+        },
+        {
+          "requirement_id": "OC5.command",
+          "status": "preserved",
+          "evidence": [
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```"
+          ],
+          "reason": "stable을 대상으로 하는 지정된 롤백 명령을 보존한다."
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "status": "preserved",
+          "evidence": [
+            "**롤백 명령이 성공한 경우에만** 다음 명령으로 소비를 재개하고, 재개 시각을 기록합니다.",
+            "```bash\nopsctl worker resume river-worker\n```"
+          ],
+          "reason": "명령 성공에만 소비 재개를 허용하고 정확한 resume 명령을 제시한다."
+        },
+        {
+          "requirement_id": "OC5.failure",
+          "status": "preserved",
+          "evidence": [
+            "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 소비를 재개하지 않습니다."
+          ],
+          "reason": "실패 시 일시정지 유지·재개 금지·플랫폼 온콜 이관을 함께 명시한다."
+        },
+        {
+          "requirement_id": "OC6",
+          "status": "preserved",
+          "evidence": [
+            "다음 두 조건을 **모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다."
+          ],
+          "reason": "consumer_state=running과 대기 시간 감소를 모두 복구 조건으로 제시한다."
+        },
+        {
+          "requirement_id": "OC7.deadline",
+          "status": "preserved",
+          "evidence": [
+            "**재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "소비 재개 후 10분간 개선이 없으면 반복 롤백하지 않고 이관한다."
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "status": "preserved",
+          "evidence": [
+            "- 알람 발생 시각\n- 적체 시작 시각. 확인하지 못했다면 미확인임을 표시합니다.\n- 확인한 `current`와 `stable`\n- 실행한 명령과 결과. 큐·worker·배포 상태, 일시정지·롤백·재개 중 어디까지 진행했는지 알 수 있도록 전달합니다."
+          ],
+          "reason": "필수 시각·current/stable·실행 명령과 결과가 이관 목록에 모두 있다."
+        },
+        {
+          "requirement_id": "OC8",
+          "status": "preserved",
+          "evidence": [
+            "이 절차에서는 **큐 삭제, offset 초기화, 처리 중인 작업 강제 종료를 하지 않습니다.** 작업 손실이나 중복을 일으킬 수 있으므로 별도 판단이 필요합니다."
+          ],
+          "reason": "큐 삭제·offset 초기화·진행 중 작업 강제 종료를 이 절차에서 하지 않도록 한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "partial",
+          "entry_location": "3. stable로 롤백하고 성공한 경우에만 소비를 재개합니다 — 롤백 명령 직전",
+          "additional_locations": [
+            "2. 일시정지를 요청하고 처리 중인 작업이 끝났는지 확인합니다 — pause 의미와 5분 이관 기준"
+          ],
+          "local_condition_gap": "롤백 명령 절은 state=paused와 inflight=0을 다시 제시하지만, pause 반환의 접수 의미와 요청 후 5분 한계는 바로 앞 2단계에 있다.",
+          "answer_evidence": [
+            "`state=paused`와 `inflight=0`을 모두 확인했다면 롤백합니다.",
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+            "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.",
+            "일시정지 요청 후 **5분이 지나도 두 조건을 충족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+          ],
+          "reason": "명령 절 단독 조회에서 두 상태 조건은 찾지만 대기 한계는 앞 절로 이동해야 하므로 국소 답은 partial이다. 2단계 자체에는 접수·두 조건·5분 이관이 명확하고 3단계 진행 조건도 연결되어 있으므로 전역 의미의 누락이나 위험한 롤백 지시는 아니다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "3. stable로 롤백하고 성공한 경우에만 소비를 재개합니다 — 성공·실패 분기",
+          "additional_locations": [
+            "4. 소비 상태와 적체 변화를 확인해 복구 여부를 판단합니다",
+            "5. 플랫폼 온콜에 관찰 결과와 실행 내역을 전달합니다"
+          ],
+          "local_condition_gap": "복구 확인인 4단계만 직접 조회하면 롤백 성공을 재개의 전제로 삼는 내용과 실패 시 일시정지 유지는 바로 앞 3단계를 확인해야 한다.",
+          "answer_evidence": [
+            "**롤백 명령이 성공한 경우에만** 다음 명령으로 소비를 재개하고, 재개 시각을 기록합니다.",
+            "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 소비를 재개하지 않습니다.",
+            "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+            "```bash\nopsctl worker resume river-worker\n```",
+            "다음 두 조건을 **모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.",
+            "**재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**",
+            "- 알람 발생 시각\n- 적체 시작 시각. 확인하지 못했다면 미확인임을 표시합니다.\n- 확인한 `current`와 `stable`\n- 실행한 명령과 결과. 큐·worker·배포 상태, 일시정지·롤백·재개 중 어디까지 진행했는지 알 수 있도록 전달합니다."
+          ],
+          "reason": "재개 절은 제목과 본문에서 성공 조건을 표시한다. 다음 단계에 running·대기 시간 감소·재개 후 10분 이관이 모이고 마지막 단계에 이관 정보가 있다. 재개부터 이어 읽으면 필요한 판단을 모두 얻으며 복구 절 단독 진입 시의 전제 위치도 식별할 수 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "배포 관련 두 조건과 paused/inflight의 두 조건을 지키며 성공한 롤백 뒤에만 재개하도록 한다. 5분·10분 이관 및 파괴적 조치 제외도 유지한다. 5분 제한의 앞 절 배치는 국소 탐색 한계이며 실행 조건을 뒤집는 설명은 아니다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "DC1.identity",
+          "status": "preserved",
+          "evidence": [
+            "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+          ],
+          "reason": "문서 번호와 작성일을 식별 정보로 그대로 보존한다."
+        },
+        {
+          "requirement_id": "DC1.status",
+          "status": "preserved",
+          "evidence": [
+            "- 상태: 제안\n- 검토 상태: 데이터 및 운영 담당자의 검토가 아직 끝나지 않았다."
+          ],
+          "reason": "제안 상태와 미완료 검토를 명시하고 승인 완료로 바꾸지 않는다."
+        },
+        {
+          "requirement_id": "DC2.key",
+          "status": "preserved",
+          "evidence": [
+            "같은 `tenant_id`에서 같은 `event_id`가 다시 제출되면 업무 이벤트가 중복 생성되지 않아야 한다.",
+            "PostgreSQL에 `event_receipts` 테이블을 만들고 `(tenant_id, event_id)`에 유일성 제약을 설정한다."
+          ],
+          "reason": "같은 tenant 내 event_id 중복 방지 요구와 두 필드의 복합 유일성 제약을 모두 제시한다."
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "status": "preserved",
+          "evidence": [
+            "서로 다른 `tenant_id`에서는 같은 `event_id`를 사용할 수 있으므로, 중복 판정 기준은 두 값의 조합이다."
+          ],
+          "reason": "서로 다른 tenant 사이에서는 event_id 재사용을 허용한다."
+        },
+        {
+          "requirement_id": "DC3.store",
+          "status": "preserved",
+          "evidence": [
+            "이벤트 API의 중복 판정 기록을 PostgreSQL의 `event_receipts` 테이블에 저장할 것을 제안한다. `(tenant_id, event_id)`에 유일성 제약을 두고, 중복 판정 기록과 업무 이벤트 생성을 같은 데이터베이스 트랜잭션에서 처리한다."
+          ],
+          "reason": "제안 저장소·테이블·복합 키 제약을 정확히 명시한다."
+        },
+        {
+          "requirement_id": "DC3.transaction",
+          "status": "preserved",
+          "evidence": [
+            "- 새 키에 대한 중복 판정 기록과 업무 이벤트 생성은 같은 데이터베이스 트랜잭션에서 처리한다.\n- 중복 키가 이미 있으면 업무 이벤트를 새로 만들지 않는다."
+          ],
+          "reason": "두 기록의 동일 트랜잭션 처리와 기존 중복 키의 업무 이벤트 미생성을 함께 명시한다."
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "status": "preserved",
+          "evidence": [
+            "TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있다."
+          ],
+          "reason": "TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어올 때라는 누락 조건을 모두 보존한다."
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "status": "preserved",
+          "evidence": [
+            "PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다."
+          ],
+          "reason": "원자성이 필요한 상대 작업을 PostgreSQL 업무 이벤트 생성으로 한정하며 추가 설계를 요구한다."
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "status": "preserved",
+          "evidence": [
+            "기존 PostgreSQL의 트랜잭션을 활용하고 별도 Redis 운영을 추가하지 않는 것이 제안의 주요 근거다."
+          ],
+          "reason": "기존 PostgreSQL 트랜잭션 사용과 별도 Redis 운영 미추가를 이점으로 제시한다."
+        },
+        {
+          "requirement_id": "DC5.cost",
+          "status": "preserved",
+          "evidence": [
+            "`event_receipts`를 도입하면 기존 PostgreSQL의 쓰기와 인덱스 부하가 늘어난다. 중복 판정 기록을 정리하는 정책도 마련해야 한다."
+          ],
+          "reason": "쓰기·인덱스 부하 증가 및 기록 정리 정책의 부담을 모두 명시한다."
+        },
+        {
+          "requirement_id": "DC6.retention",
+          "status": "preserved",
+          "evidence": [
+            "과거 이벤트를 다시 가져오는 작업도 중복 판정 대상이다. 다만 중복 판정 기록을 얼마나 오래 보관할지는 아직 정하지 않았다.",
+            "| 보존 정책 | 중복 판정 기록을 얼마나 오래 보관하고 언제 정리할지 정한다. 과거 이벤트 재수집에 대한 중복 방지 요구와 정책이 맞는지 검토한다. |"
+          ],
+          "reason": "과거 이벤트 재수집을 포함하고 보관 기간 미정 및 승인 전 정책 결정 필요를 연결한다."
+        },
+        {
+          "requirement_id": "DC6.performance",
+          "status": "preserved",
+          "evidence": [
+            "현재 부하에서 `event_receipts`의 추가 비용을 측정한 결과는 없다. 공식 지연 목표나 처리량 보장도 이번 ADR에서는 정하지 않았다. 따라서 성능 적합성은 검증이 필요한 사항으로 남는다.",
+            "| 성능 검증 계획 | 현재 부하에서 `event_receipts` 추가에 따른 쓰기·인덱스 부하와 비용을 어떻게 측정하고 평가할지 정한다. |"
+          ],
+          "reason": "현재 부하의 추가 비용 미측정·지연/처리량 미보장과 리뷰에서 결정할 검증 계획을 모두 보존한다."
+        },
+        {
+          "requirement_id": "DC6.ownership",
+          "status": "preserved",
+          "evidence": [
+            "| 운영 책임 주체 | 도입 후 중복 판정 기록과 정리 정책의 운영을 누가 담당할지 정한다. |",
+            "리뷰에서 위 사항을 정한 뒤 제안의 승인 여부를 결정한다."
+          ],
+          "reason": "운영 책임 주체를 승인 전에 결정할 항목으로 둔다."
+        },
+        {
+          "requirement_id": "DC7",
+          "status": "preserved",
+          "evidence": [
+            "- 데이터베이스 작업이 실패하면 요청에 `503`을 반환한다. 클라이언트는 같은 `tenant_id`와 `event_id`로 재시도한다."
+          ],
+          "reason": "선택 정보인 DB 실패 503과 같은 tenant_id/event_id 재시도를 정확히 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "검토한 대안과 제안 이유 — 비교 표의 과거 이벤트·원자적 처리 행",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "| 과거 이벤트의 중복 판정 | 중복 판정 기록의 보존 기간과 정리 정책을 정해야 한다. | TTL 만료 또는 키 유실 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있다. |",
+            "| 업무 이벤트 생성과의 원자적 처리 | 중복 판정 기록과 업무 이벤트 생성을 같은 데이터베이스 트랜잭션에서 처리한다. | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다. |"
+          ],
+          "reason": "대안 비교 표 안에 TTL 만료/키 유실 뒤 과거 이벤트 재유입이라는 복합 조건과 PostgreSQL 업무 이벤트 생성과의 원자적 처리 범위가 함께 있다. 주변 배경을 다시 읽지 않아도 두 질문에 답할 수 있다. Redis 일반의 무조건적 유실로 확대하지 않는다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "승인 전에 결정할 사항 — 미결 항목 표와 마지막 문단",
+          "additional_locations": [
+            "도입 시 감수할 점과 검증의 한계 — 현재 비용 미측정 문단",
+            "문서 제목·작성일·상태"
+          ],
+          "local_condition_gap": "승인 전 표는 성능 측정·평가 계획을 정하도록 하지만 현재 추가 비용이 미측정이고 공식 지연·처리량 보장이 없다는 사실은 바로 앞 검증의 한계 절에서 확인해야 한다.",
+          "answer_evidence": [
+            "리뷰에서 위 사항을 정한 뒤 제안의 승인 여부를 결정한다. 데이터 및 운영 담당자의 검토가 완료되기 전까지 이 문서의 상태는 제안이다.",
+            "| 보존 정책 | 중복 판정 기록을 얼마나 오래 보관하고 언제 정리할지 정한다. 과거 이벤트 재수집에 대한 중복 방지 요구와 정책이 맞는지 검토한다. |",
+            "| 성능 검증 계획 | 현재 부하에서 `event_receipts` 추가에 따른 쓰기·인덱스 부하와 비용을 어떻게 측정하고 평가할지 정한다. |",
+            "| 운영 책임 주체 | 도입 후 중복 판정 기록과 정리 정책의 운영을 누가 담당할지 정한다. |",
+            "현재 부하에서 `event_receipts`의 추가 비용을 측정한 결과는 없다. 공식 지연 목표나 처리량 보장도 이번 ADR에서는 정하지 않았다.",
+            "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+          ],
+          "reason": "마지막 절에서 보존·성능 검증·책임 결정을 찾고 미승인 제안 상태를 재확인한다. 미측정 여부와 보장 부재는 인접한 검증 절에 명시되어 있어 질문의 답을 완성할 수 있다. 문서 식별 정보는 머리말에 있으며 마지막 절에 번호·날짜를 반복할 필요는 없다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "상태는 미승인 제안이며 tenant_id를 포함한 복합 키와 동일 DB 트랜잭션을 유지한다. 성능·보존 기간을 확정하거나 외부 부수효과까지 보장 범위를 넓히지 않는다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "DC1.identity",
+          "status": "preserved",
+          "evidence": [
+            "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+          ],
+          "reason": "ADR 번호와 작성일을 그대로 보존한다."
+        },
+        {
+          "requirement_id": "DC1.status",
+          "status": "preserved",
+          "evidence": [
+            "- 상태: 제안\n- 검토 현황: 데이터·운영 담당자 검토 미완료"
+          ],
+          "reason": "제안 상태와 데이터·운영 검토 미완료를 명시한다."
+        },
+        {
+          "requirement_id": "DC2.key",
+          "status": "preserved",
+          "evidence": [
+            "같은 `tenant_id`에서 같은 `event_id`를 다시 제출하더라도 업무 이벤트가 중복 생성되지 않아야 한다.",
+            "`event_receipts` 테이블의 `(tenant_id, event_id)`에 유일성 제약을 설정하고, 중복 판정 기록과 업무 이벤트 생성을 같은 데이터베이스 트랜잭션에서 처리한다."
+          ],
+          "reason": "같은 tenant 내 event_id 중복 방지 요구를 복합 키의 유일성 제약으로 구현하는 제안이다."
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "status": "preserved",
+          "evidence": [
+            "서로 다른 `tenant_id`에서는 같은 `event_id`를 사용할 수 있으므로, 중복 여부는 두 값을 함께 기준으로 삼아야 한다."
+          ],
+          "reason": "서로 다른 tenant의 같은 event_id 사용 가능성을 직접 보존한다."
+        },
+        {
+          "requirement_id": "DC3.store",
+          "status": "preserved",
+          "evidence": [
+            "이벤트 API의 중복 판정 저장소로 PostgreSQL을 사용하는 방안을 제안한다. `event_receipts` 테이블의 `(tenant_id, event_id)`에 유일성 제약을 설정하고, 중복 판정 기록과 업무 이벤트 생성을 같은 데이터베이스 트랜잭션에서 처리한다."
+          ],
+          "reason": "PostgreSQL을 제안 저장소로 명시하며 event_receipts와 복합 키 제약을 정확히 보존한다."
+        },
+        {
+          "requirement_id": "DC3.transaction",
+          "status": "preserved",
+          "evidence": [
+            "| `(tenant_id, event_id)`가 아직 없음 | 중복 판정 기록과 업무 이벤트를 같은 데이터베이스 트랜잭션에서 생성한다. |\n| 같은 `(tenant_id, event_id)`가 이미 있음 | 업무 이벤트를 새로 만들지 않는다. |"
+          ],
+          "reason": "새 키의 두 기록을 같은 트랜잭션으로 만들고 기존 키라면 업무 이벤트를 추가하지 않는다."
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "status": "preserved",
+          "evidence": [
+            "TTL이 만료되거나 키가 유실된 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있다."
+          ],
+          "reason": "키 만료·유실 뒤 과거 이벤트가 재유입하는 조건에서의 중복 누락 가능성을 보존한다."
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "status": "preserved",
+          "evidence": [
+            "PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다."
+          ],
+          "reason": "Redis 쪽 처리와 PostgreSQL 업무 이벤트 생성의 원자성에 추가 설계가 필요함을 명시한다."
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "status": "preserved",
+          "evidence": [
+            "PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션을 활용해 중복 판정 기록과 업무 이벤트 생성을 함께 처리할 수 있기 때문이다. 별도 Redis 운영을 추가하지 않는다는 이점도 있다."
+          ],
+          "reason": "기존 DB 트랜잭션 활용과 별도 Redis 운영 미추가를 제안 근거로 설명한다."
+        },
+        {
+          "requirement_id": "DC5.cost",
+          "status": "preserved",
+          "evidence": [
+            "`event_receipts`를 추가하면 기존 PostgreSQL의 쓰기와 인덱스 부하가 늘어난다. 중복 판정 기록을 정리하는 정책도 마련해야 하며, 이 정책은 과거 이벤트를 어느 기간까지 중복 판정할 수 있는지와 함께 검토해야 한다."
+          ],
+          "reason": "쓰기·인덱스 부하와 중복 판정 기록 정리 정책의 부담을 보존한다."
+        },
+        {
+          "requirement_id": "DC6.retention",
+          "status": "preserved",
+          "evidence": [
+            "과거 이벤트를 다시 가져오는 작업도 중복 판정 대상이다. 다만 중복 판정 기록의 보관 기간은 아직 정하지 않았다.",
+            "| 보존 정책 | 중복 판정 기록의 보관 기간과 정리 정책을 정한다. 과거 이벤트 재반입 요구를 고려해 중복 판정의 보장 범위를 명시한다. |"
+          ],
+          "reason": "과거 이벤트 재수집도 대상이며 보관 기간 미정과 리뷰에서 정할 보존·정리 정책을 명시한다."
+        },
+        {
+          "requirement_id": "DC6.performance",
+          "status": "preserved",
+          "evidence": [
+            "현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없다. 따라서 성능에 미치는 영향은 검증이 필요하다. 공식 지연 목표나 처리량 보장은 이번 ADR에서 정하지 않았다.",
+            "| 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |"
+          ],
+          "reason": "현재 부하의 미측정 비용, 미정인 지연·처리량 보장, 정해야 할 검증 계획을 모두 보존한다."
+        },
+        {
+          "requirement_id": "DC6.ownership",
+          "status": "preserved",
+          "evidence": [
+            "| 운영 책임 | 중복 판정 저장소 운영과 보존·정리 정책 실행의 책임 주체를 정한다. |",
+            "데이터와 운영 담당자의 검토를 마치고 보존 정책, 성능 검증 계획, 운영 시 책임 주체를 정한 뒤 제안의 승인 여부를 결정한다."
+          ],
+          "reason": "운영 책임 주체를 리뷰 후 승인 여부 결정 전에 정해야 할 미결 사항으로 둔다."
+        },
+        {
+          "requirement_id": "DC7",
+          "status": "preserved",
+          "evidence": [
+            "| 데이터베이스 작업 실패 | 요청에 `503`을 반환하고, 클라이언트는 같은 `tenant_id`와 `event_id`로 재시도한다. |"
+          ],
+          "reason": "DB 작업 실패 시 503과 동일 tenant_id/event_id 재시도를 정확히 제시한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "검토한 대안과 선택 이유 — 비교 표의 과거 이벤트 재반입·원자적 처리 행",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "| 과거 이벤트 재반입 | 보관 중인 기록으로 중복을 판정한다. 기록의 보관 기간과 정리 정책을 정해야 한다. | TTL이 만료되거나 키가 유실된 뒤 과거 이벤트가 다시 들어오면 중복을 놓칠 수 있다. |",
+            "| 업무 이벤트 생성과의 원자적 처리 | 중복 판정 기록과 업무 이벤트를 같은 데이터베이스 트랜잭션에서 처리한다. | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다. |"
+          ],
+          "reason": "비교 표만 읽어도 만료 또는 유실 뒤 과거 이벤트가 다시 들어오는 조건과 PostgreSQL 업무 이벤트 생성까지 원자적으로 묶어야 한다는 범위를 확인할 수 있다. 조건을 생략해 Redis의 일반적 결함으로 확장하지 않는다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "미결 사항과 승인 조건 — 항목별 표와 마지막 문단",
+          "additional_locations": [
+            "도입 시 감수할 비용과 검증 한계 — 미측정 비용 문단",
+            "문서 제목·작성일·상태"
+          ],
+          "local_condition_gap": "미결 사항 표에는 성능 검증 계획이 있지만 현재 비용 미측정과 공식 지연·처리량 미보장은 바로 앞 검증 한계 절을 더 읽어야 한다.",
+          "answer_evidence": [
+            "데이터와 운영 담당자의 검토를 마치고 보존 정책, 성능 검증 계획, 운영 시 책임 주체를 정한 뒤 제안의 승인 여부를 결정한다.",
+            "| 보존 정책 | 중복 판정 기록의 보관 기간과 정리 정책을 정한다. 과거 이벤트 재반입 요구를 고려해 중복 판정의 보장 범위를 명시한다. |",
+            "| 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |",
+            "| 운영 책임 | 중복 판정 저장소 운영과 보존·정리 정책 실행의 책임 주체를 정한다. |",
+            "현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없다. 따라서 성능에 미치는 영향은 검증이 필요하다. 공식 지연 목표나 처리량 보장은 이번 ADR에서 정하지 않았다.",
+            "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+          ],
+          "reason": "마지막 절에서 보존 정책·성능 검증 계획·운영 책임을 찾고, 이를 정한 뒤 제안의 승인 여부를 결정한다는 문장으로 미승인 상태를 알 수 있다. 제안이라는 상태 문구를 똑같이 반복하지 않아도 충분하다. 구체적인 성능 미측정 사실은 인접 절, 번호와 작성일은 머리말에서 확인한다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "미승인 제안 상태와 tenant별 복합 키 범위 및 동일 트랜잭션 처리를 유지한다. 만료·유실 조건을 일반화하지 않고 성능이나 보존 기간의 보장을 만들지 않아 설계 판단을 뒤집는 근거가 없다.",
+        "evidence": []
+      }
+    }
+  ]
+}

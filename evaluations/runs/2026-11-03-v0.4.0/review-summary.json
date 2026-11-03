@@ -1,0 +1,777 @@
+{
+  "run_id": "2026-11-03-v0.4.0",
+  "scope": "Counts summarize the anonymous model review records under this frozen contract. They are not quality scores, validated reader measurements, or estimates of causal skill effects.",
+  "cases": {
+    "cli_readme": {
+      "v0.4.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+        "required_meanings": {
+          "preserved": 11
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "NAV1",
+            "answer_status": "sufficient",
+            "entry_location": "## 첫 실행: 오류 항목 확인 — 실행 명령과 바로 아래 결과 설명",
+            "additional_locations": [
+              "## 사용 형식과 주요 옵션 — --output PATH 행"
+            ],
+            "local_condition_gap": "첫 실행 예에는 --output이 없고 error 항목을 표준 출력으로 보낸다는 설명만 있다. 기존 출력 파일의 처리 조건은 그 예 자체에는 없으며, 다음 옵션 절의 --output 행에서 확인해야 한다. 이는 해당 진입 위치의 정보 배치 문제이고 문서 전역의 누락은 아니다.",
+            "answer_evidence": [
+              "trace-slice ./logs/api.jsonl --level error",
+              "이 명령은 `error` 항목을 표준 출력으로 내보냅니다.",
+              "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |"
+            ],
+            "reason": "실행 예에서 출발한 독자는 바로 다음 옵션 절에서 --output 생략 시 표준 출력과 기존 지정 파일 덮어쓰기를 모두 확인할 수 있다. 파일 저장 전용 명령 예시는 없지만 질문에 필요한 동작은 명시되어 있다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "기존 파일 덮어쓰기와 잘못된 JSON 행의 건너뛰기를 정확히 설명한다. 사용 결과나 지원·검증 범위를 반대로 판단하게 하는 주장은 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      },
+      "v0.3.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md",
+        "required_meanings": {
+          "preserved": 11
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "NAV1",
+            "answer_status": "sufficient",
+            "entry_location": "## 설치와 첫 실행 — 3번 실행 명령과 바로 아래 결과 설명",
+            "additional_locations": [
+              "## 사용 방법과 주요 옵션 — --output PATH 행",
+              "## 사용 방법과 주요 옵션 — 표 뒤의 파일 저장 안내 문단"
+            ],
+            "local_condition_gap": "첫 실행 예에는 --output이 없고 error 항목을 표준 출력으로 보낸다는 설명만 있다. 기존 출력 파일의 처리 조건은 그 예 자체에는 없으며, 다음 옵션 절의 --output 행에서 확인해야 한다. 이는 해당 진입 위치의 정보 배치 문제이고 문서 전역의 누락은 아니다.",
+            "answer_evidence": [
+              "trace-slice ./logs/api.jsonl --level error",
+              "이 명령은 `error` 항목을 표준 출력으로 내보냅니다.",
+              "| `--output PATH` | 결과를 저장할 파일 경로. **파일이 이미 있으면 덮어씀** | 표준 출력으로 내보냄 |",
+              "결과를 파일에 저장하려면 `--output PATH`를 추가하세요. 기존 파일을 덮어쓰므로 실행 전에 저장 경로를 확인하세요."
+            ],
+            "reason": "실행 예에서 출발한 독자는 바로 다음 옵션 절에서 --output 생략 시 표준 출력과 기존 지정 파일 덮어쓰기를 모두 확인할 수 있다. 파일 저장 전용 명령 예시는 없지만 질문에 필요한 동작은 명시되어 있다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "기존 파일 덮어쓰기와 잘못된 JSON 행의 건너뛰기를 정확히 설명한다. 사용 결과나 지원·검증 범위를 반대로 판단하게 하는 주장은 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      }
+    },
+    "investigation_pr": {
+      "v0.3.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md",
+        "required_meanings": {
+          "preserved": 13
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "SCOPE1",
+            "answer_status": "sufficient",
+            "entry_location": "## 변경 이유 — 진단 로그 추가의 이유와 lock TTL 원인 후보 설명",
+            "additional_locations": [
+              "## 변경 내용과 범위 — 기존 동작 유지 문장"
+            ],
+            "local_condition_gap": "변경 이유 절은 가설의 미확정과 해결 수정 제외를 밝히지만, 유지되는 네 가지 동작의 구체적인 범위는 다음 절에 있다. 전역 누락은 아니다.",
+            "answer_evidence": [
+              "중복 발송 이슈 #184의 원인을 조사하기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다.",
+              "발송 작업이 길어져 lock TTL이 먼저 만료되는 상황이 원인 후보 중 하나입니다. 다만 실제 원인인지는 확인하지 못했으며, 이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다.",
+              "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.",
+              "이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다."
+            ],
+            "reason": "원인 후보를 확인된 원인으로 바꾸지 않고, 변경을 진단 로그 추가로 한정한다. 이어지는 범위 절과 함께 읽으면 발송 동작을 그대로 두며 해결 수정은 없다는 결론이 분명하다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "해결 완료, lock TTL 원인 확정, 스테이징 검증 또는 성능 측정 완료를 주장하지 않는다. 관측 보강의 범위와 실제 검증 한계를 보존하므로 운영·검증 판단을 뒤집는 근거가 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      },
+      "v0.4.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md",
+        "required_meanings": {
+          "preserved": 13
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "SCOPE1",
+            "answer_status": "sufficient",
+            "entry_location": "## 변경 이유 — 진단 로그 추가의 이유와 lock TTL 원인 후보 설명",
+            "additional_locations": [
+              "## 변경 내용과 범위 — 기존 동작 유지 문장"
+            ],
+            "local_condition_gap": "변경 이유 절에서 원인 후보의 미확정을 확인할 수 있지만, 동작 유지와 해결 수정 제외는 다음 변경 내용과 범위 절에 있다. 전역 누락은 아니다.",
+            "answer_evidence": [
+              "원인 조사에 필요한 정보를 모으기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다.",
+              "발송 작업이 길어져 lock TTL이 먼저 끝나는 상황을 원인 후보로 보고 있지만, 실제 원인인지는 확인하지 못했습니다.",
+              "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 기존대로 유지합니다.",
+              "이번 PR에는 중복 발송을 해결하는 수정이 포함되어 있지 않습니다."
+            ],
+            "reason": "원인 후보를 확인된 원인으로 바꾸지 않고, 변경을 진단 로그 추가로 한정한다. 이어지는 범위 절과 함께 읽으면 발송 동작을 그대로 두며 해결 수정은 없다는 결론이 분명하다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "해결 완료, lock TTL 원인 확정, 스테이징 검증 또는 성능 측정 완료를 주장하지 않는다. 관측 보강의 범위와 실제 검증 한계를 보존하므로 운영·검증 판단을 뒤집는 근거가 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      }
+    },
+    "paragraph_edit": {
+      "v0.3.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md",
+        "required_meanings": {
+          "preserved": 9
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "0의 의미, 커서 조건, 검증 버전을 모두 보존한다. 사용 조건이나 검증 상태를 반대로 판단하게 하는 주장은 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      },
+      "v0.4.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md",
+        "required_meanings": {
+          "preserved": 9
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "0의 의미, 커서 조건, 검증 버전을 모두 보존한다. 사용 조건이나 검증 상태를 반대로 판단하게 하는 주장은 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      }
+    },
+    "short_investigation_wait_log": {
+      "v0.4.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+        "required_meanings": {
+          "preserved": 17
+        },
+        "reader_questions": {
+          "sufficient": 6
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "기존 관측과 변경 후 미검증을 구분하며 실제 영향·원인·재현을 확정하지 않는다. 기존 처리도 유지하므로 운영·검증 판단을 뒤집는 주장이 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      },
+      "v0.3.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md",
+        "required_meanings": {
+          "missing": 2,
+          "preserved": 14,
+          "partial": 1
+        },
+        "reader_questions": {
+          "partial": 2,
+          "sufficient": 4
+        },
+        "required_findings": [
+          {
+            "requirement_id": "S01.target",
+            "status": "missing",
+            "evidence": [],
+            "reason": "어느 문단에도 잔물결 작업 접수기라는 서비스 이름이나 이를 식별할 별도 표현이 없다. 변경 경로만으로는 대상 서비스명을 복원할 수 없다."
+          },
+          {
+            "requirement_id": "S03.purpose",
+            "status": "partial",
+            "evidence": [
+              "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+              "처리 동작은 바꾸지 않는 관측 보강입니다."
+            ],
+            "reason": "생성·제거·만료 시점의 기록과 관측 보강이라는 일반 목적은 있다. 다만 다음 관측에서 항목이 남고 사라지는 흐름을 대조할 정보를 얻으려는 목적까지 연결하지 않아 그 범위는 부분적으로만 드러난다."
+          },
+          {
+            "requirement_id": "S06.reason",
+            "status": "missing",
+            "evidence": [],
+            "reason": "응답 유실·중복 처리 여부가 미확인이라고는 쓰지만, 로그 이름과 출력 순서만으로는 실제 영향을 결론낼 수 없다는 이유가 문서 어디에도 없다. 관측과 미확인 사실의 병치만으로 이 근거 관계가 보존됐다고 판단하지 않았다."
+          }
+        ],
+        "question_findings": [
+          {
+            "question_id": "SQ1",
+            "answer_status": "partial",
+            "entry_location": "첫째 문단 — 기존 로그 관측과 실제 영향의 확인 수준",
+            "additional_locations": [],
+            "local_condition_gap": "첫째 문단에는 영향 여부 미확인과 빈도 미집계는 있으나, 로그 이름·출력 순서가 실제 영향을 판단할 근거로 부족하다는 이유가 없다. 이 이유와 대상 서비스 식별 정보는 다른 문단에도 없어 전역 누락이다.",
+            "answer_evidence": [
+              "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다.",
+              "실제 응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다."
+            ],
+            "reason": "관측 자료와 사건, 실제 영향 미확인과 빈도 미집계는 확인할 수 있다. 다만 로그 이름·순서에서 실제 영향으로 추론할 수 없는 이유가 빠졌으며, 단독 문서의 대상 서비스도 식별되지 않는다."
+          },
+          {
+            "question_id": "NAV1",
+            "answer_status": "partial",
+            "entry_location": "첫째 문단 — 대상 및 기존 로그 관측",
+            "additional_locations": [
+              "둘째 문단 — worker/pending_slots.py와 추가 로그 시점"
+            ],
+            "local_condition_gap": "대상 서비스명은 문서 전역에 없다. 둘째 문단에서 변경 경로와 로그 시점은 찾을 수 있으나, 다음 관측에서 항목의 남음·사라짐을 대조하려는 목적은 관측 보강이라는 일반 표현에 그친다.",
+            "answer_evidence": [
+              "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다.",
+              "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+              "처리 동작은 바꾸지 않는 관측 보강입니다."
+            ],
+            "reason": "기존 관측과 변경 경로·시점은 두 문단에서 찾을 수 있지만 어느 서비스를 바꾸는지는 문서만으로 알 수 없다. 향후 비교 목적도 일반적인 관측 보강 이상으로 충분히 드러나지 않아 부분 답변이다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "서비스 식별 정보와 영향 판단의 근거 설명이 빠지고 미래 관측 목적은 일부만 드러나지만, 실제 영향·원인·검증 완료를 주장하지 않는다. 누락만으로 사용·운영·검증 판단을 반대로 만드는 단정을 입증할 수 없어 hard_fail을 적용하지 않는다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/core.json"
+      }
+    },
+    "event_architecture": {
+      "v0.4.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md",
+        "required_meanings": {
+          "preserved": 11
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "202의 수락 경계, DB 성공 후 offset 커밋, 동일 event_id 재시도와 DB 단계의 중복 저장 방지를 모두 유지한다. 사용·운영 판단을 뒤집는 안내가 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      },
+      "v0.3.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md",
+        "required_meanings": {
+          "preserved": 11
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "RECALL1",
+            "answer_status": "sufficient",
+            "entry_location": "장애가 발생했을 때의 재처리 — 상황별 표",
+            "additional_locations": [
+              "중복 전달과 저장 중복 처리 — 유일성 제약 설명"
+            ],
+            "local_condition_gap": "실패 표에는 중복을 이미 기록된 이벤트로 취급한다는 설명이 있지만, event_id 유일성 제약과 추가 행을 만들지 않는 저장 단계의 범위는 바로 다음 절을 더 읽어야 한다.",
+            "answer_evidence": [
+              "| Kafka 발행 실패 | `collector-api`가 `503`을 반환합니다. 클라이언트가 같은 논리적 이벤트를 재시도할 때는 같은 `event_id`를 사용해야 합니다. |",
+              "| 데이터베이스 기록 후, offset 커밋 전에 `event-writer` 종료 | 데이터베이스에는 이벤트가 기록되어 있어도 같은 이벤트를 다시 읽을 수 있습니다. 재처리 중 확인된 중복은 이미 기록된 이벤트로 취급합니다. |",
+              "`event_store`에는 `event_id`의 유일성 제약이 있습니다. `event-writer`는 이 제약으로 확인된 중복 이벤트를 이미 기록된 이벤트로 취급하며, 추가 행을 만들지 않습니다."
+            ],
+            "reason": "실패 표 한곳에서 503 이후 같은 event_id 사용과 DB 기록 후 커밋 전 재전달을 함께 찾을 수 있다. 바로 다음 중복 처리 절이 저장 중복 방지의 구체적 범위를 완성하므로 문서의 답은 충분하다. 기제의 분산을 국소 탐색 사항으로 기록하며 전역 누락으로 보지 않는다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "202를 최종 저장 보장으로 바꾸지 않고, DB 성공 후 커밋·쓰기 실패 시 미커밋·동일 event_id 재시도를 모두 유지한다. API가 모든 중복을 제거한다고 안내하지 않는다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      }
+    },
+    "incident_runbook": {
+      "v0.4.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+        "required_meanings": {
+          "preserved": 14
+        },
+        "reader_questions": {
+          "partial": 1,
+          "sufficient": 1
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "NAV1",
+            "answer_status": "partial",
+            "entry_location": "4. stable로 롤백한 뒤 소비 재개 — 롤백 명령 직전",
+            "additional_locations": [
+              "3. 작업을 일시정지하고 처리 중인 작업 확인 — pause 의미와 5분 이관 기준"
+            ],
+            "local_condition_gap": "롤백 명령 직전에는 state=paused와 inflight=0의 동시 확인을 다시 제시하지만, pause 반환이 접수라는 설명과 요청 후 5분 한계는 바로 앞 3단계에만 있다.",
+            "answer_evidence": [
+              "`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.",
+              "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+              "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.",
+              "일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+            ],
+            "reason": "명령이 있는 4단계의 단독 조회에서는 실행 상태 조건은 얻고 대기 한계는 얻지 못하므로 국소 답을 partial로 판정한다. 전체 절차에서는 3단계가 시간 초과 시 이관하도록 분기하고 4단계 진입을 제한하므로 OC3·OC4는 보존이며, 잘못된 상태에서 실행하라는 지시도 아니다."
+          },
+          {
+            "question_id": "RECALL1",
+            "answer_status": "sufficient",
+            "entry_location": "4. stable로 롤백한 뒤 소비 재개 — 명령 결과와 재개 분기",
+            "additional_locations": [
+              "5. 소비 상태와 큐 대기 시간으로 복구 확인",
+              "중단 및 플랫폼 온콜 이관 — 전달 정보"
+            ],
+            "local_condition_gap": "복구 확인인 5단계로만 바로 들어오면 롤백 성공 후에만 재개한다는 전제와 실패 시 일시정지 유지는 바로 앞 4단계를 확인해야 한다.",
+            "answer_evidence": [
+              "롤백 명령이 성공한 경우에만 다음 명령으로 소비를 재개합니다. 재개 시각도 기록합니다.",
+              "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 이 경우 소비를 재개하지 않습니다.",
+              "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+              "```bash\nopsctl worker resume river-worker\n```",
+              "**다음 두 조건을 모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.",
+              "재개 후 **10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**",
+              "- 알람 발생 시각과 적체 시작 시각\n- `current`, `stable`, `changed_at`",
+              "- 실행한 명령과 각 명령의 결과"
+            ],
+            "reason": "재개 절에서 성공·실패 분기를 찾고 다음 복구 절에서 두 복구 조건과 재개 후 10분 이관을 찾는다. 마지막 이관 절에 시각·배포 값·명령 결과가 모여 있다. 단계 제목과 순서가 연결되며 필요한 사실은 모두 명시되어 있다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "배포 관련 복합 조건과 정지 상태의 두 조건을 모두 요구하며, 롤백 실패 시 재개를 금지하고 파괴적 조치를 제외한다. 명령 절에서 5분 기준을 앞 절로 찾아가야 하는 문제는 전역 조건 누락이나 실행 판단의 역전이 아니다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      },
+      "v0.3.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md",
+        "required_meanings": {
+          "preserved": 14
+        },
+        "reader_questions": {
+          "partial": 1,
+          "sufficient": 1
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "NAV1",
+            "answer_status": "partial",
+            "entry_location": "3. stable로 롤백하고 성공한 경우에만 소비를 재개합니다 — 롤백 명령 직전",
+            "additional_locations": [
+              "2. 일시정지를 요청하고 처리 중인 작업이 끝났는지 확인합니다 — pause 의미와 5분 이관 기준"
+            ],
+            "local_condition_gap": "롤백 명령 절은 state=paused와 inflight=0을 다시 제시하지만, pause 반환의 접수 의미와 요청 후 5분 한계는 바로 앞 2단계에 있다.",
+            "answer_evidence": [
+              "`state=paused`와 `inflight=0`을 모두 확인했다면 롤백합니다.",
+              "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+              "이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.",
+              "일시정지 요청 후 **5분이 지나도 두 조건을 충족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.**"
+            ],
+            "reason": "명령 절 단독 조회에서 두 상태 조건은 찾지만 대기 한계는 앞 절로 이동해야 하므로 국소 답은 partial이다. 2단계 자체에는 접수·두 조건·5분 이관이 명확하고 3단계 진행 조건도 연결되어 있으므로 전역 의미의 누락이나 위험한 롤백 지시는 아니다."
+          },
+          {
+            "question_id": "RECALL1",
+            "answer_status": "sufficient",
+            "entry_location": "3. stable로 롤백하고 성공한 경우에만 소비를 재개합니다 — 성공·실패 분기",
+            "additional_locations": [
+              "4. 소비 상태와 적체 변화를 확인해 복구 여부를 판단합니다",
+              "5. 플랫폼 온콜에 관찰 결과와 실행 내역을 전달합니다"
+            ],
+            "local_condition_gap": "복구 확인인 4단계만 직접 조회하면 롤백 성공을 재개의 전제로 삼는 내용과 실패 시 일시정지 유지는 바로 앞 3단계를 확인해야 한다.",
+            "answer_evidence": [
+              "**롤백 명령이 성공한 경우에만** 다음 명령으로 소비를 재개하고, 재개 시각을 기록합니다.",
+              "**롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 소비를 재개하지 않습니다.",
+              "```bash\nopsctl deploy rollback river-worker --to stable\n```",
+              "```bash\nopsctl worker resume river-worker\n```",
+              "다음 두 조건을 **모두 확인해야 복구로 판단합니다.**\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.",
+              "**재개 후 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**",
+              "- 알람 발생 시각\n- 적체 시작 시각. 확인하지 못했다면 미확인임을 표시합니다.\n- 확인한 `current`와 `stable`\n- 실행한 명령과 결과. 큐·worker·배포 상태, 일시정지·롤백·재개 중 어디까지 진행했는지 알 수 있도록 전달합니다."
+            ],
+            "reason": "재개 절은 제목과 본문에서 성공 조건을 표시한다. 다음 단계에 running·대기 시간 감소·재개 후 10분 이관이 모이고 마지막 단계에 이관 정보가 있다. 재개부터 이어 읽으면 필요한 판단을 모두 얻으며 복구 절 단독 진입 시의 전제 위치도 식별할 수 있다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "배포 관련 두 조건과 paused/inflight의 두 조건을 지키며 성공한 롤백 뒤에만 재개하도록 한다. 5분·10분 이관 및 파괴적 조치 제외도 유지한다. 5분 제한의 앞 절 배치는 국소 탐색 한계이며 실행 조건을 뒤집는 설명은 아니다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      }
+    },
+    "storage_adr": {
+      "v0.3.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md",
+        "required_meanings": {
+          "preserved": 13
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "RECALL1",
+            "answer_status": "sufficient",
+            "entry_location": "승인 전에 결정할 사항 — 미결 항목 표와 마지막 문단",
+            "additional_locations": [
+              "도입 시 감수할 점과 검증의 한계 — 현재 비용 미측정 문단",
+              "문서 제목·작성일·상태"
+            ],
+            "local_condition_gap": "승인 전 표는 성능 측정·평가 계획을 정하도록 하지만 현재 추가 비용이 미측정이고 공식 지연·처리량 보장이 없다는 사실은 바로 앞 검증의 한계 절에서 확인해야 한다.",
+            "answer_evidence": [
+              "리뷰에서 위 사항을 정한 뒤 제안의 승인 여부를 결정한다. 데이터 및 운영 담당자의 검토가 완료되기 전까지 이 문서의 상태는 제안이다.",
+              "| 보존 정책 | 중복 판정 기록을 얼마나 오래 보관하고 언제 정리할지 정한다. 과거 이벤트 재수집에 대한 중복 방지 요구와 정책이 맞는지 검토한다. |",
+              "| 성능 검증 계획 | 현재 부하에서 `event_receipts` 추가에 따른 쓰기·인덱스 부하와 비용을 어떻게 측정하고 평가할지 정한다. |",
+              "| 운영 책임 주체 | 도입 후 중복 판정 기록과 정리 정책의 운영을 누가 담당할지 정한다. |",
+              "현재 부하에서 `event_receipts`의 추가 비용을 측정한 결과는 없다. 공식 지연 목표나 처리량 보장도 이번 ADR에서는 정하지 않았다.",
+              "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+            ],
+            "reason": "마지막 절에서 보존·성능 검증·책임 결정을 찾고 미승인 제안 상태를 재확인한다. 미측정 여부와 보장 부재는 인접한 검증 절에 명시되어 있어 질문의 답을 완성할 수 있다. 문서 식별 정보는 머리말에 있으며 마지막 절에 번호·날짜를 반복할 필요는 없다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "상태는 미승인 제안이며 tenant_id를 포함한 복합 키와 동일 DB 트랜잭션을 유지한다. 성능·보존 기간을 확정하거나 외부 부수효과까지 보장 범위를 넓히지 않는다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      },
+      "v0.4.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+        "required_meanings": {
+          "preserved": 13
+        },
+        "reader_questions": {
+          "sufficient": 2
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "RECALL1",
+            "answer_status": "sufficient",
+            "entry_location": "미결 사항과 승인 조건 — 항목별 표와 마지막 문단",
+            "additional_locations": [
+              "도입 시 감수할 비용과 검증 한계 — 미측정 비용 문단",
+              "문서 제목·작성일·상태"
+            ],
+            "local_condition_gap": "미결 사항 표에는 성능 검증 계획이 있지만 현재 비용 미측정과 공식 지연·처리량 미보장은 바로 앞 검증 한계 절을 더 읽어야 한다.",
+            "answer_evidence": [
+              "데이터와 운영 담당자의 검토를 마치고 보존 정책, 성능 검증 계획, 운영 시 책임 주체를 정한 뒤 제안의 승인 여부를 결정한다.",
+              "| 보존 정책 | 중복 판정 기록의 보관 기간과 정리 정책을 정한다. 과거 이벤트 재반입 요구를 고려해 중복 판정의 보장 범위를 명시한다. |",
+              "| 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |",
+              "| 운영 책임 | 중복 판정 저장소 운영과 보존·정리 정책 실행의 책임 주체를 정한다. |",
+              "현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없다. 따라서 성능에 미치는 영향은 검증이 필요하다. 공식 지연 목표나 처리량 보장은 이번 ADR에서 정하지 않았다.",
+              "# ADR-007: 이벤트 중복 판정 저장소\n\n- 작성일: 2026-10-15"
+            ],
+            "reason": "마지막 절에서 보존 정책·성능 검증 계획·운영 책임을 찾고, 이를 정한 뒤 제안의 승인 여부를 결정한다는 문장으로 미승인 상태를 알 수 있다. 제안이라는 상태 문구를 똑같이 반복하지 않아도 충분하다. 구체적인 성능 미측정 사실은 인접 절, 번호와 작성일은 머리말에서 확인한다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "미승인 제안 상태와 tenant별 복합 키 범위 및 동일 트랜잭션 처리를 유지한다. 만료·유실 조건을 일반화하지 않고 성능이나 보존 기간의 보장을 만들지 않아 설계 판단을 뒤집는 근거가 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/long.json"
+      }
+    },
+    "long_onboarding_index_refresh": {
+      "v0.3.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md",
+        "required_meanings": {
+          "preserved": 29
+        },
+        "reader_questions": {
+          "sufficient": 7
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "필수 의미 29개와 질문 7개를 대조했을 때 사용·운영·검증 판단을 뒤집는 누락이나 충돌이 없다. 완료 조회는 확인 절차로 설명되며 실제 판 선택 기준은 전환 확정과 검색 시작의 선후로 보존된다. 위치 분산이나 표현상의 반복은 의미 실패로 처리하지 않았다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/onboarding.json"
+      },
+      "v0.4.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+        "required_meanings": {
+          "preserved": 29
+        },
+        "reader_questions": {
+          "sufficient": 7
+        },
+        "required_findings": [],
+        "question_findings": [],
+        "hard_fail": {
+          "value": false,
+          "reason": "필수 의미 29개와 질문 7개를 대조했을 때 사용·운영·검증 판단을 뒤집는 누락이나 충돌이 없다. 완료 조회는 확인 절차로 설명되며 실제 판 선택 기준은 전환 확정과 검색 시작의 선후로 보존된다. 위치 분산이나 표현상의 반복은 의미 실패로 처리하지 않았다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/onboarding.json"
+      }
+    },
+    "v04_new_a_config_rollout": {
+      "v0.4.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+        "required_meanings": {
+          "preserved": 21
+        },
+        "reader_questions": {
+          "sufficient": 7
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "AQ02",
+            "answer_status": "sufficient",
+            "entry_location": "## 접수 거절의 SCHEDULED 배포 행",
+            "additional_locations": [
+              "## 1. 권한·초안 준비의 마지막 문장"
+            ],
+            "local_condition_gap": "오류 표의 해당 행에는 재요청 가능 시점이 없으므로 준비 절의 활성화·예약 취소 조건을 연결해야 한다.",
+            "answer_evidence": [
+              "| 같은 워크스페이스에 `SCHEDULED` 배포 있음 | 409 | `{\"error\":\"PENDING_RELEASE_EXISTS\"}` |",
+              "기존 `SCHEDULED` 배포가 있으면 활성화나 예약 취소 후 새 요청을 보냅니다."
+            ],
+            "reason": "표에서 정확한 거절 응답을 찾고 준비 절에서 활성화 또는 예약 취소 뒤 재요청이라는 해제 조건을 찾을 수 있다. 전역 누락은 아니다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "접수 자격·거절 응답·첫 전환 평가·조회 비인과성·복구와 재개 절차가 원자료와 일치한다. 오류 표 밖의 재요청 조건은 탐색상의 연결 문제이며 사용·운영 판단을 뒤집는 누락이나 충돌은 아니다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json"
+      },
+      "v0.3.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/09_config_rollout.md",
+        "required_meanings": {
+          "preserved": 21
+        },
+        "reader_questions": {
+          "sufficient": 7
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "AQ01",
+            "answer_status": "sufficient",
+            "entry_location": "## 2. 적용 요청의 초기 전용 적용 항목",
+            "additional_locations": [
+              "## 2. 적용 요청의 도입 문단"
+            ],
+            "local_condition_gap": "항목의 기존 예약 없음은 축약 표현이므로 같은 워크스페이스의 SCHEDULED 배포를 뜻한다는 범위는 같은 절 도입 문단과 연결해야 한다.",
+            "answer_evidence": [
+              "- **초기 전용 적용:** 활성 이력이 없는 `UNCONFIGURED` 워크스페이스의 첫 요청에만 `apply_now: true`를 쓸 수 있습니다. `activate_at`은 보내지 않으며 5분 대기는 면제됩니다. 검사 통과·배포자 역할·기존 예약 없음 조건은 그대로입니다.",
+              "같은 워크스페이스에 `SCHEDULED` 배포가 있으면 활성화되거나 취소될 때까지 새 요청을 접수하지 않습니다."
+            ],
+            "reason": "초기 전용 항목에서 자격과 입력·유지 조건을 답할 수 있다. 기존 예약의 정확한 상태와 워크스페이스 범위는 같은 절 도입 문단에서 정의되어 있어 전역적으로 충분하다."
+          },
+          {
+            "question_id": "AQ02",
+            "answer_status": "sufficient",
+            "entry_location": "## 접수 거절 응답의 기존 SCHEDULED 배포 행",
+            "additional_locations": [
+              "## 2. 적용 요청의 도입 문단"
+            ],
+            "local_condition_gap": "오류 표의 해당 행에는 같은 워크스페이스라는 범위와 활성화·취소라는 재요청 조건이 없으므로 요청 절 도입부를 연결해야 한다.",
+            "answer_evidence": [
+              "| 기존 `SCHEDULED` 배포 있음 | 409 | `{\"error\":\"PENDING_RELEASE_EXISTS\"}` |",
+              "같은 워크스페이스에 `SCHEDULED` 배포가 있으면 활성화되거나 취소될 때까지 새 요청을 접수하지 않습니다."
+            ],
+            "reason": "오류 표에서 정확한 반환값을 찾고 요청 절 도입부에서 적용 범위와 접수 제한이 풀리는 조건을 읽을 수 있다. 정보는 문서에 보존되어 있다."
+          },
+          {
+            "question_id": "AQ03",
+            "answer_status": "sufficient",
+            "entry_location": "## 2. 적용 요청의 일반 적용 항목",
+            "additional_locations": [
+              "## 2. 적용 요청의 도입 문단 마지막 문장",
+              "## 접수 거절 응답의 일반 요청 시각 간격 행"
+            ],
+            "local_condition_gap": "일반 적용 항목 자체에는 UTC가 반복되어 있지 않아 같은 절의 도입 문장을 함께 읽어야 한다.",
+            "answer_evidence": [
+              "- **일반 적용:** `activate_at`을 서버 접수 시각보다 5분 이상 뒤로 지정합니다(정확히 5분 포함).",
+              "모든 시각은 UTC입니다.",
+              "| 일반 요청의 서버 접수~예정 시각 간격이 5분 미만 | 400 | `{\"error\":\"ACTIVATION_TOO_SOON\"}` |"
+            ],
+            "reason": "정확히 5분을 포함하는 경계와 서버 기준은 항목에 직접 있고, UTC는 바로 앞 도입 문단에 있다. 거절 응답은 오류 표의 대응 행에서 찾는다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "실제 접수 조건과 오류 값, 모드별 적용 시점, 조회의 역할, 복구·재개 동작을 뒤집는 내용이 없다. 기존 예약과 UTC를 도입 문단에 연결하는 탐색은 가능하며 정보의 전역 누락이나 운영상 오도에 해당하지 않는다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json"
+      }
+    },
+    "v04_new_b_thumbnail_report": {
+      "v0.3.0": {
+        "label": "A",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/10_thumbnail_report.md",
+        "required_meanings": {
+          "preserved": 12
+        },
+        "reader_questions": {
+          "sufficient": 5
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "BQ01",
+            "answer_status": "sufficient",
+            "entry_location": "본문 두 번째 문단의 로컬 변경 문장",
+            "additional_locations": [
+              "제목 또는 본문 첫 번째 문단"
+            ],
+            "local_condition_gap": "변경 문장은 시스템명을 반복하지 않으므로 제목이나 첫 문단의 단비함 썸네일 작업기와 연결해야 한다.",
+            "answer_evidence": [
+              "# 단비함 썸네일 작업기: 기록 순서 변경과 검증 상태",
+              "로컬에서 저장 함수의 성공 반환 뒤 메타데이터를 기록하도록 순서 한 곳만 바꿨으며 배포하지 않았다."
+            ],
+            "reason": "변경 문장에서 동작·범위·미배포를 확인하고 제목에서 시스템을 식별하면 완결된 답을 얻는다. 제목과 변경 문단의 연결이 필요할 뿐 대상이 누락된 것은 아니다."
+          },
+          {
+            "question_id": "BQ05",
+            "answer_status": "sufficient",
+            "entry_location": "본문 세 번째 문단",
+            "additional_locations": [
+              "본문 두 번째 문단의 로컬 변경 문장"
+            ],
+            "local_condition_gap": "단위 검사 문장에는 로컬이라는 위치를 반복하지 않으므로 바로 앞 로컬 작업 문맥을 이어 읽어야 한다.",
+            "answer_evidence": [
+              "저장 함수 대역을 쓴 단위 검사 2건이 통과해 성공 반환 뒤에만 기록이 호출되고 실패 시에는 호출되지 않음을 확인했다. 실제 업로드·해독 검사는 아니며"
+            ],
+            "reason": "검사 대역·건수·통과 여부, 성공·실패의 호출 조건, 실제 업로드·해독을 검증하지 않았다는 한계가 연속해 있다. 로컬 작업이라는 범위는 바로 앞 문단의 변경 설명과 연결된다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "변경 전 관측과 변경 후 효과를 구분하고, 가설·로컬 수정·대역 단위 검사·실제 미실행 검증의 범위를 유지한다. 해결이나 배포 완료로 확대 해석할 근거가 없다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json"
+      },
+      "v0.4.0": {
+        "label": "B",
+        "output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/10_thumbnail_report.md",
+        "required_meanings": {
+          "preserved": 12
+        },
+        "reader_questions": {
+          "sufficient": 5
+        },
+        "required_findings": [],
+        "question_findings": [
+          {
+            "question_id": "BQ01",
+            "answer_status": "sufficient",
+            "entry_location": "본문 두 번째 문단의 첫 문장",
+            "additional_locations": [
+              "제목 또는 본문 첫 번째 문단"
+            ],
+            "local_condition_gap": "변경 문장 자체에는 시스템명이 없으므로 제목이나 첫 문단의 대상 이름을 연결해야 한다.",
+            "answer_evidence": [
+              "# 단비함 썸네일 작업기 로컬 변경 보고",
+              "파일 저장 전 메타데이터 기록이 원인이라는 가설에 따라, 미배포 로컬 작업본의 기록 순서 한 곳만 저장 함수의 성공 반환 뒤로 옮겼다."
+            ],
+            "reason": "동작·로컬 한정·미배포·수정 한 곳은 변경 문장에 있고 시스템명은 제목에서 즉시 식별된다. 두 위치를 연결하면 질문에 충분히 답할 수 있다."
+          }
+        ],
+        "hard_fail": {
+          "value": false,
+          "reason": "관측 시점과 수치, 관측 수단의 한계, 원인 가설, 미배포 로컬 수정, 통과 검사와 미실행 검증의 경계를 유지한다. 짧게 요약된 성공 뒤라는 표현도 주변 문맥상 성공 반환 뒤를 가리켜 검증 판단을 뒤집지 않는다.",
+          "evidence": []
+        },
+        "review": "evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json"
+      }
+    }
+  },
+  "by_condition": {
+    "v0.3.0": {
+      "documents": 10,
+      "required_meanings": {
+        "preserved": 147,
+        "partial": 1,
+        "missing": 2,
+        "conflict": 0
+      },
+      "reader_questions": {
+        "sufficient": 34,
+        "partial": 3,
+        "missing": 0,
+        "incorrect": 0
+      },
+      "hard_fail_documents": []
+    },
+    "v0.4.0": {
+      "documents": 10,
+      "required_meanings": {
+        "preserved": 150,
+        "partial": 0,
+        "missing": 0,
+        "conflict": 0
+      },
+      "reader_questions": {
+        "sufficient": 36,
+        "partial": 1,
+        "missing": 0,
+        "incorrect": 0
+      },
+      "hard_fail_documents": []
+    }
+  }
+}

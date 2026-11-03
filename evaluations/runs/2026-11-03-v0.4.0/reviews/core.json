@@ -1,0 +1,1228 @@
+{
+  "documents": [
+    {
+      "case_id": "cli_readme",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "RC1",
+          "status": "preserved",
+          "evidence": [
+            "`trace-slice`는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다."
+          ],
+          "reason": "로컬 JSON Lines 입력과 최소 심각도 이상의 항목 선택이라는 도구의 역할을 그대로 설명한다."
+        },
+        {
+          "requirement_id": "RC2.declared",
+          "status": "preserved",
+          "evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다."
+          ],
+          "reason": "선언된 요구 범위를 Python 3.10 이상으로 명시한다."
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "status": "preserved",
+          "evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04의 Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다."
+          ],
+          "reason": "실제 확인 환경을 Ubuntu 22.04의 Python 3.11로 한정하고, 앞 문장의 선언 범위와 구별한다. 다른 운영체제 검증도 주장하지 않는다."
+        },
+        {
+          "requirement_id": "RC3",
+          "status": "preserved",
+          "evidence": [
+            "python -m pip install trace-slice==0.4.2"
+          ],
+          "reason": "배포 버전 0.4.2를 고정한 설치 명령이 정확하다."
+        },
+        {
+          "requirement_id": "RC4",
+          "status": "preserved",
+          "evidence": [
+            "trace-slice ./logs/api.jsonl --level error"
+          ],
+          "reason": "필수 로컬 입력 경로와 허용 수준 error를 지정한 실행 예다. 문서의 경로 안내도 실제 파일에 맞춰 바꾸도록 설명한다."
+        },
+        {
+          "requirement_id": "RC5.default",
+          "status": "preserved",
+          "evidence": [
+            "| `--level LEVEL` | 출력할 최소 심각도입니다. `debug`, `info`, `warn`, `error` 중 하나를 지정합니다. | `info`를 사용합니다. |"
+          ],
+          "reason": "옵션 표의 생략 시 동작 열에서 기본값 info를 확인할 수 있다."
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "status": "preserved",
+          "evidence": [
+            "심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. 지정한 값과 그보다 높은 심각도의 항목을 출력하므로, `--level warn`을 지정하면 `warn`과 `error` 항목이 출력됩니다."
+          ],
+          "reason": "네 수준의 오름차순과 지정 수준을 포함한 이상 방향을 모두 보존한다."
+        },
+        {
+          "requirement_id": "RC6.stdout",
+          "status": "preserved",
+          "evidence": [
+            "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |"
+          ],
+          "reason": "옵션 표에서 --output을 생략했을 때 표준 출력으로 보낸다고 명시한다."
+        },
+        {
+          "requirement_id": "RC6.overwrite",
+          "status": "preserved",
+          "evidence": [
+            "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |"
+          ],
+          "reason": "이미 있는 지정 출력 파일을 덮어쓴다고 명시한다."
+        },
+        {
+          "requirement_id": "RC7.malformed",
+          "status": "preserved",
+          "evidence": [
+            "| JSON 구문이 잘못된 행이 있는 경우 | 해당 행을 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 이 이유만으로 실행이 실패하지는 않습니다. |"
+          ],
+          "reason": "잘못된 JSON 행의 건너뛰기, 행 수의 표준 오류 통지, 그 사유만으로 실패하지 않는다는 세 요소를 보존한다."
+        },
+        {
+          "requirement_id": "RC7.unreadable",
+          "status": "preserved",
+          "evidence": [
+            "| `INPUT` 파일을 읽을 수 없는 경우 | 오류를 표준 오류로 알리고 **종료 코드 `2`**로 끝납니다. |"
+          ],
+          "reason": "입력 파일 읽기 실패의 표준 오류 통지와 종료 코드 2를 함께 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "## 첫 실행: 오류 항목 확인 — 실행 명령과 바로 아래 결과 설명",
+          "additional_locations": [
+            "## 사용 형식과 주요 옵션 — --output PATH 행"
+          ],
+          "local_condition_gap": "첫 실행 예에는 --output이 없고 error 항목을 표준 출력으로 보낸다는 설명만 있다. 기존 출력 파일의 처리 조건은 그 예 자체에는 없으며, 다음 옵션 절의 --output 행에서 확인해야 한다. 이는 해당 진입 위치의 정보 배치 문제이고 문서 전역의 누락은 아니다.",
+          "answer_evidence": [
+            "trace-slice ./logs/api.jsonl --level error",
+            "이 명령은 `error` 항목을 표준 출력으로 내보냅니다.",
+            "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |"
+          ],
+          "reason": "실행 예에서 출발한 독자는 바로 다음 옵션 절에서 --output 생략 시 표준 출력과 기존 지정 파일 덮어쓰기를 모두 확인할 수 있다. 파일 저장 전용 명령 예시는 없지만 질문에 필요한 동작은 명시되어 있다."
+        },
+        {
+          "question_id": "NAV2",
+          "answer_status": "sufficient",
+          "entry_location": "## 설치 — 첫 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04의 Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다."
+          ],
+          "reason": "같은 문단에서 선언된 Python 3.10 이상 요구 범위와 Ubuntu 22.04/Python 3.11의 실제 확인을 나란히 구분하므로 지원 범위 전체가 검증됐다는 판단을 뒷받침하지 않는다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "기존 파일 덮어쓰기와 잘못된 JSON 행의 건너뛰기를 정확히 설명한다. 사용 결과나 지원·검증 범위를 반대로 판단하게 하는 주장은 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "cli_readme",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "RC1",
+          "status": "preserved",
+          "evidence": [
+            "trace-slice는 로컬 JSON Lines 로그 파일에서 지정한 최소 심각도 이상의 항목을 골라 내는 CLI입니다."
+          ],
+          "reason": "로컬 JSON Lines 입력과 최소 심각도 이상의 항목 선택이라는 도구의 역할을 그대로 설명한다."
+        },
+        {
+          "requirement_id": "RC2.declared",
+          "status": "preserved",
+          "evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다."
+          ],
+          "reason": "선언된 요구 범위를 Python 3.10 이상으로 명시한다."
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "status": "preserved",
+          "evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04의 Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다."
+          ],
+          "reason": "실제 확인 환경을 Ubuntu 22.04의 Python 3.11로 한정하고, 앞 문장의 선언 범위와 구별한다. 다른 운영체제 검증도 주장하지 않는다."
+        },
+        {
+          "requirement_id": "RC3",
+          "status": "preserved",
+          "evidence": [
+            "python -m pip install trace-slice==0.4.2"
+          ],
+          "reason": "배포 버전 0.4.2를 고정한 설치 명령이 정확하다."
+        },
+        {
+          "requirement_id": "RC4",
+          "status": "preserved",
+          "evidence": [
+            "trace-slice ./logs/api.jsonl --level error"
+          ],
+          "reason": "필수 로컬 입력 경로와 허용 수준 error를 지정한 실행 예다. 문서의 경로 안내도 실제 파일에 맞춰 바꾸도록 설명한다."
+        },
+        {
+          "requirement_id": "RC5.default",
+          "status": "preserved",
+          "evidence": [
+            "| `--level LEVEL` | 출력할 항목의 최소 심각도. `debug`, `info`, `warn`, `error` 중 하나를 지정 | `info` |"
+          ],
+          "reason": "옵션 표의 생략 시 동작 열에서 기본값 info를 확인할 수 있다."
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "status": "preserved",
+          "evidence": [
+            "심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다. `--level`로 지정한 값과 그보다 높은 심각도의 항목이 출력됩니다."
+          ],
+          "reason": "네 수준의 오름차순과 지정 수준을 포함한 이상 방향을 모두 보존한다."
+        },
+        {
+          "requirement_id": "RC6.stdout",
+          "status": "preserved",
+          "evidence": [
+            "| `--output PATH` | 결과를 저장할 파일 경로. **파일이 이미 있으면 덮어씀** | 표준 출력으로 내보냄 |"
+          ],
+          "reason": "옵션 표에서 --output을 생략했을 때 표준 출력으로 보낸다고 명시한다."
+        },
+        {
+          "requirement_id": "RC6.overwrite",
+          "status": "preserved",
+          "evidence": [
+            "| `--output PATH` | 결과를 저장할 파일 경로. **파일이 이미 있으면 덮어씀** | 표준 출력으로 내보냄 |"
+          ],
+          "reason": "이미 있는 지정 출력 파일을 덮어쓴다고 명시한다."
+        },
+        {
+          "requirement_id": "RC7.malformed",
+          "status": "preserved",
+          "evidence": [
+            "JSON 구문이 잘못된 행은 건너뛰고, 건너뛴 행 수를 표준 오류로 알립니다. 잘못된 JSON 행이 있다는 이유만으로 실행이 실패하지는 않습니다."
+          ],
+          "reason": "잘못된 JSON 행의 건너뛰기, 행 수의 표준 오류 통지, 그 사유만으로 실패하지 않는다는 세 요소를 보존한다."
+        },
+        {
+          "requirement_id": "RC7.unreadable",
+          "status": "preserved",
+          "evidence": [
+            "`INPUT` 파일을 읽을 수 없으면 오류를 표준 오류로 알리고 **종료 코드 2**로 끝납니다."
+          ],
+          "reason": "입력 파일 읽기 실패의 표준 오류 통지와 종료 코드 2를 함께 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "## 설치와 첫 실행 — 3번 실행 명령과 바로 아래 결과 설명",
+          "additional_locations": [
+            "## 사용 방법과 주요 옵션 — --output PATH 행",
+            "## 사용 방법과 주요 옵션 — 표 뒤의 파일 저장 안내 문단"
+          ],
+          "local_condition_gap": "첫 실행 예에는 --output이 없고 error 항목을 표준 출력으로 보낸다는 설명만 있다. 기존 출력 파일의 처리 조건은 그 예 자체에는 없으며, 다음 옵션 절의 --output 행에서 확인해야 한다. 이는 해당 진입 위치의 정보 배치 문제이고 문서 전역의 누락은 아니다.",
+          "answer_evidence": [
+            "trace-slice ./logs/api.jsonl --level error",
+            "이 명령은 `error` 항목을 표준 출력으로 내보냅니다.",
+            "| `--output PATH` | 결과를 저장할 파일 경로. **파일이 이미 있으면 덮어씀** | 표준 출력으로 내보냄 |",
+            "결과를 파일에 저장하려면 `--output PATH`를 추가하세요. 기존 파일을 덮어쓰므로 실행 전에 저장 경로를 확인하세요."
+          ],
+          "reason": "실행 예에서 출발한 독자는 바로 다음 옵션 절에서 --output 생략 시 표준 출력과 기존 지정 파일 덮어쓰기를 모두 확인할 수 있다. 파일 저장 전용 명령 예시는 없지만 질문에 필요한 동작은 명시되어 있다."
+        },
+        {
+          "question_id": "NAV2",
+          "answer_status": "sufficient",
+          "entry_location": "## 설치와 첫 실행 — 첫 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "프로젝트에서 선언한 Python 요구 버전은 **3.10 이상**입니다. 설치와 기본 동작을 확인한 환경은 **Ubuntu 22.04의 Python 3.11**이며, 다른 운영체제에서의 검증 기록은 없습니다."
+          ],
+          "reason": "같은 문단에서 선언된 Python 3.10 이상 요구 범위와 Ubuntu 22.04/Python 3.11의 실제 확인을 나란히 구분하므로 지원 범위 전체가 검증됐다는 판단을 뒷받침하지 않는다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "기존 파일 덮어쓰기와 잘못된 JSON 행의 건너뛰기를 정확히 설명한다. 사용 결과나 지원·검증 범위를 반대로 판단하게 하는 주장은 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "PC1.observation",
+          "status": "preserved",
+          "evidence": [
+            "운영 로그에서 같은 `job_id`가 두 번 발송된 사례를 확인했지만, 로컬에서는 아직 안정적인 재현 방법을 찾지 못했습니다."
+          ],
+          "reason": "관측 출처를 운영 로그로 밝히고 같은 job_id의 두 번 발송을 확인된 사실로 보존한다."
+        },
+        {
+          "requirement_id": "PC1.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "로컬에서는 아직 안정적인 재현 방법을 찾지 못했습니다."
+          ],
+          "reason": "로컬의 안정적인 재현 방법은 아직 확보하지 못했다고 명시한다."
+        },
+        {
+          "requirement_id": "PC2.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "발송 작업이 길어져 lock TTL이 먼저 만료되는 상황이 원인 후보 중 하나입니다. 다만 실제 원인인지는 확인하지 못했으며, 이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다."
+          ],
+          "reason": "발송 지연에 따른 lock TTL 선만료를 원인 후보로만 제시하며 실제 원인은 미확인이라고 제한한다."
+        },
+        {
+          "requirement_id": "PC3.change",
+          "status": "preserved",
+          "evidence": [
+            "중복 발송 이슈 #184의 원인을 조사하기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다."
+          ],
+          "reason": "진단 로그 추가라는 변경 내용과 src/workers/deliver.ts 경로를 정확히 제시한다."
+        },
+        {
+          "requirement_id": "PC3.boundary",
+          "status": "preserved",
+          "evidence": [
+            "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.",
+            "이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다."
+          ],
+          "reason": "네 가지 동작을 유지하며 중복 발송 해결 수정이 없다는 범위를 모두 보존한다."
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "status": "preserved",
+          "evidence": [
+            "진단 로그 `delivery_retry_probe`에 `job_id`, `attempt`, `lock_owner`를 기록합니다."
+          ],
+          "reason": "로그 이름 delivery_retry_probe와 세 진단 필드를 정확히 보존한다."
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "status": "preserved",
+          "evidence": [
+            "진단 로그는 `DELIVERY_DIAG_ENABLED=true`일 때만 활성화됩니다. 이 설정의 기본값은 `false`입니다."
+          ],
+          "reason": "활성화의 실제 조건은 DELIVERY_DIAG_ENABLED=true뿐이고 기본값 false도 명시한다. 추가적인 사람의 확인 행위를 조건으로 넣지 않았다."
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "status": "preserved",
+          "evidence": [
+            "`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 로컬에서 다음 명령을 실행했으며 통과했습니다.",
+            "pnpm exec vitest run tests/workers/deliver-log.test.ts"
+          ],
+          "reason": "로컬 실행, 정확한 테스트 명령, 통과 결과, 조건부 출력과 기록 필드라는 검증 범위를 함께 보존한다."
+        },
+        {
+          "requirement_id": "PC5.staging",
+          "status": "preserved",
+          "evidence": [
+            "스테이징에서 실제 발송 경로는 검증하지 않았습니다."
+          ],
+          "reason": "스테이징 실제 발송 경로는 검증하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "PC5.performance",
+          "status": "preserved",
+          "evidence": [
+            "진단 로그를 켰을 때의 처리량과 지연 변화도 아직 측정하지 않았습니다."
+          ],
+          "reason": "진단 로그 활성화 시 처리량과 지연 변화 모두 측정하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "status": "preserved",
+          "evidence": [
+            "배포 후 `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 켜고, 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 조사 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정하려 합니다."
+          ],
+          "reason": "배포 후 활성화, 세 필드 대조, #184 결과 정리, 이후 수정 방향 결정의 순서를 보존한다."
+        },
+        {
+          "requirement_id": "PC6.review",
+          "status": "preserved",
+          "evidence": [
+            "- `job_id`, `attempt`, `lock_owner`가 중복 사례를 구분하기에 충분한지 확인해 주세요.",
+            "- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인해 주세요."
+          ],
+          "reason": "필드의 중복 사례 구분 능력과 수신자 주소·본문의 혼입 가능성이라는 두 리뷰 요청을 보존한다."
+        },
+        {
+          "requirement_id": "PC7",
+          "status": "preserved",
+          "evidence": [
+            "수신자 주소와 메시지 본문은 기록하지 않습니다."
+          ],
+          "reason": "진단 로그가 수신자 주소와 메시지 본문을 기록하지 않는 범위를 명시한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "## 검증 결과와 남은 확인 사항",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`tests/workers/deliver-log.test.ts`에서 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 로컬에서 다음 명령을 실행했으며 통과했습니다.",
+            "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+            "스테이징에서 실제 발송 경로는 검증하지 않았습니다.",
+            "진단 로그를 켰을 때의 처리량과 지연 변화도 아직 측정하지 않았습니다."
+          ],
+          "reason": "하나의 검증 절 안에서 로컬 테스트의 대상·명령·통과 결과를 제시한 뒤 스테이징 실제 경로와 처리량·지연의 미검증을 바로 구분한다. 다른 절에서 조건을 보충할 필요가 없다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "## 변경 이유 — 진단 로그 추가의 이유와 lock TTL 원인 후보 설명",
+          "additional_locations": [
+            "## 변경 내용과 범위 — 기존 동작 유지 문장"
+          ],
+          "local_condition_gap": "변경 이유 절은 가설의 미확정과 해결 수정 제외를 밝히지만, 유지되는 네 가지 동작의 구체적인 범위는 다음 절에 있다. 전역 누락은 아니다.",
+          "answer_evidence": [
+            "중복 발송 이슈 #184의 원인을 조사하기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다.",
+            "발송 작업이 길어져 lock TTL이 먼저 만료되는 상황이 원인 후보 중 하나입니다. 다만 실제 원인인지는 확인하지 못했으며, 이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다.",
+            "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 변경하지 않습니다.",
+            "이번 PR에는 중복 발송을 해결하는 수정이 포함되지 않습니다."
+          ],
+          "reason": "원인 후보를 확인된 원인으로 바꾸지 않고, 변경을 진단 로그 추가로 한정한다. 이어지는 범위 절과 함께 읽으면 발송 동작을 그대로 두며 해결 수정은 없다는 결론이 분명하다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "해결 완료, lock TTL 원인 확정, 스테이징 검증 또는 성능 측정 완료를 주장하지 않는다. 관측 보강의 범위와 실제 검증 한계를 보존하므로 운영·검증 판단을 뒤집는 근거가 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "PC1.observation",
+          "status": "preserved",
+          "evidence": [
+            "운영 로그에서 같은 `job_id`가 두 번 발송된 사례(#184)를 확인했습니다."
+          ],
+          "reason": "관측 출처를 운영 로그로 밝히고 같은 job_id의 두 번 발송을 확인된 사실로 보존한다."
+        },
+        {
+          "requirement_id": "PC1.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "로컬 환경에서는 아직 안정적인 재현 방법을 찾지 못했습니다."
+          ],
+          "reason": "로컬의 안정적인 재현 방법은 아직 확보하지 못했다고 명시한다."
+        },
+        {
+          "requirement_id": "PC2.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "발송 작업이 길어져 lock TTL이 먼저 끝나는 상황을 원인 후보로 보고 있지만, 실제 원인인지는 확인하지 못했습니다."
+          ],
+          "reason": "발송 지연에 따른 lock TTL 선만료를 원인 후보로만 제시하며 실제 원인은 미확인이라고 제한한다."
+        },
+        {
+          "requirement_id": "PC3.change",
+          "status": "preserved",
+          "evidence": [
+            "원인 조사에 필요한 정보를 모으기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다."
+          ],
+          "reason": "진단 로그 추가라는 변경 내용과 src/workers/deliver.ts 경로를 정확히 제시한다."
+        },
+        {
+          "requirement_id": "PC3.boundary",
+          "status": "preserved",
+          "evidence": [
+            "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 기존대로 유지합니다.",
+            "이번 PR에는 중복 발송을 해결하는 수정이 포함되어 있지 않습니다."
+          ],
+          "reason": "네 가지 동작을 유지하며 중복 발송 해결 수정이 없다는 범위를 모두 보존한다."
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "status": "preserved",
+          "evidence": [
+            "- `delivery_retry_probe` 로그에 `job_id`, `attempt`, `lock_owner`를 기록합니다."
+          ],
+          "reason": "로그 이름 delivery_retry_probe와 세 진단 필드를 정확히 보존한다."
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "status": "preserved",
+          "evidence": [
+            "- 진단 로그는 `DELIVERY_DIAG_ENABLED=true`일 때만 활성화되며, 설정의 기본값은 `false`입니다."
+          ],
+          "reason": "활성화의 실제 조건은 DELIVERY_DIAG_ENABLED=true뿐이고 기본값 false도 명시한다. 추가적인 사람의 확인 행위를 조건으로 넣지 않았다."
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "status": "preserved",
+          "evidence": [
+            "로컬에서 `tests/workers/deliver-log.test.ts`로 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 다음 명령은 통과했습니다.",
+            "pnpm exec vitest run tests/workers/deliver-log.test.ts"
+          ],
+          "reason": "로컬 실행, 정확한 테스트 명령, 통과 결과, 조건부 출력과 기록 필드라는 검증 범위를 함께 보존한다."
+        },
+        {
+          "requirement_id": "PC5.staging",
+          "status": "preserved",
+          "evidence": [
+            "스테이징에서 실제 발송 경로는 아직 검증하지 않았습니다."
+          ],
+          "reason": "스테이징 실제 발송 경로는 검증하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "PC5.performance",
+          "status": "preserved",
+          "evidence": [
+            "진단 로그를 켰을 때의 처리량과 지연 변화도 측정하지 않았습니다."
+          ],
+          "reason": "진단 로그 활성화 시 처리량과 지연 변화 모두 측정하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "status": "preserved",
+          "evidence": [
+            "배포 후 `DELIVERY_DIAG_ENABLED=true`로 진단 로그를 켜고, 중복 사례의 `job_id`, `attempt`, `lock_owner`를 대조할 예정입니다. 조사 결과를 이슈 #184에 정리한 뒤 수정 방향을 결정합니다."
+          ],
+          "reason": "배포 후 활성화, 세 필드 대조, #184 결과 정리, 이후 수정 방향 결정의 순서를 보존한다."
+        },
+        {
+          "requirement_id": "PC6.review",
+          "status": "preserved",
+          "evidence": [
+            "- 진단 필드가 중복 사례를 구분하기에 충분한지 확인해 주세요.",
+            "- 수신자 주소나 메시지 본문이 로그에 섞일 여지가 없는지 확인해 주세요."
+          ],
+          "reason": "필드의 중복 사례 구분 능력과 수신자 주소·본문의 혼입 가능성이라는 두 리뷰 요청을 보존한다."
+        },
+        {
+          "requirement_id": "PC7",
+          "status": "preserved",
+          "evidence": [
+            "수신자 주소와 메시지 본문은 기록하지 않습니다."
+          ],
+          "reason": "진단 로그가 수신자 주소와 메시지 본문을 기록하지 않는 범위를 명시한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "## 검증 결과와 한계",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬에서 `tests/workers/deliver-log.test.ts`로 진단 로그의 조건부 출력과 기록 필드를 검증했습니다. 다음 명령은 통과했습니다.",
+            "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+            "스테이징에서 실제 발송 경로는 아직 검증하지 않았습니다.",
+            "진단 로그를 켰을 때의 처리량과 지연 변화도 측정하지 않았습니다."
+          ],
+          "reason": "하나의 검증 절 안에서 로컬 테스트의 대상·명령·통과 결과를 제시한 뒤 스테이징 실제 경로와 처리량·지연의 미검증을 바로 구분한다. 다른 절에서 조건을 보충할 필요가 없다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "## 변경 이유 — 진단 로그 추가의 이유와 lock TTL 원인 후보 설명",
+          "additional_locations": [
+            "## 변경 내용과 범위 — 기존 동작 유지 문장"
+          ],
+          "local_condition_gap": "변경 이유 절에서 원인 후보의 미확정을 확인할 수 있지만, 동작 유지와 해결 수정 제외는 다음 변경 내용과 범위 절에 있다. 전역 누락은 아니다.",
+          "answer_evidence": [
+            "원인 조사에 필요한 정보를 모으기 위해 `src/workers/deliver.ts`에 진단 로그를 추가합니다.",
+            "발송 작업이 길어져 lock TTL이 먼저 끝나는 상황을 원인 후보로 보고 있지만, 실제 원인인지는 확인하지 못했습니다.",
+            "발송 순서, 재시도 횟수, lock TTL 값, 중복 방지 동작은 기존대로 유지합니다.",
+            "이번 PR에는 중복 발송을 해결하는 수정이 포함되어 있지 않습니다."
+          ],
+          "reason": "원인 후보를 확인된 원인으로 바꾸지 않고, 변경을 진단 로그 추가로 한정한다. 이어지는 범위 절과 함께 읽으면 발송 동작을 그대로 두며 해결 수정은 없다는 결론이 분명하다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "해결 완료, lock TTL 원인 확정, 스테이징 검증 또는 성능 측정 완료를 주장하지 않는다. 관측 보강의 범위와 실제 검증 한계를 보존하므로 운영·검증 판단을 뒤집는 근거가 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "EC1.limit",
+          "status": "preserved",
+          "evidence": [
+            "`scan_limit`은 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다."
+          ],
+          "reason": "한 요청의 반환 상한과 그보다 작을 수 있는 실제 반환 수를 구분하며 검색 대상 전체의 수로 바꾸지 않는다."
+        },
+        {
+          "requirement_id": "EC2.default",
+          "status": "preserved",
+          "evidence": [
+            "기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다."
+          ],
+          "reason": "기본값 200을 보존한다."
+        },
+        {
+          "requirement_id": "EC2.range",
+          "status": "preserved",
+          "evidence": [
+            "기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다."
+          ],
+          "reason": "허용 범위 1~1000을 보존한다."
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "status": "preserved",
+          "evidence": [
+            "`scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 설정하면 `400 Bad Request`가 반환됩니다."
+          ],
+          "reason": "0이 무제한이 아니며 400 Bad Request를 반환한다는 두 사실을 함께 보존한다."
+        },
+        {
+          "requirement_id": "EC4.next",
+          "status": "preserved",
+          "evidence": [
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다."
+          ],
+          "reason": "null이 아닌 커서 값을 그대로 사용하고 기존 필터를 유지해 다음 페이지를 조회한다는 조건을 보존한다."
+        },
+        {
+          "requirement_id": "EC4.end",
+          "status": "preserved",
+          "evidence": [
+            "`next_cursor`가 `null`이면 조회가 끝난 것입니다."
+          ],
+          "reason": "null일 때 조회가 종료된다는 조건을 정확히 보존한다."
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "status": "preserved",
+          "evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "확인된 버전을 LogStore 2.6.1로 명시한다."
+        },
+        {
+          "requirement_id": "EC5.unknown",
+          "status": "preserved",
+          "evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "2.5.x의 동일 동작은 아직 확인하지 않았다는 상태를 유지하며 지원 불가로 단정하지 않는다."
+        },
+        {
+          "requirement_id": "FORMAT.body",
+          "status": "preserved",
+          "evidence": [
+            "`scan_limit`은 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다.",
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다.",
+            "이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "제목·목록·표·편집 해설 없이 완성된 한국어 본문 세 문단으로 제공한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단 — next_cursor 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다."
+          ],
+          "reason": "다음 조회의 커서 조건과 기존 필터 유지 조건, null일 때의 종료 조건이 같은 문단의 연속된 두 문장에 있다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 버전별 확인 상태",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했습니다. `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "같은 문단에서 LogStore 2.6.1의 확인과 2.5.x의 미확인을 대비해 제시한다. 2.5.x의 검증 완료나 지원 불가를 결론낼 수 없다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "0의 의미, 커서 조건, 검증 버전을 모두 보존한다. 사용 조건이나 검증 상태를 반대로 판단하게 하는 주장은 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "EC1.limit",
+          "status": "preserved",
+          "evidence": [
+            "LogStore API의 `scan_limit` 파라미터는 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다."
+          ],
+          "reason": "한 요청의 반환 상한과 그보다 작을 수 있는 실제 반환 수를 구분하며 검색 대상 전체의 수로 바꾸지 않는다."
+        },
+        {
+          "requirement_id": "EC2.default",
+          "status": "preserved",
+          "evidence": [
+            "기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다."
+          ],
+          "reason": "기본값 200을 보존한다."
+        },
+        {
+          "requirement_id": "EC2.range",
+          "status": "preserved",
+          "evidence": [
+            "기본값은 `200`이며, `1`부터 `1000`까지 설정할 수 있습니다."
+          ],
+          "reason": "허용 범위 1~1000을 보존한다."
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "status": "preserved",
+          "evidence": [
+            "`scan_limit=0`은 무제한 조회를 뜻하지 않으며, 이 값을 지정하면 `400 Bad Request`가 반환됩니다."
+          ],
+          "reason": "0이 무제한이 아니며 400 Bad Request를 반환한다는 두 사실을 함께 보존한다."
+        },
+        {
+          "requirement_id": "EC4.next",
+          "status": "preserved",
+          "evidence": [
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다."
+          ],
+          "reason": "null이 아닌 커서 값을 그대로 사용하고 기존 필터를 유지해 다음 페이지를 조회한다는 조건을 보존한다."
+        },
+        {
+          "requirement_id": "EC4.end",
+          "status": "preserved",
+          "evidence": [
+            "`next_cursor`가 `null`이면 조회가 끝난 것입니다."
+          ],
+          "reason": "null일 때 조회가 종료된다는 조건을 정확히 보존한다."
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "status": "preserved",
+          "evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했으며, `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "확인된 버전을 LogStore 2.6.1로 명시한다."
+        },
+        {
+          "requirement_id": "EC5.unknown",
+          "status": "preserved",
+          "evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했으며, `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "2.5.x의 동일 동작은 아직 확인하지 않았다는 상태를 유지하며 지원 불가로 단정하지 않는다."
+        },
+        {
+          "requirement_id": "FORMAT.body",
+          "status": "preserved",
+          "evidence": [
+            "LogStore API의 `scan_limit` 파라미터는 한 번의 요청에서 반환할 항목 수의 상한을 정합니다. 실제 반환 항목 수는 이 상한보다 적을 수 있습니다.",
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다.",
+            "이 동작은 `LogStore 2.6.1`에서 확인했으며, `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "제목·목록·표·편집 해설 없이 완성된 한국어 본문 세 문단으로 제공한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단 — next_cursor 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`next_cursor`가 `null`이 아니면 해당 커서 값을 사용하고 기존 필터를 유지해 다음 페이지를 조회합니다. `next_cursor`가 `null`이면 조회가 끝난 것입니다."
+          ],
+          "reason": "다음 조회의 커서 조건과 기존 필터 유지 조건, null일 때의 종료 조건이 같은 문단의 연속된 두 문장에 있다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 버전별 확인 상태",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "이 동작은 `LogStore 2.6.1`에서 확인했으며, `2.5.x`에서도 동일하게 동작하는지는 아직 확인하지 않았습니다."
+          ],
+          "reason": "같은 문단에서 LogStore 2.6.1의 확인과 2.5.x의 미확인을 대비해 제시한다. 2.5.x의 검증 완료나 지원 불가를 결론낼 수 없다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "0의 의미, 커서 조건, 검증 버전을 모두 보존한다. 사용 조건이나 검증 상태를 반대로 판단하게 하는 주장은 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "S01.target",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다."
+          ],
+          "reason": "문서 첫 문장에 잔물결 작업 접수기라는 대상 서비스 이름이 있다."
+        },
+        {
+          "requirement_id": "S01.observation",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다."
+          ],
+          "reason": "동일 ticket_ref에서 response_sent 뒤 wait_elapsed가 남은 순서와 사건을 보존한다."
+        },
+        {
+          "requirement_id": "S01.provenance",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다.",
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "관측 자료를 기존 개발용 합성 요청 로그로 명시한다. 뒤의 변경 후 로그 미수집 설명과도 일치하므로 변경 결과를 관측한 것으로 바뀌지 않는다."
+        },
+        {
+          "requirement_id": "S02.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "원인은 미확정이며 정리와 만료 콜백의 실행 순서가 관련됐는지 조사 중입니다."
+          ],
+          "reason": "정리와 만료 콜백의 실행 순서를 조사 중인 대상으로 제시하고 원인 미확정을 명시한다."
+        },
+        {
+          "requirement_id": "S02.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "안정적인 재현 조건도 없습니다."
+          ],
+          "reason": "안정적인 재현 조건을 확보한 것으로 쓰지 않는다. 미확정 또는 조건 없음은 이 문맥에서 같은 미확보 상태를 전달한다."
+        },
+        {
+          "requirement_id": "S03.location",
+          "status": "preserved",
+          "evidence": [
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다."
+          ],
+          "reason": "worker/pending_slots.py에 로그를 추가한다는 변경 위치와 종류를 보존한다."
+        },
+        {
+          "requirement_id": "S03.events",
+          "status": "preserved",
+          "evidence": [
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다."
+          ],
+          "reason": "대기 항목 생성·제거와 만료 콜백 진입이라는 세 관측 시점을 모두 보존한다."
+        },
+        {
+          "requirement_id": "S03.purpose",
+          "status": "preserved",
+          "evidence": [
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다."
+          ],
+          "reason": "다음 관측이라는 목적에 생성·제거·만료 콜백 진입의 기록을 연결한다. 이 문맥에서 항목이 남고 사라지는 흐름을 다음 관측에서 살필 정보를 얻는다는 축약으로 받아들일 수 있다. 원문과 같은 비교 동사의 반복은 요구하지 않는다."
+        },
+        {
+          "requirement_id": "S05.unchanged",
+          "status": "preserved",
+          "evidence": [
+            "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다."
+          ],
+          "reason": "기존 처리 또는 처리 동작을 유지한다는 포괄 요약으로 정리 조건·제한 시간·재시도·응답 형식의 비변경을 전달한다. 개별 항목 재열거는 요구하지 않는다."
+        },
+        {
+          "requirement_id": "S05.scope",
+          "status": "preserved",
+          "evidence": [
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다.",
+            "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다."
+          ],
+          "reason": "다음 관측을 위한 로그 추가와 기존 처리 유지가 함께 있어 관측 보강으로 범위가 제한된다. 해결을 확인한 수정으로 읽을 근거가 없으므로 별도 해결 부정문의 반복을 강제하지 않는다."
+        },
+        {
+          "requirement_id": "S06.inference",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름과 순서만으로 응답 유실·중복 처리 여부는 알 수 없으며, 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "실제 응답 유실과 중복 처리 여부 모두 확인할 수 없는 상태를 유지한다."
+        },
+        {
+          "requirement_id": "S06.reason",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름과 순서만으로 응답 유실·중복 처리 여부는 알 수 없으며, 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "영향 미확인을 로그 이름과 출력 순서만으로 판단할 수 없다는 증거의 한계에 직접 연결한다."
+        },
+        {
+          "requirement_id": "S06.frequency",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름과 순서만으로 응답 유실·중복 처리 여부는 알 수 없으며, 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "영향 빈도를 집계하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "S07.environment",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "로컬 합성 요청 환경의 미준비를 검증을 실행하지 못한 이유로 직접 연결한다."
+        },
+        {
+          "requirement_id": "S07.tests",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "테스트를 실행하지 않았다는 상태를 보존한다."
+        },
+        {
+          "requirement_id": "S07.logs",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "변경 후 새 로그를 수집하지 못했다는 상태를 보존한다. 앞 문단의 추가 로그와 연결되므로 진단 로그라는 단어의 반복은 불필요하다."
+        },
+        {
+          "requirement_id": "S07.verification",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "가설과 변경 동작을 검증하지 못했다고 분명히 밝혀, 추가 로그로 가설 확인이나 변경 검증을 보고할 근거가 없는 상태를 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "SQ1",
+          "answer_status": "sufficient",
+          "entry_location": "첫째 문단 — 기존 로그 관측과 실제 영향의 확인 수준",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다.",
+            "로그 이름과 순서만으로 응답 유실·중복 처리 여부는 알 수 없으며, 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "대상 서비스, 기존 개발용 합성 로그, 같은 식별자의 두 로그 순서, 영향 판단의 근거 한계, 빈도 미집계를 한 문단에서 확인할 수 있다."
+        },
+        {
+          "question_id": "SQ2",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 원인과 재현 조건 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "원인은 미확정이며 정리와 만료 콜백의 실행 순서가 관련됐는지 조사 중입니다.",
+            "안정적인 재현 조건도 없습니다."
+          ],
+          "reason": "원인을 조사 중이며 미확정이라는 제한과 안정적인 재현 조건 미확보를 함께 제시한다. 실행 순서를 확인된 원인으로 판단할 근거가 없다."
+        },
+        {
+          "question_id": "SQ3",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단 — 변경 경로·로그 시점·처리 유지 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다.",
+            "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다."
+          ],
+          "reason": "추가한 파일과 세 관측 시점을 구체적으로 제시하고 기존 처리 동작의 유지를 밝힌다. 처리 조건이나 제한 시간을 바꾼 해결 수정이라고 읽을 근거가 없다. 포괄적인 처리 유지 요약으로도 이 질문에는 답할 수 있다."
+        },
+        {
+          "question_id": "SQ4",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 로컬 환경과 테스트·변경 후 로그 수집 상태",
+          "additional_locations": [
+            "첫째 문단 — PR 계기가 된 기존 개발용 합성 로그"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다.",
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다."
+          ],
+          "reason": "환경 미준비, 테스트 미실행, 변경 후 로그 미수집, 가설·변경 동작 미검증을 직접 연결한다. 첫 문단의 기존 로그는 배경 관측이며 변경 후 완료한 검증으로 제시되지 않는다."
+        },
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "첫째 문단 — 대상 및 기존 로그 관측",
+          "additional_locations": [
+            "둘째 문단 — worker/pending_slots.py와 추가 로그 시점"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 확인했습니다.",
+            "다음 관측을 위해 `worker/pending_slots.py`에 대기 항목의 생성·제거·만료 콜백 진입 로그를 추가했습니다.",
+            "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다."
+          ],
+          "reason": "첫 문단에서 대상 서비스와 기존 관측을 확인하고 바로 다음 문단에서 변경 경로, 생성·제거·만료 콜백 진입 시점, 다음 관측 목적을 찾을 수 있다. 그 목적은 이벤트 흐름을 살필 정보 수집이라는 요약으로 보존한다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 검증 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트를 실행하지 않았고, 변경 후 로그도 수집하지 못해 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "한 문단에서 환경이 준비되지 않은 이유, 테스트와 변경 후 로그 수집을 못 한 사실, 가설과 변경 동작을 검증하지 못한 판단 한계를 함께 확인할 수 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "기존 관측과 변경 후 미검증을 구분하며 실제 영향·원인·재현을 확정하지 않는다. 기존 처리도 유지하므로 운영·검증 판단을 뒤집는 주장이 없다.",
+        "evidence": []
+      }
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "S01.target",
+          "status": "missing",
+          "evidence": [],
+          "reason": "어느 문단에도 잔물결 작업 접수기라는 서비스 이름이나 이를 식별할 별도 표현이 없다. 변경 경로만으로는 대상 서비스명을 복원할 수 없다."
+        },
+        {
+          "requirement_id": "S01.observation",
+          "status": "preserved",
+          "evidence": [
+            "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다."
+          ],
+          "reason": "동일 ticket_ref에서 response_sent 뒤 wait_elapsed가 남은 순서와 사건을 보존한다."
+        },
+        {
+          "requirement_id": "S01.provenance",
+          "status": "preserved",
+          "evidence": [
+            "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다.",
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "관측 자료를 기존 개발용 합성 요청 로그로 명시한다. 뒤의 변경 후 로그 미수집 설명과도 일치하므로 변경 결과를 관측한 것으로 바뀌지 않는다."
+        },
+        {
+          "requirement_id": "S02.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "정리와 만료 콜백의 실행 순서를 조사 중이나 원인과 안정적인 재현 조건은 미확정입니다."
+          ],
+          "reason": "정리와 만료 콜백의 실행 순서를 조사 중인 대상으로 제시하고 원인 미확정을 명시한다."
+        },
+        {
+          "requirement_id": "S02.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "정리와 만료 콜백의 실행 순서를 조사 중이나 원인과 안정적인 재현 조건은 미확정입니다."
+          ],
+          "reason": "안정적인 재현 조건을 확보한 것으로 쓰지 않는다. 미확정 또는 조건 없음은 이 문맥에서 같은 미확보 상태를 전달한다."
+        },
+        {
+          "requirement_id": "S03.location",
+          "status": "preserved",
+          "evidence": [
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다."
+          ],
+          "reason": "worker/pending_slots.py에 로그를 추가한다는 변경 위치와 종류를 보존한다."
+        },
+        {
+          "requirement_id": "S03.events",
+          "status": "preserved",
+          "evidence": [
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다."
+          ],
+          "reason": "대기 항목 생성·제거와 만료 콜백 진입이라는 세 관측 시점을 모두 보존한다."
+        },
+        {
+          "requirement_id": "S03.purpose",
+          "status": "partial",
+          "evidence": [
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+            "처리 동작은 바꾸지 않는 관측 보강입니다."
+          ],
+          "reason": "생성·제거·만료 시점의 기록과 관측 보강이라는 일반 목적은 있다. 다만 다음 관측에서 항목이 남고 사라지는 흐름을 대조할 정보를 얻으려는 목적까지 연결하지 않아 그 범위는 부분적으로만 드러난다."
+        },
+        {
+          "requirement_id": "S05.unchanged",
+          "status": "preserved",
+          "evidence": [
+            "처리 동작은 바꾸지 않는 관측 보강입니다."
+          ],
+          "reason": "기존 처리 또는 처리 동작을 유지한다는 포괄 요약으로 정리 조건·제한 시간·재시도·응답 형식의 비변경을 전달한다. 개별 항목 재열거는 요구하지 않는다."
+        },
+        {
+          "requirement_id": "S05.scope",
+          "status": "preserved",
+          "evidence": [
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+            "처리 동작은 바꾸지 않는 관측 보강입니다."
+          ],
+          "reason": "동작을 바꾸지 않는 관측 보강이라고 직접 한정하므로 해결 수정이라는 주장을 하지 않는다."
+        },
+        {
+          "requirement_id": "S06.inference",
+          "status": "preserved",
+          "evidence": [
+            "실제 응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "실제 응답 유실과 중복 처리 여부 모두 확인할 수 없는 상태를 유지한다."
+        },
+        {
+          "requirement_id": "S06.reason",
+          "status": "missing",
+          "evidence": [],
+          "reason": "응답 유실·중복 처리 여부가 미확인이라고는 쓰지만, 로그 이름과 출력 순서만으로는 실제 영향을 결론낼 수 없다는 이유가 문서 어디에도 없다. 관측과 미확인 사실의 병치만으로 이 근거 관계가 보존됐다고 판단하지 않았다."
+        },
+        {
+          "requirement_id": "S06.frequency",
+          "status": "preserved",
+          "evidence": [
+            "실제 응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "영향 빈도를 집계하지 않았다고 명시한다."
+        },
+        {
+          "requirement_id": "S07.environment",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "로컬 합성 요청 환경의 미준비를 검증을 실행하지 못한 이유로 직접 연결한다."
+        },
+        {
+          "requirement_id": "S07.tests",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "테스트를 실행하지 않았다는 상태를 보존한다."
+        },
+        {
+          "requirement_id": "S07.logs",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "변경 후 새 로그를 수집하지 못했다는 상태를 보존한다. 앞 문단의 추가 로그와 연결되므로 진단 로그라는 단어의 반복은 불필요하다."
+        },
+        {
+          "requirement_id": "S07.verification",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "가설과 변경 동작을 검증하지 못했다고 분명히 밝혀, 추가 로그로 가설 확인이나 변경 검증을 보고할 근거가 없는 상태를 보존한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "SQ1",
+          "answer_status": "partial",
+          "entry_location": "첫째 문단 — 기존 로그 관측과 실제 영향의 확인 수준",
+          "additional_locations": [],
+          "local_condition_gap": "첫째 문단에는 영향 여부 미확인과 빈도 미집계는 있으나, 로그 이름·출력 순서가 실제 영향을 판단할 근거로 부족하다는 이유가 없다. 이 이유와 대상 서비스 식별 정보는 다른 문단에도 없어 전역 누락이다.",
+          "answer_evidence": [
+            "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다.",
+            "실제 응답 유실·중복 처리 여부는 알 수 없고 빈도도 집계하지 않았습니다."
+          ],
+          "reason": "관측 자료와 사건, 실제 영향 미확인과 빈도 미집계는 확인할 수 있다. 다만 로그 이름·순서에서 실제 영향으로 추론할 수 없는 이유가 빠졌으며, 단독 문서의 대상 서비스도 식별되지 않는다."
+        },
+        {
+          "question_id": "SQ2",
+          "answer_status": "sufficient",
+          "entry_location": "첫째 문단 — 정리와 만료 콜백 실행 순서 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "정리와 만료 콜백의 실행 순서를 조사 중이나 원인과 안정적인 재현 조건은 미확정입니다."
+          ],
+          "reason": "원인을 조사 중이며 미확정이라는 제한과 안정적인 재현 조건 미확보를 함께 제시한다. 실행 순서를 확인된 원인으로 판단할 근거가 없다."
+        },
+        {
+          "question_id": "SQ3",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단 — 변경 경로·로그 시점·처리 유지 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+            "처리 동작은 바꾸지 않는 관측 보강입니다."
+          ],
+          "reason": "추가한 파일과 세 관측 시점을 구체적으로 제시하고 기존 처리 동작의 유지를 밝힌다. 처리 조건이나 제한 시간을 바꾼 해결 수정이라고 읽을 근거가 없다. 포괄적인 처리 유지 요약으로도 이 질문에는 답할 수 있다."
+        },
+        {
+          "question_id": "SQ4",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 로컬 환경과 테스트·변경 후 로그 수집 상태",
+          "additional_locations": [
+            "첫째 문단 — PR 계기가 된 기존 개발용 합성 로그"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다.",
+            "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다."
+          ],
+          "reason": "환경 미준비, 테스트 미실행, 변경 후 로그 미수집, 가설·변경 동작 미검증을 직접 연결한다. 첫 문단의 기존 로그는 배경 관측이며 변경 후 완료한 검증으로 제시되지 않는다."
+        },
+        {
+          "question_id": "NAV1",
+          "answer_status": "partial",
+          "entry_location": "첫째 문단 — 대상 및 기존 로그 관측",
+          "additional_locations": [
+            "둘째 문단 — worker/pending_slots.py와 추가 로그 시점"
+          ],
+          "local_condition_gap": "대상 서비스명은 문서 전역에 없다. 둘째 문단에서 변경 경로와 로그 시점은 찾을 수 있으나, 다음 관측에서 항목의 남음·사라짐을 대조하려는 목적은 관측 보강이라는 일반 표현에 그친다.",
+          "answer_evidence": [
+            "기존 개발용 합성 요청 로그에서 같은 `ticket_ref`의 `response_sent` 뒤에 `wait_elapsed`가 남은 사례를 관측했습니다.",
+            "`worker/pending_slots.py`에 대기 항목 생성·제거·만료 콜백 진입 로그를 추가합니다.",
+            "처리 동작은 바꾸지 않는 관측 보강입니다."
+          ],
+          "reason": "기존 관측과 변경 경로·시점은 두 문단에서 찾을 수 있지만 어느 서비스를 바꾸는지는 문서만으로 알 수 없다. 향후 비교 목적도 일반적인 관측 보강 이상으로 충분히 드러나지 않아 부분 답변이다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단 — 검증 설명",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 하지 못했습니다. 가설과 변경 동작은 검증하지 못했습니다."
+          ],
+          "reason": "한 문단에서 환경이 준비되지 않은 이유, 테스트와 변경 후 로그 수집을 못 한 사실, 가설과 변경 동작을 검증하지 못한 판단 한계를 함께 확인할 수 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "서비스 식별 정보와 영향 판단의 근거 설명이 빠지고 미래 관측 목적은 일부만 드러나지만, 실제 영향·원인·검증 완료를 주장하지 않는다. 누락만으로 사용·운영·검증 판단을 반대로 만드는 단정을 입증할 수 없어 hard_fail을 적용하지 않는다.",
+        "evidence": []
+      }
+    }
+  ]
+}

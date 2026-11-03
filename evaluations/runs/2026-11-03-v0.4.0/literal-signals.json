@@ -1,0 +1,2471 @@
+{
+  "contract_id": "ko-dev-writing-preservation-v1",
+  "contract_sha256": "fdd5a88543262631ef61b53ce43d47073dff54c07cd1fb70cdc76e801e3b8a46",
+  "output_index_sha256": "b14fb12d41ed247094788c5799f6ef896c3476356b068e644638097899be3afb",
+  "measurement": "Unicode code points including whitespace, Markdown, and final newline",
+  "automatic_scope": "Literal presence and character counts only; no semantic verdict, quality score, or hard_fail.",
+  "documents": [
+    {
+      "case_id": "cli_readme",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+      "sha256": "deb61dc932ef4c1c41dcee7914f41662428096dad035018a4ac038bfb9b38c4a",
+      "characters": 1718,
+      "literal_signals": [
+        {
+          "requirement_id": "RC2.declared",
+          "required": true,
+          "kind": "identifier",
+          "value": "3.10",
+          "present": true
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "3.11",
+          "present": true
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "22.04",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "identifier",
+          "value": "trace-slice",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "identifier",
+          "value": "0.4.2",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "command",
+          "value": "python -m pip install trace-slice==0.4.2",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "--level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "info",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "--level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "debug",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "info",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "warn",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "error",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC6.stdout",
+          "required": true,
+          "kind": "identifier",
+          "value": "--output",
+          "present": true
+        },
+        {
+          "requirement_id": "RC6.overwrite",
+          "required": true,
+          "kind": "identifier",
+          "value": "--output",
+          "present": true
+        },
+        {
+          "requirement_id": "RC7.unreadable",
+          "required": true,
+          "kind": "identifier",
+          "value": "INPUT",
+          "present": true
+        },
+        {
+          "requirement_id": "RC8",
+          "required": false,
+          "kind": "identifier",
+          "value": "0.4.2",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "cli_readme",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/01_cli_readme.md",
+      "sha256": "e4dc441a7fd1c2b8fedcc782fe4c7ccc9f1afac0bea1b01ce4994a9cf2b6dc5b",
+      "characters": 1600,
+      "literal_signals": [
+        {
+          "requirement_id": "RC2.declared",
+          "required": true,
+          "kind": "identifier",
+          "value": "3.10",
+          "present": true
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "3.11",
+          "present": true
+        },
+        {
+          "requirement_id": "RC2.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "22.04",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "identifier",
+          "value": "trace-slice",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "identifier",
+          "value": "0.4.2",
+          "present": true
+        },
+        {
+          "requirement_id": "RC3",
+          "required": true,
+          "kind": "command",
+          "value": "python -m pip install trace-slice==0.4.2",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "--level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "info",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "--level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "debug",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "info",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "warn",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "error",
+          "present": true
+        },
+        {
+          "requirement_id": "RC5.direction",
+          "required": true,
+          "kind": "identifier",
+          "value": "level",
+          "present": true
+        },
+        {
+          "requirement_id": "RC6.stdout",
+          "required": true,
+          "kind": "identifier",
+          "value": "--output",
+          "present": true
+        },
+        {
+          "requirement_id": "RC6.overwrite",
+          "required": true,
+          "kind": "identifier",
+          "value": "--output",
+          "present": true
+        },
+        {
+          "requirement_id": "RC7.unreadable",
+          "required": true,
+          "kind": "identifier",
+          "value": "INPUT",
+          "present": true
+        },
+        {
+          "requirement_id": "RC8",
+          "required": false,
+          "kind": "identifier",
+          "value": "0.4.2",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md",
+      "sha256": "8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d",
+      "characters": 2553,
+      "literal_signals": [
+        {
+          "requirement_id": "AC1.intake",
+          "required": true,
+          "kind": "identifier",
+          "value": "collector-api",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.intake",
+          "required": true,
+          "kind": "identifier",
+          "value": "telemetry.raw.v1",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "required": true,
+          "kind": "identifier",
+          "value": "event-writer",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_store",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.accepted",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_store",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "required": true,
+          "kind": "identifier",
+          "value": "collector-api",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "required": true,
+          "kind": "number",
+          "value": "503",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC5",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC6.recovery",
+          "required": true,
+          "kind": "identifier",
+          "value": "event-writer",
+          "present": true
+        },
+        {
+          "requirement_id": "AC7",
+          "required": false,
+          "kind": "number",
+          "value": "401",
+          "present": true
+        },
+        {
+          "requirement_id": "AC7",
+          "required": false,
+          "kind": "number",
+          "value": "400",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/02_event_architecture.md",
+      "sha256": "ff3978dc3f505b2f3b016979d5feb75d24ff2f11d0bb00e13a65acd65fb47c39",
+      "characters": 3335,
+      "literal_signals": [
+        {
+          "requirement_id": "AC1.intake",
+          "required": true,
+          "kind": "identifier",
+          "value": "collector-api",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.intake",
+          "required": true,
+          "kind": "identifier",
+          "value": "telemetry.raw.v1",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "required": true,
+          "kind": "identifier",
+          "value": "event-writer",
+          "present": true
+        },
+        {
+          "requirement_id": "AC1.writer",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_store",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.accepted",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_store",
+          "present": true
+        },
+        {
+          "requirement_id": "AC2.boundary",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "required": true,
+          "kind": "identifier",
+          "value": "collector-api",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.failure",
+          "required": true,
+          "kind": "number",
+          "value": "503",
+          "present": true
+        },
+        {
+          "requirement_id": "AC3.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC5",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC6.recovery",
+          "required": true,
+          "kind": "identifier",
+          "value": "event-writer",
+          "present": true
+        },
+        {
+          "requirement_id": "AC7",
+          "required": false,
+          "kind": "number",
+          "value": "401",
+          "present": true
+        },
+        {
+          "requirement_id": "AC7",
+          "required": false,
+          "kind": "number",
+          "value": "400",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/03_investigation_pr.md",
+      "sha256": "7fad7275e4ae30a24409d3842da6ace4ec8bb8db127494fd11b9638d03219b59",
+      "characters": 1013,
+      "literal_signals": [
+        {
+          "requirement_id": "PC1.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC3.change",
+          "required": true,
+          "kind": "path",
+          "value": "src/workers/deliver.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "delivery_retry_probe",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "attempt",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "lock_owner",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "DELIVERY_DIAG_ENABLED",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "true",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "false",
+          "present": true
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "required": true,
+          "kind": "path",
+          "value": "tests/workers/deliver-log.test.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "required": true,
+          "kind": "command",
+          "value": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "#184",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "attempt",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "lock_owner",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md",
+      "sha256": "f917f97afe5ac47f0e4526b5717744973714cb3f0fb533e4ff247f36ed47e0aa",
+      "characters": 973,
+      "literal_signals": [
+        {
+          "requirement_id": "PC1.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC3.change",
+          "required": true,
+          "kind": "path",
+          "value": "src/workers/deliver.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "delivery_retry_probe",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "attempt",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.fields",
+          "required": true,
+          "kind": "identifier",
+          "value": "lock_owner",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "DELIVERY_DIAG_ENABLED",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "true",
+          "present": true
+        },
+        {
+          "requirement_id": "PC4.activation",
+          "required": true,
+          "kind": "identifier",
+          "value": "false",
+          "present": true
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "required": true,
+          "kind": "path",
+          "value": "tests/workers/deliver-log.test.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC5.passed",
+          "required": true,
+          "kind": "command",
+          "value": "pnpm exec vitest run tests/workers/deliver-log.test.ts",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "#184",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "job_id",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "attempt",
+          "present": true
+        },
+        {
+          "requirement_id": "PC6.followup",
+          "required": true,
+          "kind": "identifier",
+          "value": "lock_owner",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+      "sha256": "d1fd05a16e96a4612db3c3b6662effc1b58213bf3805be594eec214a2bee07d8",
+      "characters": 2741,
+      "literal_signals": [
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "WorkerQueueAgeHigh",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl queue inspect river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker status river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl deploy show river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker pause river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "required": true,
+          "kind": "identifier",
+          "value": "state=paused",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "required": true,
+          "kind": "identifier",
+          "value": "inflight=0",
+          "present": true
+        },
+        {
+          "requirement_id": "OC4",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl deploy rollback river-worker --to stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker resume river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC6",
+          "required": true,
+          "kind": "identifier",
+          "value": "consumer_state=running",
+          "present": true
+        },
+        {
+          "requirement_id": "OC6",
+          "required": true,
+          "kind": "identifier",
+          "value": "oldest_age_seconds",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.deadline",
+          "required": true,
+          "kind": "unit",
+          "value": "10분",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/04_incident_runbook.md",
+      "sha256": "b50c9610f3644f80aca2410d4a66d3e385928592b8ec27387e366b57df6b2049",
+      "characters": 2337,
+      "literal_signals": [
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.target",
+          "required": true,
+          "kind": "identifier",
+          "value": "WorkerQueueAgeHigh",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl queue inspect river-events",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker status river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl deploy show river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker pause river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "required": true,
+          "kind": "identifier",
+          "value": "state=paused",
+          "present": true
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "required": true,
+          "kind": "identifier",
+          "value": "inflight=0",
+          "present": true
+        },
+        {
+          "requirement_id": "OC4",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl deploy rollback river-worker --to stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.command",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "required": true,
+          "kind": "identifier",
+          "value": "river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "required": true,
+          "kind": "command",
+          "value": "opsctl worker resume river-worker",
+          "present": true
+        },
+        {
+          "requirement_id": "OC6",
+          "required": true,
+          "kind": "identifier",
+          "value": "consumer_state=running",
+          "present": true
+        },
+        {
+          "requirement_id": "OC6",
+          "required": true,
+          "kind": "identifier",
+          "value": "oldest_age_seconds",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.deadline",
+          "required": true,
+          "kind": "unit",
+          "value": "10분",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "required": true,
+          "kind": "identifier",
+          "value": "current",
+          "present": true
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "required": true,
+          "kind": "identifier",
+          "value": "stable",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/05_storage_adr.md",
+      "sha256": "bd9932d97e4e9b29fe9adc2617643c79bcb02958654af12c4d6530fc1674720a",
+      "characters": 2199,
+      "literal_signals": [
+        {
+          "requirement_id": "DC1.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "ADR-007",
+          "present": true
+        },
+        {
+          "requirement_id": "DC1.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "2026-10-15",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "(tenant_id, event_id)",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_receipts",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "(tenant_id, event_id)",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "required": true,
+          "kind": "identifier",
+          "value": "TTL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC6.performance",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_receipts",
+          "present": true
+        },
+        {
+          "requirement_id": "DC7",
+          "required": false,
+          "kind": "number",
+          "value": "503",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+      "sha256": "63318b86596aaa32b7d48db33a5d031096b86864c58670e3df2865eeb6618dbb",
+      "characters": 2240,
+      "literal_signals": [
+        {
+          "requirement_id": "DC1.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "ADR-007",
+          "present": true
+        },
+        {
+          "requirement_id": "DC1.identity",
+          "required": true,
+          "kind": "identifier",
+          "value": "2026-10-15",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.key",
+          "required": true,
+          "kind": "identifier",
+          "value": "(tenant_id, event_id)",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC2.tenant",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "tenant_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_id",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_receipts",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "(tenant_id, event_id)",
+          "present": true
+        },
+        {
+          "requirement_id": "DC3.store",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.expiry",
+          "required": true,
+          "kind": "identifier",
+          "value": "TTL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC4.atomicity",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "required": true,
+          "kind": "identifier",
+          "value": "PostgreSQL",
+          "present": true
+        },
+        {
+          "requirement_id": "DC5.benefit",
+          "required": true,
+          "kind": "identifier",
+          "value": "Redis",
+          "present": true
+        },
+        {
+          "requirement_id": "DC6.performance",
+          "required": true,
+          "kind": "identifier",
+          "value": "event_receipts",
+          "present": true
+        },
+        {
+          "requirement_id": "DC7",
+          "required": false,
+          "kind": "number",
+          "value": "503",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/06_paragraph_edit.md",
+      "sha256": "6b3a80054be41330cb8da703afdef85e65c2ec327cb24838e85ae853bc97fb68",
+      "characters": 361,
+      "literal_signals": [
+        {
+          "requirement_id": "EC1.limit",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.default",
+          "required": true,
+          "kind": "number",
+          "value": "200",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "number",
+          "value": "1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "number",
+          "value": "1000",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit=0",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "400 Bad Request",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.next",
+          "required": true,
+          "kind": "identifier",
+          "value": "next_cursor",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.next",
+          "required": true,
+          "kind": "identifier",
+          "value": "null",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.end",
+          "required": true,
+          "kind": "identifier",
+          "value": "next_cursor",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.end",
+          "required": true,
+          "kind": "identifier",
+          "value": "null",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "required": true,
+          "kind": "number",
+          "value": "1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "LogStore 2.6.1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.unknown",
+          "required": true,
+          "kind": "identifier",
+          "value": "2.5.x",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md",
+      "sha256": "fe7f3ef660c6cb4369959ae15d19f1cbd40190f9904e166dd794b2c3424726fe",
+      "characters": 379,
+      "literal_signals": [
+        {
+          "requirement_id": "EC1.limit",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.default",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.default",
+          "required": true,
+          "kind": "number",
+          "value": "200",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "number",
+          "value": "1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC2.range",
+          "required": true,
+          "kind": "number",
+          "value": "1000",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "scan_limit=0",
+          "present": true
+        },
+        {
+          "requirement_id": "EC3.zero",
+          "required": true,
+          "kind": "identifier",
+          "value": "400 Bad Request",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.next",
+          "required": true,
+          "kind": "identifier",
+          "value": "next_cursor",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.next",
+          "required": true,
+          "kind": "identifier",
+          "value": "null",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.end",
+          "required": true,
+          "kind": "identifier",
+          "value": "next_cursor",
+          "present": true
+        },
+        {
+          "requirement_id": "EC4.end",
+          "required": true,
+          "kind": "identifier",
+          "value": "null",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "required": true,
+          "kind": "number",
+          "value": "1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.tested",
+          "required": true,
+          "kind": "identifier",
+          "value": "LogStore 2.6.1",
+          "present": true
+        },
+        {
+          "requirement_id": "EC5.unknown",
+          "required": true,
+          "kind": "identifier",
+          "value": "2.5.x",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "long_onboarding_index_refresh",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/07_index_onboarding.md",
+      "sha256": "bad85102e94d4d42d2d187543ab40ab96bfba53af49d05aa5302d405a0dde4c5",
+      "characters": 4798,
+      "literal_signals": [
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "C17",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "q203",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "i52",
+          "present": true
+        },
+        {
+          "requirement_id": "L04.fixed",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L04.fixed",
+          "required": true,
+          "kind": "identifier",
+          "value": "r19",
+          "present": true
+        },
+        {
+          "requirement_id": "L14.initial",
+          "required": true,
+          "kind": "literal",
+          "value": "색인 준비 안 됨",
+          "present": true
+        },
+        {
+          "requirement_id": "L17.response",
+          "required": true,
+          "kind": "literal",
+          "value": "진행 중 작업 있음",
+          "present": true
+        },
+        {
+          "requirement_id": "L19.selection",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L19.selection",
+          "required": true,
+          "kind": "identifier",
+          "value": "r19",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "long_onboarding_index_refresh",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+      "sha256": "9e612f0297c6bbaf0b2e1e1323d17935d2e6f1932d04a41870b6611d0feda09a",
+      "characters": 4620,
+      "literal_signals": [
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "C17",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "q203",
+          "present": true
+        },
+        {
+          "requirement_id": "L03.identifiers",
+          "required": true,
+          "kind": "identifier",
+          "value": "i52",
+          "present": true
+        },
+        {
+          "requirement_id": "L04.fixed",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L04.fixed",
+          "required": true,
+          "kind": "identifier",
+          "value": "r19",
+          "present": true
+        },
+        {
+          "requirement_id": "L14.initial",
+          "required": true,
+          "kind": "literal",
+          "value": "색인 준비 안 됨",
+          "present": true
+        },
+        {
+          "requirement_id": "L17.response",
+          "required": true,
+          "kind": "literal",
+          "value": "진행 중 작업 있음",
+          "present": true
+        },
+        {
+          "requirement_id": "L19.selection",
+          "required": true,
+          "kind": "identifier",
+          "value": "r18",
+          "present": true
+        },
+        {
+          "requirement_id": "L19.selection",
+          "required": true,
+          "kind": "identifier",
+          "value": "r19",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+      "sha256": "18a4bcabebb40bdc14ffbc55d58bc02baddde90b2e2394628bd2ecaf0b125311",
+      "characters": 398,
+      "literal_signals": [
+        {
+          "requirement_id": "S01.target",
+          "required": true,
+          "kind": "service_name",
+          "value": "잔물결 작업 접수기",
+          "present": true
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "ticket_ref",
+          "present": true
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "response_sent",
+          "present": true
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "wait_elapsed",
+          "present": true
+        },
+        {
+          "requirement_id": "S03.location",
+          "required": true,
+          "kind": "path",
+          "value": "worker/pending_slots.py",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "diag_waits",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "ticket_ref",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "elapsed_ms",
+          "present": false
+        }
+      ]
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.3.0-refresh/outputs/latest/08_short_log_pr.md",
+      "sha256": "dd8ef1b809390a9fb72a39c30f7dfc68357926a9b430cb42ba8696ce4f2e4e6b",
+      "characters": 397,
+      "literal_signals": [
+        {
+          "requirement_id": "S01.target",
+          "required": true,
+          "kind": "service_name",
+          "value": "잔물결 작업 접수기",
+          "present": false
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "ticket_ref",
+          "present": true
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "response_sent",
+          "present": true
+        },
+        {
+          "requirement_id": "S01.observation",
+          "required": true,
+          "kind": "identifier",
+          "value": "wait_elapsed",
+          "present": true
+        },
+        {
+          "requirement_id": "S03.location",
+          "required": true,
+          "kind": "path",
+          "value": "worker/pending_slots.py",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "diag_waits",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "ticket_ref",
+          "present": true
+        },
+        {
+          "requirement_id": "S04.optional",
+          "required": false,
+          "kind": "identifier",
+          "value": "elapsed_ms",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+      "sha256": "0a39da3353de79230e640277c24faddf65cbbbfa4e8cd3e8332391c42316db6e",
+      "characters": 1799,
+      "literal_signals": [
+        {
+          "requirement_id": "AC02",
+          "required": true,
+          "kind": "number",
+          "value": "403",
+          "present": true
+        },
+        {
+          "requirement_id": "AC02",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"RELEASE_ROLE_REQUIRED\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC04",
+          "required": true,
+          "kind": "number",
+          "value": "422",
+          "present": true
+        },
+        {
+          "requirement_id": "AC04",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"BUNDLE_INVALID\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "number",
+          "value": "409",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"PENDING_RELEASE_EXISTS\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "number",
+          "value": "400",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"ACTIVATION_TOO_SOON\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC07",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC07",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "literal",
+          "value": "apply_now: true",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "identifier",
+          "value": "activate_at",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC09",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "literal",
+          "value": "apply_now: true",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "number",
+          "value": "409",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"INITIAL_MODE_NOT_ALLOWED\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC11",
+          "required": true,
+          "kind": "identifier",
+          "value": "ACTIVE",
+          "present": true
+        },
+        {
+          "requirement_id": "AC12",
+          "required": true,
+          "kind": "unit",
+          "value": "30초",
+          "present": true
+        },
+        {
+          "requirement_id": "AC13",
+          "required": true,
+          "kind": "identifier",
+          "value": "UNCONFIGURED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC15",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC16",
+          "required": true,
+          "kind": "identifier",
+          "value": "ACTIVE",
+          "present": true
+        },
+        {
+          "requirement_id": "AC18",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06.utc",
+          "required": true,
+          "kind": "identifier",
+          "value": "UTC",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "release_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "state",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "activated_at",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/09_config_rollout.md",
+      "sha256": "fd52acbd239745bd17e9490e3a39c61f605100af3b98262395d1565fd1c6ba25",
+      "characters": 1796,
+      "literal_signals": [
+        {
+          "requirement_id": "AC02",
+          "required": true,
+          "kind": "number",
+          "value": "403",
+          "present": true
+        },
+        {
+          "requirement_id": "AC02",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"RELEASE_ROLE_REQUIRED\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC04",
+          "required": true,
+          "kind": "number",
+          "value": "422",
+          "present": true
+        },
+        {
+          "requirement_id": "AC04",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"BUNDLE_INVALID\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "number",
+          "value": "409",
+          "present": true
+        },
+        {
+          "requirement_id": "AC05",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"PENDING_RELEASE_EXISTS\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "number",
+          "value": "400",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"ACTIVATION_TOO_SOON\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC07",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC07",
+          "required": true,
+          "kind": "number",
+          "value": "202",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "literal",
+          "value": "apply_now: true",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "identifier",
+          "value": "activate_at",
+          "present": true
+        },
+        {
+          "requirement_id": "AC08",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC09",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "literal",
+          "value": "apply_now: true",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "number",
+          "value": "409",
+          "present": true
+        },
+        {
+          "requirement_id": "AC10",
+          "required": true,
+          "kind": "literal",
+          "value": "{\"error\":\"INITIAL_MODE_NOT_ALLOWED\"}",
+          "present": true
+        },
+        {
+          "requirement_id": "AC11",
+          "required": true,
+          "kind": "identifier",
+          "value": "ACTIVE",
+          "present": true
+        },
+        {
+          "requirement_id": "AC12",
+          "required": true,
+          "kind": "unit",
+          "value": "30초",
+          "present": true
+        },
+        {
+          "requirement_id": "AC13",
+          "required": true,
+          "kind": "identifier",
+          "value": "UNCONFIGURED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC15",
+          "required": true,
+          "kind": "identifier",
+          "value": "SCHEDULED",
+          "present": true
+        },
+        {
+          "requirement_id": "AC16",
+          "required": true,
+          "kind": "identifier",
+          "value": "ACTIVE",
+          "present": true
+        },
+        {
+          "requirement_id": "AC18",
+          "required": true,
+          "kind": "unit",
+          "value": "5분",
+          "present": true
+        },
+        {
+          "requirement_id": "AC06.utc",
+          "required": true,
+          "kind": "identifier",
+          "value": "UTC",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "release_id",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "state",
+          "present": true
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "required": true,
+          "kind": "identifier",
+          "value": "activated_at",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/v0.3.0/10_thumbnail_report.md",
+      "sha256": "e69d191d031073794c6e00a1fbd14c1fb2e34973e147a7d9ab6a18d47d51c1e1",
+      "characters": 414,
+      "literal_signals": [
+        {
+          "requirement_id": "BC01",
+          "required": true,
+          "kind": "service_name",
+          "value": "단비함 썸네일 작업기",
+          "present": true
+        },
+        {
+          "requirement_id": "BC02.observation",
+          "required": true,
+          "kind": "unit",
+          "value": "20건",
+          "present": true
+        },
+        {
+          "requirement_id": "BC02.observation",
+          "required": true,
+          "kind": "unit",
+          "value": "3개",
+          "present": true
+        },
+        {
+          "requirement_id": "BC07.missing",
+          "required": true,
+          "kind": "unit",
+          "value": "20건",
+          "present": true
+        },
+        {
+          "requirement_id": "BC09.passed",
+          "required": true,
+          "kind": "unit",
+          "value": "2건",
+          "present": true
+        }
+      ]
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/10_thumbnail_report.md",
+      "sha256": "8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89",
+      "characters": 413,
+      "literal_signals": [
+        {
+          "requirement_id": "BC01",
+          "required": true,
+          "kind": "service_name",
+          "value": "단비함 썸네일 작업기",
+          "present": true
+        },
+        {
+          "requirement_id": "BC02.observation",
+          "required": true,
+          "kind": "unit",
+          "value": "20건",
+          "present": true
+        },
+        {
+          "requirement_id": "BC02.observation",
+          "required": true,
+          "kind": "unit",
+          "value": "3개",
+          "present": true
+        },
+        {
+          "requirement_id": "BC07.missing",
+          "required": true,
+          "kind": "unit",
+          "value": "20건",
+          "present": true
+        },
+        {
+          "requirement_id": "BC09.passed",
+          "required": true,
+          "kind": "unit",
+          "value": "2건",
+          "present": true
+        }
+      ]
+    }
+  ]
+}

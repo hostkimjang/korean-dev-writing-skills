@@ -1,0 +1,81 @@
+{
+  "run_id": "2026-11-03-v0.4.0",
+  "checked_at_utc": "2026-11-03T13:09:41.741646+00:00",
+  "python": "3.12.14",
+  "repository_structure": {
+    "command": "python scripts/check.py",
+    "passed": true,
+    "scope": "6 release files, 19 checked Markdown files, 6 original evaluation cases"
+  },
+  "claim_checker_regressions": {
+    "command": "python scripts/test_check_claims.py",
+    "passed": true,
+    "checks": 21,
+    "scope": "Temporary integrity fixtures; not model evaluation outcomes."
+  },
+  "frozen_claim_reviews": {
+    "command": "python scripts/check_claims.py --output-index evaluations/runs/2026-11-03-v0.4.0/output-index.json --reviews evaluations/runs/2026-11-03-v0.4.0/reviews/core.json evaluations/runs/2026-11-03-v0.4.0/reviews/long.json evaluations/runs/2026-11-03-v0.4.0/reviews/onboarding.json evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json",
+    "passed": true,
+    "cases": 10,
+    "documents": 20,
+    "required_meaning_rows": 300,
+    "question_rows": 74,
+    "scope": "Schema, coverage, references, hashes and exact quotation integrity, not an automated semantic verdict."
+  },
+  "raw_artifacts": {
+    "checks_passed": 7,
+    "checks": [
+      "Frozen inputs, contract, skill snapshots, current skill, raw outputs, anonymous packets and reviews match their recorded hashes.",
+      "12 fresh outputs and 20 indexed previous/current review documents cover all planned conditions.",
+      "Historical run files are unchanged; the archived v0.3.0 report body matches the previous committed report byte for byte.",
+      "All 19 full Markdown document embeds are exact copies of the raw sources.",
+      "The offline HTML contains 24 raw documents and 8 raw inputs, all download bytes and 40 source hashes match; no remote assets are loaded.",
+      "Every published before/after excerpt is a contiguous raw v0.3.0 or v0.4.0 quotation.",
+      "Two separately built v0.4.0 packages are byte-identical."
+    ],
+    "raw_markdown_embeds": 19,
+    "html_sha256": "fc40e5eea8e7ed4f29acc5fde087ca25aad53baf05ec93788f001f051f30bbdf",
+    "package_sha256": "f36d6de1372871f5acfc4e79731e412a9be96c0a3a4729c35264e651fedb62d9"
+  },
+  "offline_viewer": {
+    "runId": "2026-11-03-v0.4.0",
+    "skillVersion": "0.4.0",
+    "html": "docs/comparisons/index.html",
+    "htmlSha256": "fc40e5eea8e7ed4f29acc5fde087ca25aad53baf05ec93788f001f051f30bbdf",
+    "observationsIncluded": true,
+    "checks": 12,
+    "results": [
+      "Static contents: eight cases, 24 document articles, eight input blocks, 32 download buttons",
+      "All HTML IDs are unique and every local fragment / ARIA target resolves",
+      "Each footnote reference and backlink stays inside the same document",
+      "Initialization, valid case hashes, invalid hashes, and malformed URI hashes",
+      "Eight tab click handlers update selection, roving tabindex, hidden panels and case hash",
+      "Arrow keys wrap, Home/End select endpoints, focus follows selection, unrelated keys are untouched",
+      "Comparison/view changes preserve the chosen case and update labels and status for all eight cases",
+      "CSS display-rule analysis: correct visible conditions for all cases, six selections, three widths and screen/print",
+      "No-JavaScript display-rule analysis keeps all 24 documents available",
+      "Hashchange switches valid cases and does not disrupt the current case for a clicked footnote",
+      "All 32 download handlers produce Blob bytes matching source files and SHA-256; anchors attach/remove; URLs revoke after scheduled delay",
+      "Regression: opening/reloading footnote and backlink fragments selects their case; hashchange preserves each fragment"
+    ],
+    "issues": [],
+    "limitations": [
+      "Node VM with DOM doubles; no real browser, layout, native focus/scroll, screen reader, download dialog, or print rendering was exercised.",
+      "CSS inspection evaluates display rules, media predicates, specificity, and ancestor visibility only; it does not measure overflow."
+    ]
+  },
+  "package": {
+    "version": "0.4.0",
+    "release_files": 6,
+    "two_builds_byte_identical": true,
+    "sha256": "f36d6de1372871f5acfc4e79731e412a9be96c0a3a4729c35264e651fedb62d9"
+  },
+  "installation": {
+    "run_locally": false,
+    "remote_gate": ".github/workflows/ci.yml verifies local-checkout and exact-published-commit CLI installation; consult the GitHub Actions run for the published commit."
+  },
+  "limitations": [
+    "No actual human comprehension, memory, search-time or fatigue measurements.",
+    "No real browser rendering was available; offline viewer checks use Node VM with DOM doubles and static rules."
+  ]
+}
