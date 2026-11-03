@@ -23,7 +23,7 @@ import zipfile
 from check import PACKAGE_FILES, SKILL_NAME, SKILL_RELATIVE_PATH, validate_repository
 
 
-DEFAULT_VERSION = "0.2.0"
+DEFAULT_VERSION = "0.2.1"
 FIXED_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 VERSION = re.compile(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?")
 
@@ -31,7 +31,7 @@ VERSION = re.compile(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?
 def version_argument(value: str) -> str:
     value = value.removeprefix("v")
     if not VERSION.fullmatch(value):
-        raise argparse.ArgumentTypeError("use a version such as 0.2.0 or 0.2.0-rc.1")
+        raise argparse.ArgumentTypeError("use a version such as 0.2.1 or 0.2.1-rc.1")
     return value
 
 

@@ -30,6 +30,7 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 - 문서 종류별 구성: [document-types.md](skills/korean-dev-writing/references/document-types.md)
 - 긴 문서 세 사례의 전문과 개선점: [한눈에 보는 비교](docs/comparisons/long-documents.md)
 - 미적용·기존본·개선본 비교: [비교 보고서](docs/evaluation.md)
+- 추가 리뷰의 검토와 다음 평가 초안: [리뷰 반영 기록](docs/review-2026-11-03.md)
 - 참고한 글쓰기 원칙과 출처: [sources.md](docs/sources.md)
 
 ## 작성 원칙
@@ -50,7 +51,9 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 같은 세션 계열 모델을 조건별 독립 컨텍스트에서 사용합니다. 평가자는 조건을 가린 문서와 원자료로 평가합니다. 작은 표본의 탐색 실험이므로 모델 전체의 성능이나 모든 문서에서의 개선을 보장하지 않습니다. 자세한 실행 조건과 한계는 [평가 프로토콜](evaluations/protocol.md)과 [비교 보고서](docs/evaluation.md)를 확인하세요.
 
-### 2026-11-03 비교 결과
+### 2026-11-03 비교 결과(v0.2.0)
+
+아래 결과는 [평가에 사용한 v0.2.0 스킬](https://github.com/hostkimjang/korean-dev-writing-skills/tree/dc0c3f8db1c712c1ccc4ed68577f89f69809d666/skills/korean-dev-writing)의 결과입니다. 현재 v0.2.1은 문서별 소제목 흐름 예시를 보강했으며, 이 변경의 글쓰기 효과는 아직 별도로 평가하지 않았습니다.
 
 | 조건 | 평균 총점 / 20 | 치명적 사실왜곡이 표시된 문서 |
 | --- | ---: | ---: |
@@ -66,7 +69,7 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 ```bash
 python scripts/check.py
-python scripts/package.py --version 0.2.0
+python scripts/package.py --version 0.2.1
 ```
 
 패키징 스크립트는 `dist/`에 스킬 폴더만 포함한 ZIP을 만듭니다. 비교 입력과 결과, 저장소용 안내문은 설치 패키지에 포함하지 않습니다. 검사기의 확인 범위와 한계는 [개발 안내](docs/development.md)에 설명합니다.

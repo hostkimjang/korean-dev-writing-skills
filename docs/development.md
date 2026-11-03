@@ -20,11 +20,11 @@ python scripts/check.py --skill-only
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.2.0
-python scripts/package.py --version 0.2.0 --output-dir dist/recheck
+python scripts/package.py --version 0.2.1
+python scripts/package.py --version 0.2.1 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.2.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 다섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.2.1.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 다섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
