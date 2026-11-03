@@ -28,6 +28,8 @@ jobs:
         run: python scripts/check.py
       - name: Test claim checker integrity rules
         run: python scripts/test_check_claims.py
+      - name: Test repair release gate
+        run: python scripts/test_check_repairs.py
       - name: Validate frozen claims and review evidence
         run: >-
           python scripts/check_claims.py
@@ -37,6 +39,13 @@ jobs:
           evaluations/runs/2026-11-03-v0.4.0/reviews/long.json
           evaluations/runs/2026-11-03-v0.4.0/reviews/onboarding.json
           evaluations/runs/2026-11-03-v0.4.0/reviews/transfer.json
+      - name: Validate completed repairs and published examples
+        run: python scripts/check_repairs.py
+      - name: Validate source-only writing review evidence
+        run: >-
+          python scripts/check_claims.py
+          --output-index evaluations/runs/2026-11-03-v0.5.0/forward/output-index.json
+          --reviews evaluations/runs/2026-11-03-v0.5.0/forward/reviews/first.json
       # https://github.com/actions/setup-node/releases/tag/v7.1.0
       - name: Set up Node.js 24
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -51,4 +60,4 @@ jobs:
         run: |
           python scripts/package.py --output-dir dist/first
           python scripts/package.py --output-dir dist/second
-          cmp dist/first/korean-dev-writing-v0.4.0.zip dist/second/korean-dev-writing-v0.4.0.zip
+          cmp dist/first/korean-dev-writing-v0.5.0.zip dist/second/korean-dev-writing-v0.5.0.zip

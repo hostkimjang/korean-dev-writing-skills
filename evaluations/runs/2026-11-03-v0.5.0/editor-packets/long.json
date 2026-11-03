@@ -1,0 +1,145 @@
+{
+  "group": "long",
+  "skill_snapshot": "evaluations/runs/2026-11-03-v0.5.0/snapshots/v0.5.0",
+  "cases": [
+    {
+      "id": "event_architecture",
+      "title": "이벤트 수집 아키텍처",
+      "file": "02_event_architecture.md",
+      "source": "evaluations/cases/02_event_architecture.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/02_event_architecture.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/02_event_architecture.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/02_event_architecture.md",
+      "example": "docs/examples/02_event_architecture.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md",
+      "review_group": "long",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md",
+      "repair_checks": []
+    },
+    {
+      "id": "incident_runbook",
+      "title": "장애 대응 절차",
+      "file": "04_incident_runbook.md",
+      "source": "evaluations/cases/04_incident_runbook.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/04_incident_runbook.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/04_incident_runbook.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/04_incident_runbook.md",
+      "example": "docs/examples/04_incident_runbook.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md",
+      "review_group": "long",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md",
+      "repair_checks": [
+        {
+          "id": "FIX-RUNBOOK-ROLLBACK",
+          "case_id": "incident_runbook",
+          "issue": "롤백 명령 절만 찾으면 paused·inflight 조건은 보이지만 pause 반환의 의미와 요청 후 5분 이관 기준은 앞 단계로 돌아가야 한다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/04_incident_runbook.json",
+            "source_refs": [
+              "O4",
+              "O5",
+              "O6",
+              "O7"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+            "baseline_quote": "`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.",
+            "scope_note": "기존 NAV1의 국소 partial에 대응한다. 전역 사실 누락이나 잘못된 롤백 지시로 확대하지 않는다."
+          },
+          "acceptance_question": "롤백 명령이 있는 실행 단위에서 pause 반환은 접수일 뿐이라는 구분, state=paused AND inflight=0, pause 요청 후 5분이 지나도 두 조건을 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관한다는 기준을 함께 읽을 수 있는가?",
+          "acceptable_resolution": "정지 대기와 롤백을 한 절로 합치거나, 롤백 코드 직전의 짧은 조건 묶음에 필요한 구분·기한·중단 행동을 넣는다. 배포 직후 적체와 current≠stable이라는 상위 선택 조건도 전체 절차에 유지한다.",
+          "avoid": "5분을 최초 상태 조회나 롤백 명령 실행 시점부터 세지 않는다. 조건이 충족됐어도 5분이 되기 전에는 롤백할 수 없다는 최소 대기 규칙을 만들지 않는다. pause 반환만으로 정지가 끝났다고 쓰지 않는다."
+        },
+        {
+          "id": "FIX-RUNBOOK-ESCALATION",
+          "case_id": "incident_runbook",
+          "issue": "마지막 이관 절이 서로 다른 단계의 중단 조건을 긴 OR 문장에 이어 적어, 해당 조건과 해야 할 행동을 빠르게 짝짓기 어렵다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/04_incident_runbook.json",
+            "source_refs": [
+              "O4",
+              "O6",
+              "O7",
+              "O8",
+              "O9"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+            "baseline_quote": "롤백 조건을 확인하지 못했거나, 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못했거나, 롤백에 실패했거나, 재개 후 10분 동안 개선되지 않으면 해당 단계에서 조치를 중단하고 플랫폼 온콜에 이관합니다. `current`와 `stable`이 같은 경우에도 이관합니다."
+          },
+          "acceptance_question": "이관 기준을 찾는 독자가 ① 배포 관련 롤백 조건 미충족·확인 불가/같은 배포, ② pause 요청 후 5분 정지 조건 미충족, ③ 롤백 실패, ④ 재개 후 10분 개선 없음의 각 조건과 조치를 분리해서 찾을 수 있는가? 롤백 실패 시 일시정지 유지와 개선 없을 때 반복 롤백 금지도 보존되는가?",
+          "acceptable_resolution": "조건별 표나 목록으로 나누고 공통 이관 대상은 한 번 밝힌다. 각 단계에 이미 있는 세부 배경을 다시 설명할 필요는 없으며 조건명과 핵심 조치만 요약해도 된다. 이관할 관찰·실행 정보 목록은 유지한다.",
+          "avoid": "OR로 연결된 중단 사유를 모두 충족해야 하는 AND로 바꾸지 않는다. 표로 바꾸는 과정에서 실패한 롤백 뒤 소비 재개나 반복 롤백을 허용하지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "storage_adr",
+      "title": "중복 판정 저장소 ADR",
+      "file": "05_storage_adr.md",
+      "source": "evaluations/cases/05_storage_adr.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/05_storage_adr.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/05_storage_adr.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/05_storage_adr.md",
+      "example": "docs/examples/05_storage_adr.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md",
+      "review_group": "long",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md",
+      "repair_checks": [
+        {
+          "id": "FIX-ADR-REPETITION",
+          "case_id": "storage_adr",
+          "issue": "대안 비교 표 직후 문단이 같은 트랜잭션 사용과 별도 Redis 운영 불필요라는 두 행을 다시 풀어 쓴다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/05_storage_adr.json",
+            "source_refs": [
+              "D2",
+              "D3",
+              "D4",
+              "D6",
+              "D7"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+            "baseline_quote": "PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션을 활용해 중복 판정 기록과 업무 이벤트 생성을 함께 처리할 수 있기 때문이다. 별도 Redis 운영을 추가하지 않는다는 이점도 있다."
+          },
+          "acceptance_question": "비교 표 다음 문단에서 원자적 처리와 운영 구성의 같은 설명을 다시 길게 나열하는 부분을 줄였는가? 대신 과거 이벤트 재반입과 업무 이벤트 생성의 원자성이라는 요구가 제안 선택으로 이어지는 이유는 읽을 수 있는가?",
+          "acceptable_resolution": "겹치는 두 문장을 삭제·축약하거나 표의 비교 내용을 선택 이유 문단에 통합한다. 남기는 문장은 어떤 요구 때문에 이 비교 차이가 중요해지는지를 연결한다. 표의 사실과 선택 이유를 모두 보존하는 다른 구조도 허용한다.",
+          "avoid": "이유 문단 전체를 무조건 삭제하거나 성능이 우수해서 선택했다는 새 근거를 만들지 않는다. Redis의 TTL 만료·키 유실 뒤 재반입이라는 조건을 Redis 일반의 무조건적인 결함으로 바꾸지 않는다."
+        },
+        {
+          "id": "FIX-ADR-APPROVAL",
+          "case_id": "storage_adr",
+          "issue": "승인 조건만 찾아온 독자는 현재 비용 미측정과 공식 지연 목표·처리량 보장 미설정을 바로 앞의 다른 절에서 추가 확인해야 한다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/05_storage_adr.json",
+            "source_refs": [
+              "D1",
+              "D8",
+              "D9"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+            "baseline_quote": "| 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |",
+            "scope_note": "두 버전 모두 사실을 보존했고 질문 판정은 충분했다. 이번에는 승인 판단의 진입점에서 현재 근거 수준까지 확인하도록 배치를 보완한다."
+          },
+          "acceptance_question": "미결 사항·승인 조건을 읽는 자리에서 추가 비용의 측정 결과가 없고 공식 지연 목표나 처리량 보장도 정하지 않았음을 명시적으로 확인할 수 있는가? 검토와 계획·책임 결정을 거쳐 승인 여부를 정하는 제안 상태도 유지되는가?",
+          "acceptable_resolution": "비용·검증 한계와 승인 조건을 한 절로 합치거나 승인 표에 현재 확인 상태 열을 추가한다. 다른 절에 이미 있는 상세 이유를 다시 복제할 필요는 없다.",
+          "avoid": "새로운 SLO, 측정 결과, 승인 담당자 또는 필수 검증 횟수를 만들지 않는다. 성능 검증 계획을 정하는 기존 승인 조건을 실제 측정 완료 의무로 조용히 바꾸지 않는다."
+        }
+      ]
+    }
+  ]
+}

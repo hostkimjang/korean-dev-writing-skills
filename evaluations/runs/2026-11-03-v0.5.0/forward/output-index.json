@@ -1,0 +1,22 @@
+{
+  "documents": [
+    {
+      "case_id": "incident_runbook",
+      "label": "v0.5.0-source-only",
+      "path": "evaluations/runs/2026-11-03-v0.5.0/forward/first/04_incident_runbook.md",
+      "sha256": "0160587be2e63745abef2a0b4bce9c12b6f268162166679e21d345d6bc4762d0"
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "v0.5.0-source-only",
+      "path": "evaluations/runs/2026-11-03-v0.5.0/forward/first/08_short_log_pr.md",
+      "sha256": "5d1181f2628ae1a3469e010acd47acfc56daad8c0163df86a8c984cf89ae9de8"
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "v0.5.0-source-only",
+      "path": "evaluations/runs/2026-11-03-v0.5.0/forward/first/09_config_rollout.md",
+      "sha256": "f1962bb9ffd6980eabff3c11281531fe6b94268639af5ff1f1ca4dd3d305cb2b"
+    }
+  ]
+}

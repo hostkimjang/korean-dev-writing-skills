@@ -1,0 +1,135 @@
+{
+  "group": "flow",
+  "skill_snapshot": "evaluations/runs/2026-11-03-v0.5.0/snapshots/v0.5.0",
+  "cases": [
+    {
+      "id": "long_onboarding_index_refresh",
+      "title": "색인 갱신 온보딩",
+      "file": "07_index_onboarding.md",
+      "source": "evaluations/runs/2026-11-03-reading-flow/source/long-document.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/07_index_onboarding.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/07_index_onboarding.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/07_index_onboarding.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/07_index_onboarding.md",
+      "example": "docs/examples/07_index_onboarding.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-flow.md",
+      "review_group": "flow",
+      "baseline": "evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md",
+      "repair_checks": [
+        {
+          "id": "FIX-ONBOARDING-IDENTIFIER",
+          "case_id": "long_onboarding_index_refresh",
+          "issue": "식별자 표에는 번호가 가리키는 대상이 있지만 작업 상태 조회에 어떤 번호를 쓰는지는 다음 절에서 찾아야 한다.",
+          "source_basis": {
+            "source_path": "evaluations/runs/2026-11-03-reading-flow/source/long-document.json",
+            "source_refs": [
+              "L03",
+              "L04",
+              "L07"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-onboarding.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+            "baseline_quote": "| 접수 번호 | `q203` | 접수된 갱신 작업 |",
+            "scope_note": "q203 조회와 원본 고정 사실은 이미 보존되었다. 모든 관련 설명을 한 거대 표에 넣으라는 요구가 아니다."
+          },
+          "acceptance_question": "식별자 표나 바로 인접한 설명만 보고 작업 상태 조회에는 접수 번호 q203을 쓰며 자료집 번호 C17이나 색인 판 번호 i52로 대신 조회할 수 없음을 알 수 있는가? 별도 번호 순서와 접수 원본 고정이라는 기존 구분도 남아 있는가?",
+          "acceptable_resolution": "접수 번호 행에 상태 조회 용도를 적거나 식별자 표 바로 아래에 짧게 설명한다. 이후 절은 조회 절차를 자연스럽게 이어 설명하거나 해당 기준을 가리키면 된다.",
+          "avoid": "자료집·원본·접수·색인 판 번호를 서로 대체 가능한 진행 번호로 표현하지 않는다. 상태 조회가 작업 진행이나 색인 전환을 발생시키는 조건이라고 쓰지 않는다."
+        },
+        {
+          "id": "FIX-ONBOARDING-RETRY",
+          "case_id": "long_onboarding_index_refresh",
+          "issue": "재시도 대상에 실패·중단을 이미 함께 명시한 뒤 같은 절에서 중단 재시도도 같은 조건이라는 문장을 다시 적는다.",
+          "source_basis": {
+            "source_path": "evaluations/runs/2026-11-03-reading-flow/source/long-document.json",
+            "source_refs": [
+              "L17",
+              "L18",
+              "L19"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-onboarding.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+            "baseline_quote": "중단했던 작업을 재시도할 때도 이 조건은 같습니다."
+          },
+          "acceptance_question": "같은 재시도 규칙이 실패·중단 모두에 적용됨을 처음에 분명히 밝혀 위 문장과 같은 새 정보 없는 재강조를 없앴는가? 새 접수 번호, 대기부터 시작, 원래 원본 사용, 후보·진행 위치를 잇지 않는 재구축 및 r19를 쓰려면 일반 갱신이 필요하다는 차이는 모두 남아 있는가?",
+          "acceptable_resolution": "실패·중단을 함께 주어로 삼는 첫 문장으로 규칙의 적용 범위를 고정하고 중복 문장을 삭제한다. r18/r19 사례처럼 선택 결과를 구체적으로 보여 주는 설명은 유지해도 된다.",
+          "avoid": "재시도 절의 모든 반복을 없애려고 같은 자료집에 진행 중 작업이 없어야 한다는 조건을 지우지 않는다. 재시도를 최신 원본 선택이나 중단 위치 재개로 바꾸지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "v04_new_a_config_rollout",
+      "title": "달무리 설정배포 서비스의 예약 적용 안내",
+      "file": "09_config_rollout.md",
+      "source": "evaluations/runs/2026-11-03-v0.4.0/source/09_config_rollout.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/09_config_rollout.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/09_config_rollout.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/09_config_rollout.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/09_config_rollout.md",
+      "example": "docs/examples/09_config_rollout.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-flow.md",
+      "review_group": "flow",
+      "repair_checks": [
+        {
+          "id": "FIX-CONFIG-CONFLICT",
+          "case_id": "v04_new_a_config_rollout",
+          "issue": "예약 충돌의 HTTP 409와 응답 본문은 거절 표에 있지만, 언제 다시 요청할 수 있는지는 준비 절에 흩어져 있다.",
+          "source_basis": {
+            "source_path": "evaluations/runs/2026-11-03-v0.4.0/source/09_config_rollout.json",
+            "source_refs": [
+              "A06",
+              "A13"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-transfer.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+            "baseline_quote": "| 같은 워크스페이스에 `SCHEDULED` 배포 있음 | 409 | `{\"error\":\"PENDING_RELEASE_EXISTS\"}` |"
+          },
+          "acceptance_question": "예약 충돌 항목을 찾아온 독자가 같은 워크스페이스의 기존 SCHEDULED 때문에 HTTP 409 / {\"error\":\"PENDING_RELEASE_EXISTS\"}가 발생하고, 대기 묶음의 활성화 또는 예약 취소 뒤 새 요청을 할 수 있음을 그 자리에서 확인할 수 있는가?",
+          "acceptable_resolution": "거절 표의 해당 행에 재요청 조건을 적거나 표 바로 아래에 이 오류와 연결한 짧은 문장을 둔다. 준비 절은 필요할 때 간단히 가리키거나 중복된 안내를 줄인다.",
+          "avoid": "취소하지 않고 덮어쓰기, 다른 워크스페이스까지 차단, 새로운 권한·우회 방법을 만들지 않는다. 여러 오류가 겹쳤을 때 반환 우선순위를 추측하지 않는다."
+        },
+        {
+          "id": "FIX-CONFIG-INPUTS",
+          "case_id": "v04_new_a_config_rollout",
+          "issue": "초안 준비 단계의 '두 설정'은 도입부의 이름을 기억해야 입력 대상을 알 수 있다.",
+          "source_basis": {
+            "source_path": "evaluations/runs/2026-11-03-v0.4.0/source/09_config_rollout.json",
+            "source_refs": [
+              "A01",
+              "A03"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-transfer.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+            "baseline_quote": "초안에 두 설정을 모두 입력하고 검사합니다."
+          },
+          "acceptance_question": "초안 준비 절에서 바로 시작해도 작업 요청의 기본 상한과 알림 휴지 시간대를 모두 입력해야 함을 알 수 있는가? 검사 통과 뒤 수정하면 검사 결과가 무효가 되어 다시 검사해야 한다는 연결도 남아 있는가?",
+          "acceptable_resolution": "'두 설정'을 두 이름으로 바꾸거나 준비 절에 짧은 입력 목록을 둔다. 정의 전체를 도입부에서 반복할 필요는 없다. 전체 안내는 원래 본문 1,200~1,800자 정도의 요청도 함께 확인한다.",
+          "avoid": "구체 상한 수치, 시간대 기본값, UI 입력 형식 등 원자료에 없는 세부사항을 보태지 않는다. 변경 후 재검사 조건을 압축 과정에서 생략하지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "v04_new_b_thumbnail_report",
+      "title": "단비함 썸네일 작업기의 기록 순서 변경 보고",
+      "file": "10_thumbnail_report.md",
+      "source": "evaluations/runs/2026-11-03-v0.4.0/source/10_thumbnail_report.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/10_thumbnail_report.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/10_thumbnail_report.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/10_thumbnail_report.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/10_thumbnail_report.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/10_thumbnail_report.md",
+      "example": "docs/examples/10_thumbnail_report.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-flow.md",
+      "review_group": "flow",
+      "repair_checks": []
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "cases": [
+    {
+      "id": "long_onboarding_index_refresh",
+      "changed": true,
+      "notes": [
+        "식별자 표 바로 아래에 q203의 작업 상태 조회 용도와 C17·i52 대체 불가를 함께 배치하고, 접수 절은 반환받은 번호로 조회하는 절차만 이어 쓰도록 조정했다.",
+        "실패 또는 중단으로 끝난 작업만 재시도한다는 적용 범위와 같은 자료집에 진행 중인 작업이 없어야 한다는 조건을 첫 문장에 유지했다. 중단 재시도에도 같은 규칙이라는 중복 문장을 삭제했다.",
+        "원본 고정과 별도 번호 순서, 새 번호·대기 시작·같은 원본·처음부터 재구축·r19 일반 갱신의 구분을 보존했다. 식별자 절의 원자료 각주에 상태 조회 근거인 메모 7을 포함했다."
+      ],
+      "characters": 4609,
+      "body_characters": 4590
+    },
+    {
+      "id": "v04_new_a_config_rollout",
+      "changed": true,
+      "notes": [
+        "초안 준비 절의 두 설정을 작업 요청의 기본 상한과 알림 휴지 시간대로 명시하고, 검사 통과 후 수정 시 검사 무효 및 재검사 조건을 유지했다.",
+        "준비 절의 예약 충돌 해제 안내를 HTTP 409 / PENDING_RELEASE_EXISTS 행으로 옮겨 대기 묶음 활성화 또는 예약 취소 후 재요청 가능 조건을 함께 확인하게 했다.",
+        "오류 본문과 상태 코드, 초기 전용 조건, 전환 평가와 조회의 구분 및 복구·재개 동작을 보존했으며 본문 1,200~1,800자 요구를 확인했다."
+      ],
+      "characters": 1799,
+      "body_characters": 1783
+    },
+    {
+      "id": "v04_new_b_thumbnail_report",
+      "changed": false,
+      "notes": [
+        "원자료의 관측 사실과 집계 한계, 원인 가설, 미배포 로컬 변경 범위, 통과한 대역 검사 범위와 미실행 검증 사유를 모두 보존하는 기존 본문을 그대로 유지했다.",
+        "제목 제외 본문 388자로 250~400자 요구를 충족하며 추가 수정이 필요하지 않았다."
+      ],
+      "characters": 413,
+      "body_characters": 388
+    }
+  ],
+  "character_measurement": "Unicode code points; characters includes Markdown, whitespace and final LF; body_characters excludes opening H1 and following empty lines, and trailing LF."
+}

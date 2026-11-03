@@ -1,0 +1,142 @@
+{
+  "group": "core",
+  "skill_snapshot": "evaluations/runs/2026-11-03-v0.5.0/snapshots/v0.5.0",
+  "cases": [
+    {
+      "id": "cli_readme",
+      "title": "CLI README",
+      "file": "01_cli_readme.md",
+      "source": "evaluations/cases/01_cli_readme.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/01_cli_readme.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/01_cli_readme.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/01_cli_readme.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/01_cli_readme.md",
+      "example": "docs/examples/01_cli_readme.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-core.md",
+      "review_group": "core",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/01_cli_readme.md",
+      "repair_checks": [
+        {
+          "id": "FIX-CLI-OUTPUT",
+          "case_id": "cli_readme",
+          "issue": "파일 저장을 시도하려는 독자는 첫 실행 예와 옵션 행을 연결해야 하며, 실행 가능한 저장 예와 덮어쓰기 결과를 같은 위치에서 확인하지 못한다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/01_cli_readme.json",
+            "source_refs": [
+              "R4",
+              "R6",
+              "R7"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+            "baseline_quote": "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |",
+            "scope_note": "덮어쓰기 사실은 이미 보존되었다. 저장 예는 원자료의 유효한 명령 형식으로 보완하는 이번 사용성 개선이며 과거 필수 조건 누락 판정이 아니다."
+          },
+          "acceptance_question": "파일로 저장하는 위치에서 입력 경로와 --output을 포함한 유효한 명령, 지정 파일이 이미 있으면 덮어쓴다는 결과를 함께 확인할 수 있는가? --output 생략 시 표준 출력이라는 기존 동작도 문서에 남아 있는가?",
+          "acceptable_resolution": "파일 저장 예를 짧게 추가하고 코드 블록 바로 앞에 덮어쓰기 조건을 둔다. 또는 실행 예와 옵션 설명을 통합해 같은 실행 단위에서 명령과 조건을 읽게 한다. 결과 경로는 사용자가 선택하는 예시임을 알 수 있으면 된다.",
+          "avoid": "원자료에 없는 이어쓰기·자동 백업·출력 디렉터리 자동 생성 기능을 추가하지 않는다. 현재 README가 덮어쓰기 사실 자체를 누락했다고 기록하지 않는다."
+        },
+        {
+          "id": "FIX-CLI-LEVEL",
+          "case_id": "cli_readme",
+          "issue": "허용 심각도 목록이 옵션 표와 바로 다음 순서 설명에 반복되어 같은 정보를 다시 읽게 한다.",
+          "source_basis": {
+            "source_path": "evaluations/cases/01_cli_readme.json",
+            "source_refs": [
+              "R5"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+            "baseline_quote": "심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다.",
+            "scope_note": "목록과 기본값의 단순 재나열을 줄이는 편집이며 표의 문장형·구절형 문체를 평가하는 항목이 아니다."
+          },
+          "acceptance_question": "허용값의 전체 목록과 높아지는 순서를 한곳에서 함께 설명하여 인접한 표와 문단의 목록 중복을 없앴는가? 기본값 info와 지정한 값 이상을 출력한다는 비교 방향은 여전히 바로 확인되는가?",
+          "acceptable_resolution": "표에 순서까지 모으거나, 표에는 최소 심각도와 기본값만 두고 아래 설명에 허용값·순서를 모은다. warn을 지정했을 때 warn과 error가 나온다는 구체적 해석 예는 새로운 이해를 돕는 내용이므로 남겨도 된다.",
+          "avoid": "중복을 줄이려고 허용값, 기본값 또는 비교 방향을 삭제하지 않는다. 예시에서 같은 옵션명이 다시 나오는 것까지 실패로 세지 않는다."
+        }
+      ]
+    },
+    {
+      "id": "investigation_pr",
+      "title": "진단 PR",
+      "file": "03_investigation_pr.md",
+      "source": "evaluations/cases/03_investigation_pr.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/03_investigation_pr.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/03_investigation_pr.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/03_investigation_pr.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/03_investigation_pr.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/03_investigation_pr.md",
+      "example": "docs/examples/03_investigation_pr.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-core.md",
+      "review_group": "core",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/03_investigation_pr.md",
+      "repair_checks": []
+    },
+    {
+      "id": "paragraph_edit",
+      "title": "문단 교정",
+      "file": "06_paragraph_edit.md",
+      "source": "evaluations/cases/06_paragraph_edit.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/06_paragraph_edit.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/06_paragraph_edit.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/06_paragraph_edit.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/06_paragraph_edit.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/06_paragraph_edit.md",
+      "example": "docs/examples/06_paragraph_edit.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-core.md",
+      "review_group": "core",
+      "baseline": "evaluations/runs/2026-11-03/outputs/baseline/06_paragraph_edit.md",
+      "repair_checks": []
+    },
+    {
+      "id": "short_investigation_wait_log",
+      "title": "짧은 관측 PR",
+      "file": "08_short_log_pr.md",
+      "source": "evaluations/runs/2026-11-03-reading-flow/source/short-pr.json",
+      "input_origin": "evaluations/runs/2026-11-03-v0.4.0/inputs/08_short_log_pr.md",
+      "input": "evaluations/runs/2026-11-03-v0.5.0/inputs/08_short_log_pr.md",
+      "previous": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+      "previous_label": "v0.4.0",
+      "historical_run": "evaluations/runs/2026-11-03-v0.4.0",
+      "latest": "evaluations/runs/2026-11-03-v0.5.0/outputs/revised/08_short_log_pr.md",
+      "first_revision": "evaluations/runs/2026-11-03-v0.5.0/outputs/round-1/08_short_log_pr.md",
+      "example": "docs/examples/08_short_log_pr.md",
+      "review_report": "evaluations/runs/2026-11-03-v0.5.0/reviews/review-core.md",
+      "review_group": "core",
+      "baseline": "evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md",
+      "repair_checks": [
+        {
+          "id": "FIX-SHORT-PR-FIELDS",
+          "case_id": "short_investigation_wait_log",
+          "issue": "짧은 PR에서 상세 로그 필드와 요청 본문 제외 범위가 생략되어 진단 로그 자체를 검토할 정보가 줄었다. 이번에는 이 선택 정보를 복원하되 기존 판단 근거를 잃지 않는다.",
+          "source_basis": {
+            "source_path": "evaluations/runs/2026-11-03-reading-flow/source/short-pr.json",
+            "source_refs": [
+              "S01",
+              "S02",
+              "S03",
+              "S04",
+              "S05",
+              "S06",
+              "S07"
+            ],
+            "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+            "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+            "baseline_quote": "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다.",
+            "scope_note": "preservation-v1의 S04.optional은 required=false다. v0.4.0 필수 의미 17개 보존 판정은 바꾸지 않는다. 새 완료 기준은 사용자 요청에 따라 선택 정보도 더 충실히 담는 보완이다."
+          },
+          "acceptance_question": "공백 포함 250~400자 정도라는 원래 요청 안에서 diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 기록하지 않는다고 설명했는가? 기존 계약의 필수 의미 17개와 로그 관측만으로 실제 영향 판단 불가·환경 미준비로 미검증이라는 이유도 그대로 읽히는가?",
+          "acceptable_resolution": "겹치는 표현과 장황한 연결을 정리해 필드 범위를 복원한다. 자연스러운 서술형 문장이나 짧은 문단을 허용하며 정확히 같은 동사·문구를 복제할 필요는 없다. 분량과 보존 내용을 함께 검토한다.",
+          "avoid": "남은 항목 수에 원자료에 없는 코드 필드명을 붙이지 않는다. 필드 목록을 넣기 위해 서비스명, 관측 출처, 변경 경로, 관측 목적, 가설의 미확정, 빈도 미집계, 테스트·새 로그 미확보 이유를 빼지 않는다. 선택 정보의 이전 생략을 과거 필수 오류로 재분류하지 않는다."
+        }
+      ]
+    }
+  ]
+}

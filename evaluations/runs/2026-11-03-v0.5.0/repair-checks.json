@@ -1,0 +1,208 @@
+{
+  "purpose": "v0.4.0에서 확인된 구체적 편집 문제를 이번 수정에서 해결했는지 확인한다. 과거 실험을 재채점하거나 새 총점을 만드는 평가 기준이 아니다.",
+  "baseline_run": "evaluations/runs/2026-11-03-v0.4.0",
+  "baseline_contract": "evaluations/contracts/preservation-v1.json",
+  "scope_rules": [
+    "기존 의미 보존 계약, v0.4.0 출력, 익명 리뷰 및 판정은 그대로 보존한다.",
+    "각 항목은 수정 문서에서 해당 진입점을 찾아 원자료와 대조한다. 더 짧아졌다는 사실만으로 완료 처리하지 않는다.",
+    "필요한 실행 조건의 재확인과 새 정보를 주지 않는 배경 재진술을 구분한다. 모든 반복이나 상호참조를 제거할 필요는 없다.",
+    "원자료의 확실성, 시간 기준, 상태 구분, 식별자, 조건의 AND/OR 관계를 바꾸지 않는다.",
+    "짧은 PR의 상세 로그 필드 복원은 이번 보완 목표다. 기존 계약의 선택 항목을 과거부터 필수였다고 설명하지 않는다.",
+    "완료는 실제 수정 파일의 증거로 판정하며 사람의 피로·속도·이해도 개선을 측정했다고 주장하지 않는다."
+  ],
+  "checks": [
+    {
+      "id": "FIX-CLI-OUTPUT",
+      "case_id": "cli_readme",
+      "issue": "파일 저장을 시도하려는 독자는 첫 실행 예와 옵션 행을 연결해야 하며, 실행 가능한 저장 예와 덮어쓰기 결과를 같은 위치에서 확인하지 못한다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/01_cli_readme.json",
+        "source_refs": ["R4", "R6", "R7"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+        "baseline_quote": "| `--output PATH` | 결과를 `PATH`에 저장합니다. **파일이 이미 있으면 덮어씁니다.** | 결과를 표준 출력으로 내보냅니다. |",
+        "scope_note": "덮어쓰기 사실은 이미 보존되었다. 저장 예는 원자료의 유효한 명령 형식으로 보완하는 이번 사용성 개선이며 과거 필수 조건 누락 판정이 아니다."
+      },
+      "acceptance_question": "파일로 저장하는 위치에서 입력 경로와 --output을 포함한 유효한 명령, 지정 파일이 이미 있으면 덮어쓴다는 결과를 함께 확인할 수 있는가? --output 생략 시 표준 출력이라는 기존 동작도 문서에 남아 있는가?",
+      "acceptable_resolution": "파일 저장 예를 짧게 추가하고 코드 블록 바로 앞에 덮어쓰기 조건을 둔다. 또는 실행 예와 옵션 설명을 통합해 같은 실행 단위에서 명령과 조건을 읽게 한다. 결과 경로는 사용자가 선택하는 예시임을 알 수 있으면 된다.",
+      "avoid": "원자료에 없는 이어쓰기·자동 백업·출력 디렉터리 자동 생성 기능을 추가하지 않는다. 현재 README가 덮어쓰기 사실 자체를 누락했다고 기록하지 않는다."
+    },
+    {
+      "id": "FIX-CLI-LEVEL",
+      "case_id": "cli_readme",
+      "issue": "허용 심각도 목록이 옵션 표와 바로 다음 순서 설명에 반복되어 같은 정보를 다시 읽게 한다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/01_cli_readme.json",
+        "source_refs": ["R5"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/01_cli_readme.md",
+        "baseline_quote": "심각도는 `debug` → `info` → `warn` → `error` 순으로 높아집니다.",
+        "scope_note": "목록과 기본값의 단순 재나열을 줄이는 편집이며 표의 문장형·구절형 문체를 평가하는 항목이 아니다."
+      },
+      "acceptance_question": "허용값의 전체 목록과 높아지는 순서를 한곳에서 함께 설명하여 인접한 표와 문단의 목록 중복을 없앴는가? 기본값 info와 지정한 값 이상을 출력한다는 비교 방향은 여전히 바로 확인되는가?",
+      "acceptable_resolution": "표에 순서까지 모으거나, 표에는 최소 심각도와 기본값만 두고 아래 설명에 허용값·순서를 모은다. warn을 지정했을 때 warn과 error가 나온다는 구체적 해석 예는 새로운 이해를 돕는 내용이므로 남겨도 된다.",
+      "avoid": "중복을 줄이려고 허용값, 기본값 또는 비교 방향을 삭제하지 않는다. 예시에서 같은 옵션명이 다시 나오는 것까지 실패로 세지 않는다."
+    },
+    {
+      "id": "FIX-RUNBOOK-ROLLBACK",
+      "case_id": "incident_runbook",
+      "issue": "롤백 명령 절만 찾으면 paused·inflight 조건은 보이지만 pause 반환의 의미와 요청 후 5분 이관 기준은 앞 단계로 돌아가야 한다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/04_incident_runbook.json",
+        "source_refs": ["O4", "O5", "O6", "O7"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+        "baseline_quote": "`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.",
+        "scope_note": "기존 NAV1의 국소 partial에 대응한다. 전역 사실 누락이나 잘못된 롤백 지시로 확대하지 않는다."
+      },
+      "acceptance_question": "롤백 명령이 있는 실행 단위에서 pause 반환은 접수일 뿐이라는 구분, state=paused AND inflight=0, pause 요청 후 5분이 지나도 두 조건을 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관한다는 기준을 함께 읽을 수 있는가?",
+      "acceptable_resolution": "정지 대기와 롤백을 한 절로 합치거나, 롤백 코드 직전의 짧은 조건 묶음에 필요한 구분·기한·중단 행동을 넣는다. 배포 직후 적체와 current≠stable이라는 상위 선택 조건도 전체 절차에 유지한다.",
+      "avoid": "5분을 최초 상태 조회나 롤백 명령 실행 시점부터 세지 않는다. 조건이 충족됐어도 5분이 되기 전에는 롤백할 수 없다는 최소 대기 규칙을 만들지 않는다. pause 반환만으로 정지가 끝났다고 쓰지 않는다."
+    },
+    {
+      "id": "FIX-RUNBOOK-ESCALATION",
+      "case_id": "incident_runbook",
+      "issue": "마지막 이관 절이 서로 다른 단계의 중단 조건을 긴 OR 문장에 이어 적어, 해당 조건과 해야 할 행동을 빠르게 짝짓기 어렵다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/04_incident_runbook.json",
+        "source_refs": ["O4", "O6", "O7", "O8", "O9"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md",
+        "baseline_quote": "롤백 조건을 확인하지 못했거나, 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못했거나, 롤백에 실패했거나, 재개 후 10분 동안 개선되지 않으면 해당 단계에서 조치를 중단하고 플랫폼 온콜에 이관합니다. `current`와 `stable`이 같은 경우에도 이관합니다."
+      },
+      "acceptance_question": "이관 기준을 찾는 독자가 ① 배포 관련 롤백 조건 미충족·확인 불가/같은 배포, ② pause 요청 후 5분 정지 조건 미충족, ③ 롤백 실패, ④ 재개 후 10분 개선 없음의 각 조건과 조치를 분리해서 찾을 수 있는가? 롤백 실패 시 일시정지 유지와 개선 없을 때 반복 롤백 금지도 보존되는가?",
+      "acceptable_resolution": "조건별 표나 목록으로 나누고 공통 이관 대상은 한 번 밝힌다. 각 단계에 이미 있는 세부 배경을 다시 설명할 필요는 없으며 조건명과 핵심 조치만 요약해도 된다. 이관할 관찰·실행 정보 목록은 유지한다.",
+      "avoid": "OR로 연결된 중단 사유를 모두 충족해야 하는 AND로 바꾸지 않는다. 표로 바꾸는 과정에서 실패한 롤백 뒤 소비 재개나 반복 롤백을 허용하지 않는다."
+    },
+    {
+      "id": "FIX-ADR-REPETITION",
+      "case_id": "storage_adr",
+      "issue": "대안 비교 표 직후 문단이 같은 트랜잭션 사용과 별도 Redis 운영 불필요라는 두 행을 다시 풀어 쓴다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/05_storage_adr.json",
+        "source_refs": ["D2", "D3", "D4", "D6", "D7"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+        "baseline_quote": "PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션을 활용해 중복 판정 기록과 업무 이벤트 생성을 함께 처리할 수 있기 때문이다. 별도 Redis 운영을 추가하지 않는다는 이점도 있다."
+      },
+      "acceptance_question": "비교 표 다음 문단에서 원자적 처리와 운영 구성의 같은 설명을 다시 길게 나열하는 부분을 줄였는가? 대신 과거 이벤트 재반입과 업무 이벤트 생성의 원자성이라는 요구가 제안 선택으로 이어지는 이유는 읽을 수 있는가?",
+      "acceptable_resolution": "겹치는 두 문장을 삭제·축약하거나 표의 비교 내용을 선택 이유 문단에 통합한다. 남기는 문장은 어떤 요구 때문에 이 비교 차이가 중요해지는지를 연결한다. 표의 사실과 선택 이유를 모두 보존하는 다른 구조도 허용한다.",
+      "avoid": "이유 문단 전체를 무조건 삭제하거나 성능이 우수해서 선택했다는 새 근거를 만들지 않는다. Redis의 TTL 만료·키 유실 뒤 재반입이라는 조건을 Redis 일반의 무조건적인 결함으로 바꾸지 않는다."
+    },
+    {
+      "id": "FIX-ADR-APPROVAL",
+      "case_id": "storage_adr",
+      "issue": "승인 조건만 찾아온 독자는 현재 비용 미측정과 공식 지연 목표·처리량 보장 미설정을 바로 앞의 다른 절에서 추가 확인해야 한다.",
+      "source_basis": {
+        "source_path": "evaluations/cases/05_storage_adr.json",
+        "source_refs": ["D1", "D8", "D9"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-long.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md",
+        "baseline_quote": "| 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |",
+        "scope_note": "두 버전 모두 사실을 보존했고 질문 판정은 충분했다. 이번에는 승인 판단의 진입점에서 현재 근거 수준까지 확인하도록 배치를 보완한다."
+      },
+      "acceptance_question": "미결 사항·승인 조건을 읽는 자리에서 추가 비용의 측정 결과가 없고 공식 지연 목표나 처리량 보장도 정하지 않았음을 명시적으로 확인할 수 있는가? 검토와 계획·책임 결정을 거쳐 승인 여부를 정하는 제안 상태도 유지되는가?",
+      "acceptable_resolution": "비용·검증 한계와 승인 조건을 한 절로 합치거나 승인 표에 현재 확인 상태 열을 추가한다. 다른 절에 이미 있는 상세 이유를 다시 복제할 필요는 없다.",
+      "avoid": "새로운 SLO, 측정 결과, 승인 담당자 또는 필수 검증 횟수를 만들지 않는다. 성능 검증 계획을 정하는 기존 승인 조건을 실제 측정 완료 의무로 조용히 바꾸지 않는다."
+    },
+    {
+      "id": "FIX-ONBOARDING-IDENTIFIER",
+      "case_id": "long_onboarding_index_refresh",
+      "issue": "식별자 표에는 번호가 가리키는 대상이 있지만 작업 상태 조회에 어떤 번호를 쓰는지는 다음 절에서 찾아야 한다.",
+      "source_basis": {
+        "source_path": "evaluations/runs/2026-11-03-reading-flow/source/long-document.json",
+        "source_refs": ["L03", "L04", "L07"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-onboarding.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+        "baseline_quote": "| 접수 번호 | `q203` | 접수된 갱신 작업 |",
+        "scope_note": "q203 조회와 원본 고정 사실은 이미 보존되었다. 모든 관련 설명을 한 거대 표에 넣으라는 요구가 아니다."
+      },
+      "acceptance_question": "식별자 표나 바로 인접한 설명만 보고 작업 상태 조회에는 접수 번호 q203을 쓰며 자료집 번호 C17이나 색인 판 번호 i52로 대신 조회할 수 없음을 알 수 있는가? 별도 번호 순서와 접수 원본 고정이라는 기존 구분도 남아 있는가?",
+      "acceptable_resolution": "접수 번호 행에 상태 조회 용도를 적거나 식별자 표 바로 아래에 짧게 설명한다. 이후 절은 조회 절차를 자연스럽게 이어 설명하거나 해당 기준을 가리키면 된다.",
+      "avoid": "자료집·원본·접수·색인 판 번호를 서로 대체 가능한 진행 번호로 표현하지 않는다. 상태 조회가 작업 진행이나 색인 전환을 발생시키는 조건이라고 쓰지 않는다."
+    },
+    {
+      "id": "FIX-ONBOARDING-RETRY",
+      "case_id": "long_onboarding_index_refresh",
+      "issue": "재시도 대상에 실패·중단을 이미 함께 명시한 뒤 같은 절에서 중단 재시도도 같은 조건이라는 문장을 다시 적는다.",
+      "source_basis": {
+        "source_path": "evaluations/runs/2026-11-03-reading-flow/source/long-document.json",
+        "source_refs": ["L17", "L18", "L19"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-onboarding.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/07_index_onboarding.md",
+        "baseline_quote": "중단했던 작업을 재시도할 때도 이 조건은 같습니다."
+      },
+      "acceptance_question": "같은 재시도 규칙이 실패·중단 모두에 적용됨을 처음에 분명히 밝혀 위 문장과 같은 새 정보 없는 재강조를 없앴는가? 새 접수 번호, 대기부터 시작, 원래 원본 사용, 후보·진행 위치를 잇지 않는 재구축 및 r19를 쓰려면 일반 갱신이 필요하다는 차이는 모두 남아 있는가?",
+      "acceptable_resolution": "실패·중단을 함께 주어로 삼는 첫 문장으로 규칙의 적용 범위를 고정하고 중복 문장을 삭제한다. r18/r19 사례처럼 선택 결과를 구체적으로 보여 주는 설명은 유지해도 된다.",
+      "avoid": "재시도 절의 모든 반복을 없애려고 같은 자료집에 진행 중 작업이 없어야 한다는 조건을 지우지 않는다. 재시도를 최신 원본 선택이나 중단 위치 재개로 바꾸지 않는다."
+    },
+    {
+      "id": "FIX-SHORT-PR-FIELDS",
+      "case_id": "short_investigation_wait_log",
+      "issue": "짧은 PR에서 상세 로그 필드와 요청 본문 제외 범위가 생략되어 진단 로그 자체를 검토할 정보가 줄었다. 이번에는 이 선택 정보를 복원하되 기존 판단 근거를 잃지 않는다.",
+      "source_basis": {
+        "source_path": "evaluations/runs/2026-11-03-reading-flow/source/short-pr.json",
+        "source_refs": ["S01", "S02", "S03", "S04", "S05", "S06", "S07"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-core.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/08_short_log_pr.md",
+        "baseline_quote": "`diag_waits`가 켜져야 기록하며 기존 처리는 유지합니다.",
+        "scope_note": "preservation-v1의 S04.optional은 required=false다. v0.4.0 필수 의미 17개 보존 판정은 바꾸지 않는다. 새 완료 기준은 사용자 요청에 따라 선택 정보도 더 충실히 담는 보완이다."
+      },
+      "acceptance_question": "공백 포함 250~400자 정도라는 원래 요청 안에서 diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 기록하지 않는다고 설명했는가? 기존 계약의 필수 의미 17개와 로그 관측만으로 실제 영향 판단 불가·환경 미준비로 미검증이라는 이유도 그대로 읽히는가?",
+      "acceptable_resolution": "겹치는 표현과 장황한 연결을 정리해 필드 범위를 복원한다. 자연스러운 서술형 문장이나 짧은 문단을 허용하며 정확히 같은 동사·문구를 복제할 필요는 없다. 분량과 보존 내용을 함께 검토한다.",
+      "avoid": "남은 항목 수에 원자료에 없는 코드 필드명을 붙이지 않는다. 필드 목록을 넣기 위해 서비스명, 관측 출처, 변경 경로, 관측 목적, 가설의 미확정, 빈도 미집계, 테스트·새 로그 미확보 이유를 빼지 않는다. 선택 정보의 이전 생략을 과거 필수 오류로 재분류하지 않는다."
+    },
+    {
+      "id": "FIX-CONFIG-CONFLICT",
+      "case_id": "v04_new_a_config_rollout",
+      "issue": "예약 충돌의 HTTP 409와 응답 본문은 거절 표에 있지만, 언제 다시 요청할 수 있는지는 준비 절에 흩어져 있다.",
+      "source_basis": {
+        "source_path": "evaluations/runs/2026-11-03-v0.4.0/source/09_config_rollout.json",
+        "source_refs": ["A06", "A13"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-transfer.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+        "baseline_quote": "| 같은 워크스페이스에 `SCHEDULED` 배포 있음 | 409 | `{\"error\":\"PENDING_RELEASE_EXISTS\"}` |"
+      },
+      "acceptance_question": "예약 충돌 항목을 찾아온 독자가 같은 워크스페이스의 기존 SCHEDULED 때문에 HTTP 409 / {\"error\":\"PENDING_RELEASE_EXISTS\"}가 발생하고, 대기 묶음의 활성화 또는 예약 취소 뒤 새 요청을 할 수 있음을 그 자리에서 확인할 수 있는가?",
+      "acceptable_resolution": "거절 표의 해당 행에 재요청 조건을 적거나 표 바로 아래에 이 오류와 연결한 짧은 문장을 둔다. 준비 절은 필요할 때 간단히 가리키거나 중복된 안내를 줄인다.",
+      "avoid": "취소하지 않고 덮어쓰기, 다른 워크스페이스까지 차단, 새로운 권한·우회 방법을 만들지 않는다. 여러 오류가 겹쳤을 때 반환 우선순위를 추측하지 않는다."
+    },
+    {
+      "id": "FIX-CONFIG-INPUTS",
+      "case_id": "v04_new_a_config_rollout",
+      "issue": "초안 준비 단계의 '두 설정'은 도입부의 이름을 기억해야 입력 대상을 알 수 있다.",
+      "source_basis": {
+        "source_path": "evaluations/runs/2026-11-03-v0.4.0/source/09_config_rollout.json",
+        "source_refs": ["A01", "A03"],
+        "review_path": "evaluations/runs/2026-11-03-v0.4.0/reviews/review-transfer.md",
+        "baseline_output": "evaluations/runs/2026-11-03-v0.4.0/outputs/latest/09_config_rollout.md",
+        "baseline_quote": "초안에 두 설정을 모두 입력하고 검사합니다."
+      },
+      "acceptance_question": "초안 준비 절에서 바로 시작해도 작업 요청의 기본 상한과 알림 휴지 시간대를 모두 입력해야 함을 알 수 있는가? 검사 통과 뒤 수정하면 검사 결과가 무효가 되어 다시 검사해야 한다는 연결도 남아 있는가?",
+      "acceptable_resolution": "'두 설정'을 두 이름으로 바꾸거나 준비 절에 짧은 입력 목록을 둔다. 정의 전체를 도입부에서 반복할 필요는 없다. 전체 안내는 원래 본문 1,200~1,800자 정도의 요청도 함께 확인한다.",
+      "avoid": "구체 상한 수치, 시간대 기본값, UI 입력 형식 등 원자료에 없는 세부사항을 보태지 않는다. 변경 후 재검사 조건을 압축 과정에서 생략하지 않는다."
+    }
+  ],
+  "excluded_findings": [
+    {
+      "case_id": "event_architecture",
+      "reason": "202 수락 설명과 오류 표를 나눈 것은 유효한 배치 선택이다. 의미 누락이나 답을 찾을 수 없는 문제로 확인되지 않았으므로 전체 응답을 한 표에 넣는 일을 필수 완료 기준으로 만들지 않는다."
+    },
+    {
+      "case_id": "investigation_pr",
+      "reason": "짧은 문서의 리뷰 요청에서 앞의 진단 필드 목록을 가리키는 것은 허용 가능한 상호참조다. 각 절에 전체 필드 목록을 다시 쓰도록 강제하지 않는다."
+    },
+    {
+      "case_id": "paragraph_edit",
+      "reason": "두 결과가 비슷하거나 이미 문장 관계가 보존된 경우를 새로운 결함으로 만들지 않는다."
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "reason": "압축된 명사 표현이나 가설·검증 문단 배치는 편집 선택이며 의미와 문맥은 유지되었다. 가설 표시 외에 동일한 미확정 문구를 매번 붙이거나 서비스명을 모든 문단에 반복하는 새 의무를 만들지 않는다."
+    },
+    {
+      "case_id": "all",
+      "reason": "사람의 피로·이해도 측정 미실시, 한 쌍의 생성 결과, 다른 모델에서의 재현 미확인은 평가 범위의 한계다. 문서 편집으로 해결했다고 표시하거나 이를 이유로 문서를 실패 처리하지 않는다."
+    }
+  ]
+}

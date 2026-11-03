@@ -1,0 +1,34 @@
+{
+  "cases": [
+    {
+      "id": "event_architecture",
+      "changed": false,
+      "notes": [
+        "원자료와 대조해 수락·저장 경계, 중복 처리, 미확정 운영 목표를 확인했다. 실제 교정 문제가 없어 v0.4 본문을 그대로 보존했다."
+      ],
+      "characters": 2553,
+      "body_characters": 2518
+    },
+    {
+      "id": "incident_runbook",
+      "changed": true,
+      "notes": [
+        "일시정지 대기와 롤백을 한 실행 절로 합쳐 pause 접수와 정지 완료의 구분, state=paused AND inflight=0, pause 요청부터 5분의 중단·이관 기준을 함께 배치했다.",
+        "상위 배포 선택 조건을 실행 절에 명시하고, 마지막 이관 절은 하나라도 해당하면 중단하는 조건별 표로 나눴다. 성공 시에만 소비 재개, 실패 시 일시정지 유지, 재개 후 10분 무개선 시 반복 롤백 금지와 이관 정보 목록을 보존했다."
+      ],
+      "characters": 2939,
+      "body_characters": 2910
+    },
+    {
+      "id": "storage_adr",
+      "changed": true,
+      "notes": [
+        "비교 표 뒤의 트랜잭션·Redis 운영 장점 재나열을 줄이고 과거 이벤트 재반입과 업무 이벤트 생성의 원자성이 선택으로 이어지는 이유를 남겼다.",
+        "비용·검증 한계와 승인 조건을 한 절로 합쳐 비용 미측정, 공식 지연 목표·처리량 보장 미설정, 검토 미완료의 제안 상태를 승인 절 첫 문단에 배치했다. 보존 정책·성능 검증 계획·운영 책임을 정한 뒤 승인 여부를 판단하는 조건을 보존했다."
+      ],
+      "characters": 2116,
+      "body_characters": 2089
+    }
+  ],
+  "character_measurement": "Unicode code points; characters includes Markdown, whitespace and final LF; body_characters excludes opening H1 and following empty lines, and trailing LF."
+}

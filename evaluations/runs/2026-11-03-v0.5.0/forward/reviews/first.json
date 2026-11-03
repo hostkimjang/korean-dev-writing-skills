@@ -1,0 +1,752 @@
+{
+  "documents": [
+    {
+      "case_id": "incident_runbook",
+      "label": "v0.5.0-source-only",
+      "requirements": [
+        {
+          "requirement_id": "OC1.target",
+          "status": "preserved",
+          "evidence": [
+            "`WorkerQueueAgeHigh` 알람이 울리면 이 절차로 `river-worker`와 작업 큐 `river-events`를 확인합니다. 알람만으로 배포가 원인이라고 확정할 수는 없습니다."
+          ],
+          "reason": "알람 이름과 대상 worker·큐를 식별하고, 알람만으로 배포 원인을 확정하지 않는다는 한계를 명시한다."
+        },
+        {
+          "requirement_id": "OC1.inspect",
+          "status": "preserved",
+          "evidence": [
+            "```sh\nopsctl queue inspect river-events\nopsctl worker status river-worker\nopsctl deploy show river-worker\n```"
+          ],
+          "reason": "원자료의 세 조회 명령을 그대로 제공해 큐·worker·배포 정보를 확인하게 한다."
+        },
+        {
+          "requirement_id": "OC2.allowed",
+          "status": "preserved",
+          "evidence": [
+            "다음 조건을 **모두 확인한 경우에만** 롤백 절차를 진행합니다.\n\n- 현재 배포 직후부터 적체가 시작됐습니다.\n- `current`와 `stable`이 다릅니다."
+          ],
+          "reason": "배포 직후 적체 발생과 current·stable 차이를 AND 조건으로 묶고 두 조건 확인 후에만 롤백을 선택한다."
+        },
+        {
+          "requirement_id": "OC2.otherwise",
+          "status": "preserved",
+          "evidence": [
+            "조건을 충족하지 못하거나 확인할 수 없다면 롤백하지 말고 플랫폼 온콜에 관찰 결과를 전달합니다. `current`와 `stable`이 같을 때도 이관합니다."
+          ],
+          "reason": "조건 미충족·확인 불가와 같은 배포를 모두 비롤백·플랫폼 온콜 이관으로 연결한다."
+        },
+        {
+          "requirement_id": "OC3.accepted",
+          "status": "preserved",
+          "evidence": [
+            "opsctl worker pause river-worker",
+            "명령 반환은 일시정지 요청이 접수됐다는 뜻입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로 반환만으로 롤백을 시작하지 않습니다."
+          ],
+          "reason": "pause 명령 직후에 접수와 실제 처리 완료를 구분하고, 반환만으로 롤백을 시작하지 않도록 한다."
+        },
+        {
+          "requirement_id": "OC3.ready",
+          "status": "preserved",
+          "evidence": [
+            "opsctl worker status river-worker",
+            "`state=paused`와 `inflight=0`을 **모두 확인한 다음에만** 롤백합니다."
+          ],
+          "reason": "상태 조회 뒤 paused와 inflight=0을 모두 확인한 다음에만 롤백하도록 한다."
+        },
+        {
+          "requirement_id": "OC4",
+          "status": "preserved",
+          "evidence": [
+            "`pause` 요청 후 5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 말고 플랫폼 온콜에 이관합니다."
+          ],
+          "reason": "대기 한계를 pause 요청 시각으로부터 5분으로 명시하고, 미충족 시 롤백 금지와 플랫폼 온콜 이관을 함께 제시한다."
+        },
+        {
+          "requirement_id": "OC5.command",
+          "status": "preserved",
+          "evidence": [
+            "opsctl deploy rollback river-worker --to stable"
+          ],
+          "reason": "지정된 worker와 stable 대상의 롤백 명령을 정확히 유지한다."
+        },
+        {
+          "requirement_id": "OC5.resume",
+          "status": "preserved",
+          "evidence": [
+            "롤백 명령이 성공한 경우에만 소비를 재개합니다.\n\n```sh\nopsctl worker resume river-worker\n```"
+          ],
+          "reason": "재개 명령을 독립 코드 블록에 두고 바로 앞에서 롤백 성공을 실행 전제로 제한한다."
+        },
+        {
+          "requirement_id": "OC5.failure",
+          "status": "preserved",
+          "evidence": [
+            "롤백 명령의 성공 여부를 확인합니다. 실패했다면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다. 소비 재개는 롤백에 성공한 경우에만 진행합니다."
+          ],
+          "reason": "실패 시 일시정지를 유지하고 이관하며, 소비 재개를 성공한 경우로만 제한한다."
+        },
+        {
+          "requirement_id": "OC6",
+          "status": "preserved",
+          "evidence": [
+            "다음 두 조건을 모두 확인해야 복구로 판단합니다.\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다."
+          ],
+          "reason": "consumer_state=running과 oldest_age_seconds 감소를 모두 만족해야 복구라고 판정한다."
+        },
+        {
+          "requirement_id": "OC7.deadline",
+          "status": "preserved",
+          "evidence": [
+            "소비를 재개한 시각부터 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다."
+          ],
+          "reason": "10분의 기준점이 소비 재개 시각이며, 개선이 없으면 반복 롤백 없이 이관한다."
+        },
+        {
+          "requirement_id": "OC7.handoff",
+          "status": "preserved",
+          "evidence": [
+            "중단·이관 기준에 해당하면 다음 정보를 전달합니다.\n\n- 알람 발생 시각과 적체 시작 시각\n- `current`와 `stable`\n- 큐와 worker의 관찰 결과\n- 실행한 명령과 각 명령의 결과"
+          ],
+          "reason": "알람·적체 시각, current·stable, 실행 명령과 결과를 이관 정보 목록에 모두 포함한다."
+        },
+        {
+          "requirement_id": "OC8",
+          "status": "preserved",
+          "evidence": [
+            "이 절차에서는 큐 삭제, offset 초기화, 처리 중 작업 강제 종료를 하지 않습니다. 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요합니다."
+          ],
+          "reason": "파괴적 조치 세 가지를 절차에서 제외하고 작업 손실·중복 위험이라는 원자료의 이유도 유지한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "2. 일시정지 완료 확인과 롤백",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "명령 반환은 일시정지 요청이 접수됐다는 뜻입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로 반환만으로 롤백을 시작하지 않습니다.",
+            "opsctl worker status river-worker",
+            "`state=paused`와 `inflight=0`을 **모두 확인한 다음에만** 롤백합니다.",
+            "`pause` 요청 후 5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 말고 플랫폼 온콜에 이관합니다.",
+            "opsctl deploy rollback river-worker --to stable"
+          ],
+          "reason": "pause 접수의 의미, 실제 정지의 두 상태 조건, pause 요청 후 5분 한계와 롤백 명령이 같은 실행 절에 있다. 이전 절로 돌아가야만 알 수 있는 정지 선행조건은 없다."
+        },
+        {
+          "question_id": "RECALL1",
+          "answer_status": "sufficient",
+          "entry_location": "3. 소비 재개와 복구 확인",
+          "additional_locations": [
+            "2. 일시정지 완료 확인과 롤백: 실패 시 일시정지 유지",
+            "4. 플랫폼 온콜에 전달할 정보"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "롤백 명령이 성공한 경우에만 소비를 재개합니다.\n\n```sh\nopsctl worker resume river-worker\n```",
+            "다음 두 조건을 모두 확인해야 복구로 판단합니다.\n\n- `consumer_state=running`입니다.\n- `oldest_age_seconds`가 감소합니다.",
+            "소비를 재개한 시각부터 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.",
+            "롤백 명령의 성공 여부를 확인합니다. 실패했다면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다. 소비 재개는 롤백에 성공한 경우에만 진행합니다.",
+            "중단·이관 기준에 해당하면 다음 정보를 전달합니다.\n\n- 알람 발생 시각과 적체 시작 시각\n- `current`와 `stable`\n- 큐와 worker의 관찰 결과\n- 실행한 명령과 각 명령의 결과"
+          ],
+          "reason": "재개 절 첫 문장이 롤백 성공 전제를 다시 밝히며, 복구의 두 조건과 재개 후 10분 이관 기준도 그 절에서 완결된다. 실패했을 때의 정지 유지와 이관 자료는 각각 앞 절과 명시적인 전달 정보 절에서 찾을 수 있으며 재개 실행에 필요한 조건 누락은 없다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "배포와 적체의 관계를 확인하고 paused·inflight=0을 모두 확인한 뒤에만 롤백한다. 롤백 실패 후 재개, 조건 미확인 롤백, 파괴적 조치를 지시하지 않는다.",
+        "evidence": []
+      },
+      "open_issues": []
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "v0.5.0-source-only",
+      "requirements": [
+        {
+          "requirement_id": "S01.target",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다."
+          ],
+          "reason": "첫 문장에서 가상 서비스의 이름을 제시하므로 문서만으로 대상을 식별할 수 있다."
+        },
+        {
+          "requirement_id": "S01.observation",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다."
+          ],
+          "reason": "동일 ticket_ref의 response_sent 뒤 wait_elapsed가 나타난 관측의 관계와 순서를 보존한다."
+        },
+        {
+          "requirement_id": "S01.provenance",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다.",
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다."
+          ],
+          "reason": "계기는 기존 개발용 합성 요청 로그이며 변경 후 로그는 수집하지 못했다고 구분한다."
+        },
+        {
+          "requirement_id": "S02.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다."
+          ],
+          "reason": "정리와 만료 콜백 순서가 관련될 가능성을 미확정 원인으로 표현하고 입증된 원인으로 단정하지 않는다."
+        },
+        {
+          "requirement_id": "S02.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다."
+          ],
+          "reason": "안정적 재현 조건이 없음을 직접 밝힌다."
+        },
+        {
+          "requirement_id": "S03.location",
+          "status": "preserved",
+          "evidence": [
+            "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다."
+          ],
+          "reason": "진단 관측 로그를 추가한 파일 경로를 그대로 유지한다."
+        },
+        {
+          "requirement_id": "S03.events",
+          "status": "preserved",
+          "evidence": [
+            "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다.",
+            "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다."
+          ],
+          "reason": "생성·제거·만료 콜백 진입이라는 세 관측 시점을 유지한다. 뒤 문장의 대기 항목 수와 잔존·소멸 비교가 대상 항목을 연결한다."
+        },
+        {
+          "requirement_id": "S03.purpose",
+          "status": "preserved",
+          "evidence": [
+            "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다.",
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다."
+          ],
+          "reason": "항목이 남고 사라지는 시점을 비교하려는 로그의 목적을 직접 제시한다. 변경 후 로그를 아직 수집하지 않았다고 밝혀 이미 가설을 확인한 결과로 읽히지 않는다."
+        },
+        {
+          "requirement_id": "S05.unchanged",
+          "status": "preserved",
+          "evidence": [
+            "요청 본문은 제외하며 정리 조건·제한 시간·재시도·응답 형식은 그대로다."
+          ],
+          "reason": "정리 조건·제한 시간·재시도·응답 형식을 그대로 둔다고 명시한다."
+        },
+        {
+          "requirement_id": "S05.scope",
+          "status": "preserved",
+          "evidence": [
+            "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다.",
+            "요청 본문은 제외하며 정리 조건·제한 시간·재시도·응답 형식은 그대로다.",
+            "해결 여부·변경 동작은 미검증이다."
+          ],
+          "reason": "변경은 관측 로그 추가로 제시하고 처리 동작의 유지와 해결 여부 미검증을 함께 밝혀 해결이 확인된 수정으로 주장하지 않는다."
+        },
+        {
+          "requirement_id": "S06.inference",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리는 알 수 없고 빈도도 미집계다."
+          ],
+          "reason": "응답 유실이나 중복 처리 여부를 확인할 수 없다는 판단 한계를 유지한다."
+        },
+        {
+          "requirement_id": "S06.reason",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리는 알 수 없고 빈도도 미집계다."
+          ],
+          "reason": "영향 미확인을 로그 이름과 출력 순서만으로는 결론낼 수 없다는 증거 한계에 직접 연결한다."
+        },
+        {
+          "requirement_id": "S06.frequency",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리는 알 수 없고 빈도도 미집계다."
+          ],
+          "reason": "빈도가 미집계라고 명시해 관측 사례를 영향 빈도로 확대하지 않는다."
+        },
+        {
+          "requirement_id": "S07.environment",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다."
+          ],
+          "reason": "로컬 합성 요청 환경 미준비를 테스트와 변경 후 로그 미확보의 원인으로 연결한다."
+        },
+        {
+          "requirement_id": "S07.tests",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다."
+          ],
+          "reason": "테스트를 실행하지 못한 상태를 명시한다."
+        },
+        {
+          "requirement_id": "S07.logs",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다."
+          ],
+          "reason": "변경 후 새 로그 수집을 하지 못했음을 명시해 기존 관측과 구분한다."
+        },
+        {
+          "requirement_id": "S07.verification",
+          "status": "preserved",
+          "evidence": [
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다.",
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다.",
+            "해결 여부·변경 동작은 미검증이다."
+          ],
+          "reason": "원인 미확정, 테스트·변경 후 로그 미확보, 변경 동작 미검증을 함께 밝힌다. 추가 로그로 가설을 확인하거나 변경 동작을 검증했다는 근거가 없다는 뜻이 유지된다."
+        },
+        {
+          "requirement_id": "S04.optional",
+          "status": "preserved",
+          "evidence": [
+            "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다.",
+            "요청 본문은 제외하며 정리 조건·제한 시간·재시도·응답 형식은 그대로다."
+          ],
+          "reason": "옵션이 켜진 경우에만 세 항목을 기록하며 요청 본문은 제외한다. 남은 항목 수에 원자료에 없는 코드 필드명을 붙이지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "SQ1",
+          "answer_status": "sufficient",
+          "entry_location": "첫 문단: 기존 관측과 영향 판단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다.",
+            "로그 이름·순서만으로 응답 유실·중복 처리는 알 수 없고 빈도도 미집계다."
+          ],
+          "reason": "관측의 출처·동일 식별자·로그 순서와 실제 영향 판단 한계 및 빈도 미집계를 한 문단에서 확인할 수 있다."
+        },
+        {
+          "question_id": "SQ2",
+          "answer_status": "sufficient",
+          "entry_location": "첫 문단: 원인 미확정 문장",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다."
+          ],
+          "reason": "정리와 만료 콜백 순서는 미확정 가능성이며 안정적 재현 조건도 없다고 바로 답한다."
+        },
+        {
+          "question_id": "SQ3",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단: 파일 경로와 추가 로그",
+          "additional_locations": [
+            "셋째 문단: 해결 여부 미검증"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다.",
+            "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다.",
+            "요청 본문은 제외하며 정리 조건·제한 시간·재시도·응답 형식은 그대로다.",
+            "해결 여부·변경 동작은 미검증이다."
+          ],
+          "reason": "변경 경로·추가 시점·관측 목적과 변경하지 않은 네 동작이 둘째 문단에 모여 있다. 마지막 문장이 해결 여부 미검증을 명시해 확인된 문제 해결로 오해할 근거가 없다."
+        },
+        {
+          "question_id": "SQ4",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단: 검증 상태",
+          "additional_locations": [
+            "첫 문단: 기존 로그라는 출처와 원인 미확정"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다.",
+            "해결 여부·변경 동작은 미검증이다.",
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다.",
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다."
+          ],
+          "reason": "테스트와 변경 후 로그가 모두 미확보이며 환경 미준비 때문임을 같은 문장에서 밝힌다. 이어 변경 동작 미검증을 명시하고 첫 문단도 원인을 미확정으로 유지해 완료된 가설 확인이나 검증을 주장하지 않는다."
+        },
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "둘째 문단: 변경 경로·관측 시점·비교 목적",
+          "additional_locations": [
+            "첫 문단: 서비스명과 기존 관측"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다.",
+            "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다.",
+            "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다."
+          ],
+          "reason": "첫 문단에서 서비스와 기존 관측을, 바로 다음 문단에서 경로·추가 시점·잔존 및 소멸 비교 목적을 확인할 수 있다. 3문단의 독립 PR 설명 안에 필요한 맥락이 모두 있어 외부 문서를 참조할 필요가 없다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "셋째 문단: 검증 상태",
+          "additional_locations": [
+            "첫 문단: 원인 미확정"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다.",
+            "해결 여부·변경 동작은 미검증이다.",
+            "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다."
+          ],
+          "reason": "환경 미준비, 테스트·변경 후 로그 미확보, 그 결과의 미검증 상태가 마지막 두 문장에 이어진다. 원인 가설 역시 첫 문단에서 미확정으로 유지되어 검증 범위를 과장하지 않는다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "기존 관측을 변경 후 검증 결과로 바꾸거나 원인·영향·해결을 확정하지 않는다. 처리 동작 유지, 테스트 미실행 및 새 로그 미수집을 모두 보존한다.",
+        "evidence": []
+      },
+      "open_issues": []
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "v0.5.0-source-only",
+      "requirements": [
+        {
+          "requirement_id": "AC01",
+          "status": "preserved",
+          "evidence": [
+            "달무리는 가상의 워크스페이스 설정배포 서비스다. 활성 설정 묶음은 워크스페이스당 최대 하나이며 사용자별로 다르게 적용할 수 없다."
+          ],
+          "reason": "활성 설정을 워크스페이스 단위로 제한하며 사용자별로 나누어 적용할 수 없음을 명시한다."
+        },
+        {
+          "requirement_id": "AC02",
+          "status": "preserved",
+          "evidence": [
+            "조회자는 상태·이력을 본다. 편집자는 초안 작성·저장·검사를, 배포자는 적용 요청·예약 취소를 할 수 있으며 겸임도 가능하다.",
+            "| 배포자 역할 없음(조회자·편집자도 해당) | HTTP 403, `{\"error\":\"RELEASE_ROLE_REQUIRED\"}` |"
+          ],
+          "reason": "배포자의 적용 요청 권한과 그 역할이 없을 때의 HTTP 403 및 정확한 오류 본문을 보존한다."
+        },
+        {
+          "requirement_id": "AC03",
+          "status": "preserved",
+          "evidence": [
+            "초안에 작업 요청 기본 상한과 알림 휴지 시간대를 모두 입력해 유효성 검사를 한다. 통과 뒤 수정하면 결과가 무효이므로 다시 검사한다."
+          ],
+          "reason": "검사 통과 뒤 수정하면 결과가 무효가 되어 다시 검사해야 함을 초안 준비 단계에서 직접 연결한다."
+        },
+        {
+          "requirement_id": "AC04",
+          "status": "preserved",
+          "evidence": [
+            "| 검사 미통과·수정으로 결과 무효 | HTTP 422, `{\"error\":\"BUNDLE_INVALID\"}`. `release_id` 미발급 |"
+          ],
+          "reason": "검사 미통과와 수정으로 인한 결과 무효를 같은 거절 조건으로 묶고 HTTP 422 및 오류 본문을 유지한다."
+        },
+        {
+          "requirement_id": "AC05",
+          "status": "preserved",
+          "evidence": [
+            "| 같은 워크스페이스에 `SCHEDULED` 배포 존재 | HTTP 409, `{\"error\":\"PENDING_RELEASE_EXISTS\"}`. 활성화·예약 취소 후 새 요청 가능 |"
+          ],
+          "reason": "같은 워크스페이스의 기존 SCHEDULED 배포와 HTTP 409·정확한 오류 본문을 같은 행에 둔다."
+        },
+        {
+          "requirement_id": "AC06",
+          "status": "preserved",
+          "evidence": [
+            "일반 적용은 검사 통과 초안을 골라 `activate_at`을 지정한다. 서버 접수 시각보다 5분 이상 뒤여야 하며 정확히 5분 뒤도 허용된다. 시각은 UTC다.",
+            "| 일반 `activate_at`이 서버 접수 시각보다 5분 미만 뒤 | HTTP 400, `{\"error\":\"ACTIVATION_TOO_SOON\"}` |"
+          ],
+          "reason": "서버 접수 시각 기준 5분 이상 및 정확히 5분 뒤 허용을 정상 절차에 제시하고, 5분 미만 거절의 HTTP 400·오류 본문을 표에 유지한다."
+        },
+        {
+          "requirement_id": "AC07",
+          "status": "preserved",
+          "evidence": [
+            "수락하면 두 방식 모두 HTTP 202, 새 `release_id`, `state=SCHEDULED`를 반환한다. 적용 완료가 아니다."
+          ],
+          "reason": "두 방식 모두 HTTP 202와 SCHEDULED가 접수 결과이며 적용 완료가 아니라는 점을 명시한다."
+        },
+        {
+          "requirement_id": "AC08",
+          "status": "preserved",
+          "evidence": [
+            "활성 묶음 이력이 없는 새 워크스페이스는 `UNCONFIGURED`다. 첫 적용 요청에만 `apply_now: true`를 쓸 수 있다. `activate_at`은 보내지 않고 5분 대기도 없다. 검사 통과·배포자 역할·기존 `SCHEDULED` 배포 없음은 필요하다."
+          ],
+          "reason": "활성 이력이 없는 첫 적용에만 apply_now: true를 허용하고 activate_at을 보내지 않으며 5분 조건이 없다는 입력·예외 범위를 보존한다."
+        },
+        {
+          "requirement_id": "AC09",
+          "status": "preserved",
+          "evidence": [
+            "활성 묶음 이력이 없는 새 워크스페이스는 `UNCONFIGURED`다. 첫 적용 요청에만 `apply_now: true`를 쓸 수 있다. `activate_at`은 보내지 않고 5분 대기도 없다. 검사 통과·배포자 역할·기존 `SCHEDULED` 배포 없음은 필요하다."
+          ],
+          "reason": "첫 적용 예외를 설명하는 같은 문단에서 검사 통과·배포자 역할·기존 SCHEDULED 없음의 세 조건을 유지한다."
+        },
+        {
+          "requirement_id": "AC10",
+          "status": "preserved",
+          "evidence": [
+            "| 활성 묶음 이력이 있는데 `apply_now: true` 요청 | HTTP 409, `{\"error\":\"INITIAL_MODE_NOT_ALLOWED\"}` |"
+          ],
+          "reason": "활성 묶음 이력이 있는 경우의 초기 모드 거절을 HTTP 409와 정확한 오류 본문으로 유지한다."
+        },
+        {
+          "requirement_id": "AC11",
+          "status": "preserved",
+          "evidence": [
+            "서버는 명목상 30초 주기로 평가한다. 일반 요청은 `activate_at` 도달 후 첫 평가, 초기 요청은 접수 후 첫 평가에서 `ACTIVE`로 전환한다. 30초는 완료 보장이 아니다. 전환 전 기존 묶음을 쓰며 첫 적용 대기 중인 워크스페이스는 `UNCONFIGURED`로 남는다."
+          ],
+          "reason": "일반 요청은 예정 시각 도달 후 첫 서버 평가, 초기 요청은 접수 후 첫 서버 평가에 전환한다는 시점을 구분한다."
+        },
+        {
+          "requirement_id": "AC12",
+          "status": "preserved",
+          "evidence": [
+            "서버는 명목상 30초 주기로 평가한다. 일반 요청은 `activate_at` 도달 후 첫 평가, 초기 요청은 접수 후 첫 평가에서 `ACTIVE`로 전환한다. 30초는 완료 보장이 아니다. 전환 전 기존 묶음을 쓰며 첫 적용 대기 중인 워크스페이스는 `UNCONFIGURED`로 남는다."
+          ],
+          "reason": "30초가 명목 평가 주기이며 완료 시간 보장이 아님을 같은 문단에서 직접 밝힌다."
+        },
+        {
+          "requirement_id": "AC13",
+          "status": "preserved",
+          "evidence": [
+            "서버는 명목상 30초 주기로 평가한다. 일반 요청은 `activate_at` 도달 후 첫 평가, 초기 요청은 접수 후 첫 평가에서 `ACTIVE`로 전환한다. 30초는 완료 보장이 아니다. 전환 전 기존 묶음을 쓰며 첫 적용 대기 중인 워크스페이스는 `UNCONFIGURED`로 남는다."
+          ],
+          "reason": "전환 전 기존 묶음 사용과 첫 적용 대기 중 UNCONFIGURED 유지를 구분한다."
+        },
+        {
+          "requirement_id": "AC14",
+          "status": "preserved",
+          "evidence": [
+            "응답의 `release_id`를 기록해 콘솔 배포 이력에서 상세를 연다. `release_id`, `state`, `activate_at`, `activated_at`을 살핀다. `state=ACTIVE`면 적용된 상태다. 초기 요청의 activate_at, 전환 전 activated_at은 비어 있다. 조회는 저장 상태만 읽으며 평가·활성화를 유발하지 않는다."
+          ],
+          "reason": "조회가 저장 상태를 읽을 뿐 평가·활성화를 유발하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "AC15",
+          "status": "preserved",
+          "evidence": [
+            "접수한 묶음은 수정할 수 없다. 바꾸려면 `SCHEDULED`일 때 배포자가 콘솔에서 예약 취소하고 새 초안을 제출한다. 취소된 요청은 `CANCELLED`다."
+          ],
+          "reason": "접수된 묶음은 수정 불가하며 SCHEDULED일 때 배포자가 예약을 취소하고 새 초안을 제출해야 함을 연결한다."
+        },
+        {
+          "requirement_id": "AC16",
+          "status": "preserved",
+          "evidence": [
+            "`ACTIVE`는 취소할 수 없으며, 이전 내용으로 되돌리려면 이전 묶음을 복사해 새 일반 적용을 요청한다."
+          ],
+          "reason": "ACTIVE 이후 예약 취소를 금지하고 이전 묶음을 복사한 새 일반 적용을 복구 경로로 제시한다."
+        },
+        {
+          "requirement_id": "AC17",
+          "status": "preserved",
+          "evidence": [
+            "조건 중복 시 오류 우선순위는 미확인이다."
+          ],
+          "reason": "여러 거절 조건이 겹칠 때 오류 우선순위를 확정하지 않고 미확인으로 남긴다."
+        },
+        {
+          "requirement_id": "AC18",
+          "status": "preserved",
+          "evidence": [
+            "평가 재개 시 저장된 SCHEDULED 요청과 원래 activate_at을 유지한다. 예정 시각이 지났다면 재개 후 첫 평가에서 전환 대상이 된다. 새 `release_id`를 발급하거나 5분 대기를 다시 계산하지 않으며 같은 `release_id` 상세에서 확인한다."
+          ],
+          "reason": "평가 재개 시 기존 요청·원래 예정 시각을 유지하고 새 식별자 발급이나 5분 재계산을 하지 않으며 같은 식별자로 확인한다."
+        },
+        {
+          "requirement_id": "AC05.next_request",
+          "status": "preserved",
+          "evidence": [
+            "| 같은 워크스페이스에 `SCHEDULED` 배포 존재 | HTTP 409, `{\"error\":\"PENDING_RELEASE_EXISTS\"}`. 활성화·예약 취소 후 새 요청 가능 |"
+          ],
+          "reason": "기존 예약의 활성화 또는 예약 취소 후 새 요청이 가능하다는 재요청 조건을 충돌 응답과 같은 행에서 제시한다."
+        },
+        {
+          "requirement_id": "AC06.utc",
+          "status": "preserved",
+          "evidence": [
+            "일반 적용은 검사 통과 초안을 골라 `activate_at`을 지정한다. 서버 접수 시각보다 5분 이상 뒤여야 하며 정확히 5분 뒤도 허용된다. 시각은 UTC다."
+          ],
+          "reason": "예정 시각의 기준이 서버 접수 시각이며 시각 표시는 UTC임을 같은 정상 적용 문단에서 명시한다."
+        },
+        {
+          "requirement_id": "AC14.lookup",
+          "status": "preserved",
+          "evidence": [
+            "수락하면 두 방식 모두 HTTP 202, 새 `release_id`, `state=SCHEDULED`를 반환한다. 적용 완료가 아니다.",
+            "응답의 `release_id`를 기록해 콘솔 배포 이력에서 상세를 연다. `release_id`, `state`, `activate_at`, `activated_at`을 살핀다. `state=ACTIVE`면 적용된 상태다. 초기 요청의 activate_at, 전환 전 activated_at은 비어 있다. 조회는 저장 상태만 읽으며 평가·활성화를 유발하지 않는다."
+          ],
+          "reason": "접수 응답의 release_id 발급과 기록, 콘솔 배포 이력 상세에서 state·activated_at 확인, 실제 전환 전 activated_at 공란을 유지한다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "AQ01",
+          "answer_status": "sufficient",
+          "entry_location": "일반 적용과 첫 적용 예외: 초기 적용 문단",
+          "additional_locations": [
+            "접수 거절과 재요청: INITIAL_MODE_NOT_ALLOWED 행"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "활성 묶음 이력이 없는 새 워크스페이스는 `UNCONFIGURED`다. 첫 적용 요청에만 `apply_now: true`를 쓸 수 있다. `activate_at`은 보내지 않고 5분 대기도 없다. 검사 통과·배포자 역할·기존 `SCHEDULED` 배포 없음은 필요하다.",
+            "수락하면 두 방식 모두 HTTP 202, 새 `release_id`, `state=SCHEDULED`를 반환한다. 적용 완료가 아니다.",
+            "| 활성 묶음 이력이 있는데 `apply_now: true` 요청 | HTTP 409, `{\"error\":\"INITIAL_MODE_NOT_ALLOWED\"}` |"
+          ],
+          "reason": "첫 적용 문단에 활성 이력 없음·UNCONFIGURED·입력 방식·세 공통 접수 조건이 모두 있다. 같은 절에서 접수와 완료를 구분하고, 이력이 있는 요청의 오류값은 명확한 거절 표에서 찾을 수 있다. 처음 요청하기 위한 조건을 다른 절에서 보충해야 하는 누락은 없다."
+        },
+        {
+          "question_id": "AQ02",
+          "answer_status": "sufficient",
+          "entry_location": "접수 거절과 재요청: PENDING_RELEASE_EXISTS 행",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "| 같은 워크스페이스에 `SCHEDULED` 배포 존재 | HTTP 409, `{\"error\":\"PENDING_RELEASE_EXISTS\"}`. 활성화·예약 취소 후 새 요청 가능 |"
+          ],
+          "reason": "동일 행에 같은 워크스페이스의 기존 SCHEDULED 조건, HTTP 409·오류 본문, 활성화 또는 예약 취소 후 재요청 가능 조건이 모두 있다."
+        },
+        {
+          "question_id": "AQ03",
+          "answer_status": "sufficient",
+          "entry_location": "일반 적용과 첫 적용 예외: 일반 적용 문단",
+          "additional_locations": [
+            "접수 거절과 재요청: ACTIVATION_TOO_SOON 행"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "일반 적용은 검사 통과 초안을 골라 `activate_at`을 지정한다. 서버 접수 시각보다 5분 이상 뒤여야 하며 정확히 5분 뒤도 허용된다. 시각은 UTC다.",
+            "| 일반 `activate_at`이 서버 접수 시각보다 5분 미만 뒤 | HTTP 400, `{\"error\":\"ACTIVATION_TOO_SOON\"}` |"
+          ],
+          "reason": "정상 적용 문단에서 서버 접수 시각 기준 정확히 5분 뒤와 UTC를 확인하고 바로 다음 거절 표에서 오류값을 찾는다. 표에도 같은 기준점과 5분 미만 조건이 명시되어 정상 경계와 거절 응답을 연결하는 데 별도 추론이 필요하지 않다."
+        },
+        {
+          "question_id": "AQ04",
+          "answer_status": "sufficient",
+          "entry_location": "전환과 상태 확인: 콘솔 상세 조회 문단",
+          "additional_locations": [
+            "일반 적용과 첫 적용 예외: 공통 접수 응답 문단"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "응답의 `release_id`를 기록해 콘솔 배포 이력에서 상세를 연다. `release_id`, `state`, `activate_at`, `activated_at`을 살핀다. `state=ACTIVE`면 적용된 상태다. 초기 요청의 activate_at, 전환 전 activated_at은 비어 있다. 조회는 저장 상태만 읽으며 평가·활성화를 유발하지 않는다.",
+            "수락하면 두 방식 모두 HTTP 202, 새 `release_id`, `state=SCHEDULED`를 반환한다. 적용 완료가 아니다."
+          ],
+          "reason": "release_id로 콘솔 배포 이력의 상세를 열고 state·activated_at을 확인하는 경로와 조회가 전환을 유발하지 않는다는 제한이 한 문단에 있다. 앞선 접수 응답 설명과도 일치하며, 실제 완료는 state=ACTIVE로 확인한다."
+        },
+        {
+          "question_id": "AQ05",
+          "answer_status": "sufficient",
+          "entry_location": "전환과 상태 확인: 서버 평가 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "서버는 명목상 30초 주기로 평가한다. 일반 요청은 `activate_at` 도달 후 첫 평가, 초기 요청은 접수 후 첫 평가에서 `ACTIVE`로 전환한다. 30초는 완료 보장이 아니다. 전환 전 기존 묶음을 쓰며 첫 적용 대기 중인 워크스페이스는 `UNCONFIGURED`로 남는다."
+          ],
+          "reason": "두 적용 방식의 첫 평가 기준과 30초 비보장, 전환 전 상태까지 같은 문단에 있어 전환 시점과 완료 보장을 혼동하지 않는다."
+        },
+        {
+          "question_id": "AQ06",
+          "answer_status": "sufficient",
+          "entry_location": "취소·복구와 평가 재개: 취소·복구 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "접수한 묶음은 수정할 수 없다. 바꾸려면 `SCHEDULED`일 때 배포자가 콘솔에서 예약 취소하고 새 초안을 제출한다. 취소된 요청은 `CANCELLED`다.",
+            "`ACTIVE`는 취소할 수 없으며, 이전 내용으로 되돌리려면 이전 묶음을 복사해 새 일반 적용을 요청한다."
+          ],
+          "reason": "SCHEDULED의 예약 취소와 ACTIVE 이후 복구 경로를 연속 문장에서 구분한다. ACTIVE인 경우 이전 묶음 복사 후 새 일반 적용이 필요하다고 바로 답한다."
+        },
+        {
+          "question_id": "AQ07",
+          "answer_status": "sufficient",
+          "entry_location": "취소·복구와 평가 재개: 평가 재개 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "평가 재개 시 저장된 SCHEDULED 요청과 원래 activate_at을 유지한다. 예정 시각이 지났다면 재개 후 첫 평가에서 전환 대상이 된다. 새 `release_id`를 발급하거나 5분 대기를 다시 계산하지 않으며 같은 `release_id` 상세에서 확인한다."
+          ],
+          "reason": "기존 SCHEDULED·원래 activate_at 유지, 이미 예정 시각이 지난 경우 첫 재개 평가, 새 요청·5분 재시작 없음, 같은 release_id로 확인하는 방법이 한 문단에 있다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "HTTP 응답 본문과 경계 조건을 유지하고 접수·서버 전환·사람의 조회를 구분한다. 초기 모드 범위 확대, 오류 우선순위 확정, 조회에 의한 활성화, ACTIVE 예약 취소나 5분 재계산을 지시하지 않는다.",
+        "evidence": []
+      },
+      "open_issues": []
+    }
+  ],
+  "repair_checks": [
+    {
+      "id": "FIX-RUNBOOK-ROLLBACK",
+      "case_id": "incident_runbook",
+      "status": "resolved",
+      "evidence": [
+        "명령 반환은 일시정지 요청이 접수됐다는 뜻입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로 반환만으로 롤백을 시작하지 않습니다.",
+        "`state=paused`와 `inflight=0`을 **모두 확인한 다음에만** 롤백합니다.",
+        "`pause` 요청 후 5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 말고 플랫폼 온콜에 이관합니다.",
+        "opsctl deploy rollback river-worker --to stable",
+        "다음 조건을 **모두 확인한 경우에만** 롤백 절차를 진행합니다.\n\n- 현재 배포 직후부터 적체가 시작됐습니다.\n- `current`와 `stable`이 다릅니다."
+      ],
+      "resolution": "정지 대기와 롤백을 한 절에 합쳤다. pause 반환의 의미, 두 상태 조건, 요청 후 5분 기준 및 중단·이관을 롤백 명령과 같은 실행 단위에서 읽을 수 있다. 상위의 배포 관련 선택 조건도 유지한다."
+    },
+    {
+      "id": "FIX-RUNBOOK-ESCALATION",
+      "case_id": "incident_runbook",
+      "status": "resolved",
+      "evidence": [
+        "조건을 충족하지 못하거나 확인할 수 없다면 롤백하지 말고 플랫폼 온콜에 관찰 결과를 전달합니다. `current`와 `stable`이 같을 때도 이관합니다.",
+        "`pause` 요청 후 5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 말고 플랫폼 온콜에 이관합니다.",
+        "롤백 명령의 성공 여부를 확인합니다. 실패했다면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다. 소비 재개는 롤백에 성공한 경우에만 진행합니다.",
+        "소비를 재개한 시각부터 10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.",
+        "중단·이관 기준에 해당하면 다음 정보를 전달합니다.\n\n- 알람 발생 시각과 적체 시작 시각\n- `current`와 `stable`\n- 큐와 worker의 관찰 결과\n- 실행한 명령과 각 명령의 결과"
+      ],
+      "resolution": "롤백 선택 불가, 정지 대기 초과, 롤백 실패, 재개 후 개선 없음이 각각 해당 단계의 별도 문장으로 제시된다. 각 조건이 행동과 직접 연결되고 일시정지 유지·반복 롤백 금지·이관 정보가 보존된다. 마지막 통합 표를 다시 만들지 않아도 긴 OR 문장의 탐색 문제는 해결된다."
+    },
+    {
+      "id": "FIX-SHORT-PR-FIELDS",
+      "case_id": "short_investigation_wait_log",
+      "status": "resolved",
+      "evidence": [
+        "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤 wait_elapsed를 관측했다.",
+        "정리·만료 콜백 순서가 원인인지는 미확정이며 안정적 재현 조건도 없다.",
+        "로그 이름·순서만으로 응답 유실·중복 처리는 알 수 없고 빈도도 미집계다.",
+        "worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가했다.",
+        "diag_waits가 켜진 때만 ticket_ref, elapsed_ms, 남은 대기 항목 수를 기록해 항목이 남고 사라지는 시점을 비교한다.",
+        "요청 본문은 제외하며 정리 조건·제한 시간·재시도·응답 형식은 그대로다.",
+        "로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 했다.",
+        "해결 여부·변경 동작은 미검증이다."
+      ],
+      "resolution": "공백·줄바꿈을 포함한 본문은 400자다. diag_waits 조건, ticket_ref·elapsed_ms·남은 대기 항목 수, 요청 본문 제외를 복원하면서 필수 의미 17개와 관측·검증 한계를 유지한다. 선택 항목의 과거 생략을 필수 오류로 재분류하지 않는다."
+    },
+    {
+      "id": "FIX-CONFIG-CONFLICT",
+      "case_id": "v04_new_a_config_rollout",
+      "status": "resolved",
+      "evidence": [
+        "| 같은 워크스페이스에 `SCHEDULED` 배포 존재 | HTTP 409, `{\"error\":\"PENDING_RELEASE_EXISTS\"}`. 활성화·예약 취소 후 새 요청 가능 |",
+        "조건 중복 시 오류 우선순위는 미확인이다."
+      ],
+      "resolution": "예약 충돌 행 하나에서 발생 조건·HTTP 409·정확한 오류 본문과 활성화 또는 예약 취소 후 재요청 조건을 함께 확인할 수 있다. 덮어쓰기나 새 우회 조건을 추가하지 않았고 오류 우선순위도 미확인으로 유지한다."
+    },
+    {
+      "id": "FIX-CONFIG-INPUTS",
+      "case_id": "v04_new_a_config_rollout",
+      "status": "resolved",
+      "evidence": [
+        "초안에 작업 요청 기본 상한과 알림 휴지 시간대를 모두 입력해 유효성 검사를 한다. 통과 뒤 수정하면 결과가 무효이므로 다시 검사한다."
+      ],
+      "resolution": "준비 절 자체에 작업 요청 기본 상한과 알림 휴지 시간대를 모두 적어 도입부의 이름을 기억할 필요가 없다. 수정 시 검사 무효·재검사 연결을 유지하며 전체 본문은 공백·줄바꿈·Markdown 포함 1,799자로 원래 요청 범위 안이다."
+    }
+  ]
+}

@@ -15,7 +15,7 @@ python scripts/check.py --skill-only
 
 이 검사기는 Python 표준 라이브러리만 사용하며 완전한 YAML·Markdown 파서가 아닙니다. YAML은 이 저장소에서 사용하는 `name`·`description`과 단순한 `interface` 문자열을 대상으로 합니다. Markdown은 0~3칸 들여쓴 코드 펜스, ATX 제목 뒤 빈 줄, 일반적인 한 줄 링크를 확인합니다. 인용문이나 복잡한 목록 안의 코드 펜스, HTML, 제목 앵커, 복잡한 괄호·이스케이프 링크는 확인 범위에 포함하지 않습니다. 외부 URL을 자동으로 접속해 검사하지도 않습니다.
 
-`evaluations/runs/`의 생성 문서는 평가 원자료입니다. 문체나 형식이 기대와 달라도 원본을 수정하지 않으며, 저장소 문서의 형식 검사에서 제외합니다. 생성 결과의 사실성과 자연스러움은 별도 평가로 확인합니다.
+`evaluations/runs/`의 생성 문서는 평가 원자료입니다. 문체나 형식이 기대와 달라도 과거 원본을 덮어쓰지 않으며, 저장소 문서의 형식 검사에서 제외합니다. 교정할 때는 새 실행 디렉터리의 라운드별 문서에 수정 이력을 남깁니다. 검토를 마친 최종본은 `outputs/revised/`에 두고, `docs/examples/`에는 같은 바이트를 복사합니다.
 
 각주 정의의 본문을 파일 경로로 검사하지 않습니다. 각주 안에 명시한 일반 Markdown 링크는 검사하지만, 각주 번호와 참조의 대응 관계 자체는 이 검사기의 범위 밖입니다.
 
@@ -44,14 +44,29 @@ python scripts/check_claims.py \
 python scripts/test_check_claims.py
 ```
 
+## 교정 완료본의 배포 검사
+
+v0.5.0에서는 기존 출력과 피드백을 보고 문서를 교정한 뒤 별도 검토자가 원자료와 대조합니다. 검토 기록의 무결성 검사에 더해, 최종본에 해결되지 않은 필수 의미·탐색 질문·구체적 편집 문제가 남았다고 기록돼 있으면 배포 검사를 통과하지 못하게 했습니다.
+
+```bash
+python scripts/check_repairs.py
+python scripts/test_check_repairs.py
+```
+
+`check_repairs.py`는 `manifest.json`의 모든 사례에 최종본 하나와 검토 기록이 있는지 확인합니다. 필수 의미는 `preserved`, 탐색 질문은 `sufficient`, 편집 완료 기준은 `resolved`여야 하며, 남은 국소 조건 누락이나 `open_issues`가 없어야 합니다. 완료 기준의 근거는 최종 본문의 정확한 인용이어야 합니다. 원자료·스냅샷·문서 해시와 `docs/examples/` 복사본의 바이트도 대조합니다.
+
+이 검사는 검토자가 내린 판정과 그 근거의 무결성을 확인합니다. 코드가 인용의 의미를 이해하거나 좋은 글을 자동으로 판정하는 것은 아닙니다. 회귀 검사는 오래된 인용, 누락·중복 판정, 다른 사례의 판정, 미해결 의미·질문·문제를 완료로 통과시키는 일을 막는지 확인합니다.
+
+현재 교정의 [완료 기준](../evaluations/runs/2026-11-03-v0.5.0/repair-checks.json), [프로토콜](../evaluations/runs/2026-11-03-v0.5.0/protocol.md), [실제 수정 결과](repairs-v0.5.0.md)를 함께 확인할 수 있습니다. 과거 v0.4.0 검토 기록은 위 명령으로 계속 별도 검사합니다.
+
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.4.0
-python scripts/package.py --version 0.4.0 --output-dir dist/recheck
+python scripts/package.py --version 0.5.0
+python scripts/package.py --version 0.5.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.4.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.5.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
@@ -69,6 +84,7 @@ python scripts/package.py --version 0.4.0 --output-dir dist/recheck
 3. 기존 평가 입력을 바꿔 수정본에 유리하게 만들지 않습니다. 새 실패 사례는 새 버전의 사례로 추가합니다.
 4. 새 스킬 해시와 실행 조건을 기록하고, 같은 입력의 미적용 결과와 비교합니다.
 5. 이전 생성 결과를 덮어쓰지 않고 별도 실행 디렉터리에 남깁니다.
+6. 작성·교정 작업에서 발견한 문제는 본문에서 고칩니다. 바뀐 부분의 사실·실행 조건을 다시 확인하고, 사용할 수 있는 최종본까지 완성합니다.
 
 ## 설치 검증
 
@@ -90,7 +106,7 @@ python scripts/check_install.py --source hostkimjang/korean-dev-writing-skills
 
 ## CI
 
-GitHub Actions는 Python 3.12에서 구조 검사, 현재 평가 계약과 검토 인용의 무결성 검사, 패키지 생성 두 번을 실행한 뒤 패키지 바이트를 비교합니다. Node.js 24에서는 위 설치 검증을 실행합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
+GitHub Actions는 Python 3.12에서 구조 검사, 기존 평가 계약과 검토 인용의 무결성 검사, 현재 교정본의 배포 검사와 검사기 회귀 검사를 실행합니다. 패키지를 두 번 생성해 바이트도 비교합니다. Node.js 24에서는 위 설치 검증을 실행합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
 
 `main`에 게시한 경우에는 해당 커밋의 GitHub 주소로도 설치합니다. 이동하는 브랜치의 최신 파일 대신 실행 대상 커밋을 지정해, 로컬 체크아웃 검사와 공개 다운로드 검사에서 같은 내용을 비교합니다.
 

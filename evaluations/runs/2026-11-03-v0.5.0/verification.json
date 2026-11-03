@@ -1,0 +1,53 @@
+{
+  "scope": "Executed local verification; model judgments are recorded separately in reviews/. Remote GitHub Actions is checked after publication.",
+  "repository_structure": "passed",
+  "final_repair_gate": {
+    "documents": 10,
+    "resolved_repairs": 11,
+    "result": "passed"
+  },
+  "claim_checker_regression_tests": 21,
+  "repair_gate_regression_tests": 12,
+  "historical_v04_review_integrity": "passed; 20 output documents; original files unchanged",
+  "source_only_review_integrity": "passed; 3 documents",
+  "markdown_embedded_documents": {
+    "exact_source_bytes": 19
+  },
+  "viewer": {
+    "runId": "2026-11-03-v0.5.0",
+    "skillVersion": "0.5.0",
+    "html": "docs/comparisons/index.html",
+    "htmlSha256": "1348628532993aa3f2cca4c5815b4b00dcfe47a473470d4efb68f8140c27896c",
+    "observationsIncluded": true,
+    "checks": 15,
+    "results": [
+      "Static contents: ten cases, 28 document articles, ten input blocks, 38 download buttons",
+      "All HTML IDs are unique and every local fragment / ARIA target resolves",
+      "Each footnote reference and backlink stays inside the same document",
+      "Initialization, valid case hashes, invalid hashes, and malformed URI hashes",
+      "Ten tab click handlers update selection, roving tabindex, hidden panels and case hash",
+      "Arrow keys wrap, Home/End select endpoints, focus follows selection, unrelated keys are untouched",
+      "Comparison/view changes preserve the chosen case and update labels and status for all ten cases",
+      "CSS display-rule analysis: correct visible conditions for all cases, six selections, three widths and screen/print",
+      "No-JavaScript display-rule analysis keeps all 28 documents available",
+      "Hashchange switches valid cases and does not disrupt the current case for a clicked footnote",
+      "Default is previous; selecting a case without a historical baseline disables and normalizes the comparison",
+      "All listed source SHA-256 values and recorded source count match actual files",
+      "Top-level links lead to final examples and the repair report; empty limitations cards are omitted",
+      "All 38 download handlers produce Blob bytes matching source files and SHA-256; anchors attach/remove; URLs revoke after scheduled delay",
+      "Regression: opening/reloading footnote and backlink fragments selects their case; hashchange preserves each fragment"
+    ],
+    "issues": [],
+    "limitations": [
+      "Node VM with DOM doubles; no real browser, layout, native focus/scroll, screen reader, download dialog, or print rendering was exercised.",
+      "CSS inspection evaluates display rules, media predicates, specificity, and ancestor visibility only; it does not measure overflow."
+    ]
+  },
+  "package": {
+    "version": "0.5.0",
+    "files": 6,
+    "builds": 2,
+    "byte_identical": true,
+    "sha256": "3775764643e7e07c8cd74ef20add3c8cfd25500034024bd73c595e41d2c3a6f6"
+  }
+}
