@@ -1,0 +1,56 @@
+{
+  "case_id": "v06_configuration_precedence",
+  "title": "봄바람 구성 로더 시작 안내",
+  "audience": "Linux와 셸 기본 사용법은 알지만 이 구성 로더를 처음 쓰는 개발자.",
+  "document_purpose": "설정값이 선택되는 규칙을 이해하고 실행 전에 적용값과 출처를 확인하게 한다.",
+  "user_prompt": "아래 자료로 처음 사용하는 개발자를 위한 한국어 설정 안내를 작성해 주세요. 필요한 설명과 실행 예를 함께 제공하고, 오류가 났을 때 확인할 위치를 찾기 쉽게 해 주세요. 약 1200~1800자를 목표로 하되 필요한 의미를 분량 때문에 빼지는 마세요. 공개용 가상 도구이며 실제 명령은 실행하지 마세요.",
+  "source_facts": [
+    {
+      "id": "C01",
+      "text": "봄바람 구성 로더(breeze-worker)는 각 설정 항목을 CLI 옵션, 환경 변수, YAML 파일, 기본값 순서로 선택한다. 앞의 출처에 값이 있으면 그 값을 선택한다. 항목마다 따로 선택하므로 한 출처가 설정 전체를 덮어쓰는 방식이 아니다."
+    },
+    {
+      "id": "C02",
+      "text": "timeout_ms의 기본값은 5000이며 단위는 밀리초다. 허용값은 10 이상 30000 이하의 정수다. CLI --timeout-ms N, 환경 변수 WORKER_TIMEOUT_MS, YAML timeout_ms가 이 항목에 대응한다."
+    },
+    {
+      "id": "C03",
+      "text": "log_level의 기본값은 info다. 허용값은 소문자 debug, info, warn, error다. CLI --log-level LEVEL, 환경 변수 WORKER_LOG_LEVEL, YAML log_level이 이 항목에 대응한다."
+    },
+    {
+      "id": "C04",
+      "text": "값을 선택한 뒤 선택된 값만 검사한다. 선택된 값이 잘못되면 시작 오류가 나며 낮은 우선순위 값으로 대체하지 않는다. 더 높은 출처에 유효한 값이 있어 선택되지 않은 낮은 출처의 잘못된 값은 해당 항목의 시작 오류를 일으키지 않는다."
+    },
+    {
+      "id": "C05",
+      "text": "환경 변수가 아예 설정되지 않은 것과 빈 문자열로 설정된 것은 다르다. 빈 문자열도 값이 있는 것으로 선택하므로 더 높은 CLI 값이 없다면 검사 오류가 난다. WORKER_TIMEOUT_MS에는 정수의 십진 숫자 문자열을 쓴다."
+    },
+    {
+      "id": "C06",
+      "text": "--config PATH를 지정하면 해당 YAML 파일을 읽으며, 지정한 파일을 읽을 수 없으면 오류로 끝난다. 이 오류는 CLI에 두 설정값을 모두 줬더라도 발생한다. --config를 생략하면 현재 작업 디렉터리의 ./worker.yaml을 찾고, 이 기본 파일이 없으면 다른 출처나 기본값을 사용한다."
+    },
+    {
+      "id": "C07",
+      "text": "확인 명령 형식은 breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]이다. config inspect는 설정을 읽어 선택·검사하고 값을 보여 주며 worker를 시작하거나 설정 파일을 수정하지 않는다. --show-origin은 항목별 선택 출처(cli, env, file, default)도 보여 준다. 상세 출력 줄 형식은 자료에 없다."
+    },
+    {
+      "id": "C08",
+      "text": "예시용 프로젝트 디렉터리에는 worker.yaml이 이미 있고 내용은 timeout_ms: 8000과 log_level: warn 두 항목이다. 이 디렉터리에서 WORKER_TIMEOUT_MS=9000을 해당 명령에만 주고 CLI --timeout-ms 12000으로 config inspect --show-origin을 실행하면 timeout_ms=12000(출처 cli), log_level=warn(출처 file)이 선택된다. 이 예시는 WORKER_LOG_LEVEL과 --log-level을 주지 않은 상태다."
+    },
+    {
+      "id": "C09",
+      "text": "더 높은 CLI --timeout-ms 값이 없는 상황에서 WORKER_TIMEOUT_MS를 빈 문자열로 주면 YAML timeout_ms가 유효해도 오류다. 이 자료에는 worker 시작 명령, 오류 종료 코드, 설정 자동 재적용 동작이 없으므로 이를 새로 만들지 않는다."
+    }
+  ],
+  "must_preserve": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09"
+  ]
+}

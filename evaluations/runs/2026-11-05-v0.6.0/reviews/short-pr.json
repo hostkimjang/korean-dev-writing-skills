@@ -1,0 +1,264 @@
+{
+  "documents": [
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "v0.6.0-revised",
+      "requirements": [
+        {
+          "requirement_id": "S01.target",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다."
+          ],
+          "reason": "첫 문장에서 대상 서비스를 잔물결 작업 접수기로 식별한다."
+        },
+        {
+          "requirement_id": "S01.observation",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다."
+          ],
+          "reason": "같은 ticket_ref에서 response_sent 뒤 wait_elapsed가 남았다는 관측과 순서가 모두 유지된다."
+        },
+        {
+          "requirement_id": "S01.provenance",
+          "status": "preserved",
+          "evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다.",
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다."
+          ],
+          "reason": "관측 자료를 기존 개발용 합성 요청 로그로 명시하고 변경 후 로그는 수집하지 못했다고 밝힌다. 변경 후 확인한 결과로 오인할 근거가 없다."
+        },
+        {
+          "requirement_id": "S02.hypothesis",
+          "status": "preserved",
+          "evidence": [
+            "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다."
+          ],
+          "reason": "정리와 만료 콜백 순서를 조사 중이라고 한정하고 원인 미확정을 함께 명시한다. 정리 대상은 다음 문단의 대기 항목으로 확인된다."
+        },
+        {
+          "requirement_id": "S02.reproduction",
+          "status": "preserved",
+          "evidence": [
+            "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다."
+          ],
+          "reason": "안정적 재현 조건이 없음을 명시한다."
+        },
+        {
+          "requirement_id": "S03.location",
+          "status": "preserved",
+          "evidence": [
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다."
+          ],
+          "reason": "추가 로그의 변경 경로 worker/pending_slots.py를 정확하게 밝힌다."
+        },
+        {
+          "requirement_id": "S03.events",
+          "status": "preserved",
+          "evidence": [
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다."
+          ],
+          "reason": "대기 항목 생성·제거와 만료 콜백 진입이라는 세 관측 시점이 모두 남아 있다."
+        },
+        {
+          "requirement_id": "S03.purpose",
+          "status": "preserved",
+          "evidence": [
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다.",
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다."
+          ],
+          "reason": "항목이 남고 사라진 시점을 비교하기 위한 추가임을 명시한다. 변경 후 로그 미수집 설명과 함께 읽으면 다음 관측을 위한 목적임이 드러난다."
+        },
+        {
+          "requirement_id": "S05.unchanged",
+          "status": "preserved",
+          "evidence": [
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다.",
+            "동작은 유지합니다."
+          ],
+          "reason": "로그만 추가하고 동작은 유지한다는 포괄 요약으로 정리 조건·제한 시간·재시도 처리·응답 형식의 불변 범위를 보존한다. 계약이 이 포괄 요약을 허용한다."
+        },
+        {
+          "requirement_id": "S05.scope",
+          "status": "preserved",
+          "evidence": [
+            "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다.",
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다.",
+            "동작은 유지합니다."
+          ],
+          "reason": "원인 미확정 상태에서 로그만 추가하고 동작을 유지한다고 밝혀 관측 보강으로 범위를 한정한다. 문제 해결이 확인된 수정이라고 주장하지 않는다."
+        },
+        {
+          "requirement_id": "S06.inference",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다."
+          ],
+          "reason": "응답 유실과 중복 처리 여부를 판단할 수 없다는 한계가 모두 명시된다."
+        },
+        {
+          "requirement_id": "S06.reason",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다."
+          ],
+          "reason": "실제 영향 판단 불가를 로그 이름과 출력 순서만으로는 충분하지 않다는 증거의 한계에 직접 연결한다."
+        },
+        {
+          "requirement_id": "S06.frequency",
+          "status": "preserved",
+          "evidence": [
+            "로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다."
+          ],
+          "reason": "영향 빈도를 집계하지 않았다는 상태가 유지된다."
+        },
+        {
+          "requirement_id": "S07.environment",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다."
+          ],
+          "reason": "로컬 합성 요청 환경이 없다는 사유를 테스트·변경 후 로그 수집 미실행에 직접 연결한다."
+        },
+        {
+          "requirement_id": "S07.tests",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다."
+          ],
+          "reason": "테스트를 실행하지 못했음을 명시한다."
+        },
+        {
+          "requirement_id": "S07.logs",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다."
+          ],
+          "reason": "변경 후 로그를 수집하지 못했음을 명시한다."
+        },
+        {
+          "requirement_id": "S07.verification",
+          "status": "preserved",
+          "evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다.",
+            "가설과 추가 로그 출력은 미검증입니다."
+          ],
+          "reason": "테스트와 변경 후 로그가 없으며 가설과 추가 로그 출력은 미검증이라고 명시한다. 추가 로그로 가설이나 변경을 검증했다고 보고하지 않는다."
+        },
+        {
+          "requirement_id": "S04.optional",
+          "status": "preserved",
+          "evidence": [
+            "diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 제외합니다."
+          ],
+          "reason": "diag_waits 활성화 조건, ticket_ref·elapsed_ms·남은 대기 항목 수의 세 기록 필드와 요청 본문 제외가 모두 유지된다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "SQ1",
+          "answer_status": "sufficient",
+          "entry_location": "1문단 1~2문장",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다.",
+            "로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다."
+          ],
+          "reason": "관측 대상·출처·같은 ticket_ref의 로그 순서를 밝히고 곧바로 실제 영향 판단 한계와 빈도 미집계를 제시한다."
+        },
+        {
+          "question_id": "SQ2",
+          "answer_status": "sufficient",
+          "entry_location": "1문단 3문장",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다."
+          ],
+          "reason": "순서 관련성은 조사 중이며 원인 미확정·안정적 재현 조건 부재라는 설명으로 가설과 확인된 원인을 구분한다."
+        },
+        {
+          "question_id": "SQ3",
+          "answer_status": "sufficient",
+          "entry_location": "2문단 1~3문장",
+          "additional_locations": [
+            "1문단 3문장"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다.",
+            "diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 제외합니다.",
+            "동작은 유지합니다.",
+            "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다."
+          ],
+          "reason": "경로·추가 시점·비교 목적·기록 조건을 밝히고 로그만 추가하며 동작을 유지한다고 한다. 처리 조건이나 제한 시간을 바꿔 문제를 해결했다는 의미가 없다."
+        },
+        {
+          "question_id": "SQ4",
+          "answer_status": "sufficient",
+          "entry_location": "3문단 1~2문장",
+          "additional_locations": [
+            "1문단 1문장"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다.",
+            "가설과 추가 로그 출력은 미검증입니다.",
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다."
+          ],
+          "reason": "로컬 환경 부재로 테스트와 변경 후 로그 수집을 하지 못했으며 가설과 추가 로그 출력은 미검증임을 밝힌다. 앞의 관측이 기존 로그라는 출처도 명확하다."
+        },
+        {
+          "question_id": "NAV1",
+          "answer_status": "sufficient",
+          "entry_location": "1문단 1문장",
+          "additional_locations": [
+            "2문단 1문장"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다.",
+            "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다."
+          ],
+          "reason": "대상 서비스와 기존 관측은 첫 문장에 있고 변경 경로·추가 관측 시점·항목이 남고 사라진 시점을 비교하는 목적은 두 번째 문단 첫 문장에 있다."
+        },
+        {
+          "question_id": "SCOPE1",
+          "answer_status": "sufficient",
+          "entry_location": "3문단 1~2문장",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다.",
+            "가설과 추가 로그 출력은 미검증입니다."
+          ],
+          "reason": "검증 문단 안에서 환경 부재라는 이유, 테스트·새 로그 미확보 상태, 가설·추가 로그 출력 미검증이라는 판단 한계가 함께 드러난다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "원자료의 필수 의미·관측 한계·변경 범위와 검증 제약을 보존하며 본문 목표 250~400자를 충족한다. 사실 충돌이나 미검증 사항의 확정 표현이 없다.",
+        "evidence": []
+      },
+      "open_issues": []
+    }
+  ],
+  "repair_checks": [
+    {
+      "id": "v06-short-pr-validation-target",
+      "case_id": "short_investigation_wait_log",
+      "status": "resolved",
+      "evidence": [
+        "정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다.",
+        "대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다.",
+        "diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 제외합니다.",
+        "동작은 유지합니다.",
+        "로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다.",
+        "가설과 추가 로그 출력은 미검증입니다."
+      ],
+      "resolution": "검증하지 못한 대상을 가설과 추가 로그 출력으로 명시한다. 앞 문단의 원인 미확정 설명이 가설의 대상을 밝힌다. 동작 유지, 테스트 미실행, 변경 후 로그 미수집, 로컬 환경 부재, 기록 조건·필드·본문 제외를 모두 보존한다. 본문은 공백·문단 줄바꿈을 포함하고 마지막 개행을 제외하여 398자로 목표 250~400자 안에 든다."
+    }
+  ]
+}

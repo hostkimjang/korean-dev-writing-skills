@@ -140,6 +140,17 @@ mutant_index['path'] = '../outside.md'
 run('embedded paths cannot leave repository', ['--output-index', write('outside-path.json', {'documents': [mutant_index]})], 1, 'file path leaves the repository')
 run('signals cannot overwrite read artifacts', ['--output-index', short_index, '--write-signals', short_index], 1, 'signals must not overwrite')
 
+run('complete review gate requires index and reviews', ['--require-complete'], 2, 'requires --output-index and --reviews')
+run('complete review gate rejects accurately recorded omissions', ['--output-index', short_index, '--reviews', short_review, '--require-complete'], 1, 'unresolved required meaning')
+complete_fixture = copy.deepcopy(edit_review)
+complete_fixture['open_issues'] = []
+edit_only_index = write('edit-only-index.json', {'documents': [edited]})
+complete_review_path = write('complete-edit-review.json', {'documents': [complete_fixture]})
+run('complete gate rejects an index missing contract cases', ['--output-index', edit_only_index, '--reviews', complete_review_path, '--require-complete'], 1, 'complete review requires every contract case')
+fixture_contract = copy.deepcopy(CONTRACT)
+fixture_contract['cases'] = [copy.deepcopy(CASES[edited['case_id']])]
+run('complete recorded fixture passes the explicit gate', ['--contract', write('edit-contract.json', fixture_contract), '--output-index', edit_only_index, '--reviews', complete_review_path, '--require-complete'], 0)
+
 spec = importlib.util.spec_from_file_location('claim_checker_fixture', SCRIPT)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)

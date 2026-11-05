@@ -1,45 +1,32 @@
-# 긴 문서 교정 전후: v0.4.0 → v0.5.0
+# 긴 문서 교정 전후: v0.5.0 → v0.6.0
 
-갱신일: 2026-11-03 · 교정에 사용한 스킬: **v0.5.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-03-v0.5.0/snapshots/v0.5.0)
+갱신일: 2026-11-05 · 적용한 스킬: **v0.6.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-05-v0.6.0/snapshots/v0.6.0)
 
-문서 3개의 수정 내용과 전문 9개를 담았습니다. [교정 완료본 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.5.0.md) · [나란히 보기](index.html)
+문서 3개의 수정 내용과 전문 9개를 담았습니다. [현재 문서 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.6.0.md) · [나란히 보기](index.html)
 
 ## 한눈에 보는 문서
 
-| 사례 | 스킬 미적용 참고 원문 | 교정 전 v0.4.0 | 교정 완료 v0.5.0 |
+| 사례 | 스킬 미적용 참고 원문 | 이전 v0.5.0 | 현재 v0.6.0 |
 | --- | ---: | ---: | ---: |
-| [이벤트 수집 아키텍처](#event_architecture) | [4,233자](../../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) | [2,553자](../../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md) | [2,553자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md) |
-| [중복 판정 저장소 ADR](#storage_adr) | [3,481자](../../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) | [2,240자](../../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md) | [2,116자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md) |
-| [장애 대응 절차](#incident_runbook) | [3,187자](../../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) | [2,741자](../../evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md) | [2,939자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md) |
+| [이벤트 수집 아키텍처](#event_architecture) | [4,233자](../../evaluations/runs/2026-11-03/outputs/baseline/02_event_architecture.md) | [2,553자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md) | [2,553자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md) |
+| [중복 판정 저장소 ADR](#storage_adr) | [3,481자](../../evaluations/runs/2026-11-03/outputs/baseline/05_storage_adr.md) | [2,116자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md) | [2,116자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/05_storage_adr.md) |
+| [장애 대응 절차](#incident_runbook) | [3,187자](../../evaluations/runs/2026-11-03/outputs/baseline/04_incident_runbook.md) | [2,939자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md) | [2,939자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/04_incident_runbook.md) |
 
 <a id="event_architecture"></a>
 
 ## 이벤트 수집 아키텍처
 
-원자료 대조 후 기존 본문을 유지했습니다. 수락·저장·재처리 경계를 보존합니다.
+v0.5.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 202 수락과 데이터베이스 저장 완료를 구분합니다.
-- 쓰기 실패와 저장 후 offset 커밋 전 종료를 나누고 같은 event_id 재시도를 유지합니다.
+- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
 
 **사실·조건 대조**
 
-원자료와 대조한 필수 의미 11개를 보존했고, 탐색 질문 2개에 답할 수 있음을 별도 검토에서 확인했습니다. 고정 계약은 바꾸지 않았습니다.
+본문·원자료·보존 계약이 같아 기존 필수 의미 11개와 독자 질문 2개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
 
-[교정 완료본 바로 읽기](../examples/02_event_architecture.md) · [보존 검토 기록](../../evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/02_event_architecture.md)
-
-### 수락과 최종 저장의 구분
-
-**교정 전 v0.4.0**
-
-> Harbor Intake는 HTTP로 제출된 이벤트를 Kafka를 거쳐 PostgreSQL에 저장하는 서비스입니다. 이벤트 수집 API와 연동하거나 운영을 인계받을 때는 **큐 수락과 최종 저장 완료를 구분해야 합니다.** `202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.
-
-**교정 완료 v0.5.0**
-
-> Harbor Intake는 HTTP로 제출된 이벤트를 Kafka를 거쳐 PostgreSQL에 저장하는 서비스입니다. 이벤트 수집 API와 연동하거나 운영을 인계받을 때는 **큐 수락과 최종 저장 완료를 구분해야 합니다.** `202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.
-
-이 문장은 변경하지 않았습니다. 추가 수정 없이 유지해도 원자료의 의미와 판단 경계를 전달합니다.
+[교정 완료본 바로 읽기](../examples/02_event_architecture.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/02_event_architecture.md)
 
 ### 전체 본문
 
@@ -147,9 +134,9 @@ Harbor Intake의 전송 및 소비 과정에서는 같은 이벤트가 여러 �
 </details>
 
 <details>
-<summary>교정 전 v0.4.0 · 2,553자</summary>
+<summary>이전 v0.5.0 · 2,553자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.4.0/outputs/latest/02_event_architecture.md SHA256 8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md SHA256 8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d -->
 # Harbor Intake 이벤트 수집 서비스 아키텍처
 
 Harbor Intake는 HTTP로 제출된 이벤트를 Kafka를 거쳐 PostgreSQL에 저장하는 서비스입니다. 이벤트 수집 API와 연동하거나 운영을 인계받을 때는 **큐 수락과 최종 저장 완료를 구분해야 합니다.** `202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.
@@ -217,9 +204,9 @@ Harbor Intake의 전송 및 소비 과정에서는 이벤트가 중복으로 전
 </details>
 
 <details>
-<summary>교정 완료 v0.5.0 · 2,553자</summary>
+<summary>현재 v0.6.0 · 2,553자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md SHA256 8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md SHA256 8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d -->
 # Harbor Intake 이벤트 수집 서비스 아키텍처
 
 Harbor Intake는 HTTP로 제출된 이벤트를 Kafka를 거쳐 PostgreSQL에 저장하는 서비스입니다. 이벤트 수집 API와 연동하거나 운영을 인계받을 때는 **큐 수락과 최종 저장 완료를 구분해야 합니다.** `202` 응답은 Kafka에 이벤트가 수락되었다는 뜻이며, 데이터베이스 저장 완료를 뜻하지 않습니다.
@@ -290,46 +277,17 @@ Harbor Intake의 전송 및 소비 과정에서는 이벤트가 중복으로 전
 
 ## 중복 판정 저장소 ADR
 
-비교 표의 재나열을 줄이고 미측정 비용·미설정 성능 보장을 승인 조건에 모았습니다.
+v0.5.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 선택 이유는 과거 이벤트 재반입과 원자성 요구를 연결하는 문장으로 남겼습니다.
-- 승인 진입점에서 제안 상태와 현재 근거 수준을 함께 읽을 수 있습니다.
+- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
 
 **사실·조건 대조**
 
-원자료와 대조한 필수 의미 13개를 보존했고, 탐색 질문 2개에 답할 수 있음을 별도 검토에서 확인했습니다. 고정 계약은 바꾸지 않았습니다.
+본문·원자료·보존 계약이 같아 기존 필수 의미 13개와 독자 질문 2개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
 
-[교정 완료본 바로 읽기](../examples/05_storage_adr.md) · [보존 검토 기록](../../evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/05_storage_adr.md)
-
-### 표 뒤의 선택 이유
-
-**교정 전 v0.4.0**
-
-> PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션을 활용해 중복 판정 기록과 업무 이벤트 생성을 함께 처리할 수 있기 때문이다. 별도 Redis 운영을 추가하지 않는다는 이점도 있다. 과거 이벤트 재반입이 중복 판정 대상이라는 요구를 고려하면, TTL 만료나 키 유실 이후의 중복 누락 가능성과 저장소 간 원자적 처리 설계는 Redis 대안을 선택할 때 해결해야 할 과제다.
-
-**교정 완료 v0.5.0**
-
-> 과거 이벤트 재반입까지 중복을 판정해야 하므로, 판정 기록의 보존과 업무 이벤트 생성의 원자성을 함께 고려해 PostgreSQL을 제안한다.
-
-비교 표의 두 행을 다시 풀어 쓰던 부분을 요구와 선택의 연결로 바꿨습니다.
-
-### 승인 판단의 근거 상태
-
-**교정 전 v0.4.0**
-
-> | 미결 사항 | 리뷰에서 정할 내용 |
-> | --- | --- |
-> | 보존 정책 | 중복 판정 기록의 보관 기간과 정리 정책을 정한다. 과거 이벤트 재반입 요구를 고려해 중복 판정의 보장 범위를 명시한다. |
-> | 성능 검증 계획 | 현재 부하에서 `event_receipts`로 인해 늘어나는 쓰기·인덱스 부하와 추가 비용을 어떻게 측정할지 정한다. |
-> | 운영 책임 | 중복 판정 저장소 운영과 보존·정리 정책 실행의 책임 주체를 정한다. |
-
-**교정 완료 v0.5.0**
-
-> 이 ADR은 데이터·운영 담당자의 검토가 끝나지 않은 제안이다. 현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없으며, 공식 지연 목표나 처리량 보장도 이번 ADR에서 정하지 않았다. 성능에 미치는 영향은 검증이 필요하다.
-
-검증 계획을 정한다는 승인 조건을 측정 완료 의무로 바꾸지 않으면서, 현재 측정 결과와 성능 보장이 없다는 사실을 같은 절로 모았습니다.
+[교정 완료본 바로 읽기](../examples/05_storage_adr.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/05_storage_adr.md)
 
 ### 전체 본문
 
@@ -420,9 +378,9 @@ PostgreSQL에 `event_receipts` 테이블을 만들고 `(tenant_id, event_id)`에
 </details>
 
 <details>
-<summary>교정 전 v0.4.0 · 2,240자</summary>
+<summary>이전 v0.5.0 · 2,116자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.4.0/outputs/latest/05_storage_adr.md SHA256 63318b86596aaa32b7d48db33a5d031096b86864c58670e3df2865eeb6618dbb -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md SHA256 6fd6cb960708c9f928a00ada447d5952a2bbd17ad5f040cddd7cda6ac2939794 -->
 # ADR-007: 이벤트 중복 판정 저장소
 
 - 작성일: 2026-10-15
@@ -459,15 +417,13 @@ PostgreSQL에 `event_receipts` 테이블을 만들고 `(tenant_id, event_id)`에
 | 업무 이벤트 생성과의 원자적 처리 | 중복 판정 기록과 업무 이벤트를 같은 데이터베이스 트랜잭션에서 처리한다. | PostgreSQL의 업무 이벤트 생성과 원자적으로 처리하려면 추가 설계가 필요하다. |
 | 운영 구성 | 기존 데이터베이스를 사용하며 별도 Redis 운영을 추가하지 않는다. | 중복 판정 키를 저장할 Redis 운영이 필요하다. |
 
-PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션을 활용해 중복 판정 기록과 업무 이벤트 생성을 함께 처리할 수 있기 때문이다. 별도 Redis 운영을 추가하지 않는다는 이점도 있다. 과거 이벤트 재반입이 중복 판정 대상이라는 요구를 고려하면, TTL 만료나 키 유실 이후의 중복 누락 가능성과 저장소 간 원자적 처리 설계는 Redis 대안을 선택할 때 해결해야 할 과제다.
+과거 이벤트 재반입까지 중복을 판정해야 하므로, 판정 기록의 보존과 업무 이벤트 생성의 원자성을 함께 고려해 PostgreSQL을 제안한다.
 
-## 도입 시 감수할 비용과 검증 한계
+## 도입 비용과 미결 사항·승인 조건
+
+이 ADR은 데이터·운영 담당자의 검토가 끝나지 않은 제안이다. 현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없으며, 공식 지연 목표나 처리량 보장도 이번 ADR에서 정하지 않았다. 성능에 미치는 영향은 검증이 필요하다.
 
 `event_receipts`를 추가하면 기존 PostgreSQL의 쓰기와 인덱스 부하가 늘어난다. 중복 판정 기록을 정리하는 정책도 마련해야 하며, 이 정책은 과거 이벤트를 어느 기간까지 중복 판정할 수 있는지와 함께 검토해야 한다.
-
-현재 부하에서 `event_receipts`를 추가했을 때의 비용을 측정한 결과는 없다. 따라서 성능에 미치는 영향은 검증이 필요하다. 공식 지연 목표나 처리량 보장은 이번 ADR에서 정하지 않았다.
-
-## 미결 사항과 승인 조건
 
 | 미결 사항 | 리뷰에서 정할 내용 |
 | --- | --- |
@@ -481,9 +437,9 @@ PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션�
 </details>
 
 <details>
-<summary>교정 완료 v0.5.0 · 2,116자</summary>
+<summary>현재 v0.6.0 · 2,116자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md SHA256 6fd6cb960708c9f928a00ada447d5952a2bbd17ad5f040cddd7cda6ac2939794 -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/05_storage_adr.md SHA256 6fd6cb960708c9f928a00ada447d5952a2bbd17ad5f040cddd7cda6ac2939794 -->
 # ADR-007: 이벤트 중복 판정 저장소
 
 - 작성일: 2026-10-15
@@ -543,48 +499,17 @@ PostgreSQL을 제안하는 이유는 기존 데이터베이스의 트랜잭션�
 
 ## 장애 대응 절차
 
-정지 확인과 롤백을 한 절로 묶고 5분 기준을 함께 배치했습니다. 이관 조건은 표로 나눴습니다.
+v0.5.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- pause 반환은 요청 접수이며 paused와 inflight=0을 모두 확인해야 한다는 조건을 실행 위치에 뒀습니다.
-- 요청 후 5분 미충족·롤백 실패·재개 후 10분 무개선을 각각 찾아볼 수 있습니다.
+- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
 
 **사실·조건 대조**
 
-원자료와 대조한 필수 의미 14개를 보존했고, 탐색 질문 2개에 답할 수 있음을 별도 검토에서 확인했습니다. 고정 계약은 바꾸지 않았습니다.
+본문·원자료·보존 계약이 같아 기존 필수 의미 14개와 독자 질문 2개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
 
-[교정 완료본 바로 읽기](../examples/04_incident_runbook.md) · [보존 검토 기록](../../evaluations/runs/2026-11-03-v0.5.0/reviews/review-long.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/04_incident_runbook.md)
-
-### 롤백을 중단할 시간 기준
-
-**교정 전 v0.4.0**
-
-> `state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.
-
-**교정 완료 v0.5.0**
-
-> 일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.** 처리 중인 작업을 강제로 종료하지 않습니다.
-
-같은 실행 절에서 5분의 시작 시점과 롤백 금지·이관을 확인합니다. 전체 절차에 있던 조건을 실행 진입점으로 모았습니다.
-
-### 긴 이관 조건문을 조건표로
-
-**교정 전 v0.4.0**
-
-> 롤백 조건을 확인하지 못했거나, 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못했거나, 롤백에 실패했거나, 재개 후 10분 동안 개선되지 않으면 해당 단계에서 조치를 중단하고 플랫폼 온콜에 이관합니다. `current`와 `stable`이 같은 경우에도 이관합니다.
-
-**교정 완료 v0.5.0**
-
-> | 이관 조건 | 중단 시 조치 |
-> | --- | --- |
-> | 현재 배포 직후부터 적체가 시작됐다는 조건을 충족하지 않거나 확인할 수 없음 | 롤백하지 않습니다. |
-> | `current`와 `stable`이 같거나 서로 다른지 확인할 수 없음 | 롤백하지 않습니다. |
-> | 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못함 | 롤백하지 않습니다. |
-> | 롤백 명령 실패 | worker를 일시정지한 상태로 두고 소비를 재개하지 않습니다. |
-> | 소비 재개 후 10분 동안 개선되지 않음 | 반복 롤백하지 않습니다. |
-
-각 행은 하나만 해당해도 이관하는 조건입니다. 롤백 실패 시 일시정지 유지와 반복 롤백 금지를 함께 적었습니다.
+[교정 완료본 바로 읽기](../examples/04_incident_runbook.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/04_incident_runbook.md)
 
 ### 전체 본문
 
@@ -712,117 +637,7 @@ opsctl queue inspect river-events
 </details>
 
 <details>
-<summary>교정 전 v0.4.0 · 2,741자</summary>
-
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.4.0/outputs/latest/04_incident_runbook.md SHA256 d1fd05a16e96a4612db3c3b6662effc1b58213bf3805be594eec214a2bee07d8 -->
-# river-worker 적체 알람 대응 절차
-
-`WorkerQueueAgeHigh` 알람이 발생하면 이 절차를 시작합니다. 대상은 `river-worker`와 작업 큐 `river-events`입니다. 알람만으로 배포가 원인이라고 확정할 수는 없으므로, 현재 상태와 배포 시점을 확인한 뒤 롤백 여부를 판단합니다.
-
-이 절차에서는 **큐 삭제, offset 초기화, 처리 중인 작업 강제 종료를 하지 않습니다.** 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요합니다.
-
-## 1. 알람 발생 시각과 현재 상태 확인
-
-알람 발생 시각을 기록하고 큐와 worker의 상태를 조회합니다.
-
-```bash
-opsctl queue inspect river-events
-opsctl worker status river-worker
-```
-
-다음 값을 기록합니다. 이후 상태 변화와 복구 여부를 판단하고, 필요하면 플랫폼 온콜에 전달할 정보입니다.
-
-| 조회 대상 | 확인할 값 |
-| --- | --- |
-| `river-events` | `pending`, `oldest_age_seconds`, `consumer_state` |
-| `river-worker` | `state`, `inflight` |
-
-## 2. 배포 정보로 롤백 여부 판단
-
-현재 배포와 복구 대상 배포를 확인합니다.
-
-```bash
-opsctl deploy show river-worker
-```
-
-출력의 `current`, `stable`, `changed_at`을 기록합니다. `stable`은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포입니다. 적체 시작 시각을 확인하고 `changed_at`과 비교해 현재 배포 직후부터 적체가 시작됐는지 판단합니다. 알람 발생 시각과 적체 시작 시각은 구분해서 기록합니다.
-
-**다음 두 조건을 모두 확인한 경우에만 3단계로 진행합니다.**
-
-- 현재 배포 직후부터 적체가 시작됐습니다.
-- `current`와 `stable`이 다릅니다.
-
-조건을 충족하지 않거나 확인할 수 없으면 롤백하지 않습니다. `current`와 `stable`이 같은 경우에도 롤백하지 않고, 관찰 결과를 플랫폼 온콜에 전달합니다. 전달할 항목은 아래의 「중단 및 플랫폼 온콜 이관」을 따릅니다.
-
-## 3. 작업을 일시정지하고 처리 중인 작업 확인
-
-롤백 조건을 충족했다면 worker에 일시정지를 요청하고, 요청 시각을 기록합니다.
-
-```bash
-opsctl worker pause river-worker
-```
-
-이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.
-
-다음 명령으로 worker 상태를 확인합니다.
-
-```bash
-opsctl worker status river-worker
-```
-
-**`state=paused`와 `inflight=0`을 모두 확인한 다음에만 4단계로 진행합니다.** 두 조건을 아직 만족하지 않으면 상태를 다시 조회합니다.
-
-일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.** 처리 중인 작업을 강제로 종료하지 않습니다.
-
-## 4. stable로 롤백한 뒤 소비 재개
-
-`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.
-
-```bash
-opsctl deploy rollback river-worker --to stable
-```
-
-명령 결과를 확인하고 기록합니다. **롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 이 경우 소비를 재개하지 않습니다.
-
-롤백 명령이 성공한 경우에만 다음 명령으로 소비를 재개합니다. 재개 시각도 기록합니다.
-
-```bash
-opsctl worker resume river-worker
-```
-
-## 5. 소비 상태와 큐 대기 시간으로 복구 확인
-
-재개 후 큐 상태를 조회합니다.
-
-```bash
-opsctl queue inspect river-events
-```
-
-시간을 두고 같은 명령을 다시 실행해 `oldest_age_seconds`의 변화를 비교합니다. **다음 두 조건을 모두 확인해야 복구로 판단합니다.**
-
-- `consumer_state=running`입니다.
-- `oldest_age_seconds`가 감소합니다.
-
-소비가 재개됐다는 사실만으로 복구로 판단하지 않습니다. 재개 후 **10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**
-
-## 중단 및 플랫폼 온콜 이관
-
-롤백 조건을 확인하지 못했거나, 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못했거나, 롤백에 실패했거나, 재개 후 10분 동안 개선되지 않으면 해당 단계에서 조치를 중단하고 플랫폼 온콜에 이관합니다. `current`와 `stable`이 같은 경우에도 이관합니다.
-
-이관할 때는 다음 정보를 전달합니다. 확인하지 못한 항목은 확인하지 못했다고 표시합니다.
-
-- 알람 발생 시각과 적체 시작 시각
-- `current`, `stable`, `changed_at`
-- 큐의 `pending`, `oldest_age_seconds`, `consumer_state`와 worker의 `state`, `inflight` 등 관찰 결과
-- 실행한 명령과 각 명령의 결과
-- 일시정지 요청 시각과 소비 재개 시각 등 해당 단계에서 기록한 시각
-- 조치를 중단한 단계와 충족하지 못한 조건
-<!-- END SOURCE -->
-
-</details>
-
-<details>
-<summary>교정 완료 v0.5.0 · 2,939자</summary>
+<summary>이전 v0.5.0 · 2,939자</summary>
 
 <!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md SHA256 c8681e940b3702164b6cd51f511c956505129e28bfcd0fff13afe09340997ad0 -->
 # river-worker 적체 알람 대응 절차
@@ -937,14 +752,130 @@ opsctl queue inspect river-events
 
 </details>
 
+<details>
+<summary>현재 v0.6.0 · 2,939자</summary>
+
+<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/04_incident_runbook.md SHA256 c8681e940b3702164b6cd51f511c956505129e28bfcd0fff13afe09340997ad0 -->
+# river-worker 적체 알람 대응 절차
+
+`WorkerQueueAgeHigh` 알람이 발생하면 이 절차를 시작합니다. 대상은 `river-worker`와 작업 큐 `river-events`입니다. 알람만으로 배포가 원인이라고 확정할 수는 없으므로, 현재 상태와 배포 시점을 확인한 뒤 롤백 여부를 판단합니다.
+
+이 절차에서는 **큐 삭제, offset 초기화, 처리 중인 작업 강제 종료를 하지 않습니다.** 이 조치는 작업 손실이나 중복을 일으킬 수 있어 별도 판단이 필요합니다.
+
+## 1. 알람 발생 시각과 현재 상태 확인
+
+알람 발생 시각을 기록하고 큐와 worker의 상태를 조회합니다.
+
+```bash
+opsctl queue inspect river-events
+opsctl worker status river-worker
+```
+
+다음 값을 기록합니다. 이후 상태 변화와 복구 여부를 판단하고, 필요하면 플랫폼 온콜에 전달할 정보입니다.
+
+| 조회 대상 | 확인할 값 |
+| --- | --- |
+| `river-events` | `pending`, `oldest_age_seconds`, `consumer_state` |
+| `river-worker` | `state`, `inflight` |
+
+## 2. 배포 정보로 롤백 여부 판단
+
+현재 배포와 복구 대상 배포를 확인합니다.
+
+```bash
+opsctl deploy show river-worker
+```
+
+출력의 `current`, `stable`, `changed_at`을 기록합니다. `stable`은 온콜이 복구 대상으로 사용할 수 있도록 미리 지정된 배포입니다. 적체 시작 시각을 확인하고 `changed_at`과 비교해 현재 배포 직후부터 적체가 시작됐는지 판단합니다. 알람 발생 시각과 적체 시작 시각은 구분해서 기록합니다.
+
+**다음 두 조건을 모두 확인한 경우에만 3단계로 진행합니다.**
+
+- 현재 배포 직후부터 적체가 시작됐습니다.
+- `current`와 `stable`이 다릅니다.
+
+조건을 충족하지 않거나 확인할 수 없으면 롤백하지 않습니다. `current`와 `stable`이 같은 경우에도 롤백하지 않고, 관찰 결과를 플랫폼 온콜에 전달합니다. 전달할 항목은 아래의 「중단 및 플랫폼 온콜 이관」을 따릅니다.
+
+## 3. 일시정지 완료를 확인한 뒤 롤백하고 소비 재개
+
+현재 배포 직후부터 적체가 시작됐고 `current`와 `stable`이 다르다면 worker에 일시정지를 요청하고, 요청 시각을 기록합니다.
+
+```bash
+opsctl worker pause river-worker
+```
+
+이 명령의 반환은 **일시정지 요청을 접수했다는 뜻**입니다. 이미 처리 중인 작업은 계속 진행될 수 있으므로, 명령이 반환됐다는 이유만으로 롤백하지 않습니다.
+
+다음 명령으로 worker 상태를 확인합니다.
+
+```bash
+opsctl worker status river-worker
+```
+
+**롤백은 `state=paused`와 `inflight=0`을 모두 확인한 다음에만 진행합니다.** 두 조건을 아직 만족하지 않으면 상태를 다시 조회합니다.
+
+일시정지 요청 후 **5분이 지나도 두 조건을 모두 만족하지 못하면 롤백하지 않고 플랫폼 온콜에 이관합니다.** 처리 중인 작업을 강제로 종료하지 않습니다.
+
+`state=paused`와 `inflight=0`을 모두 확인했다면 다음 명령으로 롤백합니다.
+
+```bash
+opsctl deploy rollback river-worker --to stable
+```
+
+명령 결과를 확인하고 기록합니다. **롤백에 실패하면 worker를 일시정지한 상태로 두고 플랫폼 온콜에 이관합니다.** 이 경우 소비를 재개하지 않습니다.
+
+롤백 명령이 성공한 경우에만 다음 명령으로 소비를 재개합니다. 재개 시각도 기록합니다.
+
+```bash
+opsctl worker resume river-worker
+```
+
+## 4. 소비 상태와 큐 대기 시간으로 복구 확인
+
+재개 후 큐 상태를 조회합니다.
+
+```bash
+opsctl queue inspect river-events
+```
+
+시간을 두고 같은 명령을 다시 실행해 `oldest_age_seconds`의 변화를 비교합니다. **다음 두 조건을 모두 확인해야 복구로 판단합니다.**
+
+- `consumer_state=running`입니다.
+- `oldest_age_seconds`가 감소합니다.
+
+소비가 재개됐다는 사실만으로 복구로 판단하지 않습니다. 재개 후 **10분 동안 개선되지 않으면 반복 롤백하지 말고 플랫폼 온콜에 이관합니다.**
+
+## 중단 및 플랫폼 온콜 이관
+
+다음 중 하나라도 해당하면 해당 단계에서 조치를 중단하고 플랫폼 온콜에 이관합니다.
+
+| 이관 조건 | 중단 시 조치 |
+| --- | --- |
+| 현재 배포 직후부터 적체가 시작됐다는 조건을 충족하지 않거나 확인할 수 없음 | 롤백하지 않습니다. |
+| `current`와 `stable`이 같거나 서로 다른지 확인할 수 없음 | 롤백하지 않습니다. |
+| 일시정지 요청 후 5분이 지나도 `state=paused`와 `inflight=0`을 모두 만족하지 못함 | 롤백하지 않습니다. |
+| 롤백 명령 실패 | worker를 일시정지한 상태로 두고 소비를 재개하지 않습니다. |
+| 소비 재개 후 10분 동안 개선되지 않음 | 반복 롤백하지 않습니다. |
+
+이관할 때는 다음 정보를 전달합니다. 확인하지 못한 항목은 확인하지 못했다고 표시합니다.
+
+- 알람 발생 시각과 적체 시작 시각
+- `current`, `stable`, `changed_at`
+- 큐의 `pending`, `oldest_age_seconds`, `consumer_state`와 worker의 `state`, `inflight` 등 관찰 결과
+- 실행한 명령과 각 명령의 결과
+- 일시정지 요청 시각과 소비 재개 시각 등 해당 단계에서 기록한 시각
+- 조치를 중단한 단계와 충족하지 못한 조건
+<!-- END SOURCE -->
+
+</details>
+
 ## 작성과 확인 방법
 
-v0.4.0 원문과 같은 원자료를 바탕으로 알려진 결함을 검토하고, v0.5.0 지침을 적용해 문서를 교정했습니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
+v0.5.0 문서와 같은 원자료를 대조해 필요한 부분을 고쳤습니다. v0.6.0 지침으로 교정한 문서와 수정할 필요가 없어 보존한 문서를 사례별로 구분합니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
 
 이는 조건을 가린 단회 생성 비교가 아닙니다. 미적용 문서가 있는 8개 사례에서는 과거 원문을 참고용으로 함께 싣습니다. 검토 결과는 사실·조건의 보존과 문서 구성에 관한 판단이며, 실제 독자의 이해도·기억·읽는 시간·피로를 측정한 결과는 아닙니다. 사례는 공개용 가상 자료입니다. 문자 수는 공백·개행·Markdown 문법을 포함하며, 길이 자체를 품질 점수로 사용하지 않습니다.
 
-- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-03-v0.5.0/protocol.md)
-- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-03-v0.5.0/manifest.json)
-- [사례별 수정 관찰](../../evaluations/runs/2026-11-03-v0.5.0/observations.json)
-- [수정 결과 보고서](../repairs-v0.5.0.md)
-- [v0.4.0 당시 평가 보존본](../evaluation-v0.4.0.md)
+- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-05-v0.6.0/protocol.md)
+- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-05-v0.6.0/manifest.json)
+- [사례별 수정 관찰](../../evaluations/runs/2026-11-05-v0.6.0/observations.json)
+- [수정 결과 보고서](../repairs-v0.6.0.md)
+- [v0.5.0 당시 평가 보존본](../evaluation-v0.5.0.md)

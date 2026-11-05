@@ -1,0 +1,357 @@
+{
+  "document": {
+    "case_id": "short_investigation_wait_log",
+    "label": "v0.6.0-revised",
+    "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/round-1/08_short_log_pr.md"
+  },
+  "source": "evaluations/runs/2026-11-03-reading-flow/source/short-pr.json",
+  "contract_case": {
+    "case_id": "short_investigation_wait_log",
+    "source_path": "evaluations/runs/2026-11-03-reading-flow/source/short-pr.json",
+    "source_sha256": "db2b27f37ac4193ed86698b600eb248bf4673b5dac104bf955a0060dd573467b",
+    "input_path": "evaluations/runs/2026-11-03-reading-flow/inputs/short-pr.md",
+    "input_sha256": "a35b63419516254d08172ad5f5940a8581a91640699e8f1df771814237e91391",
+    "requirements": [
+      {
+        "id": "S01.target",
+        "source_refs": [
+          "S01"
+        ],
+        "legacy_refs": [
+          "must_preserve:S01"
+        ],
+        "required": true,
+        "meaning": "대상 서비스가 잔물결 작업 접수기임을 식별할 수 있다.",
+        "literal_signals": [
+          {
+            "kind": "service_name",
+            "value": "잔물결 작업 접수기"
+          }
+        ]
+      },
+      {
+        "id": "S01.observation",
+        "source_refs": [
+          "S01"
+        ],
+        "legacy_refs": [
+          "must_preserve:S01"
+        ],
+        "required": true,
+        "meaning": "같은 ticket_ref에서 response_sent 뒤 wait_elapsed가 남은 관측을 보존한다.",
+        "literal_signals": [
+          {
+            "kind": "identifier",
+            "value": "ticket_ref"
+          },
+          {
+            "kind": "identifier",
+            "value": "response_sent"
+          },
+          {
+            "kind": "identifier",
+            "value": "wait_elapsed"
+          }
+        ]
+      },
+      {
+        "id": "S01.provenance",
+        "source_refs": [
+          "S01"
+        ],
+        "legacy_refs": [
+          "must_preserve:S01"
+        ],
+        "required": true,
+        "meaning": "관측은 기존 개발용 합성 요청 로그이며 변경 후 새 로그로 확인한 결과가 아니다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S02.hypothesis",
+        "source_refs": [
+          "S02"
+        ],
+        "legacy_refs": [
+          "must_preserve:S02"
+        ],
+        "required": true,
+        "meaning": "대기 항목 정리와 만료 콜백 실행 순서의 관련성은 조사 중인 가능성이며 원인은 미확정이다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S02.reproduction",
+        "source_refs": [
+          "S02"
+        ],
+        "legacy_refs": [
+          "must_preserve:S02"
+        ],
+        "required": true,
+        "meaning": "안정적으로 재현한 조건은 없다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S03.location",
+        "source_refs": [
+          "S03"
+        ],
+        "legacy_refs": [
+          "must_preserve:S03"
+        ],
+        "required": true,
+        "meaning": "worker/pending_slots.py에 진단 로그를 추가한다.",
+        "literal_signals": [
+          {
+            "kind": "path",
+            "value": "worker/pending_slots.py"
+          }
+        ]
+      },
+      {
+        "id": "S03.events",
+        "source_refs": [
+          "S03"
+        ],
+        "legacy_refs": [
+          "must_preserve:S03"
+        ],
+        "required": true,
+        "meaning": "추가 관측 시점은 대기 항목 생성·제거와 만료 콜백 진입이다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S03.purpose",
+        "source_refs": [
+          "S03"
+        ],
+        "legacy_refs": [
+          "must_preserve:S03"
+        ],
+        "required": true,
+        "meaning": "다음 관측에서 항목이 언제 남고 사라졌는지 비교할 정보를 얻는 목적을 보존한다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S05.unchanged",
+        "source_refs": [
+          "S05"
+        ],
+        "legacy_refs": [
+          "must_preserve:S05"
+        ],
+        "required": true,
+        "meaning": "대기 항목 정리 조건, 제한 시간, 재시도 처리, 응답 형식은 바꾸지 않는다. 동작을 바꾸지 않는다는 충분한 포괄 요약도 허용한다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S05.scope",
+        "source_refs": [
+          "S05"
+        ],
+        "legacy_refs": [
+          "must_preserve:S05"
+        ],
+        "required": true,
+        "meaning": "관측 보강이며 문제 해결이 확인된 수정은 포함하지 않는다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S06.inference",
+        "source_refs": [
+          "S06"
+        ],
+        "legacy_refs": [
+          "must_preserve:S06"
+        ],
+        "required": true,
+        "meaning": "실제 응답 유실이나 중복 처리가 있었는지 확인하지 못했다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S06.reason",
+        "source_refs": [
+          "S06"
+        ],
+        "legacy_refs": [
+          "must_preserve:S06"
+        ],
+        "required": true,
+        "meaning": "이 미확인은 로그 이름과 출력 순서만으로 실제 영향 여부를 결론낼 수 없다는 증거의 한계에 연결된다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S06.frequency",
+        "source_refs": [
+          "S06"
+        ],
+        "legacy_refs": [
+          "must_preserve:S06"
+        ],
+        "required": true,
+        "meaning": "영향 빈도를 집계하지 않았다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S07.environment",
+        "source_refs": [
+          "S07"
+        ],
+        "legacy_refs": [
+          "must_preserve:S07"
+        ],
+        "required": true,
+        "meaning": "로컬 합성 요청 실행 환경이 준비되지 않은 것이 검증을 실행하지 못한 이유다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S07.tests",
+        "source_refs": [
+          "S07"
+        ],
+        "legacy_refs": [
+          "must_preserve:S07"
+        ],
+        "required": true,
+        "meaning": "테스트를 실행하지 않았다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S07.logs",
+        "source_refs": [
+          "S07"
+        ],
+        "legacy_refs": [
+          "must_preserve:S07"
+        ],
+        "required": true,
+        "meaning": "변경 후 새 진단 로그를 수집하지 못했다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S07.verification",
+        "source_refs": [
+          "S07"
+        ],
+        "legacy_refs": [
+          "must_preserve:S07"
+        ],
+        "required": true,
+        "meaning": "추가 로그로 가설을 확인하거나 변경 동작을 검증했다고 보고할 근거가 없다.",
+        "literal_signals": []
+      },
+      {
+        "id": "S04.optional",
+        "source_refs": [
+          "S04"
+        ],
+        "legacy_refs": [
+          "source_facts:S04"
+        ],
+        "required": false,
+        "meaning": "언급한다면 diag_waits가 켜졌을 때만 ticket_ref, elapsed_ms, 남은 항목 수를 기록하며 요청 본문은 기록하지 않는 범위를 유지한다.",
+        "literal_signals": [
+          {
+            "kind": "identifier",
+            "value": "diag_waits"
+          },
+          {
+            "kind": "identifier",
+            "value": "ticket_ref"
+          },
+          {
+            "kind": "identifier",
+            "value": "elapsed_ms"
+          }
+        ]
+      }
+    ],
+    "questions": [
+      {
+        "id": "SQ1",
+        "question": "이 PR의 계기가 된 관측은 무엇이며, 그 관측으로 실제 응답 유실이나 중복 처리를 결론낼 수 있는가?",
+        "requirement_refs": [
+          "S01.target",
+          "S01.observation",
+          "S01.provenance",
+          "S06.inference",
+          "S06.reason",
+          "S06.frequency"
+        ],
+        "expected_answer": "개발용 합성 요청의 기존 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았다. 로그 이름과 순서만으로 실제 응답 유실이나 중복 처리를 결론낼 수 없고 영향 빈도도 미집계다."
+      },
+      {
+        "id": "SQ2",
+        "question": "대기 항목 정리와 만료 콜백의 순서는 확인된 원인인가, 조사 중인 가설인가?",
+        "requirement_refs": [
+          "S02.hypothesis",
+          "S02.reproduction"
+        ],
+        "expected_answer": "조사 중인 가능성일 뿐이다. 원인은 미확정이며 원인을 입증한 결과나 안정적인 재현 조건은 없다."
+      },
+      {
+        "id": "SQ3",
+        "question": "이번 PR이 추가한 것은 무엇이며, 문제를 해결하기 위해 처리 조건이나 제한 시간을 바꿨는가?",
+        "requirement_refs": [
+          "S03.location",
+          "S03.events",
+          "S03.purpose",
+          "S05.unchanged",
+          "S05.scope"
+        ],
+        "expected_answer": "대기 항목 생성·제거·만료 콜백 진입 시점의 진단 로그를 추가했다. 대기 항목 정리 조건, 제한 시간, 재시도 처리, 응답 형식은 바꾸지 않았으며 해결이 확인된 수정은 아니다."
+      },
+      {
+        "id": "SQ4",
+        "question": "변경 후 어떤 검증이 끝났으며, 테스트와 새 로그 수집 상태는 어떠한가?",
+        "requirement_refs": [
+          "S01.target",
+          "S01.observation",
+          "S01.provenance",
+          "S07.environment",
+          "S07.tests",
+          "S07.logs",
+          "S07.verification"
+        ],
+        "expected_answer": "테스트를 실행하지 않았고 변경 후 새 진단 로그도 수집하지 못했다. 로컬 합성 요청 실행 환경이 준비되지 않아 가설 확인이나 변경 동작 검증이 끝났다고 말할 수 없다."
+      },
+      {
+        "id": "NAV1",
+        "question": "단독으로 읽는 리뷰어가 대상 서비스와 변경 경로, 다음 관측에서 비교할 대상을 어디에서 찾을 수 있는가?",
+        "requirement_refs": [
+          "S01.target",
+          "S01.observation",
+          "S01.provenance",
+          "S03.location",
+          "S03.events",
+          "S03.purpose"
+        ],
+        "expected_answer": "대상은 잔물결 작업 접수기이며 worker/pending_slots.py의 항목 생성·제거·만료 콜백 진입 로그를 추가한다. 다음 관측에서 항목이 언제 남고 사라지는지 비교하려는 목적까지 찾는다."
+      },
+      {
+        "id": "SCOPE1",
+        "question": "검증 설명에서 시작하면 테스트와 새 로그를 확보하지 못한 이유 및 그로 인한 판단 한계가 함께 드러나는가?",
+        "requirement_refs": [
+          "S07.environment",
+          "S07.tests",
+          "S07.logs",
+          "S07.verification"
+        ],
+        "expected_answer": "로컬 합성 요청 환경이 미준비라 테스트와 변경 후 새 로그 수집을 못 했다. 따라서 가설 확인이나 변경 동작 검증을 보고할 근거가 없다."
+      }
+    ]
+  },
+  "repair_checks": [
+    {
+      "id": "v06-short-pr-validation-target",
+      "case_id": "short_investigation_wait_log",
+      "problem": "동작 유지 설명 뒤에 변경 동작 미검증이라고 써 무엇을 검증하지 못했는지 모호하다.",
+      "source_refs": [
+        "S03",
+        "S05",
+        "S07"
+      ],
+      "acceptance": "검증하지 못한 대상을 원인 가설과 추가한 진단 로그 출력으로 밝힌다. 기능 동작 유지, 테스트 미실행, 변경 후 로그 미수집, 로컬 환경 미준비를 보존한다. 본문 목표 250~400자를 지키며 기존 필수 의미와 기록 필드를 덜어내지 않는다."
+    }
+  ],
+  "request": "원자료와 대조해 필수 의미·독자 질문·수정 기준을 판정한다. 표현이 모호하거나 필수 맥락이 빠졌으면 실제 인용과 구체적 수정으로 알려 준다. 의미가 같으면 단어 일치만으로 감점하지 않는다."
+}

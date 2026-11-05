@@ -1,0 +1,467 @@
+{
+  "documents": [
+    {
+      "case_id": "v06_configuration_precedence",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 각 설정 항목마다 **CLI → 환경 변수 → YAML → 기본값** 순서로 처음 존재하는 값을 선택합니다. 예를 들어 `timeout_ms`는 CLI에서, `log_level`은 YAML에서 선택할 수 있습니다."
+          ],
+          "reason": "항목별로 처음 존재하는 값을 고르는 순서와 서로 다른 출처를 사용할 수 있다는 예가 있어, 출처 하나가 전체 설정을 대체하지 않는 의미가 보존됐다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "| `timeout_ms` | `--timeout-ms N` | `WORKER_TIMEOUT_MS` | `5000` | 10~30000 정수, 단위 ms, 양 끝값 포함 |"
+          ],
+          "reason": "CLI·환경 변수·YAML 키의 대응, 기본값 5000, 밀리초 정수, 양 끝값을 포함하는 10~30000 범위를 모두 제시한다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "| `log_level` | `--log-level LEVEL` | `WORKER_LOG_LEVEL` | `info` | 소문자 `debug`, `info`, `warn`, `error` |"
+          ],
+          "reason": "세 출처의 이름과 기본값 info, 소문자로 제한된 네 허용값을 모두 제시한다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "값을 선택한 뒤에는 **선택된 값만 검증**합니다. 선택값이 유효하지 않으면 시작 오류가 발생하며, 우선순위가 낮은 값으로 대체하지 않습니다."
+          ],
+          "reason": "선택 후 선택값만 검사하고, 그 값이 잘못되면 시작 오류가 나며 하위 값으로 대체하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "반대로 유효한 상위 값이 선택됐다면 하위 값이 유효하지 않아도 해당 설정의 시작 오류를 일으키지 않습니다."
+          ],
+          "reason": "유효한 상위 선택값이 있으면 잘못된 하위 값 때문에 해당 설정이 실패하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "환경 변수를 설정하지 않은 상태와 빈 문자열로 설정한 상태는 다릅니다. 빈 환경 변수도 존재하는 값이므로 상위 CLI 값이 없으면 선택되며, 검증에서 오류가 납니다."
+          ],
+          "reason": "미설정과 빈 문자열을 구분하고, 상위 CLI가 없을 때 빈 문자열도 선택되어 검증 오류가 난다고 설명한다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "`WORKER_TIMEOUT_MS`에는 정수를 나타내는 10진 숫자 문자열을 넣습니다."
+          ],
+          "reason": "환경 변수에 넣을 값을 정수를 나타내는 10진 숫자 문자열로 설명한다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "`--config PATH`를 지정하면 해당 YAML 파일을 읽습니다. 지정한 파일을 읽을 수 없으면 두 설정을 모두 CLI로 지정했더라도 오류가 발생합니다."
+          ],
+          "reason": "명시한 파일을 읽지 못하면 두 설정 모두 CLI로 제공해도 실패하는 조건을 같은 문단에서 밝힌다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "`--config`를 생략하면 현재 디렉터리의 `./worker.yaml`을 찾습니다. 이 파일이 없으면 나머지 설정 출처와 기본값을 사용합니다."
+          ],
+          "reason": "옵션 생략 시 현재 디렉터리의 기본 파일을 찾고, 그 파일이 없으면 다른 출처와 기본값을 사용한다고 설명한다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin"
+          ],
+          "reason": "확인 명령의 옵션·하위명령 순서가 자료와 같고, 선택·검증·표시 기능 및 워커 시작·파일 수정이 없다는 설명이 있다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "preserved",
+          "evidence": [
+            "`--show-origin`은 출처를 `cli`, `env`, `file`, `default`로 표시합니다.",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "네 출처 표기를 설명하고 예제의 항목별 출처를 표로 보여 준다. 표는 적용값 설명이며 실제 CLI 출력 줄 형식이라고 주장하지 않는다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "### 프로젝트 디렉터리에서 확인하는 예\n\n프로젝트 디렉터리의 `worker.yaml`은 다음과 같습니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "`WORKER_LOG_LEVEL`은 설정하지 않았고, CLI에도 `--log-level`을 지정하지 않은 상태에서 다음 명령을 실행합니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용됩니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "프로젝트 디렉터리에서 확인하는 예라는 제목과 파일 내용으로 실행 위치와 파일 전제를 제시한다. 로그 상위 출처의 부재, 단회 환경 변수 9000, CLI 12000 및 두 항목의 값·출처가 모두 맞다."
+        },
+        {
+          "requirement_id": "K13",
+          "status": "preserved",
+          "evidence": [
+            "예를 들어 CLI에 `--timeout-ms`가 없고 `WORKER_TIMEOUT_MS`가 빈 문자열이면, YAML의 `timeout_ms`가 유효해도 오류가 발생합니다.",
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다."
+          ],
+          "reason": "상위 CLI가 없는 빈 환경 변수는 유효한 YAML로 대체되지 않는다고 명시한다. 문서에 자료에 없는 시작 명령, 오류 종료 코드, 자동 재적용 동작을 추가하지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "도입 문단",
+          "additional_locations": [
+            "실행 전 적용값과 출처 확인 > 프로젝트 디렉터리에서 확인하는 예"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 각 설정 항목마다 **CLI → 환경 변수 → YAML → 기본값** 순서로 처음 존재하는 값을 선택합니다. 예를 들어 `timeout_ms`는 CLI에서, `log_level`은 YAML에서 선택할 수 있습니다.",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "항목별 선택 설명으로 파일의 log_level이 함께 무시되지 않음을 바로 알 수 있고, 예제의 warn(file)이 이를 구체적으로 확인해 준다."
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "선택값 검증 오류와 빈 환경 변수",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "값을 선택한 뒤에는 **선택된 값만 검증**합니다. 선택값이 유효하지 않으면 시작 오류가 발생하며, 우선순위가 낮은 값으로 대체하지 않습니다.",
+            "환경 변수를 설정하지 않은 상태와 빈 문자열로 설정한 상태는 다릅니다. 빈 환경 변수도 존재하는 값이므로 상위 CLI 값이 없으면 선택되며, 검증에서 오류가 납니다.",
+            "예를 들어 CLI에 `--timeout-ms`가 없고 `WORKER_TIMEOUT_MS`가 빈 문자열이면, YAML의 `timeout_ms`가 유효해도 오류가 발생합니다."
+          ],
+          "reason": "잘못된 선택값에 대한 대체 금지와 빈 환경 변수의 적용 조건이 같은 절에 있어, 유효한 파일값으로 돌아가지 않는다는 답을 얻을 수 있다."
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "선택값 검증 오류와 빈 환경 변수",
+          "additional_locations": [
+            "YAML 파일 선택과 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "반대로 유효한 상위 값이 선택됐다면 하위 값이 유효하지 않아도 해당 설정의 시작 오류를 일으키지 않습니다.",
+            "`--config PATH`를 지정하면 해당 YAML 파일을 읽습니다. 지정한 파일을 읽을 수 없으면 두 설정을 모두 CLI로 지정했더라도 오류가 발생합니다."
+          ],
+          "reason": "해당 항목의 선택되지 않은 값 오류와 지정 파일 자체의 읽기 실패를 서로 다른 제목에서 확인할 수 있다. 두 CLI 값이 있어도 파일 읽기 실패는 발생한다는 조건이 빠지지 않았다."
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전 적용값과 출처 확인 > 프로젝트 디렉터리에서 확인하는 예",
+          "additional_locations": [
+            "YAML 파일 선택과 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "### 프로젝트 디렉터리에서 확인하는 예\n\n프로젝트 디렉터리의 `worker.yaml`은 다음과 같습니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "`WORKER_LOG_LEVEL`은 설정하지 않았고, CLI에도 `--log-level`을 지정하지 않은 상태에서 다음 명령을 실행합니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용됩니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |",
+            "`--config`를 생략하면 현재 디렉터리의 `./worker.yaml`을 찾습니다. 이 파일이 없으면 나머지 설정 출처와 기본값을 사용합니다."
+          ],
+          "reason": "예제 제목이 프로젝트 디렉터리에서 실행하는 맥락을 주며 파일 내용, 로그 환경·CLI 부재, 단회 환경 변수와 결과가 이어진다. 기본 파일을 현재 디렉터리에서 찾는 규칙도 앞 절에 명시되어 있다."
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전 적용값과 출처 확인",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`--show-origin`은 출처를 `cli`, `env`, `file`, `default`로 표시합니다."
+          ],
+          "reason": "확인 명령이 수행하는 작업과 시작·수정 여부를 해당 절에서 직접 답하고, 출처 확인 옵션과 네 표기를 함께 제공한다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "필수 의미가 모두 보존되었고 우선순위·검증·파일 읽기 조건·예제 결과의 충돌이나 금지된 동작의 추가가 없다.",
+        "evidence": []
+      },
+      "open_issues": []
+    },
+    {
+      "case_id": "v06_configuration_precedence",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 **설정 항목마다 CLI → 환경 변수 → YAML → 기본값 순서로 처음 존재하는 값**을 선택합니다. 항목별로 선택하므로 `timeout_ms`와 `log_level`의 출처는 서로 다를 수 있습니다."
+          ],
+          "reason": "항목별 선택, 네 출처의 우선순위, 서로 다른 출처를 가질 수 있다는 설명으로 전체 설정을 한꺼번에 대체하지 않는 의미가 보존됐다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "| 제한 시간 | `--timeout-ms N` | `WORKER_TIMEOUT_MS` | `timeout_ms` | 기본값 `5000`. 밀리초 단위 정수, `10`~`30000` 포함 |"
+          ],
+          "reason": "CLI·환경 변수·YAML 키 대응, 기본값 5000, 밀리초 정수 및 양 끝을 포함하는 10~30000 범위를 제시한다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "| 로그 수준 | `--log-level LEVEL` | `WORKER_LOG_LEVEL` | `log_level` | 기본값 `info`. 소문자 `debug`, `info`, `warn`, `error` |"
+          ],
+          "reason": "세 출처의 이름과 기본값 info, 소문자 네 허용값을 모두 제시한다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "값을 고른 뒤에는 **선택된 값만 검증**합니다. 선택값이 잘못되면 시작 오류가 나며 하위 출처의 값으로 대체하지 않습니다."
+          ],
+          "reason": "먼저 값을 고른 뒤 선택값만 검사하며 잘못된 값은 시작 오류이고 하위 값으로 대체하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "높은 우선순위의 선택값이 유효하면, 선택되지 않은 하위 값이 잘못되어도 해당 설정의 시작 오류는 나지 않습니다."
+          ],
+          "reason": "상위 선택값이 유효할 때 선택되지 않은 하위 값의 오류는 해당 설정의 시작 오류를 일으키지 않는다고 설명한다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "환경 변수 미설정과 빈 문자열은 다릅니다. 빈 문자열도 존재하는 값이므로, 더 높은 CLI 값이 없으면 선택되어 오류가 납니다."
+          ],
+          "reason": "환경 변수 미설정과 빈 문자열을 구분하고 상위 CLI 부재 시 빈 문자열이 선택되어 오류가 된다고 명시한다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "`WORKER_TIMEOUT_MS`에는 10진 정수를 나타내는 숫자 문자열을 넣습니다."
+          ],
+          "reason": "환경 변수 값의 형식을 10진 정수를 나타내는 숫자 문자열로 설명한다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "`--config PATH`로 지정한 YAML을 읽을 수 없으면 오류입니다. 두 설정을 모두 CLI로 제공했어도 이 오류는 발생합니다."
+          ],
+          "reason": "명시한 YAML 파일의 읽기 실패가 두 CLI 설정을 제공했을 때도 발생한다고 같은 항목에 적었다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "`--config`를 생략하면 현재 작업 디렉터리의 `./worker.yaml`을 찾습니다. 이 기본 파일이 없으면 다른 출처나 기본값을 사용합니다."
+          ],
+          "reason": "옵션 생략 시 현재 작업 디렉터리의 기본 파일을 찾으며 그 파일이 없으면 다른 출처나 기본값을 쓴다고 설명한다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`config inspect`는 설정을 읽고 선택·검증한 값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin"
+          ],
+          "reason": "명령 형식과 실행 예의 순서가 자료와 일치하고, 읽기·선택·검증·표시만 수행하며 시작·수정하지 않는다고 설명한다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "preserved",
+          "evidence": [
+            "`--show-origin`을 붙이면 출처를 `cli`, `env`, `file`, `default`로 확인할 수 있습니다.",
+            "확인할 값은 `timeout_ms=12000`과 출처 `cli`, `log_level=warn`과 출처 `file`입니다."
+          ],
+          "reason": "네 출처 표기를 설명하고 예제 두 항목에 각각 출처를 붙였다. 실제 출력 줄 형식을 새로 제시하지 않는다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "현재 작업 디렉터리에 다음 `worker.yaml`이 이미 있다고 가정합니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "아래 명령은 `WORKER_LOG_LEVEL`이 설정되지 않은 환경에서 사용하며, `--log-level`도 지정하지 않습니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용합니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "확인할 값은 `timeout_ms=12000`과 출처 `cli`, `log_level=warn`과 출처 `file`입니다."
+          ],
+          "reason": "현재 디렉터리에 파일이 이미 있다는 전제와 8000/warn 내용, 로그 상위 출처 부재, 단회 환경 변수 9000, CLI 12000 및 정확한 항목별 결과가 모두 있다."
+        },
+        {
+          "requirement_id": "K13",
+          "status": "preserved",
+          "evidence": [
+            "예를 들어 `WORKER_TIMEOUT_MS`가 비어 있고 `--timeout-ms`가 없으면 YAML의 값이 유효해도 오류입니다.",
+            "`config inspect`는 설정을 읽고 선택·검증한 값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다."
+          ],
+          "reason": "상위 CLI가 없는 빈 환경 변수는 유효한 YAML 값으로 대체되지 않는다고 명시한다. 문서에 자료에 없는 시작 명령, 오류 종료 코드, 자동 재적용 동작을 추가하지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "도입 문단",
+          "additional_locations": [
+            "실행 전에 적용값과 출처 확인하기"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 **설정 항목마다 CLI → 환경 변수 → YAML → 기본값 순서로 처음 존재하는 값**을 선택합니다. 항목별로 선택하므로 `timeout_ms`와 `log_level`의 출처는 서로 다를 수 있습니다.",
+            "확인할 값은 `timeout_ms=12000`과 출처 `cli`, `log_level=warn`과 출처 `file`입니다.",
+            "제한 시간은 CLI가 환경 변수와 파일보다 우선합니다. 로그 수준은 상위 출처에 값이 없어 파일에서 선택됩니다."
+          ],
+          "reason": "각 항목의 출처가 다를 수 있다는 원칙과 예제의 로그 수준 선택 이유를 연결하여, timeout_ms만 CLI로 주어도 파일의 log_level을 사용할 수 있음을 답한다."
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "설정 이름과 허용값 > 표 아래 선택값 검증 설명",
+          "additional_locations": [
+            "빈 환경 변수와 파일 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "값을 고른 뒤에는 **선택된 값만 검증**합니다. 선택값이 잘못되면 시작 오류가 나며 하위 출처의 값으로 대체하지 않습니다.",
+            "환경 변수 미설정과 빈 문자열은 다릅니다. 빈 문자열도 존재하는 값이므로, 더 높은 CLI 값이 없으면 선택되어 오류가 납니다.",
+            "예를 들어 `WORKER_TIMEOUT_MS`가 비어 있고 `--timeout-ms`가 없으면 YAML의 값이 유효해도 오류입니다."
+          ],
+          "reason": "하위 값으로 대체하지 않는 일반 규칙과 빈 환경 변수 사례의 조건을 모두 확인할 수 있어 유효한 파일값으로 돌아가는지에 대한 답이 명확하다."
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "설정 이름과 허용값 > 표 아래 선택값 검증 설명",
+          "additional_locations": [
+            "빈 환경 변수와 파일 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "높은 우선순위의 선택값이 유효하면, 선택되지 않은 하위 값이 잘못되어도 해당 설정의 시작 오류는 나지 않습니다.",
+            "`--config PATH`로 지정한 YAML을 읽을 수 없으면 오류입니다. 두 설정을 모두 CLI로 제공했어도 이 오류는 발생합니다.",
+            "파일 부재의 예외를 모든 읽기 실패에 적용해서는 안 됩니다."
+          ],
+          "reason": "선택되지 않은 값 오류와 지정 파일 읽기 실패를 각각 명시하고 두 CLI 값을 제공한 경우까지 설명한다. 기본 파일 부재의 예외를 모든 읽기 실패에 확대하지 말라는 문장도 이 구분을 돕는다."
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전에 적용값과 출처 확인하기 > worker.yaml 예제",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "현재 작업 디렉터리에 다음 `worker.yaml`이 이미 있다고 가정합니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "아래 명령은 `WORKER_LOG_LEVEL`이 설정되지 않은 환경에서 사용하며, `--log-level`도 지정하지 않습니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용합니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "확인할 값은 `timeout_ms=12000`과 출처 `cli`, `log_level=warn`과 출처 `file`입니다.",
+            "제한 시간은 CLI가 환경 변수와 파일보다 우선합니다. 로그 수준은 상위 출처에 값이 없어 파일에서 선택됩니다."
+          ],
+          "reason": "실행 디렉터리, 기존 파일 내용, 로그 관련 상위 출처 부재, 단회 환경 변수 및 최종 값·출처가 한 예제 흐름에 있고 선택 이유도 설명한다."
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전에 적용값과 출처 확인하기",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`config inspect`는 설정을 읽고 선택·검증한 값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "`--show-origin`을 붙이면 출처를 `cli`, `env`, `file`, `default`로 확인할 수 있습니다."
+          ],
+          "reason": "명령 형식 바로 뒤에서 수행 작업과 시작·수정이 없음을 밝히고, 출처 확인 옵션과 네 표기를 설명한다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "필수 의미가 모두 보존되었고 우선순위·검증·파일 읽기 조건·예제 결과의 충돌이나 금지된 동작의 추가가 없다.",
+        "evidence": []
+      },
+      "open_issues": []
+    }
+  ],
+  "comparisons": [
+    {
+      "case_id": "v06_configuration_precedence",
+      "preference": "tie",
+      "reason": "두 문서 모두 13개 필수 의미와 5개 질문에 충분한 근거를 제공한다. A는 파일 읽기 오류와 선택값 검증 오류를 별도 제목으로 구분하고 결과를 표로 제시한다. B는 현재 디렉터리와 기존 파일 전제를 명시하고 결과 뒤에 항목별 선택 이유를 설명한다. A의 예제 제목과 앞선 기본 파일 규칙도 실행 위치를 충분히 뒷받침한다. 오류 조건을 두 절에서 함께 확인하는 경우는 있으나 필요한 조건이 누락되거나 서로 충돌하지 않는다. 원칙을 예제에 다시 적용하거나 빈 환경 변수의 실패 조건을 구체화한 부분은 현재 판단에 필요하며, 수정할 정도의 불필요한 반복은 확인되지 않았다.",
+      "evidence": [
+        {
+          "label": "A",
+          "quote": "봄바람 구성 로더(`breeze-worker`)는 각 설정 항목마다 **CLI → 환경 변수 → YAML → 기본값** 순서로 처음 존재하는 값을 선택합니다. 예를 들어 `timeout_ms`는 CLI에서, `log_level`은 YAML에서 선택할 수 있습니다.",
+          "note": "항목별 선택 원칙과 두 항목이 서로 다른 출처에서 선택될 수 있다는 개념 예시를 연결한다."
+        },
+        {
+          "label": "A",
+          "quote": "## YAML 파일 선택과 읽기 오류",
+          "note": "파일 읽기 조건을 찾을 제목이 명확하다."
+        },
+        {
+          "label": "A",
+          "quote": "## 선택값 검증 오류와 빈 환경 변수",
+          "note": "선택값 검증 및 빈 문자열 조건을 별도 제목 아래에서 찾을 수 있다."
+        },
+        {
+          "label": "A",
+          "quote": "### 프로젝트 디렉터리에서 확인하는 예\n\n프로젝트 디렉터리의 `worker.yaml`은 다음과 같습니다.",
+          "note": "예제 제목이 실행 위치를 프로젝트 디렉터리로 설정하고 파일 내용을 이어 제시한다."
+        },
+        {
+          "label": "A",
+          "quote": "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |",
+          "note": "선택 결과를 항목별 값·출처 표로 제시한다."
+        },
+        {
+          "label": "B",
+          "quote": "봄바람 구성 로더(`breeze-worker`)는 **설정 항목마다 CLI → 환경 변수 → YAML → 기본값 순서로 처음 존재하는 값**을 선택합니다. 항목별로 선택하므로 `timeout_ms`와 `log_level`의 출처는 서로 다를 수 있습니다.",
+          "note": "항목별 선택과 출처가 달라질 수 있다는 관계를 설명한다."
+        },
+        {
+          "label": "B",
+          "quote": "현재 작업 디렉터리에 다음 `worker.yaml`이 이미 있다고 가정합니다.",
+          "note": "현재 작업 디렉터리와 기존 파일이라는 예제 전제를 직접 밝힌다."
+        },
+        {
+          "label": "B",
+          "quote": "제한 시간은 CLI가 환경 변수와 파일보다 우선합니다. 로그 수준은 상위 출처에 값이 없어 파일에서 선택됩니다.",
+          "note": "예제 결과를 우선순위 및 상위 출처 부재 조건과 연결한다."
+        },
+        {
+          "label": "B",
+          "quote": "`--config PATH`로 지정한 YAML을 읽을 수 없으면 오류입니다. 두 설정을 모두 CLI로 제공했어도 이 오류는 발생합니다.",
+          "note": "파일 읽기 오류 항목에서 모든 값을 CLI로 준 경우까지 예외 조건을 확인할 수 있다."
+        },
+        {
+          "label": "A",
+          "quote": "예를 들어 CLI에 `--timeout-ms`가 없고 `WORKER_TIMEOUT_MS`가 빈 문자열이면, YAML의 `timeout_ms`가 유효해도 오류가 발생합니다.",
+          "note": "빈 문자열 설명을 상위 CLI 부재와 유효한 YAML이라는 실제 판단 조건에 적용한다."
+        },
+        {
+          "label": "B",
+          "quote": "예를 들어 `WORKER_TIMEOUT_MS`가 비어 있고 `--timeout-ms`가 없으면 YAML의 값이 유효해도 오류입니다.",
+          "note": "같은 실패 조건을 구체화하는 기능이 있어 불필요한 반복으로 보지 않았다."
+        }
+      ],
+      "actionable_issues": []
+    }
+  ]
+}

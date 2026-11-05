@@ -46,7 +46,7 @@ python scripts/test_check_claims.py
 
 ## 교정 완료본의 배포 검사
 
-v0.5.0에서는 기존 출력과 피드백을 보고 문서를 교정한 뒤 별도 검토자가 원자료와 대조합니다. 검토 기록의 무결성 검사에 더해, 최종본에 해결되지 않은 필수 의미·탐색 질문·구체적 편집 문제가 남았다고 기록돼 있으면 배포 검사를 통과하지 못하게 했습니다.
+현재 배포에서는 실제로 수정한 문서를 별도 검토자가 원자료와 대조합니다. 본문·원자료·계약이 바뀌지 않은 문서의 기존 판정은 출처를 밝히고 재사용합니다. 검토 기록의 무결성 검사에 더해, 최종본에 해결되지 않은 필수 의미·탐색 질문·구체적 편집 문제가 남았다고 기록돼 있으면 배포 검사를 통과하지 못하게 했습니다.
 
 ```bash
 python scripts/check_repairs.py
@@ -57,16 +57,61 @@ python scripts/test_check_repairs.py
 
 이 검사는 검토자가 내린 판정과 그 근거의 무결성을 확인합니다. 코드가 인용의 의미를 이해하거나 좋은 글을 자동으로 판정하는 것은 아닙니다. 회귀 검사는 오래된 인용, 누락·중복 판정, 다른 사례의 판정, 미해결 의미·질문·문제를 완료로 통과시키는 일을 막는지 확인합니다.
 
-현재 교정의 [완료 기준](../evaluations/runs/2026-11-03-v0.5.0/repair-checks.json), [프로토콜](../evaluations/runs/2026-11-03-v0.5.0/protocol.md), [실제 수정 결과](repairs-v0.5.0.md)를 함께 확인할 수 있습니다. 과거 v0.4.0 검토 기록은 위 명령으로 계속 별도 검사합니다.
+현재 교정의 [완료 기준](../evaluations/runs/2026-11-05-v0.6.0/repair-checks.json), [프로토콜](../evaluations/runs/2026-11-05-v0.6.0/protocol.md), [실제 수정 결과](repairs-v0.6.0.md)를 함께 확인할 수 있습니다. 과거 v0.4.0 검토 기록은 위 명령으로 계속 별도 검사합니다.
+
+## 비교 문서와 HTML 다시 만들기
+
+저장소 루트에서 Python 3.12와 Node.js 20 이상으로 실행합니다. Markdown 변환에 사용하는 Marked 17.0.5와 MIT 라이선스는 `scripts/vendor/marked/`에 포함되어 있습니다. 이 빌드에는 npm 설치나 특정 서비스의 환경 변수가 필요하지 않습니다.
+
+```bash
+python scripts/build_docs.py
+node scripts/build_viewer.mjs
+```
+
+두 빌더는 현재 실행 기록의 원자료·스킬 스냅샷·문서 해시와 실제 인용을 확인한 다음 비교 문서와 예시를 만듭니다. 버전·날짜·이전 버전 표시를 `manifest.json`에서 읽습니다. 다른 실행 기록은 `--run evaluations/runs/RUN`으로 지정합니다. HTML을 별도 파일로 만들려면 `--output /tmp/comparison.html`을 사용합니다.
+
+공개 파일이 입력과 맞는지 검사만 하려면 다음을 실행합니다. `--check`는 파일을 덮어쓰지 않으며, 파일이 없거나 재생성 결과와 바이트가 다르면 실패합니다.
+
+```bash
+python scripts/build_docs.py --check
+node scripts/build_viewer.mjs --check
+node scripts/check_viewer.mjs
+```
+
+마지막 검사는 원문 내려받기의 바이트, 문서·버전 선택, 제목·각주 링크, 자바스크립트를 끈 상태의 본문 보존 등을 확인합니다. Node VM과 DOM 대역을 쓰므로 실제 화면 배치나 스크롤 측정과는 구분합니다.
+
+비교 화면은 원문의 제목에서 목차를 만들고, 절 링크를 열면 해당 사례와 버전을 표시합니다. 한 문서 읽기에서는 본문 전체를 페이지 스크롤로 읽고, 표는 본문 글자 크기를 줄이는 대신 필요한 경우 표 영역에서 가로로 이동합니다.
+
+### 실제 브라우저 검사
+
+Playwright 1.62.1과 Chromium이 설치된 환경에서 실행합니다. CI에서는 검사 전용 임시 디렉터리에 설치하므로 프로젝트 스킬이나 사용자 브라우저를 바꾸지 않습니다.
+
+```bash
+node scripts/check_viewer_browser.mjs
+```
+
+기본적으로 Node의 `playwright` 모듈을 읽습니다. 별도 위치에 설치했다면 `PLAYWRIGHT_MODULE_PATH`에 `playwright/index.mjs`의 절대 경로를 지정합니다. CI는 Chromium과 한국어 글꼴을 설치한 뒤 절 이동, 선택한 본문의 표시, 단독 읽기 스크롤, 좁은 화면의 넘침을 확인합니다. 실제 브라우저 실행 결과는 해당 GitHub Actions 작업에서 확인합니다.
+
+### 새 주제의 검토 기록
+
+`check_claims.py --require-complete`는 계약의 모든 사례가 출력 목록에 있는지와 기록된 필수 의미가 모두 `preserved`, 질문이 모두 `sufficient`이며 미해결 항목이 없는지도 확인합니다. 단순 무결성 검사가 실패 기록을 허용하는 것과 구분됩니다. 이 옵션도 문장의 의미 자체를 자동 판정하지는 않습니다.
+
+```bash
+python scripts/check_claims.py \
+  --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json \
+  --output-index evaluations/runs/2026-11-05-v0.6.0/forward/final-index.json \
+  --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final.json \
+  --require-complete
+```
 
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.5.0
-python scripts/package.py --version 0.5.0 --output-dir dist/recheck
+python scripts/package.py --version 0.6.0
+python scripts/package.py --version 0.6.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.5.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.6.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
@@ -106,7 +151,7 @@ python scripts/check_install.py --source hostkimjang/korean-dev-writing-skills
 
 ## CI
 
-GitHub Actions는 Python 3.12에서 구조 검사, 기존 평가 계약과 검토 인용의 무결성 검사, 현재 교정본의 배포 검사와 검사기 회귀 검사를 실행합니다. 패키지를 두 번 생성해 바이트도 비교합니다. Node.js 24에서는 위 설치 검증을 실행합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
+GitHub Actions는 Python 3.12에서 구조 검사, 기존 평가 계약과 검토 인용의 무결성 검사, 현재 교정본의 배포 검사와 검사기 회귀 검사를 실행합니다. 패키지를 두 번 생성해 바이트도 비교합니다. Node.js 24에서는 설치 검증, 비교 자료의 재생성 결과 대조와 기능 검사를 실행합니다. 별도 작업은 실제 Chromium에서 비교 화면을 검사합니다. 사용한 외부 Action은 확인한 릴리스의 커밋으로 고정했습니다. 워크플로는 저장소 읽기 권한만 요청합니다.
 
 `main`에 게시한 경우에는 해당 커밋의 GitHub 주소로도 설치합니다. 이동하는 브랜치의 최신 파일 대신 실행 대상 커밋을 지정해, 로컬 체크아웃 검사와 공개 다운로드 검사에서 같은 내용을 비교합니다.
 

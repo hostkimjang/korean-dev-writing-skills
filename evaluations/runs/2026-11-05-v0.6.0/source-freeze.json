@@ -1,0 +1,22 @@
+{
+  "created_for": "v0.6.0",
+  "frozen_before_skill_edit": true,
+  "cases": [
+    {
+      "case_id": "v06_log_retention",
+      "source": "evaluations/runs/2026-11-05-v0.6.0/source/11_v06_log_retention.json",
+      "source_sha256": "12d734c5a210b7c285aae2ac77f14290ebb1d32b62b6a1fc284fd190727c6d7e",
+      "input": "evaluations/runs/2026-11-05-v0.6.0/inputs/11_v06_log_retention.md",
+      "input_sha256": "c4fcf9f4258bda119a067c2a0a3b85336684d97f9b471efbb62fc29801bae853"
+    },
+    {
+      "case_id": "v06_configuration_precedence",
+      "source": "evaluations/runs/2026-11-05-v0.6.0/source/12_v06_configuration_precedence.json",
+      "source_sha256": "ef540a0db1402bdfb43b9c38cbc8bca6469e604b1bcf1fae5e86194b4919c4ca",
+      "input": "evaluations/runs/2026-11-05-v0.6.0/inputs/12_v06_configuration_precedence.md",
+      "input_sha256": "c60eaeb48e90c8ac0b3a37457b948257f31a86fa0edab3a9d480837cb637472e"
+    }
+  ],
+  "contract_path": "evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json",
+  "contract_sha256": "f61e7f1f49e67100d64546d032ea8e50ba95ea40f1eb654f81c5ef815037b849"
+}

@@ -1,0 +1,64 @@
+{
+  "documents": [
+    {
+      "case_id": "cli_readme",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/01_cli_readme.md",
+      "sha256": "c0bce405eb18d82ed1d397f7cd64469f0aa6cdb1da2ffe1d7972fa0b5531985f"
+    },
+    {
+      "case_id": "event_architecture",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md",
+      "sha256": "8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d"
+    },
+    {
+      "case_id": "investigation_pr",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/03_investigation_pr.md",
+      "sha256": "f917f97afe5ac47f0e4526b5717744973714cb3f0fb533e4ff247f36ed47e0aa"
+    },
+    {
+      "case_id": "incident_runbook",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/04_incident_runbook.md",
+      "sha256": "c8681e940b3702164b6cd51f511c956505129e28bfcd0fff13afe09340997ad0"
+    },
+    {
+      "case_id": "storage_adr",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/05_storage_adr.md",
+      "sha256": "6fd6cb960708c9f928a00ada447d5952a2bbd17ad5f040cddd7cda6ac2939794"
+    },
+    {
+      "case_id": "paragraph_edit",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/06_paragraph_edit.md",
+      "sha256": "fe7f3ef660c6cb4369959ae15d19f1cbd40190f9904e166dd794b2c3424726fe"
+    },
+    {
+      "case_id": "long_onboarding_index_refresh",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md",
+      "sha256": "0668347ddaee4046a77653a611921e75a0315407ea23e2678630146c620ffb4e"
+    },
+    {
+      "case_id": "short_investigation_wait_log",
+      "label": "v0.6.0-revised",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md",
+      "sha256": "7e17d74a3322083968fcece2a227e40654230b769e22335f64507ba4427fffc5"
+    },
+    {
+      "case_id": "v04_new_a_config_rollout",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md",
+      "sha256": "2b2b97f3258e6ba57610ab9d85fbdbb8969a7e5f1531f5c9c2eb2186e1c61c73"
+    },
+    {
+      "case_id": "v04_new_b_thumbnail_report",
+      "label": "v0.5.0-retained",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md",
+      "sha256": "8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89"
+    }
+  ]
+}

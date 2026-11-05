@@ -373,6 +373,25 @@ def validate_reviews(reviews: list[tuple[Path, dict]], documents: dict, cases: d
     return len(seen_documents)
 
 
+def validate_decisions(reviews: list[dict], cases: dict, check: Check) -> None:
+    """Integrity alone accepts honest failures; a repaired release must close them."""
+    for review in reviews:
+        for doc in review.get("documents", []):
+            case_id = doc.get("case_id")
+            known = cases.get(case_id, {})
+            required = {r["id"] for r in known.get("requirements", []) if r["required"]}
+            for row in doc.get("requirements", []):
+                if row.get("requirement_id") in required and row.get("status") != "preserved":
+                    check.error(case_id, f"unresolved required meaning: {row.get('requirement_id')}")
+            for row in doc.get("questions", []):
+                if row.get("answer_status") != "sufficient" or row.get("local_condition_gap"):
+                    check.error(case_id, f"unresolved navigation question: {row.get('question_id')}")
+            if doc.get("hard_fail", {}).get("value") is not False:
+                check.error(case_id, "hard failure is not closed")
+            if doc.get("open_issues") != []:
+                check.error(case_id, "open_issues must explicitly be empty for a final repaired document")
+
+
 def cli_path(value: str) -> Path:
     path = Path(value)
     return (path if path.is_absolute() else ROOT / path).resolve()
@@ -383,10 +402,13 @@ def main() -> int:
     parser.add_argument("--contract", default=DEFAULT_CONTRACT)
     parser.add_argument("--output-index", help="JSON with documents: case_id, label, path, sha256")
     parser.add_argument("--reviews", nargs="+", help="review JSON files; the union must cover the output index")
+    parser.add_argument("--require-complete", action="store_true", help="require all contract cases and complete recorded preservation/navigation decisions; does not judge semantics")
     parser.add_argument("--write-signals", help="write literal-presence signals and Unicode character counts")
     args = parser.parse_args()
     if (args.reviews or args.write_signals) and not args.output_index:
         parser.error("--reviews and --write-signals require --output-index")
+    if args.require_complete and not (args.output_index and args.reviews):
+        parser.error("--require-complete requires --output-index and --reviews")
     check = Check()
     contract_path = cli_path(args.contract)
     contract = check.json(contract_path)
@@ -407,6 +429,11 @@ def main() -> int:
                 reviews.append((path, data))
         if not check.errors:
             reviewed = validate_reviews(reviews, documents, cases, check)
+            if args.require_complete and not check.errors:
+                validate_decisions([data for _, data in reviews], cases, check)
+                present_cases = {case_id for case_id, _ in documents}
+                if present_cases != set(cases):
+                    check.error("output-index", f"complete review requires every contract case: missing={sorted(set(cases)-present_cases)}")
     destination = cli_path(args.write_signals) if args.write_signals else None
     if destination and destination in check.read_paths:
         check.error(str(destination), "signals must not overwrite a contract, source, input, output, index, or review file")
@@ -431,6 +458,8 @@ def main() -> int:
             print(f"ERROR {destination}: {exc}", file=sys.stderr)
             return 1
     print(f"PASS: {len(cases)} contract cases, {len(documents)} frozen outputs, {reviewed} review records.")
+    if args.require_complete:
+        print("All required recorded decisions are complete with no open issues; the program does not judge their semantic correctness.")
     print("Structure, references, hashes, and exact quotations only. Literal presence/absence is not a semantic verdict or hard_fail.")
     return 0
 

@@ -1,0 +1,240 @@
+{
+  "cases": [
+    {
+      "case_id": "v06_configuration_precedence",
+      "source": "evaluations/runs/2026-11-05-v0.6.0/source/12_v06_configuration_precedence.json",
+      "contract_case": {
+        "case_id": "v06_configuration_precedence",
+        "source_path": "evaluations/runs/2026-11-05-v0.6.0/source/12_v06_configuration_precedence.json",
+        "source_sha256": "ef540a0db1402bdfb43b9c38cbc8bca6469e604b1bcf1fae5e86194b4919c4ca",
+        "input_path": "evaluations/runs/2026-11-05-v0.6.0/inputs/12_v06_configuration_precedence.md",
+        "input_sha256": "c60eaeb48e90c8ac0b3a37457b948257f31a86fa0edab3a9d480837cb637472e",
+        "requirements": [
+          {
+            "id": "K01",
+            "source_refs": [
+              "C01"
+            ],
+            "meaning": "breeze-worker는 항목별로 CLI, 환경 변수, YAML, 기본값 순서로 선택하며 한 출처가 전체 설정을 대체하지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C01"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K02",
+            "source_refs": [
+              "C02"
+            ],
+            "meaning": "timeout_ms는 밀리초 정수 10~30000(양 끝 포함), 기본값 5000이며 --timeout-ms N / WORKER_TIMEOUT_MS / YAML timeout_ms가 대응한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C02"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K03",
+            "source_refs": [
+              "C03"
+            ],
+            "meaning": "log_level 기본값은 info이고 허용값은 소문자 debug/info/warn/error이며 --log-level LEVEL / WORKER_LOG_LEVEL / YAML log_level이 대응한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C03"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K04",
+            "source_refs": [
+              "C04"
+            ],
+            "meaning": "먼저 선택하고 선택값만 검사한다. 잘못된 선택값은 시작 오류이며 낮은 값으로 대체하지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C04"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K05",
+            "source_refs": [
+              "C04"
+            ],
+            "meaning": "유효한 상위 값 때문에 선택되지 않은 하위 값의 오류는 해당 항목을 실패시키지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C04"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K06",
+            "source_refs": [
+              "C05"
+            ],
+            "meaning": "환경 변수 미설정과 빈 문자열은 다르며 빈 문자열도 선택되므로 상위 CLI가 없으면 오류다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C05"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K07",
+            "source_refs": [
+              "C05"
+            ],
+            "meaning": "WORKER_TIMEOUT_MS에는 정수의 십진 숫자 문자열을 쓴다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C05"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K08",
+            "source_refs": [
+              "C06"
+            ],
+            "meaning": "지정한 --config PATH 파일을 읽지 못하면 CLI에 두 값을 모두 줬어도 실패한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C06"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K09",
+            "source_refs": [
+              "C06"
+            ],
+            "meaning": "--config 생략 시 현재 디렉터리의 ./worker.yaml을 찾고 기본 파일이 없으면 다른 출처/기본값을 쓴다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C06"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K10",
+            "source_refs": [
+              "C07"
+            ],
+            "meaning": "제시된 확인 명령의 옵션/하위명령 순서를 지키고 inspect가 값 선택·검사·조회만 하며 worker 시작/파일 수정은 하지 않음을 설명한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C07"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K11",
+            "source_refs": [
+              "C07"
+            ],
+            "meaning": "--show-origin은 cli/env/file/default 중 항목별 출처를 보이며 상세 출력 형식을 지어내지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C07"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K12",
+            "source_refs": [
+              "C08"
+            ],
+            "meaning": "기존 worker.yaml(8000, warn)이 있는 디렉터리, WORKER_LOG_LEVEL/--log-level 부재 조건과 단회 환경 변수 9000, CLI 12000 예제를 함께 제시한다. 선택 결과는 timeout_ms=12000(cli), log_level=warn(file)이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C08"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K13",
+            "source_refs": [
+              "C09"
+            ],
+            "meaning": "상위 CLI가 없으면 빈 WORKER_TIMEOUT_MS는 유효한 YAML로 대체되지 않고 실패한다. 시작 명령/오류 종료 코드/자동 재적용을 만들지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:C09"
+            ],
+            "literal_signals": []
+          }
+        ],
+        "questions": [
+          {
+            "id": "Q01",
+            "question": "CLI로 timeout_ms만 주면 파일의 log_level도 무시되는가?",
+            "expected_answer": "아니다. 항목별로 선택하므로 log_level은 자기 출처 순서를 따른다.",
+            "requirement_refs": [
+              "K01",
+              "K12"
+            ]
+          },
+          {
+            "id": "Q02",
+            "question": "선택된 환경 변수가 잘못되면 유효한 파일값으로 돌아가는가?",
+            "expected_answer": "아니다. 선택 후 해당 값만 검사하므로 오류이며 하위 값으로 대체하지 않는다.",
+            "requirement_refs": [
+              "K04",
+              "K06",
+              "K13"
+            ]
+          },
+          {
+            "id": "Q03",
+            "question": "하위 파일값이 잘못되어도 상위 CLI가 유효하면 성공하는가? 지정 파일을 읽지 못하는 경우도 같은가?",
+            "expected_answer": "선택되지 않은 하위 값 오류는 해당 항목을 실패시키지 않지만 지정한 파일을 읽지 못하는 오류는 두 항목에 CLI를 줘도 발생한다.",
+            "requirement_refs": [
+              "K05",
+              "K08"
+            ]
+          },
+          {
+            "id": "Q04",
+            "question": "예제를 실행할 디렉터리와 환경 조건, 선택 결과는 무엇인가?",
+            "expected_answer": "기존 worker.yaml(8000/warn)이 있는 프로젝트, WORKER_LOG_LEVEL/--log-level 없음. 단회 env9000보다 CLI12000이 우선이고 log_level은 warn(file)이다.",
+            "requirement_refs": [
+              "K12"
+            ]
+          },
+          {
+            "id": "Q05",
+            "question": "설정 확인 명령은 worker를 시작하거나 파일을 바꾸는가?",
+            "expected_answer": "inspect는 읽기·선택·검사·표시만 하며 시작/수정하지 않는다. show-origin에서 cli/env/file/default 출처를 볼 수 있다.",
+            "requirement_refs": [
+              "K10",
+              "K11"
+            ]
+          }
+        ]
+      },
+      "documents": [
+        {
+          "case_id": "v06_configuration_precedence",
+          "label": "B",
+          "path": "evaluations/runs/2026-11-05-v0.6.0/forward/blind/12_v06_configuration_precedence_B.md",
+          "sha256": "fc0e7a7f95a2dd6a19859f012db6af66dcfcee47c6211662738636ba8e6173b5"
+        },
+        {
+          "case_id": "v06_configuration_precedence",
+          "label": "A",
+          "path": "evaluations/runs/2026-11-05-v0.6.0/forward/blind/12_v06_configuration_precedence_A.md",
+          "sha256": "2d662fd5103ea5228dee04a060167e784812220ad740cf8428fcbc461588b416"
+        }
+      ]
+    }
+  ],
+  "comparison_questions": [
+    "문서의 개념과 판단 기준을 처음 배우는 독자가 연결 관계를 이해할 수 있는가?",
+    "중요한 기준·오류·예외를 어느 제목/항목에서 찾을 수 있는가?",
+    "조건을 다시 언급한 부분은 현재 판단에 필요한가, 같은 원리/배경을 반복하기만 하는가?"
+  ],
+  "instructions": "원자료에 근거해 판단하고 부재·모호함이 있으면 실제 인용과 구체적 수정을 남긴다. 길이나 버전 추측만으로 승자를 정하지 않는다."
+}

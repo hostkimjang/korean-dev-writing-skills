@@ -1,0 +1,401 @@
+{
+  "provenance": "Log retention: fresh review of the corrected candidate. Configuration: projection of its blind review onto identical bytes.",
+  "documents": [
+    {
+      "case_id": "v06_log_retention",
+      "label": "v0.6.0-final",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "단풍 로그 보관기는 개발 로그를 빠른 조회용 `hot`과 장기 보관용 `archive`에 저장합니다. 기본 검색은 `hot`만 조회하며, `archive`의 로그는 복원 요청 후 조회할 수 있습니다."
+          ],
+          "reason": "hot을 기본 검색 영역으로, archive를 복원 요청 뒤 읽는 영역으로 설명하여 두 영역의 조회 경로를 보존했다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "보관 기간의 기준은 서버가 로그를 받은 UTC 시각인 `received_at`입니다. 로그 본문의 `event_time`은 사건이 발생한 시각을 기록하는 값이며 보관 기간 계산에는 쓰지 않습니다."
+          ],
+          "reason": "서버의 received_at을 UTC 기준으로 사용하고 event_time을 계산에서 제외한다는 조건을 명시했다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "로그를 조회해도 `received_at`과 보관 기한은 바뀌지 않습니다."
+          ],
+          "reason": "조회가 기준 시각과 보관 기한을 모두 변경하지 않음을 명시했다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "- **보관 이동:** `received_at`부터 14일 이상 지난 로그는 `archive` 이동 대상이 됩니다.",
+            "- **삭제:** 같은 `received_at`부터 60일 이상 지난 로그는 삭제 대상이 됩니다. 삭제 기한은 `archive`로 이동한 날을 기준으로 다시 계산하지 않습니다.",
+            "두 기준 모두 경계 시각을 포함합니다. 수신 후 정확히 14일이 되는 시각부터 이동 기준을, 정확히 60일이 되는 시각부터 삭제 기준을 충족합니다."
+          ],
+          "reason": "14일 이상과 60일 이상의 경계를 포함하고 두 기간을 같은 received_at부터 계산한다. archive 이동일부터 삭제 기한을 다시 계산하지 않는다는 설명도 있어 14일과 60일을 합산하는 해석을 막는다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "각 로그에는 수신 당시의 `policy_revision`과 보관 기준이 함께 저장됩니다. 정책이 바뀌면 변경 이후에 수신한 로그부터 새 정책을 적용하며, 기존 로그의 기한은 다시 계산하지 않습니다."
+          ],
+          "reason": "접수 당시 정책 버전과 보관 기준의 저장, 변경 이후 새 로그에 대한 적용, 기존 로그의 기한 재계산 금지를 모두 보존했다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "정리 작업은 매일 UTC 02:00에 실행되어 보관 이동과 삭제를 처리합니다. 로그가 14일 또는 60일 기준을 충족하는 순간에 처리가 완료되는 것은 아닙니다. 작업이 지연되면 처리도 뒤로 미뤄질 수 있으며, 완료 시각은 보장되지 않습니다."
+          ],
+          "reason": "매일 UTC 02:00에 정리 작업을 실행하는 일정과 대상 기준 충족·실제 완료의 차이를 설명했다. 작업 지연과 완료 시각 비보장도 명시하여 02:00을 완료 시각으로 오해하게 하지 않는다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "`legal_hold=true`인 로그는 삭제 대상에서 제외됩니다. 다만 `archive` 이동과 보관 기간의 경과는 계속됩니다. 보류 상태에서도 수신 후 60일 기준 시각은 그대로 유지됩니다."
+          ],
+          "reason": "legal_hold가 삭제만 제외하고 archive 이동과 보관 나이의 경과는 멈추지 않는다는 범위를 보존했다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "보류를 해제했을 때 이미 `received_at`부터 60일 이상 지났다면 해당 로그는 다음 정리 작업의 삭제 대상이 됩니다. 보류 해제로 보관 기간이 새로 시작되지는 않습니다."
+          ],
+          "reason": "해제 당시 이미 60일 이상이면 다음 정리 작업의 삭제 대상이라는 조건과 보관 나이 재시작 금지를 함께 설명했다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "기본 검색은 `hot`만 조회하므로 검색 결과에 로그가 없다는 사실만으로 `archive`에도 없거나 이미 삭제됐다고 판단할 수 없습니다."
+          ],
+          "reason": "기본 검색의 hot 한정 범위와 검색 결과 없음으로 archive 부재·삭제를 단정할 수 없다는 해석 제한을 보존했다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "`archive`의 로그를 확인하려면 **보관 조회 화면**에서 대상 로그의 복원을 요청합니다."
+          ],
+          "reason": "archive 조회를 위해 보관 조회 화면에서 대상 로그의 복원을 요청하는 경로를 명시했다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "preserved",
+          "evidence": [
+            "복원은 `archive` 원본을 바탕으로 조회용 임시 사본을 만드는 작업입니다. 임시 사본은 **생성 완료 시점부터 24시간** 동안 사용할 수 있으며, 만료 시각은 화면의 `restore_expires_at`에서 확인합니다."
+          ],
+          "reason": "복원이 임시 조회본을 만든다는 의미, 생성 완료 후 24시간이라는 시작점과 기간, restore_expires_at 확인 방법을 모두 보존했다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "임시 사본의 만료는 원본 삭제를 뜻하지 않습니다. 복원을 요청해도 원본의 보관 기간은 연장되지 않으므로, 원본의 삭제 대상 여부는 해당 로그의 보관 기준과 `legal_hold` 상태로 판단합니다."
+          ],
+          "reason": "조회본 만료와 원본 삭제를 구분하며 복원이 원본 보관 기한을 연장하지 않는다는 조건을 명시했다."
+        },
+        {
+          "requirement_id": "K13",
+          "status": "preserved",
+          "evidence": [
+            "| 사건 발생 시각 `event_time` | `2026-09-26T07:00:00Z` |",
+            "| 서버 수신 시각 `received_at` | `2026-10-01T10:00:00Z` |",
+            "| 14일 경과: 이동 기준 충족 | `2026-10-15T10:00:00Z` |",
+            "| 60일 경과: 삭제 기준 충족 | `2026-11-30T10:00:00Z` |",
+            "표의 14일·60일 경과 시각은 처리 대상이 되는 기준입니다. 실제 이동이나 삭제가 완료되는 시각을 뜻하지는 않습니다."
+          ],
+          "reason": "사례의 event_time, received_at, 14일·60일 경계 시각이 원자료와 일치한다. 표 바로 아래에서 대상 진입 시각과 실제 완료 시각을 구분했다."
+        },
+        {
+          "requirement_id": "K14",
+          "status": "preserved",
+          "evidence": [
+            "정리 실패 시 복구 절차, 복원 완료까지 걸리는 시간, 삭제된 로그의 복구 방법은 아직 확인되지 않았습니다."
+          ],
+          "reason": "정리 장애 복구, archive 복원 소요 시간, 삭제 로그 복구를 모두 미확인 상태로 남겼고 관련 보장이나 실행 절차를 만들어 넣지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "보관 기간은 서버 수신 시각부터 계산 — 첫 문단",
+          "additional_locations": [
+            "정책 변경은 변경 이후 수신 로그에 적용 — 본문"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "보관 기간의 기준은 서버가 로그를 받은 UTC 시각인 `received_at`입니다. 로그 본문의 `event_time`은 사건이 발생한 시각을 기록하는 값이며 보관 기간 계산에는 쓰지 않습니다. 로그를 조회해도 `received_at`과 보관 기한은 바뀌지 않습니다.",
+            "각 로그에는 수신 당시의 `policy_revision`과 보관 기준이 함께 저장됩니다. 정책이 바뀌면 변경 이후에 수신한 로그부터 새 정책을 적용하며, 기존 로그의 기한은 다시 계산하지 않습니다."
+          ],
+          "reason": "기준 시각과 조회 영향은 보관 기간 절에서, 정책 변경 영향은 해당 제목의 절에서 확인할 수 있다. received_at UTC 기준, event_time 제외, 조회와 정책 변경에 따른 기존 기한 불변이라는 질문의 모든 조건에 답한다."
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "이동·삭제는 매일 UTC 02:00 정리 작업에서 처리 — 본문",
+          "additional_locations": [
+            "보관 기간은 서버 수신 시각부터 계산 — 보관 이동 항목"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "- **보관 이동:** `received_at`부터 14일 이상 지난 로그는 `archive` 이동 대상이 됩니다.",
+            "정리 작업은 매일 UTC 02:00에 실행되어 보관 이동과 삭제를 처리합니다. 로그가 14일 또는 60일 기준을 충족하는 순간에 처리가 완료되는 것은 아닙니다. 작업이 지연되면 처리도 뒤로 미뤄질 수 있으며, 완료 시각은 보장되지 않습니다."
+          ],
+          "reason": "14일 이상을 이동 대상 진입으로 표현하고 그 순간 완료되는 것이 아님을 직접 답한다. 매일 UTC 02:00의 정리 작업과 지연 가능성까지 확인할 수 있다."
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "`legal_hold=true`이면 삭제 제외 — 두 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`legal_hold=true`인 로그는 삭제 대상에서 제외됩니다. 다만 `archive` 이동과 보관 기간의 경과는 계속됩니다. 보류 상태에서도 수신 후 60일 기준 시각은 그대로 유지됩니다.",
+            "보류를 해제했을 때 이미 `received_at`부터 60일 이상 지났다면 해당 로그는 다음 정리 작업의 삭제 대상이 됩니다. 보류 해제로 보관 기간이 새로 시작되지는 않습니다."
+          ],
+          "reason": "65일은 명시된 60일 이상 조건에 해당하므로 다음 정리 작업의 삭제 대상이라고 판단할 수 있다. 동일 소절에서 보류 중 이동·보관 나이 경과와 해제 후 나이 재시작 금지도 함께 확인된다."
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "기본 검색에서 보이지 않는 로그 조회 — 첫째·둘째 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "기본 검색은 `hot`만 조회하므로 검색 결과에 로그가 없다는 사실만으로 `archive`에도 없거나 이미 삭제됐다고 판단할 수 없습니다. `archive`의 로그를 확인하려면 **보관 조회 화면**에서 대상 로그의 복원을 요청합니다.",
+            "복원은 `archive` 원본을 바탕으로 조회용 임시 사본을 만드는 작업입니다. 임시 사본은 **생성 완료 시점부터 24시간** 동안 사용할 수 있으며, 만료 시각은 화면의 `restore_expires_at`에서 확인합니다."
+          ],
+          "reason": "검색에서 보이지 않는 상태의 해석, 보관 조회 화면에서의 복원 요청, 임시 조회본의 생성 완료 후 24시간 사용, restore_expires_at 확인을 같은 절에서 찾을 수 있다."
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "sufficient",
+          "entry_location": "기본 검색에서 보이지 않는 로그 조회 — 셋째 문단",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "임시 사본의 만료는 원본 삭제를 뜻하지 않습니다. 복원을 요청해도 원본의 보관 기간은 연장되지 않으므로, 원본의 삭제 대상 여부는 해당 로그의 보관 기준과 `legal_hold` 상태로 판단합니다."
+          ],
+          "reason": "조회본 만료가 archive 원본 삭제를 뜻하지 않는다고 직접 답하고, 복원이 원본 보관 기한도 연장하지 않는다는 관련 조건을 같은 문단에서 설명한다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "필수 의미 14개와 독자 질문 5개에 필요한 조건이 보존되어 있다. 보관 기준·대상 진입·실제 처리 완료·임시 조회본 만료를 왜곡하거나 미확인 동작을 보장하는 내용은 확인되지 않았다.",
+        "evidence": []
+      },
+      "open_issues": [],
+      "review_origin": "evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final-retention.json"
+    },
+    {
+      "case_id": "v06_configuration_precedence",
+      "label": "v0.6.0-final",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 각 설정 항목마다 **CLI → 환경 변수 → YAML → 기본값** 순서로 처음 존재하는 값을 선택합니다. 예를 들어 `timeout_ms`는 CLI에서, `log_level`은 YAML에서 선택할 수 있습니다."
+          ],
+          "reason": "항목별로 처음 존재하는 값을 고르는 순서와 서로 다른 출처를 사용할 수 있다는 예가 있어, 출처 하나가 전체 설정을 대체하지 않는 의미가 보존됐다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "| `timeout_ms` | `--timeout-ms N` | `WORKER_TIMEOUT_MS` | `5000` | 10~30000 정수, 단위 ms, 양 끝값 포함 |"
+          ],
+          "reason": "CLI·환경 변수·YAML 키의 대응, 기본값 5000, 밀리초 정수, 양 끝값을 포함하는 10~30000 범위를 모두 제시한다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "| `log_level` | `--log-level LEVEL` | `WORKER_LOG_LEVEL` | `info` | 소문자 `debug`, `info`, `warn`, `error` |"
+          ],
+          "reason": "세 출처의 이름과 기본값 info, 소문자로 제한된 네 허용값을 모두 제시한다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "값을 선택한 뒤에는 **선택된 값만 검증**합니다. 선택값이 유효하지 않으면 시작 오류가 발생하며, 우선순위가 낮은 값으로 대체하지 않습니다."
+          ],
+          "reason": "선택 후 선택값만 검사하고, 그 값이 잘못되면 시작 오류가 나며 하위 값으로 대체하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "반대로 유효한 상위 값이 선택됐다면 하위 값이 유효하지 않아도 해당 설정의 시작 오류를 일으키지 않습니다."
+          ],
+          "reason": "유효한 상위 선택값이 있으면 잘못된 하위 값 때문에 해당 설정이 실패하지 않는다고 명시한다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "환경 변수를 설정하지 않은 상태와 빈 문자열로 설정한 상태는 다릅니다. 빈 환경 변수도 존재하는 값이므로 상위 CLI 값이 없으면 선택되며, 검증에서 오류가 납니다."
+          ],
+          "reason": "미설정과 빈 문자열을 구분하고, 상위 CLI가 없을 때 빈 문자열도 선택되어 검증 오류가 난다고 설명한다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "`WORKER_TIMEOUT_MS`에는 정수를 나타내는 10진 숫자 문자열을 넣습니다."
+          ],
+          "reason": "환경 변수에 넣을 값을 정수를 나타내는 10진 숫자 문자열로 설명한다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "`--config PATH`를 지정하면 해당 YAML 파일을 읽습니다. 지정한 파일을 읽을 수 없으면 두 설정을 모두 CLI로 지정했더라도 오류가 발생합니다."
+          ],
+          "reason": "명시한 파일을 읽지 못하면 두 설정 모두 CLI로 제공해도 실패하는 조건을 같은 문단에서 밝힌다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "`--config`를 생략하면 현재 디렉터리의 `./worker.yaml`을 찾습니다. 이 파일이 없으면 나머지 설정 출처와 기본값을 사용합니다."
+          ],
+          "reason": "옵션 생략 시 현재 디렉터리의 기본 파일을 찾고, 그 파일이 없으면 다른 출처와 기본값을 사용한다고 설명한다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin"
+          ],
+          "reason": "확인 명령의 옵션·하위명령 순서가 자료와 같고, 선택·검증·표시 기능 및 워커 시작·파일 수정이 없다는 설명이 있다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "preserved",
+          "evidence": [
+            "`--show-origin`은 출처를 `cli`, `env`, `file`, `default`로 표시합니다.",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "네 출처 표기를 설명하고 예제의 항목별 출처를 표로 보여 준다. 표는 적용값 설명이며 실제 CLI 출력 줄 형식이라고 주장하지 않는다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "### 프로젝트 디렉터리에서 확인하는 예\n\n프로젝트 디렉터리의 `worker.yaml`은 다음과 같습니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "`WORKER_LOG_LEVEL`은 설정하지 않았고, CLI에도 `--log-level`을 지정하지 않은 상태에서 다음 명령을 실행합니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용됩니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "프로젝트 디렉터리에서 확인하는 예라는 제목과 파일 내용으로 실행 위치와 파일 전제를 제시한다. 로그 상위 출처의 부재, 단회 환경 변수 9000, CLI 12000 및 두 항목의 값·출처가 모두 맞다."
+        },
+        {
+          "requirement_id": "K13",
+          "status": "preserved",
+          "evidence": [
+            "예를 들어 CLI에 `--timeout-ms`가 없고 `WORKER_TIMEOUT_MS`가 빈 문자열이면, YAML의 `timeout_ms`가 유효해도 오류가 발생합니다.",
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다."
+          ],
+          "reason": "상위 CLI가 없는 빈 환경 변수는 유효한 YAML로 대체되지 않는다고 명시한다. 문서에 자료에 없는 시작 명령, 오류 종료 코드, 자동 재적용 동작을 추가하지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "도입 문단",
+          "additional_locations": [
+            "실행 전 적용값과 출처 확인 > 프로젝트 디렉터리에서 확인하는 예"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "봄바람 구성 로더(`breeze-worker`)는 각 설정 항목마다 **CLI → 환경 변수 → YAML → 기본값** 순서로 처음 존재하는 값을 선택합니다. 예를 들어 `timeout_ms`는 CLI에서, `log_level`은 YAML에서 선택할 수 있습니다.",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |"
+          ],
+          "reason": "항목별 선택 설명으로 파일의 log_level이 함께 무시되지 않음을 바로 알 수 있고, 예제의 warn(file)이 이를 구체적으로 확인해 준다."
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "선택값 검증 오류와 빈 환경 변수",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "값을 선택한 뒤에는 **선택된 값만 검증**합니다. 선택값이 유효하지 않으면 시작 오류가 발생하며, 우선순위가 낮은 값으로 대체하지 않습니다.",
+            "환경 변수를 설정하지 않은 상태와 빈 문자열로 설정한 상태는 다릅니다. 빈 환경 변수도 존재하는 값이므로 상위 CLI 값이 없으면 선택되며, 검증에서 오류가 납니다.",
+            "예를 들어 CLI에 `--timeout-ms`가 없고 `WORKER_TIMEOUT_MS`가 빈 문자열이면, YAML의 `timeout_ms`가 유효해도 오류가 발생합니다."
+          ],
+          "reason": "잘못된 선택값에 대한 대체 금지와 빈 환경 변수의 적용 조건이 같은 절에 있어, 유효한 파일값으로 돌아가지 않는다는 답을 얻을 수 있다."
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "선택값 검증 오류와 빈 환경 변수",
+          "additional_locations": [
+            "YAML 파일 선택과 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "반대로 유효한 상위 값이 선택됐다면 하위 값이 유효하지 않아도 해당 설정의 시작 오류를 일으키지 않습니다.",
+            "`--config PATH`를 지정하면 해당 YAML 파일을 읽습니다. 지정한 파일을 읽을 수 없으면 두 설정을 모두 CLI로 지정했더라도 오류가 발생합니다."
+          ],
+          "reason": "해당 항목의 선택되지 않은 값 오류와 지정 파일 자체의 읽기 실패를 서로 다른 제목에서 확인할 수 있다. 두 CLI 값이 있어도 파일 읽기 실패는 발생한다는 조건이 빠지지 않았다."
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전 적용값과 출처 확인 > 프로젝트 디렉터리에서 확인하는 예",
+          "additional_locations": [
+            "YAML 파일 선택과 읽기 오류"
+          ],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "### 프로젝트 디렉터리에서 확인하는 예\n\n프로젝트 디렉터리의 `worker.yaml`은 다음과 같습니다.",
+            "timeout_ms: 8000\nlog_level: warn",
+            "`WORKER_LOG_LEVEL`은 설정하지 않았고, CLI에도 `--log-level`을 지정하지 않은 상태에서 다음 명령을 실행합니다. `WORKER_TIMEOUT_MS=9000`은 이 명령에만 적용됩니다.",
+            "WORKER_TIMEOUT_MS=9000 breeze-worker --timeout-ms 12000 config inspect --show-origin",
+            "| `timeout_ms` | `12000` ms | `cli` |\n| `log_level` | `warn` | `file` |",
+            "`--config`를 생략하면 현재 디렉터리의 `./worker.yaml`을 찾습니다. 이 파일이 없으면 나머지 설정 출처와 기본값을 사용합니다."
+          ],
+          "reason": "예제 제목이 프로젝트 디렉터리에서 실행하는 맥락을 주며 파일 내용, 로그 환경·CLI 부재, 단회 환경 변수와 결과가 이어진다. 기본 파일을 현재 디렉터리에서 찾는 규칙도 앞 절에 명시되어 있다."
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "sufficient",
+          "entry_location": "실행 전 적용값과 출처 확인",
+          "additional_locations": [],
+          "local_condition_gap": "",
+          "answer_evidence": [
+            "`config inspect`는 설정을 읽고 값을 선택·검증한 뒤 적용값을 표시합니다. 워커를 시작하거나 파일을 수정하지 않습니다.",
+            "breeze-worker [--config PATH] [--timeout-ms N] [--log-level LEVEL] config inspect [--show-origin]",
+            "`--show-origin`은 출처를 `cli`, `env`, `file`, `default`로 표시합니다."
+          ],
+          "reason": "확인 명령이 수행하는 작업과 시작·수정 여부를 해당 절에서 직접 답하고, 출처 확인 옵션과 네 표기를 함께 제공한다."
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "필수 의미가 모두 보존되었고 우선순위·검증·파일 읽기 조건·예제 결과의 충돌이나 금지된 동작의 추가가 없다.",
+        "evidence": []
+      },
+      "open_issues": [],
+      "review_origin": "evaluations/runs/2026-11-05-v0.6.0/forward/reviews/blind-config.json",
+      "review_reuse": "Version label projected onto the byte-identical current document; no new review claimed."
+    }
+  ]
+}

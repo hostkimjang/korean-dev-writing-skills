@@ -14,30 +14,11 @@ from pathlib import Path
 from check import PACKAGE_FILES
 from check_claims import (
     ROOT, Check, cli_path, evidence, validate_contract, validate_outputs,
-    validate_reviews,
+    validate_reviews, validate_decisions,
 )
 
 
-DEFAULT_RUN = "evaluations/runs/2026-11-03-v0.5.0"
-
-
-def validate_decisions(reviews: list[dict], cases: dict, check: Check) -> None:
-    """Integrity alone accepts honest failures; a repaired release must close them."""
-    for review in reviews:
-        for doc in review.get("documents", []):
-            case_id = doc.get("case_id")
-            known = cases.get(case_id, {})
-            required = {r["id"] for r in known.get("requirements", []) if r["required"]}
-            for row in doc.get("requirements", []):
-                if row.get("requirement_id") in required and row.get("status") != "preserved":
-                    check.error(case_id, f"unresolved required meaning: {row.get('requirement_id')}")
-            for row in doc.get("questions", []):
-                if row.get("answer_status") != "sufficient" or row.get("local_condition_gap"):
-                    check.error(case_id, f"unresolved navigation question: {row.get('question_id')}")
-            if doc.get("hard_fail", {}).get("value") is not False:
-                check.error(case_id, "hard failure is not closed")
-            if doc.get("open_issues") != []:
-                check.error(case_id, "open_issues must explicitly be empty for a final repaired document")
+DEFAULT_RUN = "evaluations/runs/2026-11-05-v0.6.0"
 
 
 def validate_repairs(criteria: dict, reviews: list[dict], texts: dict[str, str], check: Check) -> int:

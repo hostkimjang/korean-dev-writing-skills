@@ -1,0 +1,76 @@
+{
+  "authors": [
+    {
+      "agent": "/root/v06_write_previous",
+      "fresh_context": true,
+      "condition": "previous",
+      "skill_snapshot": "evaluations/runs/2026-11-03-v0.5.0/snapshots/v0.5.0",
+      "inputs": [
+        "inputs/11_v06_log_retention.md",
+        "inputs/12_v06_configuration_precedence.md"
+      ],
+      "outputs": [
+        "forward/previous/11_v06_log_retention.md",
+        "forward/previous/12_v06_configuration_precedence.md"
+      ],
+      "previous_outputs_or_reviews_provided": false
+    },
+    {
+      "agent": "/root/v06_write_current",
+      "fresh_context": true,
+      "condition": "current",
+      "skill_snapshot": "evaluations/runs/2026-11-05-v0.6.0/snapshots/v0.6.0",
+      "inputs": [
+        "inputs/11_v06_log_retention.md",
+        "inputs/12_v06_configuration_precedence.md"
+      ],
+      "outputs": [
+        "forward/current/11_v06_log_retention.md",
+        "forward/current/12_v06_configuration_precedence.md"
+      ],
+      "previous_outputs_or_reviews_provided": false
+    }
+  ],
+  "model": "Session-inherited GPT-6 Astra Pro; deployment identifier and sampling parameters not exposed",
+  "first_submissions_preserved": true,
+  "synthetic_sources_authored_by_run_coordinator": true,
+  "repetitions_per_topic_and_condition": 1,
+  "reviewers": [
+    {
+      "agent": "/root/v06_review_new_topics",
+      "case_id": "v06_log_retention",
+      "fresh_context": true,
+      "condition_names_hidden": true,
+      "provided": [
+        "original sources and frozen contracts for both topics",
+        "four version-blinded first submissions"
+      ],
+      "scope_note": "Initially assigned both topics, then narrowed to retention; submitted retention judgments only."
+    },
+    {
+      "agent": "/root/v06_review_configuration",
+      "case_id": "v06_configuration_precedence",
+      "fresh_context": true,
+      "condition_names_hidden": true,
+      "provided": [
+        "configuration source and frozen contract",
+        "two version-blinded configuration first submissions"
+      ]
+    }
+  ],
+  "reviewer_context_exclusions": [
+    "skill files",
+    "blinding map",
+    "prior outputs/reviews"
+  ],
+  "final_revision_review": {
+    "agent": "/root/v06_review_retention_final",
+    "fresh_context": true,
+    "provided": [
+      "original source",
+      "frozen contract and questions",
+      "revised current document"
+    ],
+    "other_outputs_skill_and_reviews_provided": false
+  }
+}

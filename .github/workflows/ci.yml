@@ -11,7 +11,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       # Verified against the official release and its linked commit, 2026-11-03.
       # https://github.com/actions/checkout/releases/tag/v7.0.1
@@ -46,11 +46,30 @@ jobs:
           python scripts/check_claims.py
           --output-index evaluations/runs/2026-11-03-v0.5.0/forward/output-index.json
           --reviews evaluations/runs/2026-11-03-v0.5.0/forward/reviews/first.json
+      - name: Validate new-topic blind review evidence
+        run: >-
+          python scripts/check_claims.py
+          --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json
+          --output-index evaluations/runs/2026-11-05-v0.6.0/forward/blind-index.json
+          --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/blind.json
+      - name: Require complete final new-topic examples
+        run: >-
+          python scripts/check_claims.py
+          --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json
+          --output-index evaluations/runs/2026-11-05-v0.6.0/forward/final-index.json
+          --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final.json
+          --require-complete
       # https://github.com/actions/setup-node/releases/tag/v7.1.0
       - name: Set up Node.js 24
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
+      - name: Verify generated Markdown is current
+        run: python scripts/build_docs.py --check
+      - name: Verify generated HTML is current
+        run: node scripts/build_viewer.mjs --check
+      - name: Validate comparison navigation and exact downloads
+        run: node scripts/check_viewer.mjs
       - name: Verify skills CLI installation in temporary projects
         run: python scripts/check_install.py
       - name: Verify installation from the published commit
@@ -60,4 +79,26 @@ jobs:
         run: |
           python scripts/package.py --output-dir dist/first
           python scripts/package.py --output-dir dist/second
-          cmp dist/first/korean-dev-writing-v0.5.0.zip dist/second/korean-dev-writing-v0.5.0.zip
+          cmp dist/first/korean-dev-writing-v0.6.0.zip dist/second/korean-dev-writing-v0.6.0.zip
+
+  browser:
+    name: Check comparison reader in Chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Install isolated browser test dependency
+        run: npm install --prefix "$RUNNER_TEMP/viewer-test" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+      - name: Install Chromium and Korean fonts
+        run: |
+          node "$RUNNER_TEMP/viewer-test/node_modules/playwright/cli.js" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Check section links, reading mode, and mobile layout
+        run: PLAYWRIGHT_MODULE_PATH="$RUNNER_TEMP/viewer-test/node_modules/playwright/index.mjs" node scripts/check_viewer_browser.mjs

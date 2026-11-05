@@ -1,0 +1,43 @@
+{
+  "kind": "actual Chromium preflight on frozen v0.5 inputs with the new reader code",
+  "commit": "b33c0bd01ab4f1f5f2faabc25b28260c69b9322f",
+  "run_id": 41959342311,
+  "job_id": 127021706420,
+  "url": "https://github.com/hostkimjang/korean-dev-writing-skills/actions/runs/41959342311",
+  "conclusion": "success",
+  "runId": "2026-11-03-v0.5.0",
+  "html": "/home/runner/work/_temp/comparison.html",
+  "browser": "Chromium 151.0.7922.34",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 800,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 320,
+      "height": 740
+    }
+  ],
+  "checks": 8,
+  "results": [
+    "The offline file initializes in Chromium with all source documents and the previous-version default",
+    "216 real viewport/case/condition states: correct visibility, single-document page scrolling, readable tables, compact tabs and no page overflow",
+    "Native keyboard tab navigation wraps and maintains one focused tab stop",
+    "Direct loads, hidden-case hash changes and native ToC clicks reveal and scroll to the correct document heading",
+    "Native footnote and backlink clicks keep their document selected and return focus to the referenced text",
+    "The actual two-column --level table stays compact in single-document reading",
+    "Native Chromium downloads preserve source bytes for input, baseline, previous and latest documents",
+    "With JavaScript disabled, every source document remains readable in the page flow on a narrow viewport"
+  ],
+  "limitations": [
+    "Checks exercise real browser geometry and native interactions; no human reading study or screenshot-based visual review is implied."
+  ]
+}

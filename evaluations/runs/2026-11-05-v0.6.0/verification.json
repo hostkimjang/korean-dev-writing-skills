@@ -1,0 +1,92 @@
+{
+  "run_id": "2026-11-05-v0.6.0",
+  "recorded_at_utc": "2026-11-05T03:33:11.649910+00:00",
+  "checks": [
+    {
+      "command": "python scripts/check.py",
+      "result": "pass",
+      "release_files": 6,
+      "markdown_files": 37
+    },
+    {
+      "command": "python scripts/test_check_claims.py",
+      "result": "pass",
+      "checks": 25
+    },
+    {
+      "command": "python scripts/test_check_repairs.py",
+      "result": "pass",
+      "checks": 12
+    },
+    {
+      "command": "python scripts/check_repairs.py",
+      "result": "pass",
+      "final_existing_documents": 10,
+      "resolved_repairs": 1
+    },
+    {
+      "command": "python scripts/check_claims.py --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json --output-index evaluations/runs/2026-11-05-v0.6.0/forward/blind-index.json --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/blind.json",
+      "result": "pass",
+      "documents": 4
+    },
+    {
+      "command": "python scripts/check_claims.py --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json --output-index evaluations/runs/2026-11-05-v0.6.0/forward/final-index.json --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final.json --require-complete",
+      "result": "pass",
+      "documents": 2
+    },
+    {
+      "command": "python scripts/build_docs.py --check",
+      "result": "pass",
+      "examples": 12,
+      "embedded_first_or_historical_documents": 23,
+      "negative_fixture": "stale new-topics.md rejected with exit 1 and left unchanged in a disposable copy"
+    },
+    {
+      "command": "node scripts/build_viewer.mjs --check",
+      "result": "pass",
+      "documents": 28,
+      "inputs": 10,
+      "downloads": 38
+    },
+    {
+      "command": "node scripts/check_viewer.mjs",
+      "result": "pass",
+      "checks": 21,
+      "mode": "Node VM / DOM doubles and structural HTML inspection; no local browser rendering"
+    }
+  ],
+  "browser_preflight": {
+    "record": "browser-preflight.json",
+    "url": "https://github.com/hostkimjang/korean-dev-writing-skills/actions/runs/41959342311",
+    "result": "success",
+    "scope": "New renderer on frozen v0.5.0 texts, not the final v0.6.0 published HTML",
+    "viewport_case_condition_states": 216,
+    "widths_px": [
+      320,
+      390,
+      800,
+      1440
+    ]
+  },
+  "published_commit_validation": {
+    "workflow": ".github/workflows/ci.yml",
+    "jobs": [
+      "validate",
+      "browser"
+    ],
+    "location": "https://github.com/hostkimjang/korean-dev-writing-skills/actions",
+    "note": "Final-commit installation and browser results are recorded by the workflow attached to the published commit, separately from local checks and preflight."
+  },
+  "package": {
+    "version": "0.6.0",
+    "identical_builds": 2,
+    "release_files": 6,
+    "sha256": "0b8f8cbe3d9905ef10590cb6b44ba08d9c7a26926b170c8dda5a7206e9e95c36"
+  },
+  "verified_artifacts": {
+    "docs/comparisons/index.html": "576d0acd951906fb481a5d3e8b2fec49938bf1adb6d8f769ff426a0d622e07d3",
+    "docs/comparisons/new-topics.md": "1f179c7f5485aa7566dc1bf6eb1035976b1675b39bee28bd7a99af5149aecac2",
+    "evaluations/runs/2026-11-05-v0.6.0/manifest.json": "1b5e388bfbd44702c0973c230ad893b2aafb5c52a8e6b8bec8d6f7be28548dfe"
+  },
+  "review_scope": "Exact quotations, references, SHA-256, recorded decisions, and visible-reader behavior. No programmatic semantic-quality score or human reading-fatigue measurement."
+}

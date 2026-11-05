@@ -1,0 +1,24 @@
+{
+  "editor": "/root",
+  "status": "accepted_after_fresh_source_review",
+  "basis": "Coordinator source-to-document comparison, separately from the version-blinded first-submission review. The blinded first submissions are unchanged.",
+  "case_id": "v06_log_retention",
+  "original": "evaluations/runs/2026-11-05-v0.6.0/forward/current/11_v06_log_retention.md",
+  "candidate": "evaluations/runs/2026-11-05-v0.6.0/forward/revisions/round-1/11_v06_log_retention.md",
+  "changes": [
+    {
+      "before": "임시 사본은 **생성 완료 시점부터 24시간** 동안 유지되며,",
+      "after": "임시 사본은 **생성 완료 시점부터 24시간** 동안 사용할 수 있으며,",
+      "source_ref": "R08",
+      "reason": "사용할 수 있는 기간을 사본의 물리적 보관 보장으로 넓혀 읽을 여지를 줄인다."
+    },
+    {
+      "before": "삭제된 로그의 복구 가능성은 아직 확인되지 않았습니다.",
+      "after": "삭제된 로그의 복구 방법은 아직 확인되지 않았습니다.",
+      "source_ref": "R10",
+      "reason": "원자료가 미확인으로 둔 복구 방법이라는 범위를 그대로 쓴다."
+    }
+  ],
+  "candidate_sha256": "5c459ee8f6aeca4af747a40adb75c31137ec1a4550c0c62472ecd4ab3c296346",
+  "review": "evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final-retention.json"
+}

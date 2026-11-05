@@ -1,0 +1,16 @@
+{
+  "documents": [
+    {
+      "case_id": "v06_log_retention",
+      "label": "v0.6.0-final",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/forward/final/11_v06_log_retention.md",
+      "sha256": "5c459ee8f6aeca4af747a40adb75c31137ec1a4550c0c62472ecd4ab3c296346"
+    },
+    {
+      "case_id": "v06_configuration_precedence",
+      "label": "v0.6.0-final",
+      "path": "evaluations/runs/2026-11-05-v0.6.0/forward/final/12_v06_configuration_precedence.md",
+      "sha256": "2d662fd5103ea5228dee04a060167e784812220ad740cf8428fcbc461588b416"
+    }
+  ]
+}
