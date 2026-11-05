@@ -1,0 +1,35 @@
+name: Reader Chromium preflight
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.12'
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
+      - name: Install isolated browser dependency
+        run: npm install --prefix "$RUNNER_TEMP/viewer-test" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+      - name: Install browser and Korean fonts
+        run: |
+          node "$RUNNER_TEMP/viewer-test/node_modules/playwright/cli.js" install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Build reader from frozen v0.5 documents
+        run: node scripts/build_viewer.mjs --run evaluations/runs/2026-11-03-v0.5.0 --output "$RUNNER_TEMP/comparison.html"
+      - name: Verify raw documents and navigation
+        run: node scripts/check_viewer.mjs --run evaluations/runs/2026-11-03-v0.5.0 --html "$RUNNER_TEMP/comparison.html"
+      - name: Verify Chromium geometry and native navigation
+        run: PLAYWRIGHT_MODULE_PATH="$RUNNER_TEMP/viewer-test/node_modules/playwright/index.mjs" node scripts/check_viewer_browser.mjs --run evaluations/runs/2026-11-03-v0.5.0 --html "$RUNNER_TEMP/comparison.html"
