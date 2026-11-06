@@ -89,7 +89,7 @@ jobs:
 
   browser:
     name: Check comparison reader in Chromium
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - name: Check out repository
@@ -102,6 +102,13 @@ jobs:
           node-version: "24"
       - name: Install isolated browser test dependency
         run: npm install --prefix "$RUNNER_TEMP/viewer-test" --ignore-scripts --no-audit --no-fund playwright@1.62.1
+      # The Azure mirror stalled .deb downloads in run 42156838692.
+      # Preserve the runner's other Ubuntu mirrors and package signature checks.
+      - name: Avoid stalled Ubuntu package mirror
+        run: |
+          test -f /etc/apt/apt-mirrors.txt
+          sudo sed -i '/azure[.]archive[.]ubuntu[.]com/d' /etc/apt/apt-mirrors.txt
+          test -s /etc/apt/apt-mirrors.txt
       - name: Install Chromium and Korean fonts
         run: |
           node "$RUNNER_TEMP/viewer-test/node_modules/playwright/cli.js" install --with-deps chromium
