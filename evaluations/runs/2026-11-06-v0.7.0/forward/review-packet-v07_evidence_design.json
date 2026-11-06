@@ -1,0 +1,230 @@
+{
+  "source": "evaluations/runs/2026-11-06-v0.7.0/source/14_evidence_design.json",
+  "contract_case": {
+    "case_id": "v07_evidence_design",
+    "source_path": "evaluations/runs/2026-11-06-v0.7.0/source/14_evidence_design.json",
+    "source_sha256": "89124211c7d59c742c90aec483ff8cc7afc44507ea0e8f50d0cb4b47441d56a3",
+    "input_path": "evaluations/runs/2026-11-06-v0.7.0/inputs/14_evidence_design.md",
+    "input_sha256": "4be6f15dc0a19243905b01ef2e5fda0bd4a2092e64c60ff703c9e1dac2f13246",
+    "requirements": [
+      {
+        "id": "K01",
+        "source_refs": [
+          "R01"
+        ],
+        "meaning": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R01"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K02",
+        "source_refs": [
+          "R02"
+        ],
+        "meaning": "포털은 PORTAL_TOKEN을 읽어 API를 호출하고 API는 받은 토큰을 SERVICE_TOKENS 목록과 대조한다. 근거는 cloud-archive/apps/portal/src/clients/archive/client.ts:42-58 및 cloud-archive/services/api/src/http/auth/token_controller.py:90-113다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R02"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K03",
+        "source_refs": [
+          "R03"
+        ],
+        "meaning": "보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R03"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K04",
+        "source_refs": [
+          "R04"
+        ],
+        "meaning": "동일 비밀값을 공유하는 서비스는 한쪽만 변경하면 인증에 실패할 수 있다. 키 저장소에서 같은 항목을 참조하도록 만드는 방안을 제안하며 대상 값은 실증 전에 대조해야 한다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R04"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K05",
+        "source_refs": [
+          "R05"
+        ],
+        "meaning": "점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R05"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K06",
+        "source_refs": [
+          "R06"
+        ],
+        "meaning": "백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R06"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K07",
+        "source_refs": [
+          "R07"
+        ],
+        "meaning": "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권장한다. 현재 제안 상태이며 채택과 설치는 아직 이루어지지 않았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R07"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K08",
+        "source_refs": [
+          "R08"
+        ],
+        "meaning": "실증용 명령은 cd cloud-archive/ops 다음 archive-keys rotate --dry-run이다. dry-run은 변경 계획만 출력하고 키를 변경하지 않는다. 실제 운영에서는 이 명령을 실행하지 않았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R08"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K09",
+        "source_refs": [
+          "R09"
+        ],
+        "meaning": "키 교체 실행 전에는 대상 계정의 운영 값 대조와 복구 백업 검증이 모두 필요하다. 어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지한다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R09"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K10",
+        "source_refs": [
+          "R10"
+        ],
+        "meaning": "교체 요청의 accepted 응답은 접수 상태다. rotation_state=committed를 확인한 뒤 연결 점검을 하고 성공해야 이전 키 폐기를 검토한다. 접수만으로 이전 키를 폐기하지 않는다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R10"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K11",
+        "source_refs": [
+          "R11"
+        ],
+        "meaning": "업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R11"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K12",
+        "source_refs": [
+          "R12"
+        ],
+        "meaning": "자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았다. 제안과 확인할 항목으로 남긴다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R12"
+        ],
+        "literal_signals": []
+      }
+    ],
+    "questions": [
+      {
+        "id": "Q01",
+        "question": "두 서비스의 호스트 배치와 계정 동일 여부는 각각 어떤 근거 수준으로 설명되는가?",
+        "requirement_refs": [
+          "K01",
+          "K03"
+        ],
+        "expected_answer": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다. 보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다."
+      },
+      {
+        "id": "Q02",
+        "question": "토큰 호출·대조와 계정 설정의 정확한 근거 파일·행 구간을 각각 찾을 수 있는가?",
+        "requirement_refs": [
+          "K01",
+          "K02",
+          "K03",
+          "K05",
+          "K06",
+          "K11"
+        ],
+        "expected_answer": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다. 포털은 PORTAL_TOKEN을 읽어 API를 호출하고 API는 받은 토큰을 SERVICE_TOKENS 목록과 대조한다. 근거는 cloud-archive/apps/portal/src/clients/archive/client.ts:42-58 및 cloud-archive/services/api/src/http/auth/token_controller.py:90-113다. 보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다. 점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다. 백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다. 업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다."
+      },
+      {
+        "id": "Q03",
+        "question": "마운트와 백업에서 실제로 확인한 사실과 아직 확인하지 않은 사실은 무엇인가?",
+        "requirement_refs": [
+          "K05",
+          "K06"
+        ],
+        "expected_answer": "점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다. 백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다."
+      },
+      {
+        "id": "Q04",
+        "question": "실증 명령은 어디에서 무엇을 하며, 실제 키 교체와 이전 키 폐기 조건은 무엇인가?",
+        "requirement_refs": [
+          "K07",
+          "K08",
+          "K09",
+          "K10"
+        ],
+        "expected_answer": "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권장한다. 현재 제안 상태이며 채택과 설치는 아직 이루어지지 않았다. 실증용 명령은 cd cloud-archive/ops 다음 archive-keys rotate --dry-run이다. dry-run은 변경 계획만 출력하고 키를 변경하지 않는다. 실제 운영에서는 이 명령을 실행하지 않았다. 키 교체 실행 전에는 대상 계정의 운영 값 대조와 복구 백업 검증이 모두 필요하다. 어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지한다. 교체 요청의 accepted 응답은 접수 상태다. rotation_state=committed를 확인한 뒤 연결 점검을 하고 성공해야 이전 키 폐기를 검토한다. 접수만으로 이전 키를 폐기하지 않는다."
+      },
+      {
+        "id": "Q05",
+        "question": "업로드 재시도 동작과 검증하지 않은 복구 범위, 운영 계획은 무엇인가?",
+        "requirement_refs": [
+          "K11",
+          "K12"
+        ],
+        "expected_answer": "업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다. 자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았다. 제안과 확인할 항목으로 남긴다."
+      }
+    ]
+  },
+  "documents": [
+    {
+      "case_id": "v07_evidence_design",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/blind/14_evidence_design_A.md",
+      "sha256": "ff71affe70c2fe024190b1461e6196cfc30c588fa81242b5008a3b9d55b1181d"
+    },
+    {
+      "case_id": "v07_evidence_design",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/blind/14_evidence_design_B.md",
+      "sha256": "7965ac25de5701c288c91e39e654f449c573098c5a36cc688418004994897868"
+    }
+  ],
+  "comparison_questions": [
+    "처음 읽을 때 같은 질문에 답하는 결과와 근거가 연결되는가?",
+    "독립된 발견, 판단의 전제와 실행 조건을 소제목과 본문에서 찾을 수 있는가?",
+    "측정 집단·환경·반복 수·평가 방법·미대조 범위가 바뀌거나 빠지는가?",
+    "불필요한 반복이나 긴 근거 표기를 정리한 결과와 실제 의미 손실을 구분할 수 있는가?"
+  ],
+  "instructions": "길이나 번호 소제목의 개수만으로 승자를 정하지 않는다. 문제를 지어내지 말고 실제 인용에 근거해 판단한다. 개선이 없거나 장단점이 갈리면 그대로 기록한다."
+}

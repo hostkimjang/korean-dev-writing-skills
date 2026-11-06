@@ -11,7 +11,7 @@ import json
 import os
 
 DEFAULT_REPO = Path(__file__).resolve().parents[1]
-DEFAULT_RUN = 'evaluations/runs/2026-11-05-v0.6.0'
+DEFAULT_RUN = 'evaluations/runs/2026-11-06-v0.7.0'
 CONDITIONS = ('baseline', 'previous', 'latest')
 SNAPSHOT_FILES = {
     'LICENSE', 'SKILL.md', 'agents/openai.yaml',
@@ -143,11 +143,10 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
 
     def methods(page):
         return ('## 작성과 확인 방법\n\n'
-                f'{PREVIOUS} 문서와 같은 원자료를 대조해 필요한 부분을 고쳤습니다. v{VERSION} 지침으로 교정한 문서와 수정할 필요가 없어 보존한 문서를 사례별로 구분합니다. '
+                + manifest.get('comparison_overview', f'{PREVIOUS} 문서와 같은 원자료를 대조해 필요한 부분을 고쳤습니다. v{VERSION} 지침으로 교정한 문서와 수정할 필요가 없어 보존한 문서를 사례별로 구분합니다. ') + ' '
                 '현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.\n\n'
-                f'이는 조건을 가린 단회 생성 비교가 아닙니다. 미적용 문서가 있는 {baseline_count}개 사례에서는 과거 원문을 참고용으로 함께 싣습니다. '
-                '검토 결과는 사실·조건의 보존과 문서 구성에 관한 판단이며, 실제 독자의 이해도·기억·읽는 시간·피로를 측정한 결과는 아닙니다. '
-                '사례는 공개용 가상 자료입니다. 문자 수는 공백·개행·Markdown 문법을 포함하며, 길이 자체를 품질 점수로 사용하지 않습니다.\n\n'
+                f'미적용 원문이 있는 {baseline_count}개 사례는 과거의 해당 원문도 함께 제공합니다. 검토는 공개용 가상 자료의 사실·조건 보존과 문서 구성을 대상으로 합니다. '
+                '문자 수는 공백·개행·Markdown 문법을 포함합니다. 평가 설계와 측정 범위는 아래 실행 절차에서 확인할 수 있습니다.\n\n'
                 f'- [교정 절차와 수정 이력]({link(RUN_PATH + "/protocol.md", page)})\n'
                 f'- [원문·버전·SHA-256 기록]({link(manifest_path, page)})\n'
                 f'- [사례별 수정 관찰]({link(observation_path, page)})\n'
@@ -201,7 +200,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
     outputs = {}
     page = 'docs/evaluation.md'
     text = f'# v{VERSION} 문서 개선 결과\n\n' + metadata(page)
-    text += (f'기존 문서 {len(cases)}개를 대조해 필요한 부분을 교정했습니다. 각 문서에서 무엇을 고쳤는지, 사실과 조건을 어떻게 보존했는지를 아래에서 확인할 수 있습니다.\n\n'
+    text += (f'문서 {len(cases)}개의 현재 본문과 비교 결과입니다. 각 문서에서 무엇을 고쳤거나 보존했는지, 사실과 조건을 어떻게 확인했는지 아래에서 볼 수 있습니다.\n\n'
              f'[현재 문서 {len(cases)}개 바로 읽기](examples/README.md) · [수정 결과 보고서]({link(report_path,page)}) · '
              '[교정 전후를 나란히 보기](comparisons/index.html)\n\n'
              '## 사례별 수정 결과\n\n'
@@ -216,9 +215,9 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
              '- [설정배포 안내·썸네일 작업 보고: 전문 4개](comparisons/transfer-checks.md)\n\n'
              f'HTML에는 {len(cases)}개 사례의 본문 {document_count}개와 입력 {len(cases)}개를 포함했습니다. 이전 {PREVIOUS} 문서와 현재 v{VERSION} 문서를 기본으로 비교하고, '
              f'미적용 원문이 있는 {baseline_count}개 사례에서는 그 원문도 선택할 수 있습니다.\n\n')
-    if manifest.get('new_topic_examples'):
-        text += ('## 새 주제의 최초 작성본 비교\n\n'
-                 '로그 보관 정책과 구성 값 우선순위를 이전 출력 없이 각각 작성했습니다. '
+    if manifest.get('new_topics_path'):
+        text += ('## 새 사례의 최초 작성본 비교\n\n'
+                 + manifest.get('new_topics_description', '로그 보관 정책과 구성 값 우선순위를 이전 출력 없이 각각 작성했습니다.') + ' '
                  '[두 버전의 본문·필수 의미 판정·읽기 관찰](comparisons/new-topics.md)을 별도로 공개합니다.\n\n')
     text += methods(page)
     outputs[page] = text.encode('utf-8')
@@ -254,10 +253,10 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                 raise ValueError('New-topic review/contract SHA-256 mismatch: ' + relative)
         review_lookup = {(d['case_id'], d['label']): d for d in json.loads(review_raw)['documents']}
         contract_lookup = {c['case_id']: c for c in json.loads(contract_raw)['cases']}
-        text = '# 새 주제의 최초 작성본 비교\n\n' + metadata(page)
+        text = '# ' + study.get('title', '새 주제의 최초 작성본 비교') + '\n\n' + metadata(page)
         text += (study['method'] + '\n\n'
-                 f'[현재 문서만 읽기](../examples/README.md#새-주제로-작성한-문서) · '
-                 f'[버전을 가린 검토]({link(study["review_path"],page)}) · '
+                 f'[현재 문서만 읽기](../examples/README.md) · '
+                 f'[버전을 가린 검토]({link(study.get("review_report_path", study["review_path"]),page)}) · '
                  f'[판정·본문 대응 기록]({link(study_path,page)})\n\n')
         for entry in study['cases']:
             for relative in (entry['source'], entry['input']):
@@ -296,8 +295,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                     raise ValueError('New-topic summary differs from recorded review: ' + entry['id'] + '/' + condition)
                 text += (f'| {version} | {len(raw):,} | {result["preserved"]}/{result["required"]} '
                          f'| {result["sufficient"]}/{result["questions"]} |\n')
-            text += ('\n단어 존재율이나 자연스러움 점수가 아니라 원자료와 문맥을 대조한 판정 개수입니다. '
-                     '글자 수에는 공백·개행·Markdown 문법이 포함됩니다.\n\n')
+            text += '\n'
             if entry.get('publication_note'):
                 text += entry['publication_note'] + '\n\n'
             text += (f'[원자료]({link(entry["source"],page)}) · [공통 요청]({link(entry["input"],page)}) · '
@@ -309,7 +307,8 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                 text += f'<details>\n<summary>{version} 최초 작성본 전체 · {len(raw):,}자</summary>\n\n'
                 text += f'<!-- BEGIN SOURCE {relative} SHA256 {digest} -->\n' + raw + '<!-- END SOURCE -->\n\n</details>\n\n'
                 new_topic_embeds += 1
-        text += ('## 확인 범위\n\n' + study['scope'] + '\n\n'
+        text += ('## 작성과 평가 범위\n\n' + study['scope'] + '\n\n'
+                 '표의 수치는 원자료와 문맥을 대조한 판정 개수입니다. 문자 수에는 공백·개행·Markdown 문법이 포함됩니다.\n\n'
                  f'[자료·계약 고정 기록]({link(RUN_PATH+"/source-freeze.json",page)}) · '
                  f'[전체 실행 절차]({link(RUN_PATH+"/protocol.md",page)})\n')
         outputs[page] = text.encode('utf-8')
@@ -326,7 +325,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
     if extra_examples:
         index += ('\n## 새 주제로 작성한 문서\n\n'
                   '기존 출력 없이 원자료와 스킬로 새로 작성한 뒤 검토·교정한 두 주제의 현재 문서입니다. '
-                  '[v0.5.0·v0.6.0의 최초 작성본 비교](../comparisons/new-topics.md)에서 작성 조건과 검토 결과도 볼 수 있습니다.\n\n'
+                  f'[{PREVIOUS}·v{VERSION}의 최초 작성본 비교](../comparisons/new-topics.md)에서 작성 조건과 검토 결과도 볼 수 있습니다.\n\n'
                   '| 문서 | 문자 수 | 원자료 |\n| --- | ---: | --- |\n')
         for entry in extra_examples:
             filename = entry['file']

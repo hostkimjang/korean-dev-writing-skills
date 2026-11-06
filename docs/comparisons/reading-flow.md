@@ -1,31 +1,31 @@
-# 읽기 흐름과 짧은 PR 교정 전후: v0.5.0 → v0.6.0
+# 읽기 흐름과 짧은 PR 교정 전후: v0.6.0 → v0.7.0
 
-갱신일: 2026-11-05 · 적용한 스킬: **v0.6.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-05-v0.6.0/snapshots/v0.6.0)
+갱신일: 2026-11-06 · 적용한 스킬: **v0.7.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-06-v0.7.0/snapshots/v0.7.0)
 
-문서 2개의 수정 내용과 전문 6개를 담았습니다. [현재 문서 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.6.0.md) · [나란히 보기](index.html)
+문서 2개의 수정 내용과 전문 6개를 담았습니다. [현재 문서 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.7.0.md) · [나란히 보기](index.html)
 
 ## 한눈에 보는 문서
 
-| 사례 | 스킬 미적용 참고 원문 | 이전 v0.5.0 | 현재 v0.6.0 |
+| 사례 | 스킬 미적용 참고 원문 | 이전 v0.6.0 | 현재 v0.7.0 |
 | --- | ---: | ---: | ---: |
-| [색인 갱신 온보딩](#long_onboarding_index_refresh) | [7,687자](../../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) | [4,609자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/07_index_onboarding.md) | [4,609자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md) |
-| [짧은 관측 PR](#short_investigation_wait_log) | [396자](../../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) | [400자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/08_short_log_pr.md) | [399자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md) |
+| [색인 갱신 온보딩](#long_onboarding_index_refresh) | [7,687자](../../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/long-document.md) | [4,609자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md) | [4,609자](../../evaluations/runs/2026-11-06-v0.7.0/outputs/revised/07_index_onboarding.md) |
+| [짧은 관측 PR](#short_investigation_wait_log) | [396자](../../evaluations/runs/2026-11-03-reading-flow/outputs/no-skill/short-pr.md) | [399자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md) | [399자](../../evaluations/runs/2026-11-06-v0.7.0/outputs/revised/08_short_log_pr.md) |
 
 <a id="long_onboarding_index_refresh"></a>
 
 ## 색인 갱신 온보딩
 
-v0.5.0 최종본을 바이트 단위로 보존했다.
+v0.6.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
+- 이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다.
 
 **사실·조건 대조**
 
-본문·원자료·보존 계약이 같아 기존 필수 의미 29개와 독자 질문 7개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
+본문·원자료·계약이 같아 필수 의미 29개와 독자 질문 7개의 기존 판정을 재사용했다.
 
-[교정 완료본 바로 읽기](../examples/07_index_onboarding.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/07_index_onboarding.md)
+[교정 완료본 바로 읽기](../examples/07_index_onboarding.md) · [보존 검토 기록](../../evaluations/runs/2026-11-06-v0.7.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/07_index_onboarding.md)
 
 ### 전체 본문
 
@@ -208,9 +208,9 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 </details>
 
 <details>
-<summary>이전 v0.5.0 · 4,609자</summary>
+<summary>이전 v0.6.0 · 4,609자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/07_index_onboarding.md SHA256 0668347ddaee4046a77653a611921e75a0315407ea23e2678630146c620ffb4e -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md SHA256 0668347ddaee4046a77653a611921e75a0315407ea23e2678630146c620ffb4e -->
 # 모래결 색인 갱신기 온보딩
 
 모래결 색인 갱신기는 자료집의 문서를 검색할 색인을 만드는 내부 서비스입니다. 원본을 올리는 일은 별도 시스템이 맡고, 이 서비스는 보관된 원본을 선택해 색인을 갱신합니다. 검색에는 원본이 아니라 색인을 사용합니다. 아래 서비스 이름과 사례는 모두 가상입니다.
@@ -324,9 +324,9 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 </details>
 
 <details>
-<summary>현재 v0.6.0 · 4,609자</summary>
+<summary>현재 v0.7.0 · 4,609자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md SHA256 0668347ddaee4046a77653a611921e75a0315407ea23e2678630146c620ffb4e -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-06-v0.7.0/outputs/revised/07_index_onboarding.md SHA256 0668347ddaee4046a77653a611921e75a0315407ea23e2678630146c620ffb4e -->
 # 모래결 색인 갱신기 온보딩
 
 모래결 색인 갱신기는 자료집의 문서를 검색할 색인을 만드는 내부 서비스입니다. 원본을 올리는 일은 별도 시스템이 맡고, 이 서비스는 보관된 원본을 선택해 색인을 갱신합니다. 검색에는 원본이 아니라 색인을 사용합니다. 아래 서비스 이름과 사례는 모두 가상입니다.
@@ -443,30 +443,17 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 
 ## 짧은 관측 PR
 
-검증하지 못한 대상을 원인 가설과 추가 진단 로그 출력으로 명시했다.
+v0.6.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 기능 동작 유지와 진단 로그 추가를 구분했다.
-- 테스트 미실행·변경 후 로그 미수집·로컬 환경 미준비를 보존했고 본문은 398자다.
+- 이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다.
 
 **사실·조건 대조**
 
-새 독립 검토에서 필수 의미 17개·선택 기록 항목 1개를 preserved, 독자 질문 6개를 sufficient, 수정 기준 1개를 resolved로 판정했다. 정확한 인용과 판정 이유는 연결한 검토 기록에 있다.
+본문·원자료·계약이 같아 필수 의미 17개와 독자 질문 6개의 기존 판정을 재사용했다.
 
-[교정 완료본 바로 읽기](../examples/08_short_log_pr.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-short-pr.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/08_short_log_pr.md)
-
-### 무엇을 검증하지 못했는지 드러내기
-
-**이전 v0.5.0**
-
-> 로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 해 가설·변경 동작도 검증하지 못했습니다.
-
-**현재 v0.6.0**
-
-> 로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다. 가설과 추가 로그 출력은 미검증입니다.
-
-모호한 변경 동작이라는 표현을 추가 로그 출력으로 특정했다. 검증이 끝났다는 의미는 보태지 않았다.
+[교정 완료본 바로 읽기](../examples/08_short_log_pr.md) · [보존 검토 기록](../../evaluations/runs/2026-11-06-v0.7.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/08_short_log_pr.md)
 
 ### 전체 본문
 
@@ -484,20 +471,7 @@ worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가
 </details>
 
 <details>
-<summary>이전 v0.5.0 · 400자</summary>
-
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/08_short_log_pr.md SHA256 4e5fbf4212e7e1442e0561b717124a634e1a8b83e4cb91f6c223bf73af2d9ddf -->
-잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다. 로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다. 정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다.
-
-대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다. diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 제외합니다. 동작은 유지합니다.
-
-로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 해 가설·변경 동작도 검증하지 못했습니다.
-<!-- END SOURCE -->
-
-</details>
-
-<details>
-<summary>현재 v0.6.0 · 399자</summary>
+<summary>이전 v0.6.0 · 399자</summary>
 
 <!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md SHA256 7e17d74a3322083968fcece2a227e40654230b769e22335f64507ba4427fffc5 -->
 잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다. 로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다. 정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다.
@@ -509,14 +483,27 @@ worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그를 추가
 
 </details>
 
+<details>
+<summary>현재 v0.7.0 · 399자</summary>
+
+<!-- BEGIN SOURCE evaluations/runs/2026-11-06-v0.7.0/outputs/revised/08_short_log_pr.md SHA256 7e17d74a3322083968fcece2a227e40654230b769e22335f64507ba4427fffc5 -->
+잔물결 작업 접수기의 기존 개발용 합성 요청 로그에서 같은 ticket_ref의 response_sent 뒤에 wait_elapsed가 남았습니다. 로그 이름·순서만으로 응답 유실·중복 처리를 판단할 수 없고 빈도도 미집계입니다. 정리와 만료 콜백 순서를 조사 중이나 원인은 미확정이고 안정적 재현 조건도 없습니다.
+
+대기 항목이 남고 사라진 시점을 비교하려 worker/pending_slots.py에 생성·제거·만료 콜백 진입 로그만 추가했습니다. diag_waits가 켜질 때만 ticket_ref·elapsed_ms·남은 대기 항목 수를 기록하고 요청 본문은 제외합니다. 동작은 유지합니다.
+
+로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다. 가설과 추가 로그 출력은 미검증입니다.
+<!-- END SOURCE -->
+
+</details>
+
 ## 작성과 확인 방법
 
-v0.5.0 문서와 같은 원자료를 대조해 필요한 부분을 고쳤습니다. v0.6.0 지침으로 교정한 문서와 수정할 필요가 없어 보존한 문서를 사례별로 구분합니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
+기존 최종본 12개는 보존했습니다. 새 조사·설계 검토 2개는 같은 초안을 v0.6.0·v0.7.0 지침으로 각각 교정해 비교합니다. 새 사례의 v0.6.0 본문도 이번 실행에서 작성했습니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
 
-이는 조건을 가린 단회 생성 비교가 아닙니다. 미적용 문서가 있는 8개 사례에서는 과거 원문을 참고용으로 함께 싣습니다. 검토 결과는 사실·조건의 보존과 문서 구성에 관한 판단이며, 실제 독자의 이해도·기억·읽는 시간·피로를 측정한 결과는 아닙니다. 사례는 공개용 가상 자료입니다. 문자 수는 공백·개행·Markdown 문법을 포함하며, 길이 자체를 품질 점수로 사용하지 않습니다.
+미적용 원문이 있는 8개 사례는 과거의 해당 원문도 함께 제공합니다. 검토는 공개용 가상 자료의 사실·조건 보존과 문서 구성을 대상으로 합니다. 문자 수는 공백·개행·Markdown 문법을 포함합니다. 평가 설계와 측정 범위는 아래 실행 절차에서 확인할 수 있습니다.
 
-- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-05-v0.6.0/protocol.md)
-- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-05-v0.6.0/manifest.json)
-- [사례별 수정 관찰](../../evaluations/runs/2026-11-05-v0.6.0/observations.json)
-- [수정 결과 보고서](../repairs-v0.6.0.md)
-- [v0.5.0 당시 평가 보존본](../evaluation-v0.5.0.md)
+- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-06-v0.7.0/protocol.md)
+- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-06-v0.7.0/manifest.json)
+- [사례별 수정 관찰](../../evaluations/runs/2026-11-06-v0.7.0/observations.json)
+- [수정 결과 보고서](../repairs-v0.7.0.md)
+- [v0.6.0 당시 평가 보존본](../evaluation-v0.6.0.md)

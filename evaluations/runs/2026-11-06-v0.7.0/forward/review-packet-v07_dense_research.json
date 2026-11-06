@@ -1,0 +1,226 @@
+{
+  "source": "evaluations/runs/2026-11-06-v0.7.0/source/13_dense_research.json",
+  "contract_case": {
+    "case_id": "v07_dense_research",
+    "source_path": "evaluations/runs/2026-11-06-v0.7.0/source/13_dense_research.json",
+    "source_sha256": "9fc1535281c9a2a154287bdb5dd1b8b7803abbac735c44a63c47da3b15120cd2",
+    "input_path": "evaluations/runs/2026-11-06-v0.7.0/inputs/13_dense_research.md",
+    "input_sha256": "d1a78e49c7c0b0de717410daae7a618333f9ece1e9620456c6ca732a8bdb6f39",
+    "requirements": [
+      {
+        "id": "K01",
+        "source_refs": [
+          "R01"
+        ],
+        "meaning": "2026-10-28 운영 관측은 작업함 3개의 입력 420행이며 CSV 300행, NDJSON 120행이다. XML 입력은 없다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R01"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K02",
+        "source_refs": [
+          "R02"
+        ],
+        "meaning": "같은 날 운영 shadow 실행은 420행 모두 보류했다. 필수 정책 누락 45행, 파서 검토 필요 375행이며 저장 DB 반영은 0건이다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R02"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K03",
+        "source_refs": [
+          "R03"
+        ],
+        "meaning": "이전에 보고한 수용 12행은 연구 PC의 별도 개발 이미지로 재생한 결과로 운영 shadow 결과와 구분된다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R03"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K04",
+        "source_refs": [
+          "R04"
+        ],
+        "meaning": "2026-11-01 연구 PC와 시험 서버의 자료로 만든 기준 40행 중 조치 필요는 15행이다. 현행 엔진은 40행 모두 판정 불가였고 조치 필요 보고는 0행이다. 운영 420행과 다른 집단이다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R04"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K05",
+        "source_refs": [
+          "R05"
+        ],
+        "meaning": "격리 환경에서 기준 작성에 사용한 동일 원문과 규칙을 어댑터에 넣어 재현하면 40행 모두 기준과 일치한다. 독립 평가셋으로 정확도 기여를 측정한 결과는 없다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R05"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K06",
+        "source_refs": [
+          "R06"
+        ],
+        "meaning": "문서 추출 비교는 구조화 12문항과 조건부 8문항이며 LLM이 규칙보다 더 맞힌 답은 없었다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R06"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K07",
+        "source_refs": [
+          "R07"
+        ],
+        "meaning": "2026-11-02 bench-b에서 변환기 단독 지연을 측정했다. CPU 2스레드에서 질의 1개씩 1,000회 측정한 p50은 31.2ms, 최대 RSS는 1.40GiB다. GPU fp16 p50은 3.8ms이며 GPU 반복 횟수는 원자료에 없다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R07"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K08",
+        "source_refs": [
+          "R08"
+        ],
+        "meaning": "후보 재순위 평가는 동일한 후보 풀을 사용한 600질의다. 정답은 공개 사전의 대응 관계로 기계 생성했고 사람이 검수하지 않았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R08"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K09",
+        "source_refs": [
+          "R09"
+        ],
+        "meaning": "사전 제목 입력 240질의의 1순위 정답은 어휘 검색 180건, Pine-Reranker 195건이다. 패키지명 입력 360질의는 어휘 검색 244건, Pine-Reranker 249건이다. 통계적 동등성이나 유의성 검정은 수행하지 않았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R09"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K10",
+        "source_refs": [
+          "R10"
+        ],
+        "meaning": "2026-11-03 수집기 점검에서 하루 결과가 12,000건을 넘으면 해당 구간을 건너뛰는 로직을 확인했다. 전체 점검 대상 18,240건 중 18,200건이 이전 판이며 무작위 60건의 본문 구성은 같았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R10"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K11",
+        "source_refs": [
+          "R11"
+        ],
+        "meaning": "운영 수집기는 같은 로직으로 6시간마다 실행 중이다. 새 수집기는 2026-10-02 실패 뒤 2026-10-29까지 9개 출처 모두 후속 실행 기록이 없고 자동 재시도 장치도 확인되지 않았다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R11"
+        ],
+        "literal_signals": []
+      },
+      {
+        "id": "K12",
+        "source_refs": [
+          "R12"
+        ],
+        "meaning": "다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다.",
+        "required": true,
+        "legacy_refs": [
+          "must_preserve:R12"
+        ],
+        "literal_signals": []
+      }
+    ],
+    "questions": [
+      {
+        "id": "Q01",
+        "question": "운영 420행, 수용 12행, 기준 40행은 각각 어디서 나온 결과인가?",
+        "requirement_refs": [
+          "K01",
+          "K02",
+          "K03",
+          "K04"
+        ],
+        "expected_answer": "2026-10-28 운영 관측은 작업함 3개의 입력 420행이며 CSV 300행, NDJSON 120행이다. XML 입력은 없다. 같은 날 운영 shadow 실행은 420행 모두 보류했다. 필수 정책 누락 45행, 파서 검토 필요 375행이며 저장 DB 반영은 0건이다. 이전에 보고한 수용 12행은 연구 PC의 별도 개발 이미지로 재생한 결과로 운영 shadow 결과와 구분된다. 2026-11-01 연구 PC와 시험 서버의 자료로 만든 기준 40행 중 조치 필요는 15행이다. 현행 엔진은 40행 모두 판정 불가였고 조치 필요 보고는 0행이다. 운영 420행과 다른 집단이다."
+      },
+      {
+        "id": "Q02",
+        "question": "40행 재현의 일치가 보여 주는 범위와 아직 필요한 정확도 확인은 무엇인가?",
+        "requirement_refs": [
+          "K05",
+          "K12"
+        ],
+        "expected_answer": "격리 환경에서 기준 작성에 사용한 동일 원문과 규칙을 어댑터에 넣어 재현하면 40행 모두 기준과 일치한다. 독립 평가셋으로 정확도 기여를 측정한 결과는 없다. 다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다."
+      },
+      {
+        "id": "Q03",
+        "question": "CPU와 GPU 지연의 환경·지표·측정 횟수는 어디까지 확인됐는가?",
+        "requirement_refs": [
+          "K07"
+        ],
+        "expected_answer": "2026-11-02 bench-b에서 변환기 단독 지연을 측정했다. CPU 2스레드에서 질의 1개씩 1,000회 측정한 p50은 31.2ms, 최대 RSS는 1.40GiB다. GPU fp16 p50은 3.8ms이며 GPU 반복 횟수는 원자료에 없다."
+      },
+      {
+        "id": "Q04",
+        "question": "재순위 평가의 정답은 어떻게 만들었으며 두 입력 종류의 결과는 각각 얼마인가?",
+        "requirement_refs": [
+          "K08",
+          "K09"
+        ],
+        "expected_answer": "후보 재순위 평가는 동일한 후보 풀을 사용한 600질의다. 정답은 공개 사전의 대응 관계로 기계 생성했고 사람이 검수하지 않았다. 사전 제목 입력 240질의의 1순위 정답은 어휘 검색 180건, Pine-Reranker 195건이다. 패키지명 입력 360질의는 어휘 검색 244건, Pine-Reranker 249건이다. 통계적 동등성이나 유의성 검정은 수행하지 않았다."
+      },
+      {
+        "id": "Q05",
+        "question": "수집기 두 종류의 확인 상태와 다음 개발 순서·일정은 무엇인가?",
+        "requirement_refs": [
+          "K10",
+          "K11",
+          "K12"
+        ],
+        "expected_answer": "2026-11-03 수집기 점검에서 하루 결과가 12,000건을 넘으면 해당 구간을 건너뛰는 로직을 확인했다. 전체 점검 대상 18,240건 중 18,200건이 이전 판이며 무작위 60건의 본문 구성은 같았다. 운영 수집기는 같은 로직으로 6시간마다 실행 중이다. 새 수집기는 2026-10-02 실패 뒤 2026-10-29까지 9개 출처 모두 후속 실행 기록이 없고 자동 재시도 장치도 확인되지 않았다. 다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다."
+      }
+    ]
+  },
+  "documents": [
+    {
+      "case_id": "v07_dense_research",
+      "label": "A",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/blind/13_dense_research_A.md",
+      "sha256": "b03c9dbb71732bd44e647cda4b5ba887d0b5aaa276ce20d350aad4bf78aa7c35"
+    },
+    {
+      "case_id": "v07_dense_research",
+      "label": "B",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/blind/13_dense_research_B.md",
+      "sha256": "5447e6660ef687c059eef6f67df640b6e92076802752b829e1e825f7cab98848"
+    }
+  ],
+  "comparison_questions": [
+    "처음 읽을 때 같은 질문에 답하는 결과와 근거가 연결되는가?",
+    "독립된 발견, 판단의 전제와 실행 조건을 소제목과 본문에서 찾을 수 있는가?",
+    "측정 집단·환경·반복 수·평가 방법·미대조 범위가 바뀌거나 빠지는가?",
+    "불필요한 반복이나 긴 근거 표기를 정리한 결과와 실제 의미 손실을 구분할 수 있는가?"
+  ],
+  "instructions": "길이나 번호 소제목의 개수만으로 승자를 정하지 않는다. 문제를 지어내지 말고 실제 인용에 근거해 판단한다. 개선이 없거나 장단점이 갈리면 그대로 기록한다."
+}

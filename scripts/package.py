@@ -23,7 +23,7 @@ import zipfile
 from check import PACKAGE_FILES, SKILL_NAME, SKILL_RELATIVE_PATH, validate_repository
 
 
-DEFAULT_VERSION = "0.6.0"
+DEFAULT_VERSION = "0.7.0"
 FIXED_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 VERSION = re.compile(r"(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?")
 

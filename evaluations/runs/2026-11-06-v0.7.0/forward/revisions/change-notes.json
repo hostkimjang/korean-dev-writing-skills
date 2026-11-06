@@ -1,0 +1,37 @@
+{
+  "editor": "/root",
+  "edited_at_utc": "2026-11-06T02:43:09.435161+00:00",
+  "first_submissions_overwritten": false,
+  "basis": "Coordinator read the first current drafts while independent blinded first-draft reviews were in progress. Final review is separate.",
+  "changes": [
+    {
+      "case_id": "v07_dense_research",
+      "changes": [
+        "동일 원문·규칙 재현의 범위 설명을 한곳에 합쳤다.",
+        "단독 지연의 대상은 제목·도입·표에 두고 정확도·전체 완료 시간 부정을 반복하지 않았다.",
+        "사람 미검수 조건을 평가 방법 설명에 한 번 두고 표 뒤에는 미실시 통계 검정만 남겼다.",
+        "긴 제목을 논점 중심으로 줄이고 권장 개발 순서에 후속 독립 평가와 일정 미정을 함께 두었다."
+      ]
+    },
+    {
+      "case_id": "v07_evidence_design",
+      "changes": [
+        "권장·제안 서술어와 실제 값 미대조 조건을 유지하면서 설치 완료 아님·노출 확정 아님을 반복하는 문장을 줄였다.",
+        "토큰 전달·검증 설명을 역할 표에 모아 표와 산문의 중복을 줄였다.",
+        "긴 소제목을 줄이고 dry-run 절에 실증 전 운영 값 대조 조건을 직접 적었다.",
+        "정확한 경로·불연속 행 범위와 교체·폐기 조건은 그대로 유지했다."
+      ]
+    }
+  ],
+  "additional_revision": {
+    "at_utc": "2026-11-06T02:56:50.270136+00:00",
+    "source": "forward/reviews/blind-design.json",
+    "previous_final_draft": "evaluations/runs/2026-11-06-v0.7.0/forward/revisions/round-1/14_evidence_design.md",
+    "changes": [
+      "R11의 지속 실패 시 간격 증가 조건을 원자료에서 보완했다.",
+      "7절 제목에 중단·이전 키 폐기 기준을 함께 드러냈다.",
+      "장기 장애 복구 보장 미정을 해당 재시도 절로 옮겼다."
+    ],
+    "evaluation_note": "R11의 지속 실패 조건은 제공한 편집 초안에도 명시되지 않았다. 두 최초 출력의 이 차이를 스킬이 삭제한 정보로 해석하지 않는다. 최초 입력과 판정은 보존한다."
+  }
+}

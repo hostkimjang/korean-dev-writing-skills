@@ -1,0 +1,450 @@
+{
+  "documents": [
+    {
+      "case_id": "v07_evidence_design",
+      "label": "A",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다(`cloud-archive/ops/deploy/production/compose.yaml:148-156`, `cloud-archive/ops/.env.example:24-29`). 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다고 판단합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽은 추론이며 실제 배치를 확인한 결과는 아닙니다."
+          ],
+          "reason": "외부 bridge 네트워크, 설정대로 배포할 때의 동일 호스트 추론, 실제 운영 배치 미조회가 한 문단에 함께 있다. 두 근거 경로와 행 구간도 정확하다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "인증 값은 포털의 전달 경로와 API의 검증 경로에 나뉘어 있습니다. 포털은 `PORTAL_TOKEN`을 읽어 API를 호출하고(`cloud-archive/apps/portal/src/clients/archive/client.ts:42-58`), API는 받은 토큰을 `SERVICE_TOKENS` 목록과 대조합니다(`cloud-archive/services/api/src/http/auth/token_controller.py:90-113`)."
+          ],
+          "reason": "포털의 토큰 읽기와 API 호출, API의 목록 대조를 구별하고 각 동작 바로 뒤에 해당 파일·행 구간을 연결했다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다(`cloud-archive/ops/.env.example:71-79, 144-151`). 다만 운영 값을 대조하지 않았으므로 계정과 비밀값이 각각 동일한지는 미확인입니다. 동일 비밀값을 공유하는 서비스는 한쪽만 바꾸면 인증에 실패할 수 있습니다. 이 경우 저장소의 같은 항목을 참조하는 방안을 제안하며, 실증 전에 대상 값을 대조해야 합니다. 같은 항목을 참조하는 방식이 현재 구현됐다는 뜻은 아닙니다."
+          ],
+          "reason": "두 계정 변수의 설정상 유사성과 운영 값 미대조에 따른 계정·비밀값 동일 여부 미확인을 유지했다. 쉼표로 구분한 71-79와 144-151은 떨어진 두 구간이며 하나의 연속 구간으로 합치지 않았다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다(`cloud-archive/ops/.env.example:71-79, 144-151`). 다만 운영 값을 대조하지 않았으므로 계정과 비밀값이 각각 동일한지는 미확인입니다. 동일 비밀값을 공유하는 서비스는 한쪽만 바꾸면 인증에 실패할 수 있습니다. 이 경우 저장소의 같은 항목을 참조하는 방안을 제안하며, 실증 전에 대상 값을 대조해야 합니다. 같은 항목을 참조하는 방식이 현재 구현됐다는 뜻은 아닙니다."
+          ],
+          "reason": "공유 비밀값의 한쪽 변경으로 인증이 실패할 수 있다는 조건부 위험, 같은 저장소 항목 참조 제안, 실증 전 대상 값 대조가 이어진다. 제안을 구현 사실로 바꾸지 않았다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "점검 컨테이너는 `/srv/archive`를 `/host/archive`에 읽기 전용으로 마운트합니다(`cloud-archive/ops/deploy/production/compose.yaml:260-268`). 이 마운트는 호스트 파일을 읽을 수 있는 경로를 만든다고 판단합니다. 해당 경로의 비밀 파일은 컨테이너 읽기 권한에 따라 보일 수 있지만, 실제 열람과 노출 재현은 수행하지 않았습니다. 따라서 이 설정만으로 노출이 확정됐다고 볼 수는 없습니다."
+          ],
+          "reason": "호스트와 컨테이너의 경로, 읽기 전용 마운트, 읽기 권한에 따른 가시성, 실제 열람·노출 재현 미수행을 보존했다. 해당 Compose 행 구간도 남아 있다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "백업 스크립트는 `.env`를 백업 디렉터리에 그대로 복사합니다(`cloud-archive/ops/scripts/archive-backup.sh:31-38`). 로컬에서 `.env-backups`라는 디렉터리 이름도 확인했지만 내용은 열지 않았습니다. 디렉터리 이름만으로 현재 평문 비밀값이 남아 있다고 확정할 수 없으므로, 백업 사본도 확인 대상에 포함해야 합니다."
+          ],
+          "reason": "스크립트의 원본 복사 동작과 로컬에서 디렉터리 이름만 확인한 사실을 구분한다. 내용 미열람과 현재 평문 비밀값 잔존을 확정할 수 없다는 한계도 유지했다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권합니다(판단). 이는 실제 채택이나 설치가 완료됐다는 뜻이 아닙니다. 실증 범위는 아래 설정 근거와 미확인 항목을 바탕으로 결정해야 하며, 키 교체를 실행하려면 대상 계정의 운영 값 대조와 복구 백업 검증을 모두 마쳐야 합니다."
+          ],
+          "reason": "관리 인력과 비용을 이유로 첫 실증 후보를 권하며, 실제 채택이나 설치 완료가 아님을 분명히 했다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "아래 명령은 실증용으로 제시한 것으로, 변경 계획만 출력하고 키를 변경하지 않습니다. 실제 운영에서는 실행하지 않았습니다.",
+            "```bash\ncd cloud-archive/ops\narchive-keys rotate --dry-run\n```"
+          ],
+          "reason": "작업 디렉터리 이동과 명령 문자열을 그대로 제시하고, 계획 출력만 하며 키를 바꾸지 않는다는 효과와 운영 미실행을 명시했다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "키 교체를 실행하기 전에는 다음 두 조건을 모두 충족해야 합니다. 어느 하나라도 끝나지 않았다면 키 교체를 중단하고 기존 키를 유지합니다.",
+            "- 대상 계정의 운영 값을 대조했습니다.\n- 복구 백업을 검증했습니다."
+          ],
+          "reason": "두 항목을 모두 충족해야 한다는 문장과 하나라도 미완료면 중단·기존 키 유지라는 문장이 목록을 조건으로 규정한다. 목록의 완료형 어미는 주변 조건문과 함께 읽으면 실제 완료 주장으로 볼 근거가 없다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "교체 요청의 `accepted`는 접수 상태입니다. 이후 `rotation_state=committed`를 확인하고 연결 점검까지 성공해야 이전 키 폐기를 검토할 수 있습니다. 요청이 접수됐다는 이유만으로 이전 키를 폐기하지 않습니다."
+          ],
+          "reason": "accepted를 접수로 한정하고 committed 확인 후 연결 점검 성공이라는 순서를 보존했다. 이전 키 폐기는 이 조건을 충족한 뒤 검토하며 접수만으로 폐기하지 않는다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "partial",
+          "evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장하고 90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다(`cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329`). 영구 실패는 재시도에서 제외합니다.",
+            "이 재시도 동작은 장기 장애 후 복구가 완료된다는 보장을 뜻하지 않습니다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았습니다. 자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았습니다.\n"
+          ],
+          "reason": "저장 경로, 90초 재시도, 10,800초 상한, 영구 실패 제외, 검증하지 않은 두 범위와 정확한 근거 구간은 유지했다. 다만 간격 증가를 지속 실패에 연결하는 조건이 빠져 증가 시점을 온전히 설명하지 못한다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "이 재시도 동작은 장기 장애 후 복구가 완료된다는 보장을 뜻하지 않습니다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았습니다. 자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았습니다.\n"
+          ],
+          "reason": "자동 교체 구현, 운영 적용 일정, 장기 장애 복구 완료 보장의 세 항목을 아직 정해지지 않은 것으로 남겼다. 이를 확정 계획이나 보장으로 바꾸지 않았다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "배치 설정과 인증 값의 연결 관계 / 첫 문단",
+          "additional_locations": [
+            "같은 절 / ARCHIVE_DB_USER·PORTAL_DB_USER 문단"
+          ],
+          "local_condition_gap": "",
+          "reason": "호스트 배치는 설정을 읽은 추론이며 실제 조회하지 않았고, 계정은 설정상 같아 보이지만 운영 값 미대조로 동일 여부가 미확인이라고 각각 답한다.",
+          "answer_evidence": [
+            "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다(`cloud-archive/ops/deploy/production/compose.yaml:148-156`, `cloud-archive/ops/.env.example:24-29`). 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다고 판단합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽은 추론이며 실제 배치를 확인한 결과는 아닙니다.",
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다(`cloud-archive/ops/.env.example:71-79, 144-151`). 다만 운영 값을 대조하지 않았으므로 계정과 비밀값이 각각 동일한지는 미확인입니다. 동일 비밀값을 공유하는 서비스는 한쪽만 바꾸면 인증에 실패할 수 있습니다. 이 경우 저장소의 같은 항목을 참조하는 방안을 제안하며, 실증 전에 대상 값을 대조해야 합니다. 같은 항목을 참조하는 방식이 현재 구현됐다는 뜻은 아닙니다."
+          ]
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "배치 설정과 인증 값의 연결 관계 / 인증 값 문단",
+          "additional_locations": [
+            "같은 절 / 배치 문단과 계정 문단",
+            "마운트와 백업에서 확인할 비밀 파일 / 두 문단",
+            "업로드 재시도와 복구 검증의 한계 / 첫 문단"
+          ],
+          "local_condition_gap": "",
+          "reason": "토큰 전달과 대조에는 각각 다른 파일·행 구간이 바로 붙어 있다. 계정, 배치, 마운트, 백업, 재시도 근거도 정확히 찾을 수 있으며 쉼표로 표시한 이격 구간을 연속 범위로 왜곡하지 않았다. 긴 인라인 경로는 독해 부담이지만 근거 대응의 결손은 아니다.",
+          "answer_evidence": [
+            "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다(`cloud-archive/ops/deploy/production/compose.yaml:148-156`, `cloud-archive/ops/.env.example:24-29`). 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다고 판단합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽은 추론이며 실제 배치를 확인한 결과는 아닙니다.",
+            "인증 값은 포털의 전달 경로와 API의 검증 경로에 나뉘어 있습니다. 포털은 `PORTAL_TOKEN`을 읽어 API를 호출하고(`cloud-archive/apps/portal/src/clients/archive/client.ts:42-58`), API는 받은 토큰을 `SERVICE_TOKENS` 목록과 대조합니다(`cloud-archive/services/api/src/http/auth/token_controller.py:90-113`).",
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다(`cloud-archive/ops/.env.example:71-79, 144-151`). 다만 운영 값을 대조하지 않았으므로 계정과 비밀값이 각각 동일한지는 미확인입니다. 동일 비밀값을 공유하는 서비스는 한쪽만 바꾸면 인증에 실패할 수 있습니다. 이 경우 저장소의 같은 항목을 참조하는 방안을 제안하며, 실증 전에 대상 값을 대조해야 합니다. 같은 항목을 참조하는 방식이 현재 구현됐다는 뜻은 아닙니다.",
+            "점검 컨테이너는 `/srv/archive`를 `/host/archive`에 읽기 전용으로 마운트합니다(`cloud-archive/ops/deploy/production/compose.yaml:260-268`). 이 마운트는 호스트 파일을 읽을 수 있는 경로를 만든다고 판단합니다. 해당 경로의 비밀 파일은 컨테이너 읽기 권한에 따라 보일 수 있지만, 실제 열람과 노출 재현은 수행하지 않았습니다. 따라서 이 설정만으로 노출이 확정됐다고 볼 수는 없습니다.",
+            "백업 스크립트는 `.env`를 백업 디렉터리에 그대로 복사합니다(`cloud-archive/ops/scripts/archive-backup.sh:31-38`). 로컬에서 `.env-backups`라는 디렉터리 이름도 확인했지만 내용은 열지 않았습니다. 디렉터리 이름만으로 현재 평문 비밀값이 남아 있다고 확정할 수 없으므로, 백업 사본도 확인 대상에 포함해야 합니다.",
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장하고 90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다(`cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329`). 영구 실패는 재시도에서 제외합니다."
+          ]
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "마운트와 백업에서 확인할 비밀 파일 / 첫 문단",
+          "additional_locations": [
+            "같은 절 / 백업 문단"
+          ],
+          "local_condition_gap": "",
+          "reason": "설정·스크립트에서 확인한 동작, 로컬에서 확인한 이름, 수행하지 않은 파일 열람·노출 재현을 구분한다. 읽기 권한에 따른 가능성과 현재 평문 잔존을 확정할 수 없다는 한계도 가까이 제시했다.",
+          "answer_evidence": [
+            "점검 컨테이너는 `/srv/archive`를 `/host/archive`에 읽기 전용으로 마운트합니다(`cloud-archive/ops/deploy/production/compose.yaml:260-268`). 이 마운트는 호스트 파일을 읽을 수 있는 경로를 만든다고 판단합니다. 해당 경로의 비밀 파일은 컨테이너 읽기 권한에 따라 보일 수 있지만, 실제 열람과 노출 재현은 수행하지 않았습니다. 따라서 이 설정만으로 노출이 확정됐다고 볼 수는 없습니다.",
+            "백업 스크립트는 `.env`를 백업 디렉터리에 그대로 복사합니다(`cloud-archive/ops/scripts/archive-backup.sh:31-38`). 로컬에서 `.env-backups`라는 디렉터리 이름도 확인했지만 내용은 열지 않았습니다. 디렉터리 이름만으로 현재 평문 비밀값이 남아 있다고 확정할 수 없으므로, 백업 사본도 확인 대상에 포함해야 합니다."
+          ]
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "갈피 키 저장소 실증과 키 교체 조건 / 명령 설명과 코드 블록",
+          "additional_locations": [
+            "같은 절 / 실행 선행 조건과 목록",
+            "같은 절 / accepted·committed 문단",
+            "문서 첫 문단 / 실증 후보 추천"
+          ],
+          "local_condition_gap": "",
+          "reason": "코드 블록의 cd로 작업 위치를 알 수 있고, 바로 앞에서 계획 출력·변경 없음·운영 미실행을 설명한다. 두 선행 조건, 미완료 시 중단, committed 확인 후 연결 점검 성공까지 같은 절에 있어 실제 행동에 필요한 조건이 모두 있다.",
+          "answer_evidence": [
+            "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권합니다(판단). 이는 실제 채택이나 설치가 완료됐다는 뜻이 아닙니다. 실증 범위는 아래 설정 근거와 미확인 항목을 바탕으로 결정해야 하며, 키 교체를 실행하려면 대상 계정의 운영 값 대조와 복구 백업 검증을 모두 마쳐야 합니다.",
+            "아래 명령은 실증용으로 제시한 것으로, 변경 계획만 출력하고 키를 변경하지 않습니다. 실제 운영에서는 실행하지 않았습니다.",
+            "```bash\ncd cloud-archive/ops\narchive-keys rotate --dry-run\n```",
+            "키 교체를 실행하기 전에는 다음 두 조건을 모두 충족해야 합니다. 어느 하나라도 끝나지 않았다면 키 교체를 중단하고 기존 키를 유지합니다.",
+            "- 대상 계정의 운영 값을 대조했습니다.\n- 복구 백업을 검증했습니다.",
+            "교체 요청의 `accepted`는 접수 상태입니다. 이후 `rotation_state=committed`를 확인하고 연결 점검까지 성공해야 이전 키 폐기를 검토할 수 있습니다. 요청이 접수됐다는 이유만으로 이전 키를 폐기하지 않습니다."
+          ]
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "partial",
+          "entry_location": "업로드 재시도와 복구 검증의 한계 / 첫 문단",
+          "additional_locations": [
+            "같은 절 / 마지막 문단"
+          ],
+          "local_condition_gap": "재시도 간격을 늘리는 조건인 “실패가 이어지면”이 명시되지 않았다.",
+          "reason": "재시도 수치·저장·제외 대상과 검증하지 않은 복구율·재부팅 보존, 미정 운영 사항은 한 절에서 답한다. 다만 간격 증가 조건이 빠져 재시도 동작 전체에 대한 답은 일부 부족하다.",
+          "answer_evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장하고 90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다(`cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329`). 영구 실패는 재시도에서 제외합니다.",
+            "이 재시도 동작은 장기 장애 후 복구가 완료된다는 보장을 뜻하지 않습니다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았습니다. 자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았습니다.\n"
+          ]
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "수치·기술 식별자·근거 구간의 충돌이나 제안의 실행 사실화는 없다. 운영 값 대조와 백업 검증, 중단 조건, 이전 키 폐기 전 확인 순서도 보존되어 있다. K11의 지속 실패 조건 누락은 부분 보존 문제로 기록하되, 문서 전체를 무효화하는 상충된 실행 지시는 없다.",
+        "evidence": []
+      },
+      "open_issues": [
+        {
+          "requirement_id": "K11",
+          "question_id": "Q05",
+          "issue": "재시도 간격을 늘리는 조건인 “실패가 이어지면”이 명시되지 않았다.",
+          "evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장하고 90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다(`cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329`). 영구 실패는 재시도에서 제외합니다."
+          ],
+          "smallest_fix": {
+            "old": "90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다",
+            "new": "90초마다 재시도하며, 실패가 이어지면 간격을 최대 10,800초로 늘립니다"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "v07_evidence_design",
+      "label": "B",
+      "requirements": [
+        {
+          "requirement_id": "K01",
+          "status": "preserved",
+          "evidence": [
+            "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽어 도출한 배치 추론입니다.",
+            "- `cloud-archive/ops/deploy/production/compose.yaml:148-156`\n- `cloud-archive/ops/.env.example:24-29`"
+          ],
+          "reason": "외부 bridge 네트워크와 설정대로 배포하는 경우의 동일 호스트 설명을 유지했다. 같은 문단에 운영 배치 미조회와 설정 기반 추론이 명시되어 있으며 두 근거도 정확하다."
+        },
+        {
+          "requirement_id": "K02",
+          "status": "preserved",
+          "evidence": [
+            "포털은 `PORTAL_TOKEN`을 읽어 API를 호출하고, API는 받은 토큰을 `SERVICE_TOKENS` 목록과 대조합니다.",
+            "| 역할 | 설정과 동작 | 근거 |\n| --- | --- | --- |\n| 포털 | `PORTAL_TOKEN`을 읽어 API 호출 | `cloud-archive/apps/portal/src/clients/archive/client.ts:42-58` |\n| 보관 API | 받은 토큰을 `SERVICE_TOKENS` 목록과 대조 | `cloud-archive/services/api/src/http/auth/token_controller.py:90-113` |"
+          ],
+          "reason": "본문에 토큰 호출·대조 동작이 모두 있고 표에서 포털과 보관 API 각각의 동작을 올바른 파일·행 구간에 대응시킨다."
+        },
+        {
+          "requirement_id": "K03",
+          "status": "preserved",
+          "evidence": [
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다. 다만 운영 값을 대조하지 않아 계정과 비밀값이 실제로 같은지는 확인하지 못했습니다.",
+            "- `cloud-archive/ops/.env.example:71-79`\n- `cloud-archive/ops/.env.example:144-151`"
+          ],
+          "reason": "설정상 같은 업무용 계정으로 보인다는 추정과 운영 값 미대조를 유지했다. 계정·비밀값 동일 여부를 확인하지 못했다고 명시하며 떨어진 두 행 구간을 각각 제시한다."
+        },
+        {
+          "requirement_id": "K04",
+          "status": "preserved",
+          "evidence": [
+            "동일 비밀값을 공유하는 서비스는 한쪽만 바꾸면 인증에 실패할 수 있습니다. 이러한 서비스가 키 저장소의 같은 항목을 참조하도록 구성하는 방안을 제안합니다. 실증 전에 대상 값을 대조해 공유 여부를 확인해야 합니다."
+          ],
+          "reason": "공유 비밀값이 있을 때 한쪽 변경으로 인증이 실패할 수 있다는 조건, 같은 저장소 항목 참조 제안, 실증 전 값 대조를 모두 보존했다."
+        },
+        {
+          "requirement_id": "K05",
+          "status": "preserved",
+          "evidence": [
+            "점검 컨테이너는 `/srv/archive`를 `/host/archive`에 읽기 전용으로 마운트합니다. 이 경로의 비밀 파일은 컨테이너 읽기 권한에 따라 보일 수 있습니다. 실제 파일 열람과 노출 재현은 수행하지 않았으므로 노출이 확정된 것은 아닙니다.",
+            "근거: `cloud-archive/ops/deploy/production/compose.yaml:260-268`"
+          ],
+          "reason": "마운트 방향과 읽기 전용 조건, 컨테이너 읽기 권한에 따른 가시성, 실제 파일 열람·노출 재현 미수행이 모두 있다. 노출 확정으로 바꾸지 않았고 근거 구간도 정확하다."
+        },
+        {
+          "requirement_id": "K06",
+          "status": "preserved",
+          "evidence": [
+            "백업 스크립트는 `.env`를 백업 디렉터리에 그대로 복사합니다. 로컬에서는 `.env-backups`라는 디렉터리 이름도 확인했지만 내용을 열지는 않았습니다. 따라서 디렉터리 이름만으로 현재 평문 비밀값이 남아 있다고 확정할 수는 없습니다.",
+            "근거: `cloud-archive/ops/scripts/archive-backup.sh:31-38`"
+          ],
+          "reason": "스크립트의 .env 복사와 로컬 디렉터리 이름 확인을 구별한다. 내용을 열지 않았고 이름만으로 현재 평문 비밀값 잔존을 확정할 수 없다는 한계를 유지했다."
+        },
+        {
+          "requirement_id": "K07",
+          "status": "preserved",
+          "evidence": [
+            "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권합니다. 실증 전에 대상 계정의 운영 값을 대조해야 하며, 실제 키 교체는 운영 값 대조와 복구 백업 검증이 모두 끝난 뒤에 진행해야 합니다. 현재 추천은 채택이나 설치 완료를 뜻하지 않습니다."
+          ],
+          "reason": "관리 인력·비용을 고려한 첫 실증 후보 추천이며 채택이나 설치 완료가 아님을 명시했다."
+        },
+        {
+          "requirement_id": "K08",
+          "status": "preserved",
+          "evidence": [
+            "아래 명령은 `cloud-archive/ops`로 이동한 뒤 키 교체의 변경 계획을 확인하는 실증용 명령입니다. 변경 계획만 출력하고 키를 변경하지 않으며, 실제 운영에서는 실행하지 않았습니다.",
+            "```bash\ncd cloud-archive/ops\narchive-keys rotate --dry-run\n```"
+          ],
+          "reason": "명령 직전 문장에서 이동할 디렉터리와 계획 확인이라는 목적을 풀어 설명했다. 정확한 명령, 키 변경 없음, 실제 운영 미실행을 모두 유지했다."
+        },
+        {
+          "requirement_id": "K09",
+          "status": "preserved",
+          "evidence": [
+            "실제 키 교체를 실행하려면 다음 두 조건을 모두 충족해야 합니다.",
+            "- 대상 계정의 운영 값 대조가 끝나야 합니다.\n- 복구 백업 검증이 끝나야 합니다.",
+            "어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지합니다."
+          ],
+          "reason": "운영 값 대조와 복구 백업 검증을 모두 필요한 선행 조건으로 제시하고, 하나라도 미완료면 교체 중단·기존 키 유지라고 바로 연결한다."
+        },
+        {
+          "requirement_id": "K10",
+          "status": "preserved",
+          "evidence": [
+            "교체 요청의 `accepted`는 접수 상태입니다. `rotation_state=committed`를 확인한 뒤 연결 점검까지 성공해야 이전 키 폐기를 검토합니다. 요청 접수만으로 이전 키를 폐기하지 않습니다."
+          ],
+          "reason": "접수와 완료 상태를 구분하며 committed 확인 뒤 연결 점검 성공 후에만 이전 키 폐기를 검토하도록 순서를 유지했다."
+        },
+        {
+          "requirement_id": "K11",
+          "status": "partial",
+          "evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장합니다. 재시도 간격은 90초에서 시작해 최대 10,800초까지 늘어나며, 영구 실패는 재시도에서 제외합니다.",
+            "- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134`\n- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:310-329`",
+            "장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았습니다. 재시도 동작만으로 장기 장애의 복구 완료를 보장할 수는 없습니다."
+          ],
+          "reason": "실패 결과 저장 경로, 90초부터 10,800초까지의 간격, 영구 실패 제외, 미검증 범위, 두 근거 구간을 유지했다. 그러나 간격이 늘어나는 전제인 지속 실패가 명시되지 않아 조건 한 부분이 누락됐다."
+        },
+        {
+          "requirement_id": "K12",
+          "status": "preserved",
+          "evidence": [
+            "자동 교체 구현과 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았습니다.\n"
+          ],
+          "reason": "미정인 구현·일정·복구 완료 보장 세 항목을 별도 절에 보존했다. 확정 일정이나 자동 교체 구현 완료를 주장하지 않는다."
+        }
+      ],
+      "questions": [
+        {
+          "question_id": "Q01",
+          "answer_status": "sufficient",
+          "entry_location": "1. 운영 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용합니다 / 본문",
+          "additional_locations": [
+            "2. 토큰을 전달하고 검증하는 설정이 나뉘어 있으며, 계정과 비밀값의 동일 여부는 미확인입니다 / 계정 문단"
+          ],
+          "local_condition_gap": "",
+          "reason": "배치 제목 자체에 설정대로 배포한다는 전제가 있고 본문에서 실제 배치 미조회·설정 추론을 분명히 한다. 계정과 비밀값은 운영 값 미대조에 따른 미확인으로 따로 설명한다.",
+          "answer_evidence": [
+            "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽어 도출한 배치 추론입니다.",
+            "- `cloud-archive/ops/deploy/production/compose.yaml:148-156`\n- `cloud-archive/ops/.env.example:24-29`",
+            "`ARCHIVE_DB_USER`와 `PORTAL_DB_USER`는 설정상 같은 업무용 계정으로 보입니다. 다만 운영 값을 대조하지 않아 계정과 비밀값이 실제로 같은지는 확인하지 못했습니다.",
+            "- `cloud-archive/ops/.env.example:71-79`\n- `cloud-archive/ops/.env.example:144-151`"
+          ]
+        },
+        {
+          "question_id": "Q02",
+          "answer_status": "sufficient",
+          "entry_location": "2. 토큰을 전달하고 검증하는 설정이 나뉘어 있으며, 계정과 비밀값의 동일 여부는 미확인입니다 / 역할·동작·근거 표",
+          "additional_locations": [
+            "같은 절 / 계정 근거 목록",
+            "1번 절 / 배치 근거 목록",
+            "3번 절 / 마운트 근거",
+            "4번 절 / 백업 근거",
+            "5번 절 / 재시도 근거 목록"
+          ],
+          "local_condition_gap": "",
+          "reason": "표가 토큰 호출·검증의 역할과 근거를 직접 대응시킨다. 나머지 근거는 각 발견의 절 안에 있으며 계정과 재시도의 이격 구간도 각각 정확한 경로와 함께 제시했다. 별도 근거 목록은 확인한 사실과 떨어진 다른 발견에 귀속되지 않는다.",
+          "answer_evidence": [
+            "| 역할 | 설정과 동작 | 근거 |\n| --- | --- | --- |\n| 포털 | `PORTAL_TOKEN`을 읽어 API 호출 | `cloud-archive/apps/portal/src/clients/archive/client.ts:42-58` |\n| 보관 API | 받은 토큰을 `SERVICE_TOKENS` 목록과 대조 | `cloud-archive/services/api/src/http/auth/token_controller.py:90-113` |",
+            "- `cloud-archive/ops/.env.example:71-79`\n- `cloud-archive/ops/.env.example:144-151`",
+            "- `cloud-archive/ops/deploy/production/compose.yaml:148-156`\n- `cloud-archive/ops/.env.example:24-29`",
+            "근거: `cloud-archive/ops/deploy/production/compose.yaml:260-268`",
+            "근거: `cloud-archive/ops/scripts/archive-backup.sh:31-38`",
+            "- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134`\n- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:310-329`"
+          ]
+        },
+        {
+          "question_id": "Q03",
+          "answer_status": "sufficient",
+          "entry_location": "3. 점검 컨테이너에 비밀 파일을 읽을 수 있는 경로가 있으나, 실제 노출은 재현하지 않았습니다 / 본문",
+          "additional_locations": [
+            "4. 백업 스크립트는 .env를 그대로 복사하며, 현재 사본의 내용은 확인하지 않았습니다 / 본문"
+          ],
+          "local_condition_gap": "",
+          "reason": "독립된 두 발견의 제목과 본문에서 설정상 읽기 경로와 복사 동작, 실제 내용 미확인·노출 미재현을 찾을 수 있다. 마운트의 읽기 권한 조건과 디렉터리 이름만으로 잔존을 확정할 수 없다는 한계도 포함된다.",
+          "answer_evidence": [
+            "점검 컨테이너는 `/srv/archive`를 `/host/archive`에 읽기 전용으로 마운트합니다. 이 경로의 비밀 파일은 컨테이너 읽기 권한에 따라 보일 수 있습니다. 실제 파일 열람과 노출 재현은 수행하지 않았으므로 노출이 확정된 것은 아닙니다.",
+            "근거: `cloud-archive/ops/deploy/production/compose.yaml:260-268`",
+            "백업 스크립트는 `.env`를 백업 디렉터리에 그대로 복사합니다. 로컬에서는 `.env-backups`라는 디렉터리 이름도 확인했지만 내용을 열지는 않았습니다. 따라서 디렉터리 이름만으로 현재 평문 비밀값이 남아 있다고 확정할 수는 없습니다.",
+            "근거: `cloud-archive/ops/scripts/archive-backup.sh:31-38`"
+          ]
+        },
+        {
+          "question_id": "Q04",
+          "answer_status": "sufficient",
+          "entry_location": "실증용 변경 계획 확인 / 명령 설명과 코드 블록",
+          "additional_locations": [
+            "키 교체의 중단 조건과 이전 키 폐기 검토 조건 / 본문과 목록",
+            "문서 첫 문단 / 실증 후보 추천"
+          ],
+          "local_condition_gap": "",
+          "reason": "실행 디렉터리와 명령 효과·운영 미실행을 명령 바로 앞에서 설명한다. 다음 절 제목이 중단·폐기 검토 조건을 예고하고, 모든 선행 조건과 상태 확인 순서가 그 절 안에 있어 실행 지점을 찾은 독자가 필요한 판단을 할 수 있다.",
+          "answer_evidence": [
+            "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권합니다. 실증 전에 대상 계정의 운영 값을 대조해야 하며, 실제 키 교체는 운영 값 대조와 복구 백업 검증이 모두 끝난 뒤에 진행해야 합니다. 현재 추천은 채택이나 설치 완료를 뜻하지 않습니다.",
+            "아래 명령은 `cloud-archive/ops`로 이동한 뒤 키 교체의 변경 계획을 확인하는 실증용 명령입니다. 변경 계획만 출력하고 키를 변경하지 않으며, 실제 운영에서는 실행하지 않았습니다.",
+            "```bash\ncd cloud-archive/ops\narchive-keys rotate --dry-run\n```",
+            "실제 키 교체를 실행하려면 다음 두 조건을 모두 충족해야 합니다.",
+            "- 대상 계정의 운영 값 대조가 끝나야 합니다.\n- 복구 백업 검증이 끝나야 합니다.",
+            "어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지합니다.",
+            "교체 요청의 `accepted`는 접수 상태입니다. `rotation_state=committed`를 확인한 뒤 연결 점검까지 성공해야 이전 키 폐기를 검토합니다. 요청 접수만으로 이전 키를 폐기하지 않습니다."
+          ]
+        },
+        {
+          "question_id": "Q05",
+          "answer_status": "partial",
+          "entry_location": "5. 업로드 작업은 재시도하지만, 장기 장애와 재부팅 이후의 복구는 검증하지 않았습니다 / 첫 문단",
+          "additional_locations": [
+            "같은 절 / 복구 검증 한계 문단",
+            "아직 정해지지 않은 사항 / 본문"
+          ],
+          "local_condition_gap": "재시도 간격을 늘리는 조건인 “실패가 이어지면”이 명시되지 않았다.",
+          "reason": "재시도 저장 위치·수치·제외 대상과 두 미검증 범위는 5번 절, 미정 운영 계획은 마지막 절에서 찾을 수 있다. 사이에 실증·교체 조건 절이 있어 두 위치를 확인해야 하며, 내용상 부족한 부분은 간격 증가의 지속 실패 조건이다.",
+          "answer_evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장합니다. 재시도 간격은 90초에서 시작해 최대 10,800초까지 늘어나며, 영구 실패는 재시도에서 제외합니다.",
+            "- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134`\n- `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:310-329`",
+            "장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았습니다. 재시도 동작만으로 장기 장애의 복구 완료를 보장할 수는 없습니다.",
+            "자동 교체 구현과 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았습니다.\n"
+          ]
+        }
+      ],
+      "hard_fail": {
+        "value": false,
+        "reason": "수치·기술 식별자·근거 구간의 충돌이나 미확인을 확인 사실로 바꾼 부분은 없다. 실증 명령의 효과, 실제 키 교체의 선행·중단 조건, 이전 키 폐기 검토 순서를 모두 유지했다. K11의 지속 실패 조건 누락은 부분 보존 문제이며 위험한 실행 허용이나 확정 복구 보장으로 확대되지는 않았다.",
+        "evidence": []
+      },
+      "open_issues": [
+        {
+          "requirement_id": "K11",
+          "question_id": "Q05",
+          "issue": "재시도 간격을 늘리는 조건인 “실패가 이어지면”이 명시되지 않았다.",
+          "evidence": [
+            "업로드 작업자는 실패 결과를 `pending_uploads/results`에 저장합니다. 재시도 간격은 90초에서 시작해 최대 10,800초까지 늘어나며, 영구 실패는 재시도에서 제외합니다."
+          ],
+          "smallest_fix": {
+            "old": "재시도 간격은 90초에서 시작해 최대 10,800초까지 늘어나며, 영구 실패는 재시도에서 제외합니다.",
+            "new": "재시도 간격은 90초에서 시작하며, 실패가 이어지면 최대 10,800초까지 늘어납니다. 영구 실패는 재시도에서 제외합니다."
+          }
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "preferred": "B",
+    "reason": "의미 보존과 실제 결함은 두 문서가 같다. 개발 인계 후 특정 결과·근거·실행 조건을 다시 찾는 용도에서는 B가 조금 더 낫다. 발견 제목이 결론과 미확인을 드러내고, 토큰 근거 표와 분리된 행 구간, 명령 직전의 작업 위치 설명이 해당 질문의 답을 쉽게 찾게 한다. A는 인증 설정에서 공유 비밀값 제안으로 이어지는 문단 흐름과 재시도 한계·미정 사항의 근접성이 더 좋다. 번호나 길이 자체를 우열의 근거로 삼지 않았다.",
+    "findings": [
+      "공통 결함: A의 “90초마다 재시도하며, 최대 간격을 10,800초로 늘립니다”와 B의 “재시도 간격은 90초에서 시작해 최대 10,800초까지 늘어나며”에는 원문의 지속 실패 조건이 없다. 두 문서 모두 K11과 Q05를 partial로 판정하며, 해당 문장에 “실패가 이어지면”을 보태면 된다.",
+      "A는 “인증 값은 포털의 전달 경로와 API의 검증 경로에 나뉘어 있습니다.” 다음에 계정 변수의 추정·미확인과 공유 비밀값 제안을 연결한다. 서로 관련된 관계 설명을 연속해서 읽기 좋다. B는 같은 관계를 설명한 뒤 표와 근거 목록을 거치므로 읽는 흐름은 더 자주 끊긴다.",
+      "B의 “## 3. 점검 컨테이너에 비밀 파일을 읽을 수 있는 경로가 있으나, 실제 노출은 재현하지 않았습니다”와 “## 4. 백업 스크립트는 .env를 그대로 복사하며, 현재 사본의 내용은 확인하지 않았습니다”는 독립된 발견과 확인 한계를 제목만으로 찾게 한다. A의 공통 제목도 본문 관계를 묶는 데 적합하므로 A의 구조를 누락으로 보지는 않았다.",
+      "근거 대응은 둘 다 정확하다. A의 `cloud-archive/ops/.env.example:71-79, 144-151`과 `cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329`는 이격 구간을 유지한다. B는 각 구간에 전체 경로를 붙여 분리하며, 토큰 표는 역할·동작·해당 근거를 한 행에 묶는다. B의 표기 방식은 재검색에 유리하지만 A의 표기 오류를 바로잡은 것은 아니다.",
+      "두 문서 모두 실제 열람·노출 재현·운영 실행을 했다고 주장하지 않는다. A의 “같은 항목을 참조하는 방식이 현재 구현됐다는 뜻은 아닙니다.”는 바로 앞의 제안 상태를 다시 확인하며, 마운트·재시도에서도 한계를 연이어 반복한다. B도 발견 제목과 본문, 토큰 본문과 표를 반복하므로 반복이 전혀 없지는 않다. 이 반복은 의미 손실과 구별해야 한다.",
+      "B는 “아래 명령은 `cloud-archive/ops`로 이동한 뒤 키 교체의 변경 계획을 확인하는 실증용 명령입니다.”라고 명령의 위치와 목적을 바로 풀어 쓰고, 별도 제목 아래 중단·이전 키 폐기 조건을 모았다. A도 코드 블록과 같은 절의 조건문을 통해 충분히 답하므로 실행 조건 누락은 없다.",
+      "A의 선행 조건 목록은 “대조했습니다.”와 “검증했습니다.”라는 완료형이지만, 바로 앞에서 두 조건을 모두 충족해야 하고 미완료면 중단하라고 명시한다. 실제 완료를 단정한 결함은 아니다. 국소적인 명료성을 높이려면 두 어미만 “대조가 끝나야 합니다.”, “검증이 끝나야 합니다.”로 바꾸면 된다.",
+      "A는 재시도 동작, 미검증 범위, 미정 구현·일정·보장을 마지막 한 절에 모아 Q05의 답이 가깝다. B는 재시도 한계가 5번 절에 있고 미정 사항이 마지막 절에 있어 실증·교체 조건 절을 지나 다시 찾아야 한다. B의 검색상 장점에도 이 문단 배치상의 비용은 남아 있다."
+    ]
+  }
+}

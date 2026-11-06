@@ -1,0 +1,111 @@
+{
+  "run_id": "2026-11-06-v0.7.0",
+  "recorded_at_utc": "2026-11-06T03:17:59.676143+00:00",
+  "checks": [
+    {
+      "command": "python scripts/check_claims.py --contract evaluations/runs/2026-11-06-v0.7.0/new-topic-contract.json --output-index evaluations/runs/2026-11-06-v0.7.0/forward/final-index.json --reviews evaluations/runs/2026-11-06-v0.7.0/forward/reviews/final.json --require-complete",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "PASS: 2 contract cases, 2 frozen outputs, 2 review records.\nAll required recorded decisions are complete with no open issues; the program does not judge their semantic correctness.\nStructure, references, hashes, and exact quotations only. Literal presence/absence is not a semantic verdict or hard_fail.\n",
+      "stderr": ""
+    },
+    {
+      "command": "python scripts/check_repairs.py",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "PASS: 14 reviewed final documents, 6 resolved repairs, matching published examples.\nRecorded review decisions and artifact integrity only; this is not an automated semantic judgment.\n",
+      "stderr": ""
+    },
+    {
+      "command": "python scripts/build_docs.py",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"checked_only\": false,\n  \"cases\": 14,\n  \"source_documents\": 36,\n  \"markdown_embeds\": 23,\n  \"examples\": 14,\n  \"written_files\": [\n    \"docs/evaluation.md\",\n    \"docs/comparisons/long-documents.md\",\n    \"docs/comparisons/reading-flow.md\",\n    \"docs/comparisons/transfer-checks.md\",\n    \"docs/comparisons/new-topics.md\",\n    \"docs/examples/01_cli_readme.md\",\n    \"docs/examples/02_event_architecture.md\",\n    \"docs/examples/03_investigation_pr.md\",\n    \"docs/examples/04_incident_runbook.md\",\n    \"docs/examples/05_storage_adr.md\",\n    \"docs/examples/06_paragraph_edit.md\",\n    \"docs/examples/07_index_onboarding.md\",\n    \"docs/examples/08_short_log_pr.md\",\n    \"docs/examples/09_config_rollout.md\",\n    \"docs/examples/10_thumbnail_report.md\",\n    \"docs/examples/11_log_retention.md\",\n    \"docs/examples/12_configuration_precedence.md\",\n    \"docs/examples/13_dense_research.md\",\n    \"docs/examples/14_evidence_design.md\",\n    \"docs/examples/README.md\"\n  ],\n  \"input_source_files\": 79\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/build_viewer.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"destination\": \"/workspace/scratch/f69b6a4d7568/korean-dev-writing/docs/comparisons/index.html\",\n  \"checkedOnly\": false,\n  \"cases\": 14,\n  \"documents\": 36,\n  \"inputs\": 14,\n  \"downloads\": 50,\n  \"sourceFiles\": 74,\n  \"observationsIncluded\": true,\n  \"bytes\": 989337\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "python scripts/check.py",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "PASS (repository): 6 release files, 42 Markdown files, 6 evaluation cases.\nStructural checks only; model execution, writing quality, and factual scoring are separate.\n",
+      "stderr": ""
+    },
+    {
+      "command": "python scripts/test_check_claims.py",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"tests_passed\": 25,\n  \"tests\": [\n    {\n      \"test\": \"frozen contract with default repository-relative path\",\n      \"exit_code\": 0,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"real short PR signals\",\n      \"exit_code\": 0,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"service absence is a signal, not an automatic semantic verdict\",\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"valid partial/missing review passes structural checks\",\n      \"exit_code\": 0,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"two disjoint review files cover the complete index\",\n      \"exit_code\": 0,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"missing review document across files\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"duplicate review document across files\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"missing mandatory requirement\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"missing question\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"duplicate requirement row\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"invented or paraphrased quotation\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"hard fail needs quoted evidence\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"omitted is not a semantic status\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"output SHA mismatch\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"source SHA mismatch\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"optional legacy claim cannot be promoted\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"original required claim cannot lose coverage\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"dangling source reference\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"embedded paths cannot leave repository\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"signals cannot overwrite read artifacts\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"complete review gate requires index and reviews\",\n      \"exit_code\": 2,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"complete review gate rejects accurately recorded omissions\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"complete gate rejects an index missing contract cases\",\n      \"exit_code\": 1,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"complete recorded fixture passes the explicit gate\",\n      \"exit_code\": 0,\n      \"result\": \"pass\"\n    },\n    {\n      \"test\": \"identifier, path, and numeric boundaries\",\n      \"result\": \"pass\"\n    }\n  ],\n  \"scope\": \"Regression fixtures only; not a published semantic review or new model evaluation.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "python scripts/test_check_repairs.py",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "",
+      "stderr": "..............\n----------------------------------------------------------------------\nRan 14 tests in 0.063s\n\nOK\n"
+    },
+    {
+      "command": "python scripts/build_docs.py --check",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"checked_only\": true,\n  \"cases\": 14,\n  \"source_documents\": 36,\n  \"markdown_embeds\": 23,\n  \"examples\": 14,\n  \"written_files\": [\n    \"docs/evaluation.md\",\n    \"docs/comparisons/long-documents.md\",\n    \"docs/comparisons/reading-flow.md\",\n    \"docs/comparisons/transfer-checks.md\",\n    \"docs/comparisons/new-topics.md\",\n    \"docs/examples/01_cli_readme.md\",\n    \"docs/examples/02_event_architecture.md\",\n    \"docs/examples/03_investigation_pr.md\",\n    \"docs/examples/04_incident_runbook.md\",\n    \"docs/examples/05_storage_adr.md\",\n    \"docs/examples/06_paragraph_edit.md\",\n    \"docs/examples/07_index_onboarding.md\",\n    \"docs/examples/08_short_log_pr.md\",\n    \"docs/examples/09_config_rollout.md\",\n    \"docs/examples/10_thumbnail_report.md\",\n    \"docs/examples/11_log_retention.md\",\n    \"docs/examples/12_configuration_precedence.md\",\n    \"docs/examples/13_dense_research.md\",\n    \"docs/examples/14_evidence_design.md\",\n    \"docs/examples/README.md\"\n  ],\n  \"input_source_files\": 79\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/build_viewer.mjs --check",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"destination\": \"/workspace/scratch/f69b6a4d7568/korean-dev-writing/docs/comparisons/index.html\",\n  \"checkedOnly\": true,\n  \"cases\": 14,\n  \"documents\": 36,\n  \"inputs\": 14,\n  \"downloads\": 50,\n  \"sourceFiles\": 74,\n  \"observationsIncluded\": true,\n  \"bytes\": 989337\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "node scripts/check_viewer.mjs",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "{\n  \"runId\": \"2026-11-06-v0.7.0\",\n  \"skillVersion\": \"0.7.0\",\n  \"html\": \"/workspace/scratch/f69b6a4d7568/korean-dev-writing/docs/comparisons/index.html\",\n  \"htmlSha256\": \"d686d95c9d4a601229283978e52b20e060e86b8f0e5a8deb3953cd83263931dc\",\n  \"observationsIncluded\": true,\n  \"cases\": 14,\n  \"documents\": 36,\n  \"downloads\": 50,\n  \"checks\": 21,\n  \"results\": [\n    \"Changed and retained counts come from actual previous/latest bytes, and retained cases omit change excerpts\",\n    \"Case, full-document, input and download counts match the selected manifest\",\n    \"All HTML IDs are unique and every local fragment / ARIA target resolves\",\n    \"Each footnote reference and backlink stays inside the same document\",\n    \"Initialization, valid case hashes, invalid hashes, and malformed URI hashes\",\n    \"All tab click handlers update selection, roving tabindex, hidden panels and case hash\",\n    \"Arrow keys wrap, Home/End select endpoints, focus follows selection, unrelated keys are untouched\",\n    \"Comparison/view changes preserve the chosen case and update labels and status for every case\",\n    \"CSS display-rule analysis: correct visible conditions for all cases, six selections, three widths and screen/print\",\n    \"No-JavaScript display-rule analysis keeps every document available\",\n    \"Hashchange switches valid cases and does not disrupt the current case for a clicked footnote\",\n    \"Default is previous; selecting a case without a historical baseline disables and normalizes the comparison\",\n    \"All listed source SHA-256 values and recorded source count match actual files\",\n    \"Top-level links lead to final examples and the repair report; empty limitations cards are omitted\",\n    \"All 50 download handlers produce Blob bytes matching source files and SHA-256; anchors attach/remove; URLs revoke after scheduled delay\",\n    \"Regression: opening/reloading footnote and backlink fragments selects their case; hashchange preserves each fragment\",\n    \"Document headings and ToCs use case/version/condition prefixes and resolve inside their own document\",\n    \"Heading fragments reveal the correct case and condition, then request scrolling without replacing the fragment\",\n    \"Every source table has a keyboard-focusable horizontal scroll container\",\n    \"Formatted, duplicate, and non-ASCII heading fragments retain stable, distinct IDs\",\n    \"Check mode rejects a missing or stale viewer without writing either output\"\n  ],\n  \"issues\": [],\n  \"limitations\": [\n    \"Node VM with DOM doubles; no real browser, layout, native focus/scroll, screen reader, download dialog, or print rendering was exercised.\",\n    \"CSS inspection evaluates display rules, media predicates, specificity, and ancestor visibility only; it does not measure overflow.\"\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "pass",
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "package": {
+    "version": "0.7.0",
+    "identical_builds": 2,
+    "release_files": 6,
+    "sha256": "f24a62895656f1142b4e0411ea124991e94a763c1cd1accabaa3e0d27b1fc79d"
+  },
+  "verified_artifacts": {
+    "docs/comparisons/index.html": "d686d95c9d4a601229283978e52b20e060e86b8f0e5a8deb3953cd83263931dc",
+    "docs/comparisons/new-topics.md": "6db34177ecd538b94b30997dc8a41da496c6e6f65b95237aa0c5d1f4e77a6de4",
+    "docs/evaluation.md": "f8667cc521eebe65034d6d3870d5d52a7b27b50eaab5aae3f2453bbbc6dbe689",
+    "evaluations/runs/2026-11-06-v0.7.0/manifest.json": "d8291cdf99e072880852b19434c75bec554689bd720cd2490b221c32bea5f9d6"
+  },
+  "published_commit_validation": {
+    "workflow": ".github/workflows/ci.yml",
+    "jobs": [
+      "validate",
+      "browser"
+    ],
+    "location": "https://github.com/hostkimjang/korean-dev-writing-skills/actions",
+    "note": "Installation from the published commit and native Chromium results are recorded by its workflow, separately from these local checks."
+  },
+  "review_scope": "Checks verify exact quotations, source hashes, recorded decisions, and the Node VM / DOM reader contract. Semantic decisions come from the preserved reviews. Local checks do not measure native browser rendering or human reading fatigue.",
+  "preserved_archive_whitespace": {
+    "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/02_event_architecture.md",
+    "source": "evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md",
+    "sha256": "8eced82aeb8ecd92186c97180e5f748975ee02c9359f181eb00402897f9c5c8d",
+    "note": "A new-path copy retains the earlier reviewed bytes including its final blank line. Other staged changes pass git diff --cached --check."
+  }
+}

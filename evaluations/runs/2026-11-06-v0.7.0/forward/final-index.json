@@ -1,0 +1,16 @@
+{
+  "documents": [
+    {
+      "case_id": "v07_dense_research",
+      "label": "v0.7.0-final",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/13_dense_research.md",
+      "sha256": "ceb913e0ee5b9dfb8396e39b75532ffae3a33e19cb9f060acf9e42bdee30f69a"
+    },
+    {
+      "case_id": "v07_evidence_design",
+      "label": "v0.7.0-final",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/14_evidence_design.md",
+      "sha256": "eee472c97105abdfdb13ac4b0a01ad178d9677dbf08475ddb289e871ed407a04"
+    }
+  ]
+}

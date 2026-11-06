@@ -53,11 +53,11 @@ python scripts/check_repairs.py
 python scripts/test_check_repairs.py
 ```
 
-`check_repairs.py`는 `manifest.json`의 모든 사례에 최종본 하나와 검토 기록이 있는지 확인합니다. 필수 의미는 `preserved`, 탐색 질문은 `sufficient`, 편집 완료 기준은 `resolved`여야 하며, 남은 국소 조건 누락이나 `open_issues`가 없어야 합니다. 완료 기준의 근거는 최종 본문의 정확한 인용이어야 합니다. 원자료·스냅샷·문서 해시와 `docs/examples/` 복사본의 바이트도 대조합니다.
+`check_repairs.py`는 `manifest.json`의 `contract_path`로 지정한 고정 계약을 읽습니다. 생략하면 기존 `preservation-v1.json`을 사용합니다. 모든 사례에 최종본 하나와 검토 기록이 있는지 확인합니다. 필수 의미는 `preserved`, 탐색 질문은 `sufficient`, 편집 완료 기준은 `resolved`여야 하며, 남은 국소 조건 누락이나 `open_issues`가 없어야 합니다. 완료 기준의 근거는 최종 본문의 정확한 인용이어야 합니다. 원자료·스냅샷·문서 해시와 `docs/examples/` 복사본의 바이트도 대조합니다.
 
 이 검사는 검토자가 내린 판정과 그 근거의 무결성을 확인합니다. 코드가 인용의 의미를 이해하거나 좋은 글을 자동으로 판정하는 것은 아닙니다. 회귀 검사는 오래된 인용, 누락·중복 판정, 다른 사례의 판정, 미해결 의미·질문·문제를 완료로 통과시키는 일을 막는지 확인합니다.
 
-현재 교정의 [완료 기준](../evaluations/runs/2026-11-05-v0.6.0/repair-checks.json), [프로토콜](../evaluations/runs/2026-11-05-v0.6.0/protocol.md), [실제 수정 결과](repairs-v0.6.0.md)를 함께 확인할 수 있습니다. 과거 v0.4.0 검토 기록은 위 명령으로 계속 별도 검사합니다.
+현재 교정의 [완료 기준](../evaluations/runs/2026-11-06-v0.7.0/repair-checks.json), [프로토콜](../evaluations/runs/2026-11-06-v0.7.0/protocol.md), [실제 수정 결과](repairs-v0.7.0.md)를 함께 확인할 수 있습니다. 과거 v0.4.0 검토 기록은 위 명령으로 계속 별도 검사합니다.
 
 ## 비교 문서와 HTML 다시 만들기
 
@@ -98,20 +98,28 @@ node scripts/check_viewer_browser.mjs
 
 ```bash
 python scripts/check_claims.py \
-  --contract evaluations/runs/2026-11-05-v0.6.0/new-topic-contract.json \
-  --output-index evaluations/runs/2026-11-05-v0.6.0/forward/final-index.json \
-  --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final.json \
+  --contract evaluations/runs/2026-11-06-v0.7.0/new-topic-contract.json \
+  --output-index evaluations/runs/2026-11-06-v0.7.0/forward/final-index.json \
+  --reviews evaluations/runs/2026-11-06-v0.7.0/forward/reviews/final.json \
   --require-complete
 ```
+
+### 문단 구조의 보조 통계
+
+```bash
+node scripts/measure_paragraphs.mjs docs/examples/13_dense_research.md docs/examples/14_evidence_design.md
+```
+
+일반 산문 토큰의 개수·최대 길이·250자와 300자 초과 개수, 소제목과 `(판단)`·`(추측)`의 개수를 출력합니다. JSON 원자료를 지정하면 `draft` 문자열을 측정합니다. Marked의 최상위 산문 토큰만 세며 목록·표·인용·코드·제목은 별도 형식으로 둡니다. 인라인 Markdown은 포함하고 토큰 양끝 공백은 제외한 Unicode 코드 포인트 수입니다. 이 값은 편집 위치를 찾는 신호이며 이해도나 의미 보존 점수가 아닙니다.
 
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.6.0
-python scripts/package.py --version 0.6.0 --output-dir dist/recheck
+python scripts/package.py --version 0.7.0
+python scripts/package.py --version 0.7.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.6.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.7.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`

@@ -196,6 +196,33 @@ class RepairRunTests(unittest.TestCase):
         self.assertEqual((10, 11), counts)
         self.assertEqual([], errors)
 
+    def test_selected_frozen_contract_is_used(self):
+        selected = self.run_path + "/combined-contract.json"
+        self.manifest["contract_path"] = selected
+        changed = deepcopy(self.contract)
+        changed["cases"][0]["requirements"].append({
+            "id": "added-obligation", "source_refs": ["F1"], "meaning": "추가 의미",
+            "required": True, "legacy_refs": ["must_preserve:F1"], "literal_signals": [],
+        })
+        self.manifest["frozen_files"][selected] = self.write_json(selected, changed)
+        self.save_run()
+        _, errors = self.validate()
+        self.assertTrue(errors, "A selected contract's additional obligation cannot be bypassed by the default contract")
+        self.manifest["frozen_files"][selected] = self.write_json(selected, self.contract)
+        self.save_run()
+        _, errors = self.validate()
+        self.assertEqual([], errors)
+
+    def test_invalid_or_unfrozen_selected_contract_fails(self):
+        for selected in (123, "../outside.json", self.run_path + "/unfrozen.json"):
+            with self.subTest(selected=selected):
+                if isinstance(selected, str) and selected.startswith(self.run_path):
+                    self.write_json(selected, self.contract)
+                self.manifest["contract_path"] = selected
+                self.save_run()
+                _, errors = self.validate()
+                self.assertTrue(errors)
+
     def test_case_omitted_from_manifest_outputs_and_reviews_still_fails(self):
         self.manifest["cases"] = [c for c in self.manifest["cases"] if c["id"] != "case-9"]
         self.index["documents"] = [d for d in self.index["documents"] if d["case_id"] != "case-9"]

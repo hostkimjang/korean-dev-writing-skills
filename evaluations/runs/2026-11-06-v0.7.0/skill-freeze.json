@@ -1,0 +1,14 @@
+{
+  "frozen_at": "2026-11-06T02:22:38.600884+00:00",
+  "files": {
+    "LICENSE": "ccd92e023aa14cee3f0e6cbd02e185ca6ec6034edb447c7be83136480f4dabe1",
+    "SKILL.md": "93620251c3f4bbdd07e24073d492ed69c377a85d7a4b4294bf8e72eb68751ff9",
+    "agents/openai.yaml": "dcb5282c473619702af3c5bcfed5f41d4bc2f1a46f27b0982689bb968b562e5d",
+    "references/before-after-guide.md": "17f1e2d3e6f16290a486a7e701fd00c2a0ca4b3940b1b1db9a0b83a105e63722",
+    "references/document-types.md": "042bbb78eb71e187dd816167eb4435871316b1a6510fc3937c1fd352e4e2195f",
+    "references/reading-flow.md": "42e7094d6a1ab7864a763457f6626f4c8e58a22114a1984a10dd6c07c97b0f29"
+  },
+  "frozen_before_current_generation": true,
+  "source_contract_frozen_before_generation": true,
+  "note": "Skill edits and actual-use feedback preceded regression case design. No held-out claim."
+}

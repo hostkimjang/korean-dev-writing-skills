@@ -1,0 +1,109 @@
+{
+  "method": "Marked top-level paragraph tokens; raw inline Markdown retained; surrounding whitespace trimmed; Unicode code points. Lists, tables, blockquotes, headings and code blocks are separate token types. Counts do not measure comprehension or semantic completeness.",
+  "documents": [
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/source/13_dense_research.json",
+      "field": "draft",
+      "file_sha256": "9fc1535281c9a2a154287bdb5dd1b8b7803abbac735c44a63c47da3b15120cd2",
+      "characters": 1335,
+      "prose_paragraphs": 2,
+      "longest_prose_paragraph": 912,
+      "prose_paragraphs_over_250": 2,
+      "prose_paragraphs_over_300": 2,
+      "subheadings": 0,
+      "numbered_subheadings": 0,
+      "judgment_tags": 1
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/source/14_evidence_design.json",
+      "field": "draft",
+      "file_sha256": "89124211c7d59c742c90aec483ff8cc7afc44507ea0e8f50d0cb4b47441d56a3",
+      "characters": 1902,
+      "prose_paragraphs": 7,
+      "longest_prose_paragraph": 476,
+      "prose_paragraphs_over_250": 3,
+      "prose_paragraphs_over_300": 1,
+      "subheadings": 0,
+      "numbered_subheadings": 0,
+      "judgment_tags": 3
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/previous/13_dense_research.md",
+      "field": null,
+      "file_sha256": "5447e6660ef687c059eef6f67df640b6e92076802752b829e1e825f7cab98848",
+      "characters": 1953,
+      "prose_paragraphs": 12,
+      "longest_prose_paragraph": 227,
+      "prose_paragraphs_over_250": 0,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 4,
+      "numbered_subheadings": 0,
+      "judgment_tags": 2
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/previous/14_evidence_design.md",
+      "field": null,
+      "file_sha256": "ff71affe70c2fe024190b1461e6196cfc30c588fa81242b5008a3b9d55b1181d",
+      "characters": 2248,
+      "prose_paragraphs": 11,
+      "longest_prose_paragraph": 283,
+      "prose_paragraphs_over_250": 3,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 4,
+      "numbered_subheadings": 0,
+      "judgment_tags": 1
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/current/13_dense_research.md",
+      "field": null,
+      "file_sha256": "b03c9dbb71732bd44e647cda4b5ba887d0b5aaa276ce20d350aad4bf78aa7c35",
+      "characters": 2126,
+      "prose_paragraphs": 15,
+      "longest_prose_paragraph": 163,
+      "prose_paragraphs_over_250": 0,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 8,
+      "numbered_subheadings": 7,
+      "judgment_tags": 0
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/forward/current/14_evidence_design.md",
+      "field": null,
+      "file_sha256": "7965ac25de5701c288c91e39e654f449c573098c5a36cc688418004994897868",
+      "characters": 2627,
+      "prose_paragraphs": 19,
+      "longest_prose_paragraph": 144,
+      "prose_paragraphs_over_250": 0,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 8,
+      "numbered_subheadings": 5,
+      "judgment_tags": 0
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/13_dense_research.md",
+      "field": null,
+      "file_sha256": "ceb913e0ee5b9dfb8396e39b75532ffae3a33e19cb9f060acf9e42bdee30f69a",
+      "characters": 1885,
+      "prose_paragraphs": 14,
+      "longest_prose_paragraph": 163,
+      "prose_paragraphs_over_250": 0,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 8,
+      "numbered_subheadings": 8,
+      "judgment_tags": 0
+    },
+    {
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/14_evidence_design.md",
+      "field": null,
+      "file_sha256": "eee472c97105abdfdb13ac4b0a01ad178d9677dbf08475ddb289e871ed407a04",
+      "characters": 2362,
+      "prose_paragraphs": 19,
+      "longest_prose_paragraph": 136,
+      "prose_paragraphs_over_250": 0,
+      "prose_paragraphs_over_300": 0,
+      "subheadings": 8,
+      "numbered_subheadings": 8,
+      "judgment_tags": 0
+    }
+  ]
+}

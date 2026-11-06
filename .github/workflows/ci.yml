@@ -59,6 +59,12 @@ jobs:
           --output-index evaluations/runs/2026-11-05-v0.6.0/forward/final-index.json
           --reviews evaluations/runs/2026-11-05-v0.6.0/forward/reviews/final.json
           --require-complete
+      - name: Validate report regression blind reviews
+        run: >-
+          python scripts/check_claims.py
+          --contract evaluations/runs/2026-11-06-v0.7.0/new-topic-contract.json
+          --output-index evaluations/runs/2026-11-06-v0.7.0/forward/blind-index.json
+          --reviews evaluations/runs/2026-11-06-v0.7.0/forward/reviews/blind.json
       # https://github.com/actions/setup-node/releases/tag/v7.1.0
       - name: Set up Node.js 24
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -79,7 +85,7 @@ jobs:
         run: |
           python scripts/package.py --output-dir dist/first
           python scripts/package.py --output-dir dist/second
-          cmp dist/first/korean-dev-writing-v0.6.0.zip dist/second/korean-dev-writing-v0.6.0.zip
+          cmp dist/first/korean-dev-writing-v0.7.0.zip dist/second/korean-dev-writing-v0.7.0.zip
 
   browser:
     name: Check comparison reader in Chromium

@@ -1,0 +1,80 @@
+{
+  "authors": [
+    {
+      "agent": "/root/v07_write_previous",
+      "fresh_context": true,
+      "condition": "previous",
+      "skill_snapshot": "evaluations/runs/2026-11-05-v0.6.0/snapshots/v0.6.0",
+      "inputs": [
+        "inputs/13_dense_research.md",
+        "inputs/14_evidence_design.md"
+      ],
+      "outputs": [
+        "forward/previous/13_dense_research.md",
+        "forward/previous/14_evidence_design.md"
+      ],
+      "other_outputs_feedback_or_contracts_provided": false
+    },
+    {
+      "agent": "/root/v07_write_current",
+      "fresh_context": true,
+      "condition": "current",
+      "skill_snapshot": "evaluations/runs/2026-11-06-v0.7.0/snapshots/v0.7.0",
+      "inputs": [
+        "inputs/13_dense_research.md",
+        "inputs/14_evidence_design.md"
+      ],
+      "outputs": [
+        "forward/current/13_dense_research.md",
+        "forward/current/14_evidence_design.md"
+      ],
+      "other_outputs_feedback_or_contracts_provided": false
+    }
+  ],
+  "model": "Session-inherited GPT-6 Astra Pro; deployment identifier and sampling parameters not exposed",
+  "first_submissions_preserved": true,
+  "regression_cases_designed_after_feedback": true,
+  "repetitions_per_case_and_condition": 1,
+  "reviewer_context_exclusions": [
+    "skill files",
+    "blinding map",
+    "user feedback",
+    "other outputs/reviews"
+  ],
+  "reviewers": [
+    {
+      "agent": "/root/v07_review_research",
+      "case_id": "v07_dense_research",
+      "fresh_context": true,
+      "condition_names_hidden": true,
+      "provided": [
+        "original source",
+        "frozen contract and questions",
+        "two anonymous first submissions"
+      ]
+    },
+    {
+      "agent": "/root/v07_review_design",
+      "case_id": "v07_evidence_design",
+      "fresh_context": true,
+      "condition_names_hidden": true,
+      "provided": [
+        "original source",
+        "frozen contract and questions",
+        "two anonymous first submissions"
+      ]
+    }
+  ],
+  "final_revision_review": {
+    "agent": "/root/v07_review_final",
+    "fresh_context": true,
+    "provided": [
+      "original sources",
+      "frozen contract and questions",
+      "final revisions",
+      "six editorial completion criteria"
+    ],
+    "other_outputs_skill_or_reviews_provided": false,
+    "semantic_policy": "Judge proposal status and evidence boundaries from context, without requiring redundant disclaimers or literal expected-answer wording."
+  }
+}

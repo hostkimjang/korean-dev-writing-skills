@@ -18,7 +18,7 @@ from check_claims import (
 )
 
 
-DEFAULT_RUN = "evaluations/runs/2026-11-05-v0.6.0"
+DEFAULT_RUN = "evaluations/runs/2026-11-06-v0.7.0"
 
 
 def validate_repairs(criteria: dict, reviews: list[dict], texts: dict[str, str], check: Check) -> int:
@@ -52,7 +52,11 @@ def validate_repairs(criteria: dict, reviews: list[dict], texts: dict[str, str],
 
 def validate_run(run: Path, check: Check) -> tuple[int, int]:
     manifest = check.json(run / "manifest.json")
-    contract = check.json(ROOT / "evaluations/contracts/preservation-v1.json")
+    contract_name = (check.text(manifest, "contract_path", "manifest")
+                     if manifest and "contract_path" in manifest
+                     else "evaluations/contracts/preservation-v1.json")
+    contract_file = check.relative_file(contract_name, "manifest.contract_path")
+    contract = check.json(contract_file) if contract_file else None
     criteria = check.json(run / "repair-checks.json")
     index = check.json(run / "output-index.json")
     for name, data in (("manifest", manifest), ("contract", contract),
@@ -63,6 +67,9 @@ def validate_run(run: Path, check: Check) -> tuple[int, int]:
         return 0, 0
     if manifest.get("status") != "completed":
         check.error("manifest", "status must be completed")
+    frozen_files = manifest.get("frozen_files")
+    if not isinstance(frozen_files, dict) or contract_name not in frozen_files:
+        check.error("manifest", "selected preservation contract must have a frozen SHA-256")
     cases = validate_contract(contract, check)
     documents, _ = validate_outputs(index, cases, check)
     paths = check.strings(manifest, "review_files", "manifest", nonempty=True)

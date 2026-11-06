@@ -1,0 +1,13 @@
+{
+  "type": "coordinator-source-to-generation-input-audit",
+  "checked_after_first_blind_reviews": true,
+  "case_id": "v07_evidence_design",
+  "requirement_id": "K11",
+  "source_ref": "R11",
+  "source_text": "업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다.",
+  "input_text": "업로드 작업자는 실패 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 최대 간격을 10,800초로 늘립니다",
+  "finding": "지속 실패가 간격 증가의 조건이라는 구절이 원자료에는 있으나 작성자에게 제공한 초안에는 명시되지 않았다.",
+  "interpretation": "첫 출력 두 개의 partial 판정은 전체 원자료 대비의 차이를 기록한다. 이 한 항목을 버전별 정보 손실이나 스킬 퇴행으로 세지 않는다.",
+  "repair": "원자료를 이용하는 최종 교정 단계에서 해당 조건을 추가했다. 첫 입력·계약·출력·검토는 바꾸지 않았다.",
+  "future_protocol": "다음 실행에서는 각 필수 조건이 실제 생성 입력에 들어 있는지 별도로 대조한 뒤 입력을 고정한다."
+}

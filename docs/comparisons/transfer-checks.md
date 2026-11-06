@@ -1,38 +1,38 @@
-# 설정배포 안내와 작업 보고 교정 전후: v0.5.0 → v0.6.0
+# 설정배포 안내와 작업 보고 교정 전후: v0.6.0 → v0.7.0
 
-갱신일: 2026-11-05 · 적용한 스킬: **v0.6.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-05-v0.6.0/snapshots/v0.6.0)
+갱신일: 2026-11-06 · 적용한 스킬: **v0.7.0** · [고정한 스킬 파일](../../evaluations/runs/2026-11-06-v0.7.0/snapshots/v0.7.0)
 
-문서 2개의 수정 내용과 전문 4개를 담았습니다. [현재 문서 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.6.0.md) · [나란히 보기](index.html)
+문서 2개의 수정 내용과 전문 4개를 담았습니다. [현재 문서 목록](../examples/README.md) · [전체 수정 결과](../repairs-v0.7.0.md) · [나란히 보기](index.html)
 
 ## 한눈에 보는 문서
 
-| 사례 | 이전 v0.5.0 | 현재 v0.6.0 |
+| 사례 | 이전 v0.6.0 | 현재 v0.7.0 |
 | --- | ---: | ---: |
-| [달무리 설정배포 서비스의 예약 적용 안내](#v04_new_a_config_rollout) | [1,799자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/09_config_rollout.md) | [1,799자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md) |
-| [단비함 썸네일 작업기의 기록 순서 변경 보고](#v04_new_b_thumbnail_report) | [413자](../../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/10_thumbnail_report.md) | [413자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md) |
+| [달무리 설정배포 서비스의 예약 적용 안내](#v04_new_a_config_rollout) | [1,799자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md) | [1,799자](../../evaluations/runs/2026-11-06-v0.7.0/outputs/revised/09_config_rollout.md) |
+| [단비함 썸네일 작업기의 기록 순서 변경 보고](#v04_new_b_thumbnail_report) | [413자](../../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md) | [413자](../../evaluations/runs/2026-11-06-v0.7.0/outputs/revised/10_thumbnail_report.md) |
 
 <a id="v04_new_a_config_rollout"></a>
 
 ## 달무리 설정배포 서비스의 예약 적용 안내
 
-v0.5.0 최종본을 바이트 단위로 보존했다.
+v0.6.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
+- 이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다.
 
 **사실·조건 대조**
 
-본문·원자료·보존 계약이 같아 기존 필수 의미 21개와 독자 질문 7개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
+본문·원자료·계약이 같아 필수 의미 21개와 독자 질문 7개의 기존 판정을 재사용했다.
 
-[교정 완료본 바로 읽기](../examples/09_config_rollout.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/09_config_rollout.md)
+[교정 완료본 바로 읽기](../examples/09_config_rollout.md) · [보존 검토 기록](../../evaluations/runs/2026-11-06-v0.7.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/09_config_rollout.md)
 
 ### 전체 본문
 
 <details>
-<summary>이전 v0.5.0 · 1,799자</summary>
+<summary>이전 v0.6.0 · 1,799자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/09_config_rollout.md SHA256 2b2b97f3258e6ba57610ab9d85fbdbb8969a7e5f1531f5c9c2eb2186e1c61c73 -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md SHA256 2b2b97f3258e6ba57610ab9d85fbdbb8969a7e5f1531f5c9c2eb2186e1c61c73 -->
 # 달무리 설정배포 안내
 
 달무리는 작업 요청의 기본 상한과 알림 휴지 시간대를 배포하는 가상 서비스입니다. 활성 묶음은 워크스페이스당 최대 하나이며, 사용자별 적용은 없습니다.
@@ -79,9 +79,9 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 </details>
 
 <details>
-<summary>현재 v0.6.0 · 1,799자</summary>
+<summary>현재 v0.7.0 · 1,799자</summary>
 
-<!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md SHA256 2b2b97f3258e6ba57610ab9d85fbdbb8969a7e5f1531f5c9c2eb2186e1c61c73 -->
+<!-- BEGIN SOURCE evaluations/runs/2026-11-06-v0.7.0/outputs/revised/09_config_rollout.md SHA256 2b2b97f3258e6ba57610ab9d85fbdbb8969a7e5f1531f5c9c2eb2186e1c61c73 -->
 # 달무리 설정배포 안내
 
 달무리는 작업 요청의 기본 상한과 알림 휴지 시간대를 배포하는 가상 서비스입니다. 활성 묶음은 워크스페이스당 최대 하나이며, 사용자별 적용은 없습니다.
@@ -131,37 +131,22 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 
 ## 단비함 썸네일 작업기의 기록 순서 변경 보고
 
-v0.5.0 최종본을 바이트 단위로 보존했다.
+v0.6.0 최종본을 바이트 단위로 보존했다.
 
 **수정하고 확인한 내용**
 
-- 필요한 의미와 실행 조건이 이미 갖춰진 문서는 다시 쓰지 않았다.
+- 이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다.
 
 **사실·조건 대조**
 
-본문·원자료·보존 계약이 같아 기존 필수 의미 12개와 독자 질문 5개의 판정을 재사용했다. 이번 실행의 새 독립 검토로 세지 않는다.
+본문·원자료·계약이 같아 필수 의미 12개와 독자 질문 5개의 기존 판정을 재사용했다.
 
-[교정 완료본 바로 읽기](../examples/10_thumbnail_report.md) · [보존 검토 기록](../../evaluations/runs/2026-11-05-v0.6.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/10_thumbnail_report.md)
+[교정 완료본 바로 읽기](../examples/10_thumbnail_report.md) · [보존 검토 기록](../../evaluations/runs/2026-11-06-v0.7.0/reviews/review-retained.md) · [공통 입력](../../evaluations/runs/2026-11-03-v0.5.0/inputs/10_thumbnail_report.md)
 
 ### 전체 본문
 
 <details>
-<summary>이전 v0.5.0 · 413자</summary>
-
-<!-- BEGIN SOURCE evaluations/runs/2026-11-03-v0.5.0/outputs/revised/10_thumbnail_report.md SHA256 8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89 -->
-# 단비함 썸네일 작업기 로컬 변경 보고
-
-단비함 썸네일 작업기의 변경 전 통합 환경에서 예제 20건은 운영 화면에 모두 완료로 집계됐지만 갤러리 카드 3개는 빈칸이었다. 집계는 큐 종료만 세고 파일 존재·이미지 해독은 검사하지 않아, 집계만으로 생성 성공을 판단할 수 없다.
-
-파일 저장 전 메타데이터 기록이 원인이라는 가설에 따라, 미배포 로컬 작업본의 기록 순서 한 곳만 저장 함수의 성공 반환 뒤로 옮겼다. 저장 함수 대역을 쓴 로컬 단위 검사 2건은 성공 뒤 기록 호출과 실패 시 미호출을 확인해 통과했다. 실제 업로드·해독은 검사하지 않았다.
-
-검증용 저장소의 업로드 자격 증명이 없어 예제 20건 재처리와 생성 파일 해독 검증은 실행하지 못했다. 기록 순서와 빈 카드의 인과관계, 변경 후 해소 여부는 아직 확인하지 못했다.
-<!-- END SOURCE -->
-
-</details>
-
-<details>
-<summary>현재 v0.6.0 · 413자</summary>
+<summary>이전 v0.6.0 · 413자</summary>
 
 <!-- BEGIN SOURCE evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md SHA256 8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89 -->
 # 단비함 썸네일 작업기 로컬 변경 보고
@@ -175,14 +160,29 @@ v0.5.0 최종본을 바이트 단위로 보존했다.
 
 </details>
 
+<details>
+<summary>현재 v0.7.0 · 413자</summary>
+
+<!-- BEGIN SOURCE evaluations/runs/2026-11-06-v0.7.0/outputs/revised/10_thumbnail_report.md SHA256 8b0691883157aaeca8d0d922b123f1cccf8b50d74953f6d37ccfd93622675c89 -->
+# 단비함 썸네일 작업기 로컬 변경 보고
+
+단비함 썸네일 작업기의 변경 전 통합 환경에서 예제 20건은 운영 화면에 모두 완료로 집계됐지만 갤러리 카드 3개는 빈칸이었다. 집계는 큐 종료만 세고 파일 존재·이미지 해독은 검사하지 않아, 집계만으로 생성 성공을 판단할 수 없다.
+
+파일 저장 전 메타데이터 기록이 원인이라는 가설에 따라, 미배포 로컬 작업본의 기록 순서 한 곳만 저장 함수의 성공 반환 뒤로 옮겼다. 저장 함수 대역을 쓴 로컬 단위 검사 2건은 성공 뒤 기록 호출과 실패 시 미호출을 확인해 통과했다. 실제 업로드·해독은 검사하지 않았다.
+
+검증용 저장소의 업로드 자격 증명이 없어 예제 20건 재처리와 생성 파일 해독 검증은 실행하지 못했다. 기록 순서와 빈 카드의 인과관계, 변경 후 해소 여부는 아직 확인하지 못했다.
+<!-- END SOURCE -->
+
+</details>
+
 ## 작성과 확인 방법
 
-v0.5.0 문서와 같은 원자료를 대조해 필요한 부분을 고쳤습니다. v0.6.0 지침으로 교정한 문서와 수정할 필요가 없어 보존한 문서를 사례별로 구분합니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
+기존 최종본 12개는 보존했습니다. 새 조사·설계 검토 2개는 같은 초안을 v0.6.0·v0.7.0 지침으로 각각 교정해 비교합니다. 새 사례의 v0.6.0 본문도 이번 실행에서 작성했습니다. 현재 본문은 검토와 수정을 거친 최종본입니다. 이전 원문과 수정 이력은 별도로 보존했고, 완성 예제는 최종본의 바이트를 그대로 복사했습니다.
 
-이는 조건을 가린 단회 생성 비교가 아닙니다. 미적용 문서가 있는 8개 사례에서는 과거 원문을 참고용으로 함께 싣습니다. 검토 결과는 사실·조건의 보존과 문서 구성에 관한 판단이며, 실제 독자의 이해도·기억·읽는 시간·피로를 측정한 결과는 아닙니다. 사례는 공개용 가상 자료입니다. 문자 수는 공백·개행·Markdown 문법을 포함하며, 길이 자체를 품질 점수로 사용하지 않습니다.
+미적용 원문이 있는 8개 사례는 과거의 해당 원문도 함께 제공합니다. 검토는 공개용 가상 자료의 사실·조건 보존과 문서 구성을 대상으로 합니다. 문자 수는 공백·개행·Markdown 문법을 포함합니다. 평가 설계와 측정 범위는 아래 실행 절차에서 확인할 수 있습니다.
 
-- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-05-v0.6.0/protocol.md)
-- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-05-v0.6.0/manifest.json)
-- [사례별 수정 관찰](../../evaluations/runs/2026-11-05-v0.6.0/observations.json)
-- [수정 결과 보고서](../repairs-v0.6.0.md)
-- [v0.5.0 당시 평가 보존본](../evaluation-v0.5.0.md)
+- [교정 절차와 수정 이력](../../evaluations/runs/2026-11-06-v0.7.0/protocol.md)
+- [원문·버전·SHA-256 기록](../../evaluations/runs/2026-11-06-v0.7.0/manifest.json)
+- [사례별 수정 관찰](../../evaluations/runs/2026-11-06-v0.7.0/observations.json)
+- [수정 결과 보고서](../repairs-v0.7.0.md)
+- [v0.6.0 당시 평가 보존본](../evaluation-v0.6.0.md)

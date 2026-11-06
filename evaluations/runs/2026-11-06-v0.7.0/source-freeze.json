@@ -1,0 +1,13 @@
+{
+  "frozen_at_utc": "2026-11-06T02:13:39.277269+00:00",
+  "before_generation": true,
+  "synthetic_sources": true,
+  "design": "Regression editing cases designed after reviewing real-use feedback. Not held-out topics or real project measurements.",
+  "files": {
+    "evaluations/runs/2026-11-06-v0.7.0/source/13_dense_research.json": "9fc1535281c9a2a154287bdb5dd1b8b7803abbac735c44a63c47da3b15120cd2",
+    "evaluations/runs/2026-11-06-v0.7.0/inputs/13_dense_research.md": "d1a78e49c7c0b0de717410daae7a618333f9ece1e9620456c6ca732a8bdb6f39",
+    "evaluations/runs/2026-11-06-v0.7.0/source/14_evidence_design.json": "89124211c7d59c742c90aec483ff8cc7afc44507ea0e8f50d0cb4b47441d56a3",
+    "evaluations/runs/2026-11-06-v0.7.0/inputs/14_evidence_design.md": "4be6f15dc0a19243905b01ef2e5fda0bd4a2092e64c60ff703c9e1dac2f13246",
+    "evaluations/runs/2026-11-06-v0.7.0/new-topic-contract.json": "75c6f4e5ed4fcf1788a920c471848e6137e0bebf5aa6aea663d48e075f28638a"
+  }
+}

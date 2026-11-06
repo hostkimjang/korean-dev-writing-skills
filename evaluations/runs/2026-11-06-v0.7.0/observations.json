@@ -1,0 +1,148 @@
+{
+  "cases": {
+    "cli_readme": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 11개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "event_architecture": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 11개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "investigation_pr": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "incident_runbook": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "storage_adr": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "paragraph_edit": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 9개와 독자 질문 2개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "long_onboarding_index_refresh": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 29개와 독자 질문 7개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "short_investigation_wait_log": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 17개와 독자 질문 6개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "v04_new_a_config_rollout": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 21개와 독자 질문 7개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "v04_new_b_thumbnail_report": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 12개와 독자 질문 5개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "v06_log_retention": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 5개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "v06_configuration_precedence": {
+      "summary": "v0.6.0 최종본을 바이트 단위로 보존했다.",
+      "strengths": [
+        "이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다."
+      ],
+      "limitations": [],
+      "factual_findings": "본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 5개의 기존 판정을 재사용했다.",
+      "excerpts": []
+    },
+    "v07_dense_research": {
+      "summary": "실험별 결과를 제목과 표로 나누고 반복 범위 설명을 합쳤다.",
+      "strengths": [
+        "별도 집단과 동일 자료 재현, 독립 평가의 차이를 유지했다.",
+        "단독 지연의 조건은 한 표에 모으고 GPU 반복 횟수 미제시를 남겼다.",
+        "개발 순서와 판정 경로 연결 뒤 독립 평가, 운영 일정 미정을 함께 두었다."
+      ],
+      "limitations": [],
+      "factual_findings": "첫 제출의 익명 대조는 양쪽 모두 필수 의미 12개·질문 5개 충족으로 동률이었다. 최종 교정본은 별도 원자료 검토에 연결한다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했다.",
+      "excerpts": [
+        {
+          "label": "측정 조건을 한 표에서 비교하기",
+          "previous": "2026-11-02 bench-b에서 측정한 변환기 단독 지연은 CPU 2스레드, 질의 1개씩 1,000회 실행한 조건에서 p50 31.2ms였고, 최대 RSS는 1.40GiB였습니다. GPU fp16 조건의 p50은 3.8ms였으나 GPU 반복 횟수는 자료에 없습니다. 이 값은 변환기 단독 지연 측정값이며, 정확도나 전체 작업 완료 시간을 나타내지 않습니다.",
+          "latest": "2026-11-02 bench-b에서 변환기만 실행해 측정한 지연과 메모리는 다음과 같습니다.\n\n| 실행 조건 | 반복 횟수 | p50 지연 | 최대 RSS |\n| --- | --- | --- | --- |\n| CPU 2스레드, 질의 1개씩 | 1,000회 | 31.2ms | 1.40GiB |\n| GPU fp16 | 자료에 없음 | 3.8ms | 자료에 없음 |",
+          "note": "CPU 조건과 반복 수, GPU에서 자료가 없는 항목을 구분했다. 측정 대상을 제목과 도입에 밝혀 같은 범위의 부정 설명을 줄였다."
+        }
+      ]
+    },
+    "v07_evidence_design": {
+      "summary": "근거를 주장 아래로 옮기고 재시도 조건·중단·폐기 기준을 보완했다.",
+      "strengths": [
+        "정확한 경로와 떨어진 두 행 범위, 주장별 대응을 유지했다.",
+        "운영 값 미대조·실제 열람 미실시·백업 내용 미열람은 해당 판단 옆에 뒀다.",
+        "원자료의 지속 실패 시 간격 증가 조건을 보완하고 교체·폐기 기준을 같은 실행 절에 모았다."
+      ],
+      "limitations": [],
+      "factual_findings": "익명 검토는 v0.7.0의 재탐색 구성을 선호했다. 두 첫 출력의 K11 부분 충족은 원자료와 제공 초안의 차이로 기록하고, 최종본에서 원자료를 이용해 보완했다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했다.",
+      "excerpts": [
+        {
+          "label": "설명과 근거 경로를 가깝게 분리하기",
+          "previous": "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다(`cloud-archive/ops/deploy/production/compose.yaml:148-156`, `cloud-archive/ops/.env.example:24-29`). 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다고 판단합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 이는 설정을 읽은 추론이며 실제 배치를 확인한 결과는 아닙니다.",
+          "latest": "운영 Compose는 외부 bridge 네트워크 `archive-net`을 요구합니다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용합니다. 실제 운영 호스트 배치는 조회하지 않았으므로, 설정으로 추론한 배치입니다.\n\n근거:\n\n- `cloud-archive/ops/deploy/production/compose.yaml:148-156`\n- `cloud-archive/ops/.env.example:24-29`",
+          "note": "설정에 따른 배치 추론과 실제 운영 배치 미조회라는 범위를 유지하면서 긴 경로를 문장 밖에 뒀다."
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,471 @@
+{
+  "contract": {
+    "contract_id": "v07-field-feedback-v1",
+    "version": "1.0",
+    "created_before_generation": true,
+    "purpose": "실제 사용 피드백의 문제 유형을 새 가상 자료로 확인하는 회귀 사례. 실재 프로젝트의 원문·식별자·측정값은 포함하지 않는다.",
+    "cases": [
+      {
+        "case_id": "v07_dense_research",
+        "source_path": "evaluations/runs/2026-11-06-v0.7.0/source/13_dense_research.json",
+        "source_sha256": "9fc1535281c9a2a154287bdb5dd1b8b7803abbac735c44a63c47da3b15120cd2",
+        "input_path": "evaluations/runs/2026-11-06-v0.7.0/inputs/13_dense_research.md",
+        "input_sha256": "d1a78e49c7c0b0de717410daae7a618333f9ece1e9620456c6ca732a8bdb6f39",
+        "requirements": [
+          {
+            "id": "K01",
+            "source_refs": [
+              "R01"
+            ],
+            "meaning": "2026-10-28 운영 관측은 작업함 3개의 입력 420행이며 CSV 300행, NDJSON 120행이다. XML 입력은 없다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R01"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K02",
+            "source_refs": [
+              "R02"
+            ],
+            "meaning": "같은 날 운영 shadow 실행은 420행 모두 보류했다. 필수 정책 누락 45행, 파서 검토 필요 375행이며 저장 DB 반영은 0건이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R02"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K03",
+            "source_refs": [
+              "R03"
+            ],
+            "meaning": "이전에 보고한 수용 12행은 연구 PC의 별도 개발 이미지로 재생한 결과로 운영 shadow 결과와 구분된다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R03"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K04",
+            "source_refs": [
+              "R04"
+            ],
+            "meaning": "2026-11-01 연구 PC와 시험 서버의 자료로 만든 기준 40행 중 조치 필요는 15행이다. 현행 엔진은 40행 모두 판정 불가였고 조치 필요 보고는 0행이다. 운영 420행과 다른 집단이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R04"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K05",
+            "source_refs": [
+              "R05"
+            ],
+            "meaning": "격리 환경에서 기준 작성에 사용한 동일 원문과 규칙을 어댑터에 넣어 재현하면 40행 모두 기준과 일치한다. 독립 평가셋으로 정확도 기여를 측정한 결과는 없다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R05"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K06",
+            "source_refs": [
+              "R06"
+            ],
+            "meaning": "문서 추출 비교는 구조화 12문항과 조건부 8문항이며 LLM이 규칙보다 더 맞힌 답은 없었다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R06"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K07",
+            "source_refs": [
+              "R07"
+            ],
+            "meaning": "2026-11-02 bench-b에서 변환기 단독 지연을 측정했다. CPU 2스레드에서 질의 1개씩 1,000회 측정한 p50은 31.2ms, 최대 RSS는 1.40GiB다. GPU fp16 p50은 3.8ms이며 GPU 반복 횟수는 원자료에 없다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R07"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K08",
+            "source_refs": [
+              "R08"
+            ],
+            "meaning": "후보 재순위 평가는 동일한 후보 풀을 사용한 600질의다. 정답은 공개 사전의 대응 관계로 기계 생성했고 사람이 검수하지 않았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R08"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K09",
+            "source_refs": [
+              "R09"
+            ],
+            "meaning": "사전 제목 입력 240질의의 1순위 정답은 어휘 검색 180건, Pine-Reranker 195건이다. 패키지명 입력 360질의는 어휘 검색 244건, Pine-Reranker 249건이다. 통계적 동등성이나 유의성 검정은 수행하지 않았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R09"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K10",
+            "source_refs": [
+              "R10"
+            ],
+            "meaning": "2026-11-03 수집기 점검에서 하루 결과가 12,000건을 넘으면 해당 구간을 건너뛰는 로직을 확인했다. 전체 점검 대상 18,240건 중 18,200건이 이전 판이며 무작위 60건의 본문 구성은 같았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R10"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K11",
+            "source_refs": [
+              "R11"
+            ],
+            "meaning": "운영 수집기는 같은 로직으로 6시간마다 실행 중이다. 새 수집기는 2026-10-02 실패 뒤 2026-10-29까지 9개 출처 모두 후속 실행 기록이 없고 자동 재시도 장치도 확인되지 않았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R11"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K12",
+            "source_refs": [
+              "R12"
+            ],
+            "meaning": "다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R12"
+            ],
+            "literal_signals": []
+          }
+        ],
+        "questions": [
+          {
+            "id": "Q01",
+            "question": "운영 420행, 수용 12행, 기준 40행은 각각 어디서 나온 결과인가?",
+            "requirement_refs": [
+              "K01",
+              "K02",
+              "K03",
+              "K04"
+            ],
+            "expected_answer": "2026-10-28 운영 관측은 작업함 3개의 입력 420행이며 CSV 300행, NDJSON 120행이다. XML 입력은 없다. 같은 날 운영 shadow 실행은 420행 모두 보류했다. 필수 정책 누락 45행, 파서 검토 필요 375행이며 저장 DB 반영은 0건이다. 이전에 보고한 수용 12행은 연구 PC의 별도 개발 이미지로 재생한 결과로 운영 shadow 결과와 구분된다. 2026-11-01 연구 PC와 시험 서버의 자료로 만든 기준 40행 중 조치 필요는 15행이다. 현행 엔진은 40행 모두 판정 불가였고 조치 필요 보고는 0행이다. 운영 420행과 다른 집단이다."
+          },
+          {
+            "id": "Q02",
+            "question": "40행 재현의 일치가 보여 주는 범위와 아직 필요한 정확도 확인은 무엇인가?",
+            "requirement_refs": [
+              "K05",
+              "K12"
+            ],
+            "expected_answer": "격리 환경에서 기준 작성에 사용한 동일 원문과 규칙을 어댑터에 넣어 재현하면 40행 모두 기준과 일치한다. 독립 평가셋으로 정확도 기여를 측정한 결과는 없다. 다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다."
+          },
+          {
+            "id": "Q03",
+            "question": "CPU와 GPU 지연의 환경·지표·측정 횟수는 어디까지 확인됐는가?",
+            "requirement_refs": [
+              "K07"
+            ],
+            "expected_answer": "2026-11-02 bench-b에서 변환기 단독 지연을 측정했다. CPU 2스레드에서 질의 1개씩 1,000회 측정한 p50은 31.2ms, 최대 RSS는 1.40GiB다. GPU fp16 p50은 3.8ms이며 GPU 반복 횟수는 원자료에 없다."
+          },
+          {
+            "id": "Q04",
+            "question": "재순위 평가의 정답은 어떻게 만들었으며 두 입력 종류의 결과는 각각 얼마인가?",
+            "requirement_refs": [
+              "K08",
+              "K09"
+            ],
+            "expected_answer": "후보 재순위 평가는 동일한 후보 풀을 사용한 600질의다. 정답은 공개 사전의 대응 관계로 기계 생성했고 사람이 검수하지 않았다. 사전 제목 입력 240질의의 1순위 정답은 어휘 검색 180건, Pine-Reranker 195건이다. 패키지명 입력 360질의는 어휘 검색 244건, Pine-Reranker 249건이다. 통계적 동등성이나 유의성 검정은 수행하지 않았다."
+          },
+          {
+            "id": "Q05",
+            "question": "수집기 두 종류의 확인 상태와 다음 개발 순서·일정은 무엇인가?",
+            "requirement_refs": [
+              "K10",
+              "K11",
+              "K12"
+            ],
+            "expected_answer": "2026-11-03 수집기 점검에서 하루 결과가 12,000건을 넘으면 해당 구간을 건너뛰는 로직을 확인했다. 전체 점검 대상 18,240건 중 18,200건이 이전 판이며 무작위 60건의 본문 구성은 같았다. 운영 수집기는 같은 로직으로 6시간마다 실행 중이다. 새 수집기는 2026-10-02 실패 뒤 2026-10-29까지 9개 출처 모두 후속 실행 기록이 없고 자동 재시도 장치도 확인되지 않았다. 다음 개발 순서는 입력 정보 보존과 판정 경로 연결, 원천·증강 자료 정리, 후보 검색·소형 모델 대조, LLM 보조 검토로 제안한다. 모델·증강 자료의 정확도 기여는 판정 경로 연결 뒤 독립 평가로 확인할 과제다. 운영 반영 일정은 미정이다."
+          }
+        ]
+      },
+      {
+        "case_id": "v07_evidence_design",
+        "source_path": "evaluations/runs/2026-11-06-v0.7.0/source/14_evidence_design.json",
+        "source_sha256": "89124211c7d59c742c90aec483ff8cc7afc44507ea0e8f50d0cb4b47441d56a3",
+        "input_path": "evaluations/runs/2026-11-06-v0.7.0/inputs/14_evidence_design.md",
+        "input_sha256": "4be6f15dc0a19243905b01ef2e5fda0bd4a2092e64c60ff703c9e1dac2f13246",
+        "requirements": [
+          {
+            "id": "K01",
+            "source_refs": [
+              "R01"
+            ],
+            "meaning": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R01"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K02",
+            "source_refs": [
+              "R02"
+            ],
+            "meaning": "포털은 PORTAL_TOKEN을 읽어 API를 호출하고 API는 받은 토큰을 SERVICE_TOKENS 목록과 대조한다. 근거는 cloud-archive/apps/portal/src/clients/archive/client.ts:42-58 및 cloud-archive/services/api/src/http/auth/token_controller.py:90-113다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R02"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K03",
+            "source_refs": [
+              "R03"
+            ],
+            "meaning": "보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R03"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K04",
+            "source_refs": [
+              "R04"
+            ],
+            "meaning": "동일 비밀값을 공유하는 서비스는 한쪽만 변경하면 인증에 실패할 수 있다. 키 저장소에서 같은 항목을 참조하도록 만드는 방안을 제안하며 대상 값은 실증 전에 대조해야 한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R04"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K05",
+            "source_refs": [
+              "R05"
+            ],
+            "meaning": "점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R05"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K06",
+            "source_refs": [
+              "R06"
+            ],
+            "meaning": "백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R06"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K07",
+            "source_refs": [
+              "R07"
+            ],
+            "meaning": "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권장한다. 현재 제안 상태이며 채택과 설치는 아직 이루어지지 않았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R07"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K08",
+            "source_refs": [
+              "R08"
+            ],
+            "meaning": "실증용 명령은 cd cloud-archive/ops 다음 archive-keys rotate --dry-run이다. dry-run은 변경 계획만 출력하고 키를 변경하지 않는다. 실제 운영에서는 이 명령을 실행하지 않았다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R08"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K09",
+            "source_refs": [
+              "R09"
+            ],
+            "meaning": "키 교체 실행 전에는 대상 계정의 운영 값 대조와 복구 백업 검증이 모두 필요하다. 어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지한다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R09"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K10",
+            "source_refs": [
+              "R10"
+            ],
+            "meaning": "교체 요청의 accepted 응답은 접수 상태다. rotation_state=committed를 확인한 뒤 연결 점검을 하고 성공해야 이전 키 폐기를 검토한다. 접수만으로 이전 키를 폐기하지 않는다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R10"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K11",
+            "source_refs": [
+              "R11"
+            ],
+            "meaning": "업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R11"
+            ],
+            "literal_signals": []
+          },
+          {
+            "id": "K12",
+            "source_refs": [
+              "R12"
+            ],
+            "meaning": "자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았다. 제안과 확인할 항목으로 남긴다.",
+            "required": true,
+            "legacy_refs": [
+              "must_preserve:R12"
+            ],
+            "literal_signals": []
+          }
+        ],
+        "questions": [
+          {
+            "id": "Q01",
+            "question": "두 서비스의 호스트 배치와 계정 동일 여부는 각각 어떤 근거 수준으로 설명되는가?",
+            "requirement_refs": [
+              "K01",
+              "K03"
+            ],
+            "expected_answer": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다. 보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다."
+          },
+          {
+            "id": "Q02",
+            "question": "토큰 호출·대조와 계정 설정의 정확한 근거 파일·행 구간을 각각 찾을 수 있는가?",
+            "requirement_refs": [
+              "K01",
+              "K02",
+              "K03",
+              "K05",
+              "K06",
+              "K11"
+            ],
+            "expected_answer": "운영 Compose는 외부 bridge 네트워크 archive-net을 요구한다. 이 설정대로 배포하면 포털과 보관 API는 같은 Docker 호스트를 사용한다는 구성상 추론이다. 실제 운영 호스트 배치는 조회하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:148-156 및 cloud-archive/ops/.env.example:24-29다. 포털은 PORTAL_TOKEN을 읽어 API를 호출하고 API는 받은 토큰을 SERVICE_TOKENS 목록과 대조한다. 근거는 cloud-archive/apps/portal/src/clients/archive/client.ts:42-58 및 cloud-archive/services/api/src/http/auth/token_controller.py:90-113다. 보관 API의 ARCHIVE_DB_USER와 포털의 PORTAL_DB_USER는 설정상 같은 업무용 계정으로 보인다. 운영 값은 대조하지 않아 계정·비밀값의 동일 여부는 미확인이다. 근거는 cloud-archive/ops/.env.example:71-79, 144-151다. 두 구간은 서로 떨어져 있다. 점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다. 백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다. 업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다."
+          },
+          {
+            "id": "Q03",
+            "question": "마운트와 백업에서 실제로 확인한 사실과 아직 확인하지 않은 사실은 무엇인가?",
+            "requirement_refs": [
+              "K05",
+              "K06"
+            ],
+            "expected_answer": "점검 컨테이너는 호스트 /srv/archive를 /host/archive에 읽기 전용으로 마운트한다. 해당 경로에 있는 비밀 파일은 컨테이너의 읽기 권한에 따라 보일 수 있다. 실제 파일 열람과 노출 재현은 수행하지 않았다. 근거는 cloud-archive/ops/deploy/production/compose.yaml:260-268이다. 백업 스크립트는 .env를 백업 디렉터리에 그대로 복사한다. 로컬에서 .env-backups 디렉터리 이름도 확인했지만 내용은 열지 않았다. 디렉터리 이름만으로 현재 평문 비밀값이 남았다고 확정할 수 없다. 근거는 cloud-archive/ops/scripts/archive-backup.sh:31-38이다."
+          },
+          {
+            "id": "Q04",
+            "question": "실증 명령은 어디에서 무엇을 하며, 실제 키 교체와 이전 키 폐기 조건은 무엇인가?",
+            "requirement_refs": [
+              "K07",
+              "K08",
+              "K09",
+              "K10"
+            ],
+            "expected_answer": "관리 인력과 비용을 고려해 갈피 키 저장소를 첫 실증 후보로 권장한다. 현재 제안 상태이며 채택과 설치는 아직 이루어지지 않았다. 실증용 명령은 cd cloud-archive/ops 다음 archive-keys rotate --dry-run이다. dry-run은 변경 계획만 출력하고 키를 변경하지 않는다. 실제 운영에서는 이 명령을 실행하지 않았다. 키 교체 실행 전에는 대상 계정의 운영 값 대조와 복구 백업 검증이 모두 필요하다. 어느 하나라도 끝나지 않았으면 키 교체를 중단하고 기존 키를 유지한다. 교체 요청의 accepted 응답은 접수 상태다. rotation_state=committed를 확인한 뒤 연결 점검을 하고 성공해야 이전 키 폐기를 검토한다. 접수만으로 이전 키를 폐기하지 않는다."
+          },
+          {
+            "id": "Q05",
+            "question": "업로드 재시도 동작과 검증하지 않은 복구 범위, 운영 계획은 무엇인가?",
+            "requirement_refs": [
+              "K11",
+              "K12"
+            ],
+            "expected_answer": "업로드 작업자는 실패한 결과를 pending_uploads/results에 저장하고 90초마다 재시도하며 실패가 이어지면 간격을 최대 10,800초로 늘린다. 영구 실패는 재시도에서 제외한다. 장기 장애 후 복구율과 재부팅 후 보존은 검증하지 않았다. 근거는 cloud-archive/agents/uploader/src/jobs/result_retry_worker.py:120-134, 310-329다. 자동 교체 구현, 운영 적용 일정, 장기 장애의 복구 완료 보장은 아직 정해지지 않았다. 제안과 확인할 항목으로 남긴다."
+          }
+        ]
+      }
+    ]
+  },
+  "documents": [
+    {
+      "case_id": "v07_dense_research",
+      "label": "v0.7.0-final",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/13_dense_research.md",
+      "sha256": "ceb913e0ee5b9dfb8396e39b75532ffae3a33e19cb9f060acf9e42bdee30f69a"
+    },
+    {
+      "case_id": "v07_evidence_design",
+      "label": "v0.7.0-final",
+      "path": "evaluations/runs/2026-11-06-v0.7.0/outputs/revised/14_evidence_design.md",
+      "sha256": "eee472c97105abdfdb13ac4b0a01ad178d9677dbf08475ddb289e871ed407a04"
+    }
+  ],
+  "repair_checks": [
+    {
+      "id": "v07-report-findings",
+      "case_id": "v07_dense_research",
+      "problem": "여러 관측·실험·권고가 큰 문단에 뒤섞인다.",
+      "acceptance": "독립된 발견을 결론형 번호 소제목과 의미 단위 문단으로 나누고 비교에 필요한 관계는 함께 둔다."
+    },
+    {
+      "id": "v07-report-scope",
+      "case_id": "v07_dense_research",
+      "problem": "반복 면책을 지우다가 서로 다른 실험 집단·독립 평가 여부가 사라질 수 있다.",
+      "acceptance": "집단·환경·측정 방법을 해당 결과 가까이 남기고 같은 범위의 반복 해명만 줄인다. 지연을 정확도나 처리 완료로 바꾸지 않는다."
+    },
+    {
+      "id": "v07-report-next-action",
+      "case_id": "v07_dense_research",
+      "problem": "판단 꼬리표와 미확인 설명의 반복으로 다음 행동이 흐려진다.",
+      "acceptance": "권고·확인·미정 상태를 서술어로 드러내고 다음 개발 순서와 독립 평가의 선후를 명시한다."
+    },
+    {
+      "id": "v07-design-findings",
+      "case_id": "v07_evidence_design",
+      "problem": "굵은 도입 문장과 긴 괄호가 여러 설계 발견의 탐색을 어렵게 한다.",
+      "acceptance": "발견별 소제목에 본문과 같은 확실성을 표현하고 운영 값 미대조·실제 열람 미실시·백업 내용 미열람을 해당 판단 가까이 보존한다."
+    },
+    {
+      "id": "v07-design-evidence",
+      "case_id": "v07_evidence_design",
+      "problem": "긴 파일 경로와 불연속 행 범위가 문장 중간을 끊는다.",
+      "acceptance": "주장 바로 아래 근거 줄·목록·표에 경로를 배치하고 모든 실제 경로와 불연속 범위·주장 대응을 유지한다. 명령 경로는 명령 안에 둔다."
+    },
+    {
+      "id": "v07-design-execution",
+      "case_id": "v07_evidence_design",
+      "problem": "제약을 한곳으로 모으면 교체 실행·폐기 판단에 필요한 조건이 멀어질 수 있다.",
+      "acceptance": "dry-run과 실제 교체를 구분하고 교체 전 두 필수 조건·미충족 중단·committed와 연결 점검 뒤 폐기 검토를 실행 단위에 함께 둔다."
+    }
+  ],
+  "instruction": "원자료·계약·최종 문서만 대조한다. 이전 출력·버전 비교·스킬은 보지 않는다."
+}
