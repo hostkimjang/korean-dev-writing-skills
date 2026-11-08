@@ -1,0 +1,29 @@
+{
+  "name": "korean-dev-writing-skills",
+  "version": "0.8.0",
+  "private": true,
+  "description": "한국어 개발 문서 스킬과 선택형 향상 스킬 설치기",
+  "type": "module",
+  "bin": {
+    "korean-dev-writing-install": "scripts/install.mjs"
+  },
+  "files": [
+    "scripts/install.mjs",
+    "enhancements.json",
+    "skills/korean-dev-writing/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "scripts": {
+    "test:installer": "node --test scripts/test_install.mjs",
+    "test:installation": "node scripts/check_enhanced_install.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hostkimjang/korean-dev-writing-skills.git"
+  },
+  "license": "MIT"
+}

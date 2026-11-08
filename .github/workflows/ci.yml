@@ -70,6 +70,8 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
+      - name: Test enhanced installer planning and failure handling
+        run: node --test scripts/test_install.mjs
       - name: Verify generated Markdown is current
         run: python scripts/build_docs.py --check
       - name: Verify generated HTML is current
@@ -85,7 +87,36 @@ jobs:
         run: |
           python scripts/package.py --output-dir dist/first
           python scripts/package.py --output-dir dist/second
-          cmp dist/first/korean-dev-writing-v0.7.0.zip dist/second/korean-dev-writing-v0.7.0.zip
+          cmp dist/first/korean-dev-writing-v0.8.0.zip dist/second/korean-dev-writing-v0.8.0.zip
+
+  installer:
+    name: Check enhanced installer (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      # The checker uses skills@1.7.5 in temporary projects. It does not
+      # install into the runner user's global skill directories.
+      - name: Verify enhanced installation in isolated scopes
+        run: node scripts/check_enhanced_install.mjs
+        env:
+          CI: "1"
+          DISABLE_TELEMETRY: "1"
+          npm_config_cache: ${{ runner.temp }}/enhanced-installer-npm-cache
+          npm_config_fetch_retries: "0"
+          npm_config_fetch_timeout: "30000"
+          SKILLS_CLONE_TIMEOUT_MS: "60000"
 
   browser:
     name: Check comparison reader in Chromium

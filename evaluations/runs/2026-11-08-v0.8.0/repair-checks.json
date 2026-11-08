@@ -1,0 +1,40 @@
+{
+  "checks": [
+    {
+      "id": "v07-report-findings",
+      "case_id": "v07_dense_research",
+      "problem": "여러 관측·실험·권고가 큰 문단에 뒤섞인다.",
+      "acceptance": "독립된 발견을 결론형 번호 소제목과 의미 단위 문단으로 나누고 비교에 필요한 관계는 함께 둔다."
+    },
+    {
+      "id": "v07-report-scope",
+      "case_id": "v07_dense_research",
+      "problem": "반복 면책을 지우다가 서로 다른 실험 집단·독립 평가 여부가 사라질 수 있다.",
+      "acceptance": "집단·환경·측정 방법을 해당 결과 가까이 남기고 같은 범위의 반복 해명만 줄인다. 지연을 정확도나 처리 완료로 바꾸지 않는다."
+    },
+    {
+      "id": "v07-report-next-action",
+      "case_id": "v07_dense_research",
+      "problem": "판단 꼬리표와 미확인 설명의 반복으로 다음 행동이 흐려진다.",
+      "acceptance": "권고·확인·미정 상태를 서술어로 드러내고 다음 개발 순서와 독립 평가의 선후를 명시한다."
+    },
+    {
+      "id": "v07-design-findings",
+      "case_id": "v07_evidence_design",
+      "problem": "굵은 도입 문장과 긴 괄호가 여러 설계 발견의 탐색을 어렵게 한다.",
+      "acceptance": "발견별 소제목에 본문과 같은 확실성을 표현하고 운영 값 미대조·실제 열람 미실시·백업 내용 미열람을 해당 판단 가까이 보존한다."
+    },
+    {
+      "id": "v07-design-evidence",
+      "case_id": "v07_evidence_design",
+      "problem": "긴 파일 경로와 불연속 행 범위가 문장 중간을 끊는다.",
+      "acceptance": "주장 바로 아래 근거 줄·목록·표에 경로를 배치하고 모든 실제 경로와 불연속 범위·주장 대응을 유지한다. 명령 경로는 명령 안에 둔다."
+    },
+    {
+      "id": "v07-design-execution",
+      "case_id": "v07_evidence_design",
+      "problem": "제약을 한곳으로 모으면 교체 실행·폐기 판단에 필요한 조건이 멀어질 수 있다.",
+      "acceptance": "dry-run과 실제 교체를 구분하고 교체 전 두 필수 조건·미충족 중단·committed와 연결 점검 뒤 폐기 검토를 실행 단위에 함께 둔다."
+    }
+  ]
+}

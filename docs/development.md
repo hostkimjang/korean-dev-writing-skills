@@ -2,6 +2,8 @@
 
 이 저장소는 설치용 스킬과 평가 자료를 분리합니다. 설치 대상은 `skills/korean-dev-writing/`이며, 루트 안내문과 `evaluations/`는 배포·검토를 위한 자료입니다.
 
+v0.8.0의 [향상 설치기](enhancements.md)는 기본 스킬과 선택한 외부 스킬을 설치합니다. 기존 14개 문서의 교정 비교는 v0.7.0 기록으로 유지하고, 설치기 검증과 구분합니다.
+
 ## 구조 검사
 
 저장소 루트에서 실행합니다. 현재 로컬 확인 환경은 Python 3.12.14입니다.
@@ -115,11 +117,11 @@ node scripts/measure_paragraphs.mjs docs/examples/13_dense_research.md docs/exam
 ## 재현 가능한 패키지
 
 ```bash
-python scripts/package.py --version 0.7.0
-python scripts/package.py --version 0.7.0 --output-dir dist/recheck
+python scripts/package.py --version 0.8.0
+python scripts/package.py --version 0.8.0 --output-dir dist/recheck
 ```
 
-기본 결과는 `dist/korean-dev-writing-v0.7.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
+기본 결과는 `dist/korean-dev-writing-v0.8.0.zip`입니다. ZIP 최상위에는 `korean-dev-writing/` 폴더 한 개가 있고 다음 여섯 파일만 포함됩니다.
 
 - `SKILL.md`
 - `LICENSE`
@@ -139,7 +141,18 @@ python scripts/package.py --version 0.7.0 --output-dir dist/recheck
 5. 이전 생성 결과를 덮어쓰지 않고 별도 실행 디렉터리에 남깁니다.
 6. 작성·교정 작업에서 발견한 문제는 본문에서 고칩니다. 바뀐 부분의 사실·실행 조건을 다시 확인하고, 사용할 수 있는 최종본까지 완성합니다.
 
-## 설치 검증
+## 향상 설치기 검증
+
+Node.js 22.20 이상에서 실행합니다.
+
+```bash
+node --test scripts/test_install.mjs
+node scripts/check_enhanced_install.mjs
+```
+
+첫 명령은 네트워크 설치 없이 옵션·기존 파일 보호·실패 처리를 검사합니다. 두 번째는 Git과 npm·GitHub 네트워크 접근이 필요하며, 임시 프로젝트에 기본·향상 구성을 실제 설치합니다. 배포용 npm 아카이브에서 설치기와 설정을 읽을 수 있는지도 확인합니다. CI는 Linux와 Windows에서 이 통합 검증을 실행합니다. 실제 에이전트의 글쓰기·이미지 생성 품질은 별도 평가 대상입니다.
+
+## 기본 스킬 설치 검증
 
 Node.js 22.20 이상, npm/npx, Git이 있는 환경에서 실행합니다. npm 레지스트리에 접속할 수 있어야 합니다.
 
