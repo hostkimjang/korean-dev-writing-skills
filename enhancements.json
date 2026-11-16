@@ -1,17 +1,29 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "skillsCli": "skills@1.7.5",
   "checkedAt": "2026-11-08",
   "enhancements": [
     {
       "name": "humanize-korean",
       "role": "한국어 문장 교정과 윤문",
-      "source": "nathankim0/humanize-korean",
-      "ref": "b51aa5985be0a94a645788f1395b29a118bc9c33",
-      "skillPath": "humanize-korean",
-      "license": "MIT; see upstream LICENSE and THIRD_PARTY_NOTICES.md",
+      "source": "bundled",
+      "ref": null,
+      "skillPath": "skills/humanize-korean",
+      "license": "MIT; bundled LICENSE and THIRD_PARTY_NOTICES.md retain upstream notices",
       "requirements": "장문 작업표 스크립트를 사용할 때 Python이 필요합니다.",
-      "selection": "새 사용자용 기본 향상 스킬로 선택한 독립 배포본이며, 기존 사용자 설치본의 출처를 추정한 값이 아닙니다."
+      "selection": "이 프로젝트에서 관리하는 독립 배포본입니다. Nathan 실행 파일을 유지하고 개발 문서용 규칙을 보강하며, 두 원본의 출처와 고지를 동봉합니다.",
+      "upstream": [
+        {
+          "source": "nathankim0/humanize-korean",
+          "ref": "b51aa5985be0a94a645788f1395b29a118bc9c33",
+          "role": "self-contained runtime and original references"
+        },
+        {
+          "source": "epoko77-ai/im-not-ai",
+          "ref": "501bc125052fd24be3d02e3196af57353985fa7f",
+          "role": "reference structure and contextual development-document adaptations"
+        }
+      ]
     },
     {
       "name": "stack-diagram",
@@ -22,5 +34,6 @@
       "license": "MIT for code/docs; SIL OFL 1.1 for bundled fonts",
       "requirements": "Python 3.9 이상과 로고 다운로드를 위한 네트워크가 필요합니다. PNG 생성과 시각 검수에는 Playwright와 Chromium이 필요합니다."
     }
-  ]
+  ],
+  "languageRulesCheckedAt": "2026-11-16"
 }

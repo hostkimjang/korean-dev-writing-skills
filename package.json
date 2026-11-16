@@ -11,6 +11,7 @@
     "scripts/install.mjs",
     "enhancements.json",
     "skills/korean-dev-writing/",
+    "skills/humanize-korean/",
     "README.md",
     "LICENSE"
   ],
@@ -19,7 +20,9 @@
   },
   "scripts": {
     "test:installer": "node --test scripts/test_install.mjs",
-    "test:installation": "node scripts/check_enhanced_install.mjs"
+    "test:installation": "node scripts/check_enhanced_install.mjs",
+    "test:docs": "python -m pytest tests/test_markdown.py",
+    "check:docs": "python scripts/check_markdown.py"
   },
   "repository": {
     "type": "git",

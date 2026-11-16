@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync } from 'node:fs';
+import { existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -48,6 +48,13 @@ function verifyBase(directory) {
   }
 }
 
+function bundledFiles(directory, prefix = '') {
+  return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const relative = path.join(prefix, entry.name);
+    return entry.isDirectory() ? bundledFiles(path.join(directory, entry.name), relative) : [relative];
+  }).sort();
+}
+
 try {
   const launcher = resolveNpmLauncher();
   const npm = (args, cwd) => run(launcher.command, [...launcher.args, ...args], cwd);
@@ -57,6 +64,11 @@ try {
   for (const expected of ['scripts/install.mjs', 'enhancements.json', 'package.json', ...baseFiles.map(p => `skills/korean-dev-writing/${p}`)]) {
     assert(filePaths.has(expected), `npm package is missing ${expected}`);
   }
+  const humanizeFiles = bundledFiles(path.join(root, 'skills/humanize-korean'));
+  for (const relative of humanizeFiles) {
+    assert(filePaths.has(`skills/humanize-korean/${relative.split(path.sep).join('/')}`), `npm package is missing humanize resource ${relative}`);
+  }
+  assert(![...filePaths].some(p => p.includes('/__pycache__/')), 'Python cache leaked into npm package');
   assert(![...filePaths].some(p => p.startsWith('evaluations/') || p.startsWith('docs/')), 'evaluation or comparison files leaked into npm package');
   const archive = path.join(temporary, packed[0].filename);
   const basic = project('basic-copy');
@@ -69,17 +81,21 @@ try {
   console.log('PASS: package entry point installs exactly the basic skill with unchanged resources.');
 
   const enhanced = project('enhanced');
-  console.log('Installing the enhanced profile for both agents from the pinned upstreams.');
-  const enhancedOutput = run(process.execPath, [path.join(root, 'scripts/install.mjs'),
+  console.log('Installing the enhanced profile from the package and pinned external upstream.');
+  const enhancedOutput = npm(['exec', '--yes', `--package=${archive}`, '--', 'korean-dev-writing-install',
     '--with-enhancements', '-a', 'codex', '-a', 'claude-code', '--yes'], enhanced);
   verifyBase(enhanced);
   const expectedResources = {
-    'humanize-korean': ['references/core-workflow.md', 'scripts/segment.py', 'scripts/reassemble.py', 'scripts/audit_revision.py'],
+    'humanize-korean': ['LICENSE', 'THIRD_PARTY_NOTICES.md', 'references/core-workflow.md',
+      'references/quick-rules.md', 'references/rewriting-playbook.md', 'references/ai-tell-taxonomy.md',
+      'references/development-rules.json', 'scripts/segment.py', 'scripts/reassemble.py', 'scripts/audit_revision.py'],
     'stack-diagram': ['references/geometry.md', 'scripts/fetch_icons.py', 'scripts/build.py', 'scripts/render_png.py', 'assets/template.html', 'assets/fonts'],
   };
   const lock = JSON.parse(readFileSync(path.join(enhanced, 'skills-lock.json'), 'utf8'));
   for (const skill of configuration.enhancements) {
-    assert.equal(lock.skills[skill.name]?.ref, skill.ref, `${skill.name}: installed ref differs from configured pin`);
+    if (skill.source !== 'bundled') {
+      assert.equal(lock.skills[skill.name]?.ref, skill.ref, `${skill.name}: installed ref differs from configured pin`);
+    }
     for (const agentDirectory of ['.agents/skills', '.claude/skills']) {
       const installed = path.join(enhanced, agentDirectory, skill.name);
       withinProject(installed, enhanced);
@@ -87,6 +103,12 @@ try {
       assert(new RegExp(`^name:\\s*${skill.name}\\s*$`, 'm').test(skillText), `${skill.name}: wrong skill metadata`);
       for (const relative of expectedResources[skill.name]) {
         assert(existsSync(path.join(installed, relative)), `${skill.name}: missing ${relative}`);
+      }
+      if (skill.source === 'bundled') {
+        for (const relative of humanizeFiles) {
+          assert.deepEqual(readFileSync(path.join(installed, relative)),
+            readFileSync(path.join(root, skill.skillPath, relative)), `${agentDirectory}: humanize ${relative}`);
+        }
       }
     }
   }

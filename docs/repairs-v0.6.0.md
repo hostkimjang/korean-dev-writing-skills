@@ -25,11 +25,15 @@
 
 **이전**
 
+<!-- lint:example-start 평가 원문의 문구를 그대로 인용합니다. -->
 > 로컬 합성 요청 환경이 준비되지 않아 테스트와 변경 후 로그 수집을 못 해 가설·변경 동작도 검증하지 못했습니다.
+<!-- lint:example-end -->
 
 **현재**
 
+<!-- lint:example-start 평가 원문의 문구를 그대로 인용합니다. -->
 > 로컬 합성 요청 환경이 없어 테스트와 변경 후 로그 수집을 못 했습니다. 가설과 추가 로그 출력은 미검증입니다.
+<!-- lint:example-end -->
 
 본문은 398자이며, 파일 끝 개행까지 포함하면 399자입니다. 원래 250~400자 정도의 요청 안에서 대상 서비스, 관측 로그, 조사 중인 원인, 추가한 로그 필드와 요청 본문 제외, 기능 동작 유지, 검증하지 못한 이유를 남겼습니다. [완료 기준](../evaluations/runs/2026-11-05-v0.6.0/repair-checks.json)과 [별도 검토](../evaluations/runs/2026-11-05-v0.6.0/reviews/review-short-pr.md)를 연결했습니다.
 
@@ -47,7 +51,7 @@
 
 본문 검토는 원자료와 정확한 인용으로 남깁니다. 정적 검사는 검토 행의 누락, 잘못된 인용, 해시 불일치, 공개 예시와 최종본의 차이를 확인합니다. 새 주제의 현재 문서는 `check_claims.py --require-complete`로 미해결 판정이 남아 있는지도 확인합니다.
 
-비교 화면은 원문 내려받기, 문서·버전 선택, 제목·각주 이동, 자바스크립트 없이 본문 읽기를 검사합니다. 별도의 Chromium 작업에서는 실제 절 이동, 단독 읽기 스크롤과 모바일 너비에서의 표시를 확인합니다. 검사 명령은 [개발 안내](development.md)에, 원격 실행 결과는 [GitHub Actions](https://github.com/hostkimjang/korean-dev-writing-skills/actions)에 남습니다.
+비교 화면은 원문 내려받기, 문서·버전 선택, 제목·각주 이동, 자바스크립트 없이 본문 읽기를 검사합니다. 별도의 Chromium 작업에서는 실제 절 이동, 단독 읽기 스크롤과 모바일 너비의 화면을 확인합니다. 검사 명령은 [개발 안내](development.md)에, 원격 실행 결과는 [GitHub Actions](https://github.com/hostkimjang/korean-dev-writing-skills/actions)에 남습니다.
 
 새 화면 구현은 [별도 Chromium 사전 검증](https://github.com/hostkimjang/korean-dev-writing-skills/actions/runs/41959342311)에서 320·390·800·1440px의 216개 문서·보기 상태를 통과했습니다. 이 사전 검증은 고정한 v0.5.0 본문에 새 렌더러를 적용한 것이며, 최종 v0.6.0 본문과의 통합 검사는 main의 CI에서 다시 실행합니다. [상세 실행 기록](../evaluations/runs/2026-11-05-v0.6.0/browser-preflight.json)에 브라우저 버전과 검사 범위를 남겼습니다.
 

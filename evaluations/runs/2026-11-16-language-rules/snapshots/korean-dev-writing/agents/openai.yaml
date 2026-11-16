@@ -1,0 +1,4 @@
+interface:
+  display_name: "한국어 개발 문서 작성"
+  short_description: "사실과 의미를 지키며 자연스럽게 읽히는 한국어 개발 문서를 작성합니다"
+  default_prompt: "$korean-dev-writing 스킬로 제공한 자료를 바탕으로 한국어 개발 문서를 작성하거나 다듬어 주세요."

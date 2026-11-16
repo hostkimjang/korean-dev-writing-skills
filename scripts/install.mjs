@@ -32,6 +32,7 @@ Install korean-dev-writing from this package. Project scope is the default.
   -h, --help                    Show this help
 
 Sources can include #<full-commit-SHA>. A source override clears its default pin.
+The default humanize-korean is bundled; use --humanize-source for another origin.
 Enhancement overrides require --with-enhancements. --yes never permits replacement.
 Node.js >=22.20.0, npm, and Git are required. No Python tools run during installation.
 `;
@@ -105,12 +106,19 @@ export function normalizeSource(source, explicitRef) {
 }
 
 export function validateConfig(config) {
-  if (!config || config.schemaVersion !== 1 || config.skillsCli !== CLI || !Array.isArray(config.enhancements) ||
+  if (!config || ![1, 2].includes(config.schemaVersion) || config.skillsCli !== CLI || !Array.isArray(config.enhancements) ||
       config.enhancements.length !== ENHANCEMENTS.length) throw new Error('Unsupported enhancements.json configuration.');
   for (const name of ENHANCEMENTS) {
     const matches = config.enhancements.filter(item => item?.name === name);
-    if (matches.length !== 1 || !SHA.test(matches[0].ref ?? '')) throw new Error(`Missing or invalid pinned configuration for ${name}.`);
-    normalizeSource(matches[0].source, matches[0].ref);
+    if (matches.length !== 1) throw new Error(`Missing or duplicate configuration for ${name}.`);
+    const entry = matches[0];
+    if (entry.source === 'bundled') {
+      if (config.schemaVersion !== 2 || name !== 'humanize-korean' || entry.ref !== null ||
+          entry.skillPath !== 'skills/humanize-korean') throw new Error(`Invalid bundled configuration for ${name}.`);
+    } else {
+      if (!SHA.test(entry.ref ?? '')) throw new Error(`Missing or invalid pinned configuration for ${name}.`);
+      normalizeSource(entry.source, entry.ref);
+    }
   }
   return config;
 }
@@ -144,12 +152,19 @@ export function buildPlan(options, config, context = {}) {
       ? path.resolve((env.CODEX_HOME ?? '').trim() || path.join(home, '.codex'), 'skills')
       : path.join(projectDir, '.codex', 'skills'));
   }
-  const skills = [{ name: 'korean-dev-writing', role: '기본 한국어 개발 문서 작성', source: root, ref: null, argument: root }];
+  const skills = [{ name: 'korean-dev-writing', role: '기본 한국어 개발 문서 작성', source: root, ref: null, argument: root, bundled: true }];
   if (options.withEnhancements) {
     for (const name of ENHANCEMENTS) {
       const entry = config.enhancements.find(item => item.name === name);
       const prefix = name === 'humanize-korean' ? 'humanize' : 'stack';
       const override = options[`${prefix}Source`];
+      if (entry.source === 'bundled' && override === undefined) {
+        if (options[`${prefix}Ref`] !== undefined) {
+          throw new Error(`The bundled ${name} has no independent Git ref. Specify --${prefix}-source together with --${prefix}-ref to select an external version.`);
+        }
+        skills.push({ name, role: entry.role ?? name, source: root, ref: null, argument: root, bundled: true });
+        continue;
+      }
       const ref = options[`${prefix}Ref`] ?? (override === undefined ? entry.ref : undefined);
       const normalized = normalizeSource(override ?? entry.source, ref);
       // Always select by exact skill name; a source override never inherits a default subpath.
@@ -260,7 +275,7 @@ function renderPlan(plan) {
     `Scope: ${plan.scope}${plan.scope === 'project' ? ` — ${plan.projectDir}` : ''}`,
     `Agents: ${plan.agents.join(', ')}; mode: ${plan.copy ? 'copy' : 'symlink'}`,
     `Installer: ${CLI}; replacement: ${plan.options.replaceExisting ? 'explicitly allowed' : 'blocked'}`];
-  for (const skill of plan.skills) lines.push(`\n${skill.name} — ${skill.role}\n  Source: ${skill.source}\n  Ref: ${skill.ref ?? (skill.name === 'korean-dev-writing' ? 'bundled package content' : 'upstream default branch (not pinned)')}`);
+  for (const skill of plan.skills) lines.push(`\n${skill.name} — ${skill.role}\n  Source: ${skill.source}\n  Ref: ${skill.ref ?? (skill.bundled ? 'bundled package content' : 'upstream default branch (not pinned)')}`);
   for (const agent of plan.agents) lines.push(`\n${agent} destination: ${plan.directories[agent]}`);
   return lines.join('\n');
 }

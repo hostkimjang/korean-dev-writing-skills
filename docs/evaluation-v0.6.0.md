@@ -10,16 +10,16 @@
 
 | 문서 | 교정 전 | 교정 완료 | 수정 결과 |
 | --- | ---: | ---: | --- |
-| [CLI README](examples/01_cli_readme.md) | [1,855자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/01_cli_readme.md) | [1,855자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/01_cli_readme.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [이벤트 수집 아키텍처](examples/02_event_architecture.md) | [2,553자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md) | [2,553자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [진단 PR](examples/03_investigation_pr.md) | [973자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/03_investigation_pr.md) | [973자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/03_investigation_pr.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [장애 대응 절차](examples/04_incident_runbook.md) | [2,939자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md) | [2,939자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/04_incident_runbook.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [중복 판정 저장소 ADR](examples/05_storage_adr.md) | [2,116자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md) | [2,116자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/05_storage_adr.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [문단 교정](examples/06_paragraph_edit.md) | [379자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/06_paragraph_edit.md) | [379자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/06_paragraph_edit.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [색인 갱신 온보딩](examples/07_index_onboarding.md) | [4,609자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/07_index_onboarding.md) | [4,609자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [짧은 관측 PR](examples/08_short_log_pr.md) | [400자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/08_short_log_pr.md) | [399자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md) | 검증하지 못한 대상을 원인 가설과 추가 진단 로그 출력으로 명시했다. |
-| [달무리 설정배포 서비스의 예약 적용 안내](examples/09_config_rollout.md) | [1,799자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/09_config_rollout.md) | [1,799자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
-| [단비함 썸네일 작업기의 기록 순서 변경 보고](examples/10_thumbnail_report.md) | [413자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/10_thumbnail_report.md) | [413자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md) | v0.5.0 최종본을 바이트 단위로 보존했다. |
+| [CLI README](examples/01_cli_readme.md) | [1,855자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/01_cli_readme.md) | [1,855자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/01_cli_readme.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [이벤트 수집 아키텍처](examples/02_event_architecture.md) | [2,553자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/02_event_architecture.md) | [2,553자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/02_event_architecture.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [진단 PR](examples/03_investigation_pr.md) | [973자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/03_investigation_pr.md) | [973자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/03_investigation_pr.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [장애 대응 절차](examples/04_incident_runbook.md) | [2,939자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/04_incident_runbook.md) | [2,939자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/04_incident_runbook.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [중복 판정 저장소 ADR](examples/05_storage_adr.md) | [2,116자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/05_storage_adr.md) | [2,116자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/05_storage_adr.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [문단 교정](examples/06_paragraph_edit.md) | [379자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/06_paragraph_edit.md) | [379자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/06_paragraph_edit.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [색인 갱신 온보딩](examples/07_index_onboarding.md) | [4,609자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/07_index_onboarding.md) | [4,609자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/07_index_onboarding.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [짧은 관측 PR](examples/08_short_log_pr.md) | [400자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/08_short_log_pr.md) | [399자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/08_short_log_pr.md) | 검증하지 못한 대상을 원인 가설과 추가 진단 로그 출력으로 명시했습니다. |
+| [달무리 설정배포 서비스의 예약 적용 안내](examples/09_config_rollout.md) | [1,799자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/09_config_rollout.md) | [1,799자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/09_config_rollout.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
+| [단비함 썸네일 작업기의 기록 순서 변경 보고](examples/10_thumbnail_report.md) | [413자](../evaluations/runs/2026-11-03-v0.5.0/outputs/revised/10_thumbnail_report.md) | [413자](../evaluations/runs/2026-11-05-v0.6.0/outputs/revised/10_thumbnail_report.md) | v0.5.0 최종본을 바이트 단위로 보존했습니다. |
 
 ## 전문 비교
 

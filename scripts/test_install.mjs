@@ -66,7 +66,7 @@ test('sources permit GitHub repositories and immutable SHAs only', () => {
 
 test('configuration rejects unexpected versions, names, duplicates, and mutable refs', () => {
   assert.equal(validateConfig(config), config);
-  for (const invalid of [null, { ...config, schemaVersion: 2 }, { ...config, skillsCli: 'skills@latest' },
+  for (const invalid of [null, { ...config, schemaVersion: 3 }, { ...config, skillsCli: 'skills@latest' },
     { ...config, enhancements: [config.enhancements[0], config.enhancements[0]] },
     { ...config, enhancements: [{ ...config.enhancements[0], ref: 'main' }, config.enhancements[1]] }]) {
     assert.throws(() => validateConfig(invalid));
@@ -364,4 +364,58 @@ test('minimum Node version is checked before running npm', async t => {
   assert.equal(await main(['-a', 'codex', '--yes'], { ...f.dependencies, nodeVersion: '22.19.0' }), 1);
   assert.equal(f.calls.length, 0);
   assert.match(f.errors.join('\n'), /Node.js >=22.20.0/);
+});
+
+function bundledConfig() {
+  return { ...config, schemaVersion: 2, enhancements: [
+    { name: 'humanize-korean', source: 'bundled', ref: null, skillPath: 'skills/humanize-korean' },
+    config.enhancements[1],
+  ] };
+}
+
+test('enhanced default installs the maintained humanize resources from this package', async t => {
+  const f = await fixture(t);
+  const settings = bundledConfig();
+  const plan = buildPlan(parseArgs(['--with-enhancements', '-a', 'codex']), settings, f);
+  assert.equal(plan.skills[1].argument, f.root);
+  assert.equal(plan.skills[1].ref, null);
+  assert.equal(plan.skills[1].bundled, true);
+  assert.equal(plan.skills[2].argument, `https://github.com/original/stack-diagram#${PIN_B}`);
+  assert.equal(validateInstallResult(installed(plan, plan.skills[1]), plan, plan.skills[1]).ref, null);
+  assert.deepEqual(installArguments(plan, plan.skills[1]).slice(4, 9),
+    ['skills', 'add', f.root, '--skill', 'humanize-korean']);
+});
+
+test('external humanize override bypasses the bundled variant and can pin its own commit', async t => {
+  const f = await fixture(t);
+  const plan = buildPlan(parseArgs(['--with-enhancements', '-a', 'codex',
+    '--humanize-source', 'author/another-humanize', '--humanize-ref', PIN_A]), bundledConfig(), f);
+  assert.equal(plan.skills[1].argument, `https://github.com/author/another-humanize#${PIN_A}`);
+  assert.equal(plan.skills[1].bundled, undefined);
+  const unpinned = buildPlan(parseArgs(['--with-enhancements', '-a', 'codex',
+    '--humanize-source', 'author/another-humanize']), bundledConfig(), f);
+  assert.equal(unpinned.skills[1].ref, null);
+});
+
+test('a standalone ref cannot silently change the provenance of a bundled skill', async t => {
+  const f = await fixture(t);
+  const result = await main(['--with-enhancements', '-a', 'codex', '--humanize-ref', PIN_A, '--yes'],
+    { ...f.dependencies, config: bundledConfig() });
+  assert.equal(result, 1);
+  assert.equal(f.calls.length, 0);
+  assert.match(f.errors.join('\n'), /--humanize-source/);
+});
+
+test('bundled configuration rejects external refs, unknown resources and unsupported schema', () => {
+  const settings = bundledConfig();
+  assert.equal(validateConfig(settings), settings);
+  for (const entry of [
+    { ...settings.enhancements[0], ref: PIN_A },
+    { ...settings.enhancements[0], skillPath: '../outside' },
+    { ...settings.enhancements[1], source: 'bundled', ref: null },
+  ]) {
+    const malformed = { ...settings, enhancements: settings.enhancements.map(x => x.name === entry.name ? entry : x) };
+    assert.throws(() => validateConfig(malformed), /bundled/);
+  }
+  assert.throws(() => validateConfig({ ...settings, schemaVersion: 1 }), /bundled/);
 });

@@ -25,6 +25,98 @@ GROUPS = {
 }
 
 
+# Frozen evaluation observations remain unchanged. These exact, reviewed wording
+# edits apply only to public narrative fields, never to outputs or quotations.
+PUBLIC_NARRATION_EDITS = {
+    'v0.6.0 최종본을 바이트 단위로 보존했다.':
+        'v0.6.0 최종본을 바이트 단위로 보존했습니다.',
+    '이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었다.':
+        '이번 과밀 문단 점검에서 기존 산문을 추가로 쪼갤 필요가 없었습니다.',
+    '본문·원자료·계약이 같아 필수 의미 11개와 독자 질문 2개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 11개와 독자 질문 2개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 2개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 2개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 2개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 2개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 9개와 독자 질문 2개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 9개와 독자 질문 2개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 29개와 독자 질문 7개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 29개와 독자 질문 7개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 17개와 독자 질문 6개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 17개와 독자 질문 6개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 21개와 독자 질문 7개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 21개와 독자 질문 7개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 12개와 독자 질문 5개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 12개와 독자 질문 5개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 5개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 14개와 독자 질문 5개의 기존 판정을 재사용했습니다.',
+    '본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 5개의 기존 판정을 재사용했다.':
+        '본문·원자료·계약이 같아 필수 의미 13개와 독자 질문 5개의 기존 판정을 재사용했습니다.',
+    '실험별 결과를 제목과 표로 나누고 반복 범위 설명을 합쳤다.':
+        '실험별 결과를 제목과 표로 나누고 반복 범위 설명을 합쳤습니다.',
+    '별도 집단과 동일 자료 재현, 독립 평가의 차이를 유지했다.':
+        '별도 집단과 동일 자료 재현, 독립 평가의 차이를 유지했습니다.',
+    '단독 지연의 조건은 한 표에 모으고 GPU 반복 횟수 미제시를 남겼다.':
+        '단독 지연의 조건은 한 표에 모으고 GPU 반복 횟수 미제시를 남겼습니다.',
+    '개발 순서와 판정 경로 연결 뒤 독립 평가, 운영 일정 미정을 함께 두었다.':
+        '개발 순서와 판정 경로 연결 뒤 독립 평가, 운영 일정 미정을 함께 두었습니다.',
+    '첫 제출의 익명 대조는 양쪽 모두 필수 의미 12개·질문 5개 충족으로 동률이었다. 최종 교정본은 별도 원자료 검토에 연결한다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했다.':
+        '첫 제출의 익명 대조는 양쪽 모두 필수 의미 12개·질문 5개 충족으로 동률이었습니다. 최종 교정본은 별도 원자료 검토에 연결합니다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했습니다.',
+    'CPU 조건과 반복 수, GPU에서 자료가 없는 항목을 구분했다. 측정 대상을 제목과 도입에 밝혀 같은 범위의 부정 설명을 줄였다.':
+        'CPU 조건과 반복 수, GPU에서 자료가 없는 항목을 구분했습니다. 측정 대상을 제목과 도입에 밝혀 같은 범위의 부정 설명을 줄였습니다.',
+    '근거를 주장 아래로 옮기고 재시도 조건·중단·폐기 기준을 보완했다.':
+        '근거를 주장 아래로 옮기고 재시도 조건·중단·폐기 기준을 보완했습니다.',
+    '정확한 경로와 떨어진 두 행 범위, 주장별 대응을 유지했다.':
+        '정확한 경로와 떨어진 두 행 범위, 주장별 대응을 유지했습니다.',
+    '운영 값 미대조·실제 열람 미실시·백업 내용 미열람은 해당 판단 옆에 뒀다.':
+        '운영 값 미대조·실제 열람 미실시·백업 내용 미열람은 해당 판단 옆에 뒀습니다.',
+    '원자료의 지속 실패 시 간격 증가 조건을 보완하고 교체·폐기 기준을 같은 실행 절에 모았다.':
+        '원자료의 지속 실패 시 간격 증가 조건을 보완하고 교체·폐기 기준을 같은 실행 절에 모았습니다.',
+    '익명 검토는 v0.7.0의 재탐색 구성을 선호했다. 두 첫 출력의 K11 부분 충족은 원자료와 제공 초안의 차이로 기록하고, 최종본에서 원자료를 이용해 보완했다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했다.':
+        '익명 검토는 v0.7.0의 재탐색 구성을 선호했습니다. 두 첫 출력의 K11 부분 충족은 원자료와 제공 초안의 차이로 기록하고, 최종본에서 원자료를 이용해 보완했습니다. 최종본은 별도 검토에서 필수 의미 12개와 독자 질문 5개를 충족했습니다.',
+    '설정에 따른 배치 추론과 실제 운영 배치 미조회라는 범위를 유지하면서 긴 경로를 문장 밖에 뒀다.':
+        '설정에 따른 배치 추론과 실제 운영 배치 미조회라는 범위를 유지하면서 긴 경로를 문장 밖에 뒀습니다.',
+    '공개용 가상 초안 두 개를 고정한 v0.6.0·v0.7.0 스킬로 각각 한 번 교정했다. 조건별 작성자는 새 맥락에서 스킬과 같은 초안만 읽고 다른 출력·평가 계약·피드백을 보지 않았다. 아래는 추가 교정 전의 첫 제출이다. 별도 검토자는 버전을 가린 본문을 원자료와 대조했다.':
+        '공개용 가상 초안 두 개를 고정한 v0.6.0·v0.7.0 스킬로 각각 한 번 교정했습니다. 조건별 작성자는 새 맥락에서 스킬과 같은 초안만 읽고 다른 출력·평가 계약·피드백을 보지 않았습니다. 아래는 추가 교정 전의 첫 제출입니다. 별도 검토자는 버전을 가린 본문을 원자료와 대조했습니다.',
+    '실제 사용 피드백을 보고 설계한 회귀 사례의 단회 편집 비교다. 생성과 검토는 같은 모델 계열을 사용했다. 사람의 읽는 시간·피로·기억과 다른 문체·도식 스킬을 함께 실행한 효과는 측정하지 않았다.\n\n설계 K11의 지속 실패 조건은 원자료에 있지만 생성 초안에는 명시되지 않아, 두 첫 출력의 부분 충족을 스킬이 지운 정보나 버전 차이로 해석하지 않는다. 원자료에서 이 조건을 보완한 최종본과 최초 제출을 구분한다.':
+        '실제 사용 피드백을 보고 설계한 회귀 사례의 단회 편집 비교입니다. 생성과 검토는 같은 모델 계열을 사용했습니다. 사람의 읽는 시간·피로·기억과 다른 문체·도식 스킬을 함께 실행한 효과는 측정하지 않았습니다.\n\n설계 K11의 지속 실패 조건은 원자료에 있지만 생성 초안에는 명시되지 않아, 두 첫 출력의 부분 충족을 스킬이 지운 정보나 버전 차이로 해석하지 않습니다. 원자료에서 이 조건을 보완한 최종본과 최초 제출을 구분합니다.',
+    '익명 검토 판정은 동률이다. 두 첫 출력 모두 필수 의미 12개와 독자 질문 5개를 충족했다.':
+        '익명 검토 판정은 동률입니다. 두 첫 출력 모두 필수 의미 12개와 독자 질문 5개를 충족했습니다.',
+    'v0.7.0은 실험별 제목과 CPU/GPU 표로 특정 결과를 다시 찾기 쉽다. v0.6.0은 420행·12행·40행의 출처를 인접한 문단으로 연결하고 독립 평가 조건을 개발 제안에 붙여 흐름이 자연스럽다.':
+        'v0.7.0은 실험별 제목과 CPU/GPU 표로 특정 결과를 다시 찾기 쉽습니다. v0.6.0은 420행·12행·40행의 출처를 인접한 문단으로 연결하고 독립 평가 조건을 개발 제안에 붙여 흐름이 자연스럽습니다.',
+    'v0.7.0 첫 제출에도 기계 생성 정답·사람 미검수 범위가 표 앞뒤로 반복됐다. 최종본에서는 반복을 합치고 측정 조건과 미실시 검정은 남겼다.':
+        'v0.7.0 첫 제출에도 기계 생성 정답·사람 미검수 범위가 표 앞뒤로 반복됐습니다. 최종본에서는 반복을 합치고 측정 조건과 미실시 검정은 남겼습니다.',
+    '현재 예제는 첫 제출 뒤 제목과 반복 설명을 다듬은 최종본이다. 아래 최초 제출과 수정 이력을 모두 보존했다.':
+        '현재 예제는 첫 제출 뒤 제목과 반복 설명을 다듬은 최종본입니다. 아래 최초 제출과 수정 이력을 모두 보존했습니다.',
+    'v0.6.0 첫 제출은 권고 서술어 뒤에도 판단 꼬리표를 남겼다.':
+        'v0.6.0 첫 제출은 권고 서술어 뒤에도 판단 꼬리표를 남겼습니다.',
+    'v0.7.0 첫 제출에서는 측정 결과가 개별 제목과 표로 구분된다. 최종본은 긴 제목을 줄이고 GPU 반복 횟수 미제시를 표에 유지했다.':
+        'v0.7.0 첫 제출에서는 측정 결과가 개별 제목과 표로 구분됩니다. 최종본은 긴 제목을 줄이고 GPU 반복 횟수 미제시를 표에 유지했습니다.',
+    '익명 검토는 v0.7.0을 근소하게 선호했다. 발견별 제목, 토큰 역할 표, 분리된 근거 범위가 인계 후 재탐색에 유리하다는 판단이다. v0.6.0은 관련 인증 설명을 이어 읽는 흐름이 좋았다.':
+        '익명 검토는 v0.7.0을 근소하게 선호했습니다. 발견별 제목, 토큰 역할 표, 분리된 근거 범위가 인계 후 재탐색에 유리하다는 판단입니다. v0.6.0은 관련 인증 설명을 이어 읽는 흐름이 좋았습니다.',
+    '두 첫 출력은 전체 원자료 대비 필수 의미 11/12, 독자 질문 4/5로 판정됐다. 지속 실패 시 간격 증가라는 조건은 제공 초안에도 명시되지 않았으므로 이 공통 차이를 스킬의 정보 삭제로 세지 않는다.':
+        '두 첫 출력은 전체 원자료 대비 필수 의미 11/12, 독자 질문 4/5로 판정됐습니다. 지속 실패 시 간격 증가라는 조건은 제공 초안에도 명시되지 않았으므로 이 공통 차이를 스킬의 정보 삭제로 세지 않습니다.',
+    '최종본에는 원자료의 증가 조건을 보완했다. 반복되는 제안·노출 범위 설명을 줄이고, 키 교체와 이전 키 폐기 기준을 제목과 실행 절에서 함께 찾도록 정리했다.':
+        '최종본에는 원자료의 증가 조건을 보완했습니다. 반복되는 제안·노출 범위 설명을 줄이고, 키 교체와 이전 키 폐기 기준을 제목과 실행 절에서 함께 찾도록 정리했습니다.',
+    '현재 예제는 첫 제출 뒤 원자료의 재시도 증가 조건을 보완하고 반복·제목·조건 배치를 다듬은 최종본이다. 입력 차이와 교정 경위는 실행 기록에 남겼다.':
+        '현재 예제는 첫 제출 뒤 원자료의 재시도 증가 조건을 보완하고 반복·제목·조건 배치를 다듬은 최종본입니다. 입력 차이와 교정 경위는 실행 기록에 남겼습니다.',
+    'v0.6.0에서는 두 경로가 문장 안에 들어 있다.':
+        'v0.6.0에서는 두 경로가 문장 안에 들어 있습니다.',
+    'v0.7.0은 해당 설명 바로 아래에 정확한 근거 경로와 범위를 따로 둔다.':
+        'v0.7.0은 해당 설명 바로 아래에 정확한 근거 경로와 범위를 따로 둡니다.',
+}
+
+
+def public_narration(text):
+    return PUBLIC_NARRATION_EDITS.get(text, text)
+
+
+def literal_excerpt(value):
+    quote = '\n'.join('> ' + line if line else '>' for line in value.splitlines())
+    return ('<!-- lint:example-start 평가 원문의 문구를 그대로 인용합니다. -->\n'
+            + quote + '\n<!-- lint:example-end -->\n\n')
+
+
 def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
     root = Path(repo).resolve()
     RUN_PATH = Path(run).as_posix().rstrip("/")
@@ -130,7 +222,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
         if value is None:
             return ''
         if isinstance(value, str):
-            return value
+            return public_narration(value)
         if isinstance(value, list):
             return '\n'.join('- ' + structured(item).replace('\n', '\n  ') for item in value)
         if isinstance(value, dict):
@@ -165,7 +257,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
 
     def findings(c, page):
         obs = observations[c['id']]
-        result = obs['summary'] + '\n\n'
+        result = public_narration(obs['summary']) + '\n\n'
         if obs['strengths']:
             result += '**수정하고 확인한 내용**\n\n' + structured(obs['strengths']) + '\n\n'
         if obs['limitations']:
@@ -179,7 +271,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
             result += '### ' + excerpt.get('label', '실제 수정 문장') + '\n\n'
             for condition in ('previous', 'latest'):
                 result += '**' + label(condition) + '**\n\n'
-                result += '\n'.join('> ' + line if line else '>' for line in excerpt[condition].splitlines()) + '\n\n'
+                result += literal_excerpt(excerpt[condition])
             if excerpt.get('note'):
                 result += structured(excerpt['note']) + '\n\n'
         return result
@@ -206,7 +298,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
              '## 사례별 수정 결과\n\n'
              '| 문서 | 교정 전 | 교정 완료 | 수정 결과 |\n| --- | ---: | ---: | --- |\n')
     for c in cases:
-        summary = observations[c['id']]['summary'].replace('|', '\\|').replace('\n', ' ')
+        summary = public_narration(observations[c['id']]['summary']).replace('|', '\\|').replace('\n', ' ')
         text += (f'| [{c["title"]}](examples/{c["file"]}) | [{count(c,"previous"):,}자]({link(c["previous"],page)}) '
                  f'| [{count(c,"latest"):,}자]({link(c["latest"],page)}) | {summary} |\n')
     text += ('\n## 전문 비교\n\n'
@@ -254,7 +346,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
         review_lookup = {(d['case_id'], d['label']): d for d in json.loads(review_raw)['documents']}
         contract_lookup = {c['case_id']: c for c in json.loads(contract_raw)['cases']}
         text = '# ' + study.get('title', '새 주제의 최초 작성본 비교') + '\n\n' + metadata(page)
-        text += (study['method'] + '\n\n'
+        text += (public_narration(study['method']) + '\n\n'
                  f'[현재 문서만 읽기](../examples/README.md) · '
                  f'[버전을 가린 검토]({link(study.get("review_report_path", study["review_path"]),page)}) · '
                  f'[판정·본문 대응 기록]({link(study_path,page)})\n\n')
@@ -273,8 +365,8 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                     raise ValueError('New-topic excerpt is not an exact substring.')
                 version = PREVIOUS if condition == 'previous' else 'v' + VERSION
                 text += '**' + version + ' 최초 작성본에서 확인한 부분**\n\n'
-                text += '\n'.join('> ' + line if line else '>' for line in excerpt['quote'].splitlines()) + '\n\n'
-                text += excerpt['note'] + '\n\n'
+                text += literal_excerpt(excerpt['quote'])
+                text += public_narration(excerpt['note']) + '\n\n'
             text += '| 최초 작성에 적용한 스킬 | 문자 수 | 필수 의미 보존 | 독자 질문에 충분한 답 |\n| --- | ---: | ---: | ---: |\n'
             for condition, version in [('previous', PREVIOUS), ('current', 'v' + VERSION)]:
                 relative = entry['documents'][condition]
@@ -297,7 +389,7 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                          f'| {result["sufficient"]}/{result["questions"]} |\n')
             text += '\n'
             if entry.get('publication_note'):
-                text += entry['publication_note'] + '\n\n'
+                text += public_narration(entry['publication_note']) + '\n\n'
             text += (f'[원자료]({link(entry["source"],page)}) · [공통 요청]({link(entry["input"],page)}) · '
                      f'[현재 완성 문서]({link(entry["example"],page)})\n\n')
             for condition, version in [('previous', PREVIOUS), ('current', 'v' + VERSION)]:
@@ -307,13 +399,14 @@ def build_docs(repo=DEFAULT_REPO, check=False, run=DEFAULT_RUN):
                 text += f'<details>\n<summary>{version} 최초 작성본 전체 · {len(raw):,}자</summary>\n\n'
                 text += f'<!-- BEGIN SOURCE {relative} SHA256 {digest} -->\n' + raw + '<!-- END SOURCE -->\n\n</details>\n\n'
                 new_topic_embeds += 1
-        text += ('## 작성과 평가 범위\n\n' + study['scope'] + '\n\n'
+        text += ('## 작성과 평가 범위\n\n' + public_narration(study['scope']) + '\n\n'
                  '표의 수치는 원자료와 문맥을 대조한 판정 개수입니다. 문자 수에는 공백·개행·Markdown 문법이 포함됩니다.\n\n'
                  f'[자료·계약 고정 기록]({link(RUN_PATH+"/source-freeze.json",page)}) · '
                  f'[전체 실행 절차]({link(RUN_PATH+"/protocol.md",page)})\n')
         outputs[page] = text.encode('utf-8')
 
-    index = ('# 교정 완료 문서 예제\n\n'
+    legacy_anchor = '' if manifest.get('new_topic_examples') else '<a id="새-주제로-작성한-문서"></a>\n\n'
+    index = ('# 교정 완료 문서 예제\n\n' + legacy_anchor +
              f'공개용 가상 자료로 만든 현재 문서 {len(cases)}개입니다. v{VERSION}에서 필요한 부분을 교정하고, 내용이 충분한 문서는 보존했습니다. 문서 제목을 누르면 비교 설명 없이 본문부터 읽을 수 있습니다.\n\n'
              f'[수정 결과 보고서]({link(report_path,"docs/examples/README.md")}) · [교정 전후 비교](../comparisons/index.html) · [작성과 확인 방법](../evaluation.md)\n\n'
              '| 문서 | 최종본 문자 수 | 원자료 |\n| --- | ---: | --- |\n')

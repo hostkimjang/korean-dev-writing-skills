@@ -59,7 +59,7 @@ npx skills@1.7.5 add hostkimjang/korean-dev-writing-skills --skill korean-dev-wr
 
 ## 향상 스킬 함께 설치
 
-v0.8.0의 선택형 설치기는 기본 스킬과 `humanize-korean`, `stack-diagram`을 같은 도구·설치 범위에 설치합니다. 기본 설치 명령은 그대로 사용할 수 있습니다. 외부 스킬은 [선정한 원본과 커밋](enhancements.md)에서 가져옵니다.
+v0.8.0에서 추가한 선택형 설치기는 기본 스킬과 `humanize-korean`, `stack-diagram`을 같은 도구·설치 범위에 설치합니다. 현재 기본 구성에는 이 저장소에서 보강한 윤문 스킬을 동봉하며, 도식 스킬은 [선정한 원본과 커밋](enhancements.md)에서 가져옵니다. 기본 설치 명령도 그대로 사용할 수 있습니다.
 
 스킬을 사용할 프로젝트 폴더에서 실행합니다.
 
@@ -83,8 +83,8 @@ npx --yes --package=github:hostkimjang/korean-dev-writing-skills korean-dev-writ
 | `--project-dir PATH` | 프로젝트 설치의 기준 폴더를 지정합니다. |
 | `--copy` | 도구별 경로에 파일을 복사합니다. 기본은 설치 도구의 공유 경로·링크 방식입니다. |
 | `--dry-run` | 설치 계획만 출력합니다. 스킬 파일을 설치하거나 교체하지 않습니다. |
-| `--humanize-source SOURCE` | 윤문 스킬의 원본을 변경합니다. 기본 원본의 커밋과 하위 경로는 새 원본에 적용하지 않습니다. |
-| `--humanize-ref REF` | 지정한 윤문 원본의 40자리 커밋 SHA를 선택합니다. |
+| `--humanize-source SOURCE` | 동봉한 윤문 보강본 대신 외부 원본을 설치합니다. 기본 원본의 커밋과 하위 경로는 새 원본에 적용하지 않습니다. |
+| `--humanize-ref REF` | 외부 윤문 원본의 40자리 커밋 SHA를 선택합니다. 윤문 원본 옵션과 함께 사용해야 하며, 동봉본에 이 옵션만 지정하면 설치 전에 중단합니다. |
 | `--stack-source SOURCE`, `--stack-ref REF` | 도식 스킬의 원본과 리비전을 변경합니다. |
 | `--replace-existing` | 같은 이름으로 설치된 스킬의 교체를 명시적으로 허용합니다. |
 | `--yes` | 표시된 설치 계획의 확인을 생략합니다. 기존 스킬 교체까지 허용하지는 않습니다. |
@@ -97,9 +97,9 @@ npx --yes --package=github:hostkimjang/korean-dev-writing-skills korean-dev-writ
 
 선택한 설치 범위에 같은 이름의 디렉터리나 링크가 있으면 첫 설치 전에 중단합니다. 직접 수정한 파일이나 다른 제작자의 동명 스킬을 보존하기 위한 동작입니다. 교체할 원본과 대상을 확인한 뒤 필요한 파일을 보관하고 `--replace-existing`를 추가하세요.
 
-설치 도중 한 스킬이 실패하면 나머지 설치를 중단하고 성공한 항목과 실패한 항목을 구분합니다. 이미 설치된 파일을 자동으로 삭제하지 않습니다. 원인을 해결한 뒤 같은 대상을 다시 설치하려면 `--replace-existing`가 필요합니다. 향상 설치기로 설치한 기본 스킬은 이 배포 패키지의 로컬 파일에서 복사되므로, 기본 스킬을 갱신할 때도 최신 설치기를 다시 실행하세요.
+설치 도중 한 스킬이 실패하면 나머지 설치를 중단하고 성공한 항목과 실패한 항목을 구분합니다. 이미 설치된 파일을 자동으로 삭제하지 않습니다. 원인을 해결한 뒤 같은 대상을 다시 설치하려면 `--replace-existing`가 필요합니다. 향상 설치기로 설치한 기본 스킬과 기본 구성의 윤문 스킬은 이 배포 패키지의 로컬 파일에서 복사되므로, 이 스킬들을 갱신할 때도 최신 설치기를 다시 실행하세요.
 
-향상 스킬의 고정 커밋을 유지하려면 설치기를 다시 실행합니다. `npx skills update`로 외부 스킬을 직접 갱신하면 실제 설치 버전이 이 프로젝트에서 검증한 조합과 달라질 수 있습니다. 설치 이력은 해당 범위의 `skills list`와 설치 도구의 기록에서 확인합니다.
+동봉한 윤문 보강본과 도식 스킬의 고정 커밋을 유지하려면 설치기를 다시 실행합니다. `npx skills update`로 외부 스킬을 직접 갱신하면 실제 설치 버전이 이 프로젝트에서 검증한 조합과 달라질 수 있습니다. 설치 이력은 해당 범위의 `skills list`와 설치 도구의 기록에서 확인합니다.
 
 ### 저장소를 내려받은 경우
 
@@ -163,7 +163,7 @@ npx skills@1.7.5 update korean-dev-writing -g
 npx --yes --package=github:hostkimjang/korean-dev-writing-skills korean-dev-writing-install --with-enhancements -a codex --replace-existing
 ```
 
-처음 선택한 대상 도구·전역 여부·복사 방식을 다시 지정합니다. 사용자 지정 원본을 썼다면 `--humanize-source`, `--humanize-ref`, `--stack-source`, `--stack-ref`도 다시 전달하세요. 생략하면 이 배포 패키지의 기본 원본과 커밋을 선택합니다. 표시된 설치 계획에서 실제 교체 대상을 확인할 수 있습니다.
+처음 선택한 대상 도구·전역 여부·복사 방식을 다시 지정합니다. 사용자 지정 원본을 썼다면 `--humanize-source`, `--humanize-ref`, `--stack-source`, `--stack-ref`도 다시 전달하세요. 생략하면 이 배포 패키지에 동봉한 윤문 스킬과 기본 도식 원본의 커밋을 선택합니다. 표시된 설치 계획에서 실제 교체 대상을 확인할 수 있습니다.
 
 수동으로 복사한 파일은 설치 도구의 관리 기록에 없을 수 있습니다. 수동 설치를 유지한다면 저장소의 최신 스킬 폴더를 다시 복사하세요.
 
@@ -201,6 +201,8 @@ git clone https://github.com/hostkimjang/korean-dev-writing-skills.git
 | Codex: 사용자 공통 | `~/.agents/skills/korean-dev-writing/` |
 
 표의 프로젝트 경로는 **이 스킬을 사용할 작업 프로젝트의 루트**를 기준으로 합니다. 복사 후 해당 경로에 `SKILL.md`와 참고 파일들이 있는지 확인하세요.
+
+윤문 스킬도 수동 설치하려면 `skills/humanize-korean/` 전체를 같은 스킬 설치 경로 아래에 복사합니다. 참고 문서·스크립트·라이선스·기반 프로젝트 고지를 함께 유지합니다. 도식 스킬의 설치 출처와 실행 환경은 [향상 스킬 안내](enhancements.md)에 정리했습니다.
 
 ## 근거 문서
 

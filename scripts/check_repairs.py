@@ -18,7 +18,7 @@ from check_claims import (
 )
 
 
-DEFAULT_RUN = "evaluations/runs/2026-11-08-v0.8.0"
+DEFAULT_RUN = "evaluations/runs/2026-11-16-language-rules"
 
 
 def validate_repairs(criteria: dict, reviews: list[dict], texts: dict[str, str], check: Check) -> int:

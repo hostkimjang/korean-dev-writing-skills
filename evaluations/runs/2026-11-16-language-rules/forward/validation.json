@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-16",
+  "input_sha256": "81377bf2e508972272debe4869e36289ab8b787749a32291d33d209e3a865e73",
+  "output_sha256": "796b50ba33706b109b62abd85fc3396b88ef4c1d016d42cbd964a0d11ac3f5b6",
+  "application_runs": 1,
+  "documents": 2,
+  "application_context": "Fresh independent editor read both skills and the supplied input; no expected answer was supplied.",
+  "mechanical_checks": {
+    "same_document_paths": true,
+    "fenced_command_blocks_unchanged": true,
+    "inline_literals_unchanged": true,
+    "all_original_numeric_components_retained": true,
+    "original_headings_retained_in_same_documents": true,
+    "history_cross_reference_resolves": true,
+    "active_rule_candidates_zero": true
+  },
+  "rule_findings": [],
+  "manual_fact_review": [
+    {
+      "fact": "Credential registration does not issue new credentials.",
+      "preserved": true
+    },
+    {
+      "fact": "The protected path uses permissions; encryption has not been applied.",
+      "preserved": true
+    },
+    {
+      "fact": "Data is stored in files; no database is used.",
+      "preserved": true
+    },
+    {
+      "fact": "PID presence is the worker criterion; healthy operation remains unverified.",
+      "preserved": true
+    },
+    {
+      "fact": "Only failed external API requests are blocked for 30 seconds; the worker keeps running.",
+      "preserved": true
+    },
+    {
+      "fact": "The count includes duplicate rows; distinct keys were not measured.",
+      "preserved": true
+    },
+    {
+      "fact": "The command was blocked and not executed; POST 200 was not confirmed.",
+      "preserved": true
+    },
+    {
+      "fact": "The worker PID record is separate from the dated credential-registration attempt.",
+      "preserved": true
+    }
+  ],
+  "limitations": [
+    "One synthetic two-document revision, not a comparative quality benchmark.",
+    "No human-reader preference or reading-speed measurement.",
+    "The fourteen historical evaluation outputs were not regenerated."
+  ]
+}

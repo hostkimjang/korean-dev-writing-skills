@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0
       # https://github.com/actions/setup-python/releases/tag/v7.1.0
       - name: Set up Python 3.12
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -72,6 +73,12 @@ jobs:
           node-version: "24"
       - name: Test enhanced installer planning and failure handling
         run: node --test scripts/test_install.mjs
+      - name: Install documentation test dependency
+        run: python -m pip install --requirement requirements-dev.txt
+      - name: Test Markdown links, rule coverage, and preservation
+        run: python -m pytest -q tests/test_markdown.py
+      - name: Audit every Markdown document against the preserved baseline
+        run: python scripts/check_markdown.py
       - name: Verify generated Markdown is current
         run: python scripts/build_docs.py --check
       - name: Verify generated HTML is current

@@ -2,9 +2,11 @@
 
 한국어 README와 개발 문서를 사실과 의미를 보존하면서 자연스럽게 작성하는 Agent Skill입니다. 독자가 이해하고 실행할 순서로 내용을 구성하고, 긴 글에서 조건을 다시 찾거나 같은 설명을 반복해서 읽는 부담을 줄이도록 안내합니다.
 
-**v0.8.0에서는 한국어 윤문과 아키텍처 도식 스킬을 함께 설치하는 선택형 설치기를 추가했습니다.** 기본 스킬만 사용할 수도 있고, 향상 설치로 `humanize-korean`과 `stack-diagram`을 원본 저장소에서 함께 설치할 수도 있습니다. 두 외부 스킬은 확인한 커밋으로 고정하고, 다른 배포본을 지정하는 옵션도 제공합니다.
+**v0.8.0에서는 한국어 윤문과 아키텍처 도식 스킬을 함께 설치하는 선택형 설치기를 추가했습니다.** 현재 향상 설치는 이 저장소에서 개발 문서 규칙을 보강한 `humanize-korean`과 원본 커밋을 고정한 `stack-diagram`을 함께 설치합니다. 기본 스킬만 사용할 수도 있으며, 윤문·도식 스킬의 다른 배포본을 지정하는 옵션도 제공합니다.
 
 **[향상 설치와 출처](docs/enhancements.md)** · **[완성 문서 읽기](docs/examples/README.md)** · **[v0.7.0 교정 비교](docs/comparisons/index.html)**
+
+개발 문서의 용어·문장 구조·문서 역할·종결어미·띄어쓰기 규칙을 보강하고 안내 문서를 전수 교정했습니다. [전체 검증 기록](docs/evidence/language-audit.md)에서 수정 범위, 원문 보존 확인, 검사 결과와 보존 기록의 참조 예외를 확인할 수 있습니다.
 
 ## 간편 설치
 
@@ -32,13 +34,13 @@ npx --yes --package=github:hostkimjang/korean-dev-writing-skills korean-dev-writ
 
 설치할 스킬·출처·대상 도구·설치 범위를 확인한 뒤 한 번 승인합니다. Claude Code에는 `-a claude-code`를 사용하고, 두 도구에 설치하려면 두 옵션을 함께 지정합니다. 모든 프로젝트에서 쓰려면 `-g`를 추가합니다. 이미 같은 이름의 스킬이 있으면 교체 여부를 명시하기 전까지 설치를 중단합니다.
 
-| 구성 | 역할 | 향상 설치의 기본 원본 |
+| 구성 | 역할 | 향상 설치의 기본 설치본 |
 | --- | --- | --- |
 | `korean-dev-writing` | 사실 보존, 문서 구조와 읽기 흐름 | 이 저장소 |
-| `humanize-korean` | 한국어 문장 교정·윤문 | [nathankim0/humanize-korean](https://github.com/nathankim0/humanize-korean) |
+| `humanize-korean` | 한국어 문장 교정·윤문, 개발 문서 표현 점검 | 이 저장소의 보강본. [nathankim0/humanize-korean](https://github.com/nathankim0/humanize-korean)에 참고 규칙을 추가했습니다. |
 | `stack-diagram` | 기술 스택·아키텍처 도식 | [caru-ini/stack-diagram](https://github.com/caru-ini/stack-diagram) |
 
-윤문 스킬은 새 사용자용으로 선택한 배포본입니다. 기존에 쓰던 동명 스킬과 같다고 가정하지 않으며, `--humanize-source`로 다른 독립 배포본을 지정할 수 있습니다. 각 스킬은 필요한 작업에서만 적용합니다. [상세 설치 옵션](docs/installation.md)과 [실행 환경·원본 라이선스·검증 범위](docs/enhancements.md)를 확인하세요.
+윤문 스킬은 참고 문서와 실행 스크립트를 함께 담은 배포본입니다. 기존에 쓰던 동명 스킬과 같다고 가정하지 않으며, `--humanize-source`로 외부의 다른 독립 배포본을 지정할 수 있습니다. 각 스킬은 필요한 작업에서만 적용합니다. [상세 설치 옵션](docs/installation.md)과 [실행 환경·원본 라이선스·검증 범위](docs/enhancements.md)를 확인하세요.
 
 ### 사용 예
 
@@ -57,6 +59,12 @@ README, PR 설명, 버그 리포트, 아키텍처 문서, 운영 절차, ADR, AP
 문장을 짧게 만드는 것보다 원래 의미를 지키는 일을 우선합니다. `수 있다`가 가능성을, `기본적으로`가 기본값을 나타내면 유지합니다. 확인한 기능과 계획, 가설과 확인된 원인, 테스트 계획과 실행 결과도 구분합니다.
 
 설명과 인과관계는 문단으로 연결하고, 실행 순서는 번호로, 병렬 조건은 목록이나 표로 정리합니다. 긴 글의 흐름을 유지하면서도 초기 상태·거절·오류·중단 조건은 찾아볼 수 있게 합니다. 제공되지 않은 기능·수치·일정으로 빈칸을 채우지 않습니다.
+
+## 한국어 개발 문서 점검
+
+개발 용어의 어색한 직역, 번역투 문장 구조, 과거 작업 기록과 세션 표현, 문서 세트의 종결어미, 공백을 생략한 압축 표기를 함께 점검합니다. 윤문 스킬의 규칙·예시·점검표에서 동일한 탐지 ID를 사용하고, 기본 스킬의 지침과 예시에도 같은 교정 기준을 반영했습니다.
+
+코드 식별자와 명령, 수치와 검증 상태는 원문대로 보존합니다. 현행 명세에는 현재 동작을 설명하고, 일회성 검증 기록은 별도 이력 문서에 남깁니다. [교정 규칙과 예시](skills/korean-dev-writing/references/before-after-guide.md)와 [개발 문서 탐지 사전](skills/humanize-korean/references/quick-rules.md)에서 구체적인 표현과 예외를 확인할 수 있습니다.
 
 ## 문서 교정 비교: v0.7.0
 
@@ -104,7 +112,7 @@ HTML 파일을 다운로드해 브라우저에서 열면 **v0.6.0 ↔ v0.7.0**�
 
 ## 검증과 패키징
 
-저장소 루트에서 Python 3.12로 실행합니다. 별도 Python 패키지는 필요하지 않습니다.
+저장소 루트에서 Python 3.12로 실행합니다. 아래의 기존 구조·배포 검사에는 별도 Python 패키지가 필요하지 않습니다. 문서 전수 검사와 pytest 실행 환경은 [개발 안내](docs/development.md#문서-전수-검사)에 정리했습니다.
 
 ```bash
 python scripts/check.py
@@ -115,7 +123,7 @@ node scripts/check_enhanced_install.mjs
 python scripts/package.py --version 0.8.0
 ```
 
-ZIP은 `dist/korean-dev-writing-v0.8.0.zip`으로 생성되며 기본 스킬 파일 6개만 포함합니다. 향상 설치기는 외부 스킬을 각각 원본에서 내려받으며 ZIP에 복제하지 않습니다. 설치기 통합 검증에는 Node.js 22.20 이상과 Git, npm·GitHub에 대한 네트워크 접근이 필요합니다. 비교 자료는 별도로 배포합니다.
+ZIP은 `dist/korean-dev-writing-v0.8.0.zip`으로 생성되며 기본 스킬 파일 6개만 포함합니다. 향상 설치기의 npm 패키지에는 보강한 윤문 스킬을 함께 담고, 도식 스킬은 고정한 원본에서 내려받습니다. 기본 스킬 ZIP에는 향상 스킬을 포함하지 않습니다. 설치기 통합 검증에는 Node.js 22.20 이상과 Git, npm·GitHub에 대한 네트워크 접근이 필요합니다. 비교 자료는 별도로 배포합니다.
 
 비교 자료를 다시 만들거나 최신 상태인지 확인할 때는 Node.js 20 이상도 사용합니다.
 
@@ -130,4 +138,4 @@ CI는 구조·검토 인용·생성 자료 최신성, Claude Code·Codex 설치,
 
 ## 라이선스와 출처
 
-새로 작성한 스킬·예시·도구는 [MIT License](LICENSE)로 배포합니다. 비교 자료 빌드에 포함한 Marked는 [별도 MIT 라이선스와 버전 기록](scripts/vendor/marked/README.md)을 따릅니다. 참고 문서의 저작권과 라이선스는 각 원문에 따릅니다. 위키독스 등의 편집 원칙을 참고해 지침과 예시를 새로 작성했으며, 채택한 원칙과 예외를 [출처 기록](docs/sources.md)에 연결했습니다.
+새로 작성한 스킬·예시·도구는 [MIT License](LICENSE)로 배포합니다. 동봉한 윤문 스킬에는 [해당 라이선스](skills/humanize-korean/LICENSE)와 [기반 프로젝트 고지](skills/humanize-korean/THIRD_PARTY_NOTICES.md)를 함께 포함합니다. 비교 자료 빌드에 포함한 Marked는 [별도 MIT 라이선스와 버전 기록](scripts/vendor/marked/README.md)을 따릅니다. 참고 문서의 저작권과 라이선스는 각 원문에 따릅니다. 위키독스 등의 편집 원칙을 참고해 지침과 예시를 새로 작성했으며, 채택한 원칙과 예외를 [출처 기록](docs/sources.md)에 연결했습니다.

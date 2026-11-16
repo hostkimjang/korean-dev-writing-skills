@@ -1,0 +1,2 @@
+# Documentation validation only; no runtime dependency is added to either skill.
+pytest==9.2.0
